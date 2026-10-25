@@ -33,7 +33,7 @@ export function mountGitHubOAuthCallback(
       );
     }
     if (!state || !code) {
-      return callbackPage("Missing authorization details. Start the connection again in Rakazo.");
+      return callbackPage("Missing authorization details. Start the connection again in Ai7.");
     }
     try {
       await deps.github.handleCallback({
@@ -46,7 +46,7 @@ export function mountGitHubOAuthCallback(
     } catch (error) {
       getLogger().error("github oauth callback failed", error);
       return callbackPage(
-        "Could not finish the GitHub connection. Start the connection again in Rakazo.",
+        "Could not finish the GitHub connection. Start the connection again in Ai7.",
       );
     }
   });
@@ -55,7 +55,7 @@ export function mountGitHubOAuthCallback(
 function callbackPage(message: string, close = false): Response {
   const script = close ? `<script>setTimeout(function(){window.close()},1200)</script>` : "";
   return new Response(
-    `<!doctype html><html><head><meta charset="utf-8"><title>Rakazo</title>` +
+    `<!doctype html><html><head><meta charset="utf-8"><title>Ai7</title>` +
       `<style>body{font-family:system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;color:#1f2937;background:#f9fafb}p{max-width:32rem;text-align:center;line-height:1.5}</style></head>` +
       `<body><p>${message.replace(/[<>&]/g, "")}</p>${script}</body></html>`,
     { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" } },

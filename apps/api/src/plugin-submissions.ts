@@ -33,7 +33,7 @@ import { assertMcpRemoteEndpoint } from "./mcp-servers.js";
 import type { RouterDeps } from "./router.js";
 import { throttleKey, windowCounter } from "./window-counter.js";
 
-const PLUGIN_REGISTRY = "Rakazo";
+const PLUGIN_REGISTRY = "Ai7";
 const MAX_BODY_BYTES = 32 * 1024;
 const HOUR_MS = 60 * 60_000;
 const SUBMISSIONS_PER_IP_PER_HOUR = 10;

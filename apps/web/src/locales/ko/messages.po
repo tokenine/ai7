@@ -879,8 +879,8 @@ msgid "Allow once"
 msgstr "한 번 허용"
 
 #: src/lib/dictation.ts
-msgid "Allow Rakazo to use Speech Recognition and the microphone in System Settings."
-msgstr "시스템 설정에서 Rakazo가 음성 인식과 마이크를 사용하도록 허용하세요."
+msgid "Allow Ai7 to use Speech Recognition and the microphone in System Settings."
+msgstr ""
 
 #: src/pages/memory-providers/SerenitySettingsForm.tsx
 msgid "Allow writing"
@@ -937,6 +937,10 @@ msgstr "금액"
 #: src/lib/model-connection-preflight.ts
 msgid "An API key is stored for this provider, not a subscription sign-in."
 msgstr "이 서비스에는 구독 로그인이 아니라 API 키가 저장되어 있습니다."
+
+#: src/pages/memory-providers/HonchoSettingsForm.tsx
+msgid "An existing Honcho peer to read from. Ai7 never writes to it."
+msgstr "데이터를 읽어올 기존 Honcho 피어입니다. Ai7는 이 피어에 데이터를 쓰지 않습니다."
 
 #: src/lib/agent-import-errors.ts
 msgid "An imported API key could not be checked. Try again."
@@ -1632,8 +1636,8 @@ msgstr "폴더 선택"
 
 #: src/components/ModelCredits.tsx
 #: src/components/SubscriptionGate.tsx
-msgid "Choose how to use Rakazo"
-msgstr "Rakazo 사용 방식 선택"
+msgid "Choose how to use Ai7"
+msgstr ""
 
 #: src/components/vault/VaultItemEditor.tsx
 msgid "City"
@@ -1969,8 +1973,8 @@ msgstr "먼저 이 모델의 제공자를 연결하세요."
 
 #. js-lingui-explicit-id
 #: src/lib/run-error.ts
-msgid "Connect your own API key in Models or choose Rakazo credits in Billing."
-msgstr "AI 모델에서 자체 API 키를 연결하거나 결제에서 Rakazo 크레딧을 선택하세요."
+msgid "Connect your own API key in Models or choose Ai7 credits in Billing."
+msgstr "AI 모델에서 자체 API 키를 연결하거나 결제에서 Ai7 크레딧을 선택하세요."
 
 #: src/components/bot-templates/bot-templates-dialog.tsx
 #: src/components/ComputerDeviceSettings.tsx
@@ -2790,8 +2794,8 @@ msgid "Create space"
 msgstr "스페이스 만들기"
 
 #: src/pages/Auth.tsx
-msgid "Create your Rakazo"
-msgstr "Rakazo 계정 만들기"
+msgid "Create your Ai7"
+msgstr "Ai7 계정 만들기"
 
 #: src/components/AskCard.tsx
 msgid "Created"
@@ -3277,8 +3281,8 @@ msgid "Ends {day}"
 msgstr "{day}에 종료"
 
 #: src/components/GitHubStarPrompt.tsx
-msgid "Enjoying Rakazo?"
-msgstr "Rakazo가 마음에 드시나요?"
+msgid "Enjoying Ai7?"
+msgstr ""
 
 #: src/lib/user-error.ts
 msgid "Enter a password"
@@ -3804,8 +3808,8 @@ msgid "How to check"
 msgstr "완료 확인 방법"
 
 #: src/components/SignupSurvey.tsx
-msgid "How will you use Rakazo?"
-msgstr "Rakazo를 어떻게 사용하실 건가요?"
+msgid "How will you use Ai7?"
+msgstr ""
 
 #: src/pages/shell/computer-release-actions.tsx
 msgid "I’m done"
@@ -4924,8 +4928,8 @@ msgid "Not imported"
 msgstr "가져오지 않음"
 
 #: src/pages/shell/import-status.ts
-msgid "Not in Rakazo's catalog"
-msgstr "Rakazo 카탈로그에 없음"
+msgid "Not in Ai7's catalog"
+msgstr "Ai7 카탈로그에 없음"
 
 #: src/pages/plugins/plugin-browse.tsx
 msgid "Not in the plugin catalog"
@@ -4938,12 +4942,12 @@ msgstr "나중에"
 
 #: src/pages/shell/agent-import-plan.tsx
 #: src/pages/shell/import-status.ts
-msgid "Not supported in Rakazo"
-msgstr "Rakazo에서 지원하지 않음"
+msgid "Not supported in Ai7"
+msgstr "Ai7에서 지원하지 않음"
 
-#: src/pages/shell/agent-import-plan.tsx
-msgid "Not used by Rakazo"
-msgstr "Rakazo에서 사용하지 않음"
+#: src/pages/shell/agent-import.tsx
+msgid "Not used by Ai7"
+msgstr "Ai7에서 사용하지 않음"
 
 #: src/components/McpServerHealthLine.tsx
 #: src/pages/plugins/parts.tsx
@@ -5084,8 +5088,8 @@ msgstr "메뉴 열기"
 #: src/components/pages/PublicPageShell.tsx
 #: src/pages/Invite.tsx
 #: src/pages/SharedPage.tsx
-msgid "Open Rakazo"
-msgstr "Rakazo 열기"
+msgid "Open Ai7"
+msgstr "Ai7 열기"
 
 #: src/pages/ScratchpadSection.tsx
 msgid "Open work"
@@ -5263,8 +5267,8 @@ msgid "Paste a replacement key"
 msgstr "새 API 키를 붙여넣으세요"
 
 #: src/pages/model-settings/compatible-model-fields.tsx
-msgid "Paste the OpenAI-compatible address from your server. Rakazo adds /v1 if needed."
-msgstr "서버의 OpenAI 호환 주소를 붙여넣으세요. 필요하면 Rakazo가 /v1을 추가합니다."
+msgid "Paste the OpenAI-compatible address from your server. Ai7 adds /v1 if needed."
+msgstr "서버의 OpenAI 호환 주소를 붙여넣으세요. 필요하면 Ai7가 /v1을 추가합니다."
 
 #: src/pages/shell/agent-import.tsx
 msgid "Paste the reply"
@@ -5460,16 +5464,16 @@ msgstr "대기 중"
 
 #: src/pages/AccountSettingsOverlay.tsx
 #: src/pages/shell/avatar-studio-popover.tsx
-msgid "Rakazo"
-msgstr "Rakazo"
+msgid "Ai7"
+msgstr "Ai7"
 
-#: src/pages/onboarding/use-onboarding-model.ts
-msgid "Rakazo credits"
-msgstr "Rakazo 크레딧"
+#: src/pages/Onboarding.tsx
+msgid "Ai7 credits"
+msgstr ""
 
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
-msgid "rakazo-shared and IDs starting with bot- are reserved for Rakazo."
-msgstr "rakazo-shared와 bot-으로 시작하는 ID는 Rakazo용으로 예약되어 있습니다."
+msgid "rakazo-shared and IDs starting with bot- are reserved for Ai7."
+msgstr ""
 
 #: src/pages/shell/message-hover-actions.tsx
 msgid "React"
@@ -5937,8 +5941,8 @@ msgstr "{0}과(와)의 통화로 돌아가기"
 
 #: src/pages/McpOAuthCallback.tsx
 #: src/pages/SlackInstallCallback.tsx
-msgid "Return to Rakazo"
-msgstr "Rakazo로 돌아가기"
+msgid "Return to Ai7"
+msgstr "Ai7로 돌아가기"
 
 #: src/lib/model-connection-preflight.ts
 msgid "Review provider settings and test again."
@@ -6440,8 +6444,8 @@ msgid "Sign in at <0>{0}</0>, then paste the code here."
 msgstr "<0>{0}</0>에서 로그인한 다음 코드를 여기에 붙여넣으세요."
 
 #: src/pages/Auth.tsx
-msgid "Sign in to Rakazo"
-msgstr "Rakazo 로그인"
+msgid "Sign in to Ai7"
+msgstr "Ai7 로그인"
 
 #: src/lib/user-error.ts
 msgid "Sign in to your existing account to link SSO"
@@ -7128,8 +7132,8 @@ msgid "This server's tool result does not fit the model. Turn off Keep tool resu
 msgstr "이 서버의 도구 결과가 모델에 맞지 않습니다. 해당 서버의 도구 결과 전체 유지를 끄거나 다른 모델을 선택하세요."
 
 #: src/pages/model-settings/connection-controls.tsx
-msgid "This subscription sign-in is not available in Rakazo yet. Use a deployment credential or choose another provider."
-msgstr "이 구독 로그인 방식은 아직 Rakazo에서 지원되지 않습니다. 서버에 설정된 인증 정보를 사용하거나 다른 서비스를 선택하세요."
+msgid "This subscription sign-in is not available in Ai7 yet. Use a deployment credential or choose another provider."
+msgstr "이 구독 로그인 방식은 아직 Ai7에서 지원되지 않습니다. 서버에 설정된 인증 정보를 사용하거나 다른 서비스를 선택하세요."
 
 #: src/components/bot-templates/bot-templates-dialog.tsx
 msgid "This template was just updated. Check it again."
@@ -7485,8 +7489,12 @@ msgid "Use Protected input for passwords."
 msgstr "비밀번호는 보호된 입력을 사용하세요."
 
 #: src/components/ModelCredits.tsx
-msgid "Use Rakazo credits"
-msgstr "Rakazo 크레딧 사용"
+msgid "Use Ai7 credits"
+msgstr ""
+
+#: src/pages/model-settings/space-bots-model.tsx
+msgid "Use space default"
+msgstr ""
 
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
 msgid "Use up to 512 letters, digits, _ or -."
@@ -7633,8 +7641,8 @@ msgid "Weekly"
 msgstr "매주"
 
 #: src/components/SignupSurvey.tsx
-msgid "Welcome to Rakazo"
-msgstr "Rakazo에 오신 것을 환영합니다"
+msgid "Welcome to Ai7"
+msgstr ""
 
 #: src/pages/shell/dialogs.tsx
 msgid "What about its memories?"
@@ -7645,8 +7653,8 @@ msgid "What can this space use?"
 msgstr "이 스페이스에서 무엇을 사용할 수 있나요?"
 
 #: src/components/SignupSurvey.tsx
-msgid "What do you most want Rakazo to help with?"
-msgstr "Rakazo가 가장 도와주었으면 하는 일은 무엇인가요?"
+msgid "What do you most want Ai7 to help with?"
+msgstr ""
 
 #: src/pages/shell/message-cards.tsx
 msgid "What do you want me on first?"

@@ -28,13 +28,13 @@ export const wuying: Sandbox = {
   runsOn: "Your Alibaba Cloud Windows desktop",
   keeps: "The desktop's own disk",
   bestFor: "Windows apps, Alibaba Cloud and mainland China",
-  title: "Wuying cloud computer for AI agents: pricing and letting Rakazo bots use a Windows desktop on Alibaba Cloud",
+  title: "Wuying cloud computer for AI agents: pricing and letting Ai7 bots use a Windows desktop on Alibaba Cloud",
   description:
-    "Let AI agents work on a Wuying (Elastic Desktop Service) Windows cloud computer on Alibaba Cloud. Wuying pricing by the hour or month, a worked monthly cost, and how Rakazo bots run PowerShell and Windows apps you can watch and take over.",
+    "Let AI agents work on a Wuying (Elastic Desktop Service) Windows cloud computer on Alibaba Cloud. Wuying pricing by the hour or month, a worked monthly cost, and how Ai7 bots run PowerShell and Windows apps you can watch and take over.",
   h1: "Let your AI agents use a Wuying cloud computer",
   intro: [
     "Wuying (无影) is Alibaba Cloud's cloud computer service, sold outside China as Elastic Desktop Service. It gives you a Windows desktop that runs in Alibaba Cloud and that you open from a browser or the Wuying client.",
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and each bot gets a computer you can watch and take over. With Wuying, that computer is a Windows desktop you already run on Alibaba Cloud. It is the only way to give Rakazo bots Windows, and it suits teams on Alibaba Cloud or in mainland China, where other sandbox providers can be hard to reach.",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and each bot gets a computer you can watch and take over. With Wuying, that computer is a Windows desktop you already run on Alibaba Cloud. It is the only way to give Ai7 bots Windows, and it suits teams on Alibaba Cloud or in mainland China, where other sandbox providers can be hard to reach.",
   ],
   scene: {
     bot: "Expense Manager",
@@ -56,7 +56,7 @@ export const wuying: Sandbox = {
       heading: "What is Wuying?",
       paragraphs: [
         "[Wuying](https://www.aliyun.com/product/ecs/gws) is Alibaba Cloud's line of cloud computers, also sold internationally as [Elastic Desktop Service](https://www.alibabacloud.com/en/product/cloud-desktop). Each cloud computer is a full Windows machine with its own disk, assigned to an end user and billed by Alibaba Cloud.",
-        "This is not AgentBay, Alibaba Cloud's separate sandbox service for agents. Rakazo uses one ordinary Wuying desktop that you have already created, and talks to it through the desktop's MCP gateway.",
+        "This is not AgentBay, Alibaba Cloud's separate sandbox service for agents. Ai7 uses one ordinary Wuying desktop that you have already created, and talks to it through the desktop's MCP gateway.",
       ],
       image: true,
     },
@@ -86,9 +86,9 @@ export const wuying: Sandbox = {
       },
     },
     {
-      heading: "What a Wuying computer costs with Rakazo",
+      heading: "What a Wuying computer costs with Ai7",
       paragraphs: [
-        `Rakazo starts the desktop when a bot needs it and powers it off when the last computer on it stops, so on pay-as-you-go you pay for roughly the hours bots work. Monthly costs follow [the method on the comparison page](/sandboxes/#pricing), at ${SIZE} with an ${WUYING.diskGb} GiB system disk because Alibaba Cloud publishes no 2 vCPU / 4 GB example.`,
+        `Ai7 starts the desktop when a bot needs it and powers it off when the last computer on it stops, so on pay-as-you-go you pay for roughly the hours bots work. Monthly costs follow [the method on the comparison page](/sandboxes/#pricing), at ${SIZE} with an ${WUYING.diskGb} GiB system disk because Alibaba Cloud publishes no 2 vCPU / 4 GB example.`,
       ],
       table: {
         caption: `One ${SIZE} Wuying computer a month, international prices`,
@@ -115,7 +115,7 @@ export const wuying: Sandbox = {
       },
       bullets: [
         `Pay-as-you-go is cheapest below about ${planBeatsHourly} hours a month. Above that, the 120-hour plan wins, and past about ${unlimitedBeatsPlan} hours the unlimited plan does.`,
-        "Everyone sharing the desktop shares this bill. Rakazo doesn't add a charge for using it.",
+        "Everyone sharing the desktop shares this bill. Ai7 doesn't add a charge for using it.",
       ],
     },
     {
@@ -128,13 +128,13 @@ export const wuying: Sandbox = {
         "Read and write files. Each bot computer gets its own home folder under `%USERPROFILE%\\rakazo`, kept on the desktop's own disk.",
         "Take screenshots and use the mouse and keyboard, so it can work in Windows apps such as Excel, not only in a browser.",
         "Let you watch the screen live and take over when it needs a login or a decision.",
-        "Rakazo starts the desktop when a bot needs it and powers it off when the last computer on it stops. Deleting a bot computer removes only its folder, never the desktop.",
+        "Ai7 starts the desktop when a bot needs it and powers it off when the last computer on it stops. Deleting a bot computer removes only its folder, never the desktop.",
       ],
     },
     {
       heading: "When to choose Wuying",
       paragraphs: [
-        "Choose Wuying when bots need Windows software, when your team already runs on Alibaba Cloud, or when you are in mainland China. It also lets a single person bring their own Windows desktop to a shared Rakazo without asking an admin.",
+        "Choose Wuying when bots need Windows software, when your team already runs on Alibaba Cloud, or when you are in mainland China. It also lets a single person bring their own Windows desktop to a shared Ai7 without asking an admin.",
         "For Linux computers with a desktop and browser, hosted options such as [Boat](/sandboxes/boat/), [E2B](/sandboxes/e2b/) and [Novita](/sandboxes/novita/) give each bot more isolation, a terminal and several screens at once. [Docker](/sandboxes/docker/) and [Kubernetes](/sandboxes/kubernetes/) keep computers on your own servers. To let a bot use your own Windows PC instead, see [your computer](/sandboxes/your-computer/). The [sandbox comparison](/sandboxes/) covers every option.",
       ],
     },
@@ -151,7 +151,7 @@ export const wuying: Sandbox = {
     {
       heading: "How to set it up",
       paragraphs: [
-        "Any Rakazo account can point its own Team Computers at a Wuying desktop it brings. An admin can also make Wuying the default for everyone on a [self-hosted Rakazo](/self-hosted-ai-agent/). Either way you need these from Alibaba Cloud first.",
+        "Any Ai7 account can point its own Team Computers at a Wuying desktop it brings. An admin can also make Wuying the default for everyone on a [self-hosted Ai7](/self-hosted-ai-agent/). Either way you need these from Alibaba Cloud first.",
       ],
       steps: [
         "Create a Windows Wuying cloud computer and assign it to an end user. Screen logins are issued for that user.",
@@ -159,7 +159,7 @@ export const wuying: Sandbox = {
         "Get the desktop's MCP gateway URL, which must be public HTTPS, and its bearer token.",
         "If you self-host, fetch the Wuying Web SDK once before building the web app: `node scripts/wuying-web-sdk.mjs`.",
         "Open Settings → Computer and choose Wuying. Admins set it for the deployment under New computers run on, or for themselves under My computers; other accounts see only their own choice. Fill in the desktop ID, end user ID, region (default `cn-hangzhou`), AccessKey ID and secret, MCP gateway URL and token, then Save.",
-        "Rakazo checks that the AccessKey can see the desktop and that the gateway answers before saving anything. Your next Team Computer starts on the Wuying desktop.",
+        "Ai7 checks that the AccessKey can see the desktop and that the gateway answers before saving anything. Your next Team Computer starts on the Wuying desktop.",
       ],
     },
     {
@@ -182,15 +182,15 @@ export const wuying: Sandbox = {
     {
       question: "Can an AI agent use a Windows cloud computer?",
       answer:
-        "Yes. With Rakazo, bots can work on a Wuying Windows desktop: they run PowerShell, use files and Windows apps, and you can watch and take over the screen.",
+        "Yes. With Ai7, bots can work on a Wuying Windows desktop: they run PowerShell, use files and Windows apps, and you can watch and take over the screen.",
     },
     {
       question: "Is this Alibaba Cloud AgentBay?",
       answer:
-        "No. Rakazo uses a Wuying cloud computer you already have, not the AgentBay sandbox service. AgentBay bills per second for each session, at $0.027 per core-hour and $0.0113 per GB-hour as of November 2026, and Rakazo doesn't support it.",
+        "No. Ai7 uses a Wuying cloud computer you already have, not the AgentBay sandbox service. AgentBay bills per second for each session, at $0.027 per core-hour and $0.0113 per GB-hour as of November 2026, and Ai7 doesn't support it.",
     },
     {
-      question: "Do I need to be an admin to use Wuying with Rakazo?",
+      question: "Do I need to be an admin to use Wuying with Ai7?",
       answer:
         "No. Any account can connect its own Wuying desktop in Settings → Computer for its Team Computers. Only an admin can make Wuying the default for the whole deployment.",
     },
@@ -212,7 +212,7 @@ export const wuying: Sandbox = {
       label: "Alibaba Cloud, AgentBay billing",
       href: "https://www.alibabacloud.com/help/en/agentbay/product-overview/agentbay-billing-instructions",
     },
-    { label: "Rakazo, Wuying setup", href: WUYING_DOC },
+    { label: "Ai7, Wuying setup", href: WUYING_DOC },
     PROVIDERS_DOC,
     RUNTIME_DOC,
   ],

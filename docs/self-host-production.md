@@ -1,6 +1,6 @@
 # Production deployment
 
-Run Rakazo on a public server with automatic HTTPS, hardened hosts and zero-downtime deploys.
+Run Ai7 on a public server with automatic HTTPS, hardened hosts and zero-downtime deploys.
 
 ## Public single-VM deployment
 

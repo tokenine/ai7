@@ -23,12 +23,12 @@ export function homepage(slug: string, provider: string, alt: string): ArticleIm
 }
 
 export const VOICE_DOC: SourceLink = {
-  label: "Rakazo, voice and calls",
+  label: "Ai7, voice and calls",
   href: `${GITHUB_URL}/blob/main/docs/voice-and-calls.md`,
 };
 
 export const VOICE_MODELS_DOC: SourceLink = {
-  label: "Rakazo, self-hosted voice settings",
+  label: "Ai7, self-hosted voice settings",
   href: `${GITHUB_URL}/blob/main/docs/self-host-models.md#voice`,
 };
 
@@ -219,7 +219,7 @@ const PRICE_COLUMNS = [
   "About per hour of speech",
   "Transcription per hour",
   "Free to start",
-  "In Rakazo",
+  "In Ai7",
 ] as const;
 
 /** Cartesia plans ordered by effective price per character, cheapest first. */
@@ -282,7 +282,7 @@ const PRICE_ROWS = {
     cells: [
       `${usd(cartesiaLow)} to ${usd(cartesiaHigh)}, by plan`,
       `${perHourOfSpeech(cartesiaLow)} to ${perHourOfSpeech(cartesiaHigh)}`,
-      `${cartesiaInkPerHour(cartesiaCheapest)} to ${cartesiaInkPerHour(cartesiaDearest)} (Ink, not used by Rakazo)`,
+      `${cartesiaInkPerHour(cartesiaCheapest)} to ${cartesiaInkPerHour(cartesiaDearest)} (Ink, not used by Ai7)`,
       `${count(RATES.cartesiaFreeCredits)} credits a month`,
       "Built in, speaks only",
     ],
@@ -563,11 +563,11 @@ const WORKLOAD_ROWS = {
     cells: ["$0", "$0, your device listens", "$0"],
   },
   deepgram: {
-    topic: "Deepgram (not in Rakazo)",
+    topic: "Deepgram (not in Ai7)",
     cells: [usd(cost.deepgram.speech), usd(cost.deepgram.transcription), aboutTotal("deepgram")],
   },
   google: {
-    topic: "Google Cloud (not in Rakazo)",
+    topic: "Google Cloud (not in Ai7)",
     cells: [
       cost.google.speech === 0
         ? `$0, inside the free ${millions(RATES.googleFreeChars)}`
@@ -577,7 +577,7 @@ const WORKLOAD_ROWS = {
     ],
   },
   azure: {
-    topic: "Azure AI Speech (not in Rakazo)",
+    topic: "Azure AI Speech (not in Ai7)",
     cells: [
       `${usd(cost.azure.speech)} after the free ${millions(RATES.azureFreeChars)}`,
       `${usd(cost.azure.transcription)} after ${RATES.azureFreeHours} free hours`,
@@ -638,6 +638,6 @@ export function voiceWorkloadTable(
     caption,
     columns: ["Option", "Speech", "Transcription", "A month"],
     rows: rows.map((row) => WORKLOAD_ROWS[row]),
-    note: "Usage prices from each provider's pricing page, checked November 2026. Where speech is bought as a monthly plan, as with Cartesia, the cost shown is the fee for the smallest plan that covers it. Rakazo doesn't charge for voice: you connect your own key and the provider bills you.",
+    note: "Usage prices from each provider's pricing page, checked November 2026. Where speech is bought as a monthly plan, as with Cartesia, the cost shown is the fee for the smallest plan that covers it. Ai7 doesn't charge for voice: you connect your own key and the provider bills you.",
   };
 }

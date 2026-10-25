@@ -55,9 +55,9 @@ function listed(names: readonly string[]): string {
   return names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}` : (names[0] ?? "");
 }
 
-const BILL_ADVICE = `Speech is usually the larger charge, so how much your bots say matters more than how much you say${TRANSCRIPTION_HEAVY.length ? `. The exception is where a free speech allowance covers most of the month, as with ${listed(TRANSCRIPTION_HEAVY)} here, which leaves transcription as the main cost` : ""}. In Chrome on a desktop or in the mobile app, your device often does the transcription for free. A self-hosted Rakazo can also set \`VOICE_SUMMARY_MIN_CHARS\` so long replies are read as a short summary instead of in full.`;
+const BILL_ADVICE = `Speech is usually the larger charge, so how much your bots say matters more than how much you say${TRANSCRIPTION_HEAVY.length ? `. The exception is where a free speech allowance covers most of the month, as with ${listed(TRANSCRIPTION_HEAVY)} here, which leaves transcription as the main cost` : ""}. In Chrome on a desktop or in the mobile app, your device often does the transcription for free. A self-hosted Ai7 can also set \`VOICE_SUMMARY_MIN_CHARS\` so long replies are read as a short summary instead of in full.`;
 
-/** Hosted options in Rakazo whose speech costs under a dollar an hour. */
+/** Hosted options in Ai7 whose speech costs under a dollar an hour. */
 const UNDER_A_DOLLAR = [
   { name: "[Fish Audio](/voice-providers/fish-audio/)", hour: speechHourCost(RATES.fish) },
   { name: "[OpenAI](/voice-providers/openai/)", hour: RATES.openaiMiniTtsMinute * 60 },
@@ -74,7 +74,7 @@ const HUB_SECTIONS: readonly ArticleSection[] = [
   {
     heading: "Text to speech API pricing compared",
     paragraphs: [
-      "Voice APIs price speech per character or per token and transcription per minute, and their plans bundle credits differently, so the table converts everything to the same units: dollars per million characters, per hour of generated speech, and per hour of transcribed audio. Rakazo doesn't charge for voice; you connect your own key and the provider bills you.",
+      "Voice APIs price speech per character or per token and transcription per minute, and their plans bundle credits differently, so the table converts everything to the same units: dollars per million characters, per hour of generated speech, and per hour of transcribed audio. Ai7 doesn't charge for voice; you connect your own key and the provider bills you.",
     ],
     table: voicePriceTable("Voice APIs for AI agents, as of November 2026", [
       "elevenlabs",
@@ -113,9 +113,9 @@ const HUB_SECTIONS: readonly ArticleSection[] = [
     ]),
   },
   {
-    heading: "What each option does in Rakazo",
+    heading: "What each option does in Ai7",
     table: {
-      caption: "Voice options in Rakazo",
+      caption: "Voice options in Ai7",
       columns: ["Option", "Speaks with", "Transcribes with", "Your cloned voices", "Audio goes to"],
       rows: [
         {
@@ -150,15 +150,15 @@ const HUB_SECTIONS: readonly ArticleSection[] = [
         },
         {
           topic: "[Server (Mac)](/voice-providers/macos/)",
-          cells: ["macOS voices", "Your device", "No", "The Mac running Rakazo"],
+          cells: ["macOS voices", "Your device", "No", "The Mac running Ai7"],
         },
       ],
     },
   },
   {
-    heading: "Voice APIs Rakazo doesn't connect to",
+    heading: "Voice APIs Ai7 doesn't connect to",
     paragraphs: [
-      "Plenty of good voice APIs have no built-in connection in Rakazo. Here is how they compare, so you can judge what you'd be missing.",
+      "Plenty of good voice APIs have no built-in connection in Ai7. Here is how they compare, so you can judge what you'd be missing.",
     ],
     bullets: [
       `Deepgram is best known for transcription: Nova-3 costs ${usd(RATES.deepgramBatchHour)} an hour in batch and ${usd(RATES.deepgramStreamHour)} streaming, with a ${usd(RATES.deepgramCredit)} starting credit, and many voice agents use it to listen. Its Aura-2 voices cost ${usd(RATES.deepgram)} per million characters and sound plainer than ElevenLabs. It uses its own API, not OpenAI's.`,
@@ -166,7 +166,7 @@ const HUB_SECTIONS: readonly ArticleSection[] = [
       `Azure AI Speech has neural voices at ${usd(RATES.azureNeural)} per million characters, HD voices at ${usd(RATES.azureHd)}, and transcription from ${usd(RATES.azureBatchHour)} an hour in batch, with a monthly free tier of ${millions(RATES.azureFreeChars)} characters and ${RATES.azureFreeHours} hours.`,
       `Amazon Polly's neural voices cost ${usd(RATES.pollyNeural)} and generative voices ${usd(RATES.pollyGenerative)} per million characters. Amazon Transcribe costs about ${usd(RATES.transcribeBatchHour)} an hour in batch.`,
       `Inworld sells low-cost voices for agents, ${usd(RATES.inworldFlash)} to ${usd(RATES.inworld)} per million characters. Hume's Octave focuses on emotional delivery; its rates were no longer on its pricing page in November 2026.`,
-      `AssemblyAI (${usd(RATES.assemblyaiHour.low)} to ${usd(RATES.assemblyaiHour.high)} an hour) and Groq's hosted Whisper (${usd(RATES.groqWhisperHour)} an hour) are strong for transcription. Groq serves OpenAI's audio API shape, so it may be reachable through **Self-hosted**, but Rakazo would send speech there too.`,
+      `AssemblyAI (${usd(RATES.assemblyaiHour.low)} to ${usd(RATES.assemblyaiHour.high)} an hour) and Groq's hosted Whisper (${usd(RATES.groqWhisperHour)} an hour) are strong for transcription. Groq serves OpenAI's audio API shape, so it may be reachable through **Self-hosted**, but Ai7 would send speech there too.`,
       "PlayHT, once a common ElevenLabs alternative, shut down its platform and API at the end of 2025.",
     ],
   },
@@ -175,11 +175,11 @@ const HUB_SECTIONS: readonly ArticleSection[] = [
 export const VOICE_PROVIDERS_HUB = {
   title: "Best text to speech and speech to text APIs for AI agents in 2026: pricing compared",
   description:
-    "ElevenLabs, OpenAI, Cartesia, Fish Audio, Deepgram, Google, Azure, Kokoro and macOS voices compared on price per hour, transcription, cloning and privacy, with what a talking AI agent costs a month. From the team behind Rakazo.",
+    "ElevenLabs, OpenAI, Cartesia, Fish Audio, Deepgram, Google, Azure, Kokoro and macOS voices compared on price per hour, transcription, cloning and privacy, with what a talking AI agent costs a month. From the team behind Ai7.",
   h1: "Best voice APIs for AI agents in 2026: text to speech and transcription compared",
   intro: [
     "Typing isn't always the fastest way to work with an AI agent. Sometimes you want to say what you need on the way out the door, hear the answer while you cook, or have the agent call you when something can't wait. That takes two things: a voice that sounds right, and transcription that hears you correctly.",
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and you can also hold the mic to speak, have replies read aloud, or call a bot. A bot can call you too. The voice provider you connect does the speaking and, for most providers, the listening. This page compares every option Rakazo supports, from hosted voices to a server you run yourself, against the other voice APIs people consider, with prices as of November 2026.",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and you can also hold the mic to speak, have replies read aloud, or call a bot. A bot can call you too. The voice provider you connect does the speaking and, for most providers, the listening. This page compares every option Ai7 supports, from hosted voices to a server you run yourself, against the other voice APIs people consider, with prices as of November 2026.",
   ],
   scene: {
     bot: "Chief of Staff",
@@ -198,15 +198,15 @@ export const VOICE_PROVIDERS_HUB = {
   choose: [
     {
       heading: "You want the most natural voices",
-      text: `[ElevenLabs](/voice-providers/elevenlabs/) speaks and transcribes with one key, and any voice you clone in ElevenLabs shows up in Rakazo's voice picker. It costs about ${perHourOfSpeech(RATES.elevenlabsFlash)} per hour of speech. [Fish Audio](/voice-providers/fish-audio/) is the other pick when the voice itself matters, with expressive speech, your own cloned voice and a large public library, at ${perHourOfSpeech(RATES.fish)} an hour.`,
+      text: `[ElevenLabs](/voice-providers/elevenlabs/) speaks and transcribes with one key, and any voice you clone in ElevenLabs shows up in Ai7's voice picker. It costs about ${perHourOfSpeech(RATES.elevenlabsFlash)} per hour of speech. [Fish Audio](/voice-providers/fish-audio/) is the other pick when the voice itself matters, with expressive speech, your own cloned voice and a large public library, at ${perHourOfSpeech(RATES.fish)} an hour.`,
     },
     {
       heading: "You want the lowest bill",
-      text: `Free options first: [Server (Mac)](/voice-providers/macos/) if Rakazo runs on a Mac, or a [self-hosted](/voice-providers/self-hosted/) Kokoro and Whisper server on hardware you already own. Among hosted APIs, ${listed(UNDER_A_DOLLAR)} ${UNDER_A_DOLLAR.length > 1 ? "each cost" : "costs"} under a dollar per hour of speech.`,
+      text: `Free options first: [Server (Mac)](/voice-providers/macos/) if Ai7 runs on a Mac, or a [self-hosted](/voice-providers/self-hosted/) Kokoro and Whisper server on hardware you already own. Among hosted APIs, ${listed(UNDER_A_DOLLAR)} ${UNDER_A_DOLLAR.length > 1 ? "each cost" : "costs"} under a dollar per hour of speech.`,
     },
     {
       heading: "You already have an OpenAI key",
-      text: "[OpenAI](/voice-providers/openai/) is quick to set up, with built-in voices and solid transcription. OpenAI is shutting down the speech model Rakazo uses on January 6, 2027, and the transcription model on February 26, 2027, so treat it as a convenient start.",
+      text: "[OpenAI](/voice-providers/openai/) is quick to set up, with built-in voices and solid transcription. OpenAI is shutting down the speech model Ai7 uses on January 6, 2027, and the transcription model on February 26, 2027, so treat it as a convenient start.",
     },
     {
       heading: "You mostly call your bots",
@@ -214,7 +214,7 @@ export const VOICE_PROVIDERS_HUB = {
     },
     {
       heading: "You want audio to stay on your own hardware",
-      text: "[Self-hosted voice](/voice-providers/self-hosted/) works with any OpenAI-compatible speech server, such as Kokoro for speech and a Whisper server for transcription. If you run Rakazo directly on a Mac, [Server (Mac)](/voice-providers/macos/) speaks with the built-in voices and no key at all.",
+      text: "[Self-hosted voice](/voice-providers/self-hosted/) works with any OpenAI-compatible speech server, such as Kokoro for speech and a Whisper server for transcription. If you run Ai7 directly on a Mac, [Server (Mac)](/voice-providers/macos/) speaks with the built-in voices and no key at all.",
     },
     {
       heading: "You need compliance paperwork",
@@ -225,7 +225,7 @@ export const VOICE_PROVIDERS_HUB = {
     {
       question: "What is the best text to speech API for AI agents?",
       answer:
-        "For the most natural voices, [ElevenLabs](/voice-providers/elevenlabs/). For the lowest latency on calls, [Cartesia](/voice-providers/cartesia/). For price, [Fish Audio](/voice-providers/fish-audio/) or a [self-hosted](/voice-providers/self-hosted/) Kokoro server. All four work in Rakazo.",
+        "For the most natural voices, [ElevenLabs](/voice-providers/elevenlabs/). For the lowest latency on calls, [Cartesia](/voice-providers/cartesia/). For price, [Fish Audio](/voice-providers/fish-audio/) or a [self-hosted](/voice-providers/self-hosted/) Kokoro server. All four work in Ai7.",
     },
     {
       question: "Which text to speech API is free?",
@@ -240,22 +240,22 @@ export const VOICE_PROVIDERS_HUB = {
     {
       question: "Is there an API that can convert audio to text?",
       answer:
-        `Yes, many: ${listed(Object.keys(TRANSCRIPTION_HOURLY))} all do. Across the models and modes on this page, prices run from about ${usd(TRANSCRIPTION_RANGE.low.price)} an hour (${TRANSCRIPTION_RANGE.low.name}) to ${usd(TRANSCRIPTION_RANGE.high.price)} (${TRANSCRIPTION_RANGE.high.name}). In Rakazo, ElevenLabs, OpenAI, Fish Audio and self-hosted servers transcribe what you say.`,
+        `Yes, many: ${listed(Object.keys(TRANSCRIPTION_HOURLY))} all do. Across the models and modes on this page, prices run from about ${usd(TRANSCRIPTION_RANGE.low.price)} an hour (${TRANSCRIPTION_RANGE.low.name}) to ${usd(TRANSCRIPTION_RANGE.high.price)} (${TRANSCRIPTION_RANGE.high.name}). In Ai7, ElevenLabs, OpenAI, Fish Audio and self-hosted servers transcribe what you say.`,
     },
     {
       question: "Is the Whisper API free?",
       answer:
-        `No. OpenAI charges ${usd(RATES.openaiWhisperHour)} an hour for Whisper, and it shuts down on February 26, 2027. The Whisper model itself is open source, so you can run it free on your own hardware and connect it to Rakazo as a [self-hosted](/voice-providers/self-hosted/) server.`,
+        `No. OpenAI charges ${usd(RATES.openaiWhisperHour)} an hour for Whisper, and it shuts down on February 26, 2027. The Whisper model itself is open source, so you can run it free on your own hardware and connect it to Ai7 as a [self-hosted](/voice-providers/self-hosted/) server.`,
     },
     {
       question: "Is Deepgram text to speech?",
       answer:
-        "Both. Deepgram is known for speech to text (Nova-3) and also sells Aura-2 voices. Rakazo doesn't connect to Deepgram.",
+        "Both. Deepgram is known for speech to text (Nova-3) and also sells Aura-2 voices. Ai7 doesn't connect to Deepgram.",
     },
     {
       question: "Can I talk to my AI agent by voice?",
       answer:
-        "Yes. Connect a provider in **Settings → Voice**, then hold the mic to speak, have replies read aloud, or call a bot. On a [self-hosted Rakazo](/self-hosted-ai-agent/), the admin turns on calls and hold-to-talk with `PHONE_CALLS_ENABLED=true`.",
+        "Yes. Connect a provider in **Settings → Voice**, then hold the mic to speak, have replies read aloud, or call a bot. On a [self-hosted Ai7](/self-hosted-ai-agent/), the admin turns on calls and hold-to-talk with `PHONE_CALLS_ENABLED=true`.",
     },
     {
       question: "Which voice providers can transcribe?",
@@ -265,7 +265,7 @@ export const VOICE_PROVIDERS_HUB = {
     {
       question: "Can AI agents use voice without a hosted vendor?",
       answer:
-        "Yes. Point Rakazo at a [self-hosted speech server](/voice-providers/self-hosted/), or use [Server (Mac)](/voice-providers/macos/) when the server runs on a Mac.",
+        "Yes. Point Ai7 at a [self-hosted speech server](/voice-providers/self-hosted/), or use [Server (Mac)](/voice-providers/macos/) when the server runs on a Mac.",
     },
     {
       question: "Is using an AI voice legal?",

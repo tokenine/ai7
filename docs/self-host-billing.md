@@ -15,7 +15,7 @@ a monthly and yearly price, a monthly computer allowance and a computer size. Ne
 start on Standard; existing subscribers keep the price they signed up at. A `null` Standard monthly
 price makes the plan free, hides the other tiers, and ends paid own-key subscriptions at their
 period end; a `null` yearly price offers that tier monthly only, and a `null` monthly price on Pro
-or Max hides it. Billing reads a plan's tier from its price's lookup key, which Rakazo creates as
+or Max hides it. Billing reads a plan's tier from its price's lookup key, which Ai7 creates as
 `rakazo_byok_<tier>_<monthly|yearly>_<cents>` (Standard's keys name no tier), so keep those keys
 on any price you create by hand. Before selling a tier, make sure the sandbox account can run its
 computer size; a computer that cannot start at its size starts at its current one.
@@ -35,9 +35,9 @@ access on the server, so a lapsed organization's bots and routines stop until it
 
 Configure the managed default model through the existing model connection settings. The default
 OpenRouter model is Luna 6; customers can choose another available model, with its usage deducted
-at model cost. In credit mode, the configured hosted provider uses Rakazo's key even when a personal
+at model cost. In credit mode, the configured hosted provider uses Ai7's key even when a personal
 key for that provider is saved. Switching back to BYOK restores that connection. Personal connections
-to other providers continue to use their own keys and never debit Rakazo credits. Hosted calls reserve an upper cost estimate atomically before starting, then settle
+to other providers continue to use their own keys and never debit Ai7 credits. Hosted calls reserve an upper cost estimate atomically before starting, then settle
 to reported or catalog-priced usage. Unknown usage retains its reservation for reconciliation.
 
 `STRIPE_PRICE_ID` is optional and only needed to display the legacy seat price. Existing live seat
@@ -70,8 +70,8 @@ attempts. An hourly, paginated audit rebuilds drifted balance caches from the jo
 repairs. Investigate `Model credit hold requires review` logs using the shared call ID; do not turn
 missing provider evidence into a zero-cost settlement.
 
-OpenRouter inference requests include the normal Rakazo user ID in `user`, `HTTP-Referer`
-(`https://rakazo.com`), and `X-OpenRouter-Title` (`Rakazo`). These values are sent only to OpenRouter's
+OpenRouter inference requests include the normal Ai7 user ID in `user`, `HTTP-Referer`
+(`https://rakazo.com`), and `X-OpenRouter-Title` (`Ai7`). These values are sent only to OpenRouter's
 HTTPS inference endpoints, never to compatible custom hosts. Recovery uses the existing configured
 deployment credential; no Redis or external accounting service is required.
 

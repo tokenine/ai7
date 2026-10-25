@@ -4,7 +4,7 @@
 
 Bots can use an existing [Wuying (无影)](https://www.aliyun.com/product/ecs/gws) Windows cloud
 computer as their computer. They run PowerShell commands, read and write files, see the screen
-and use the mouse and keyboard there, and you can watch or take over the screen inside Rakazo.
+and use the mouse and keyboard there, and you can watch or take over the screen inside Ai7.
 
 ## How it fits together
 
@@ -12,10 +12,10 @@ and use the mouse and keyboard there, and you can watch or take over the screen 
 | --- | --- |
 | ECD API (AccessKey) | Reads the desktop's state, starts it, and issues one-time screen logins |
 | The desktop's MCP gateway | Runs commands, reads and writes files, takes screenshots, sends mouse and keyboard input |
-| Wuying Web SDK | Draws the live screen in the computer panel, served by Rakazo at `/computer-screen/screen.html` |
+| Wuying Web SDK | Draws the live screen in the computer panel, served by Ai7 at `/computer-screen/screen.html` |
 
 Each bot computer's home is a folder on the desktop, `%USERPROFILE%\rakazo\<home>`. The desktop's
-own disk keeps it. Computers share the desktop, so Rakazo powers it off only when the last
+own disk keeps it. Computers share the desktop, so Ai7 powers it off only when the last
 computer using it stops, and starts it again when one needs it.
 Deleting a computer removes only its home folder, never the desktop.
 
@@ -125,10 +125,10 @@ An unchanged Caddy matcher would add X-Frame-Options to the new runtime and bloc
 - **One Windows account per desktop.** Every account that uses the same desktop, including every
   account left on the deployment default, shares its files, screen, input and command
   environment, including saved command credentials. A screen login opened for watching can also
-  control the desktop outside Rakazo. Give each person their own desktop, or share one only
+  control the desktop outside Ai7. Give each person their own desktop, or share one only
   with people you trust with each other's work.
 - **One screen viewer at a time.** Wuying allows one session per end user. Opening the computer
-  panel in a second browser, or the Wuying client, signs the other one out. Rakazo reconnects a
+  panel in a second browser, or the Wuying client, signs the other one out. Ai7 reconnects a
   dropped screen at most once every 30 seconds; after that, or in a background tab, it waits for
   **Retry screen**.
 - **Gateway call limits.** Each call is capped at one minute, 16 KiB of command output and 1,000
@@ -145,5 +145,5 @@ An unchanged Caddy matcher would add X-Frame-Options to the new runtime and bloc
 | Computer panel stays blank | Run `node scripts/wuying-web-sdk.mjs`; the page needs `WuyingWebSDK.js` and `sdk/ASP/container.html` |
 | Screen connects, then drops | Another viewer took the session; close the other panel or the Wuying client |
 | `Could not reach the Wuying desktop` on Save | Check the AccessKey's permissions, the region and the desktop ID; a running desktop's gateway must answer |
-| Chinese output is garbled | The command did not run through PowerShell; Rakazo switches PowerShell output to UTF-8, other shells keep the system code page |
+| Chinese output is garbled | The command did not run through PowerShell; Ai7 switches PowerShell output to UTF-8, other shells keep the system code page |
 | Settings has no Computer provider choice | Set `COMPUTER_SETTINGS_ENABLED=true` on the API; for the deployment form, also check `RAKAZO_ADMIN_EMAILS` and that the email is verified |

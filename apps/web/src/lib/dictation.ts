@@ -344,7 +344,7 @@ export class Dictation {
         error:
           // macOS asks only once; after a refusal, only System Settings can allow it again.
           code === "not-allowed" && desktopBridge()?.speech
-            ? t`Allow Rakazo to use Speech Recognition and the microphone in System Settings.`
+            ? t`Allow Ai7 to use Speech Recognition and the microphone in System Settings.`
             : code
               ? t`Dictation failed: ${code}`
               : t`Dictation failed.`,

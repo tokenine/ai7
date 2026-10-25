@@ -40,11 +40,11 @@ export const pipedream: IntegrationPlatform = {
   bestFor: "Teams already on Pipedream Connect",
   title: "Pipedream Connect pricing, MCP server and alternatives for AI agents (2026)",
   description:
-    "What Pipedream Connect and Pipedream MCP are, what Connect costs per user and credit in 2026, what a team of bots spends, how it compares with Composio, and how Rakazo bots use it.",
+    "What Pipedream Connect and Pipedream MCP are, what Connect costs per user and credit in 2026, what a team of bots spends, how it compares with Composio, and how Ai7 bots use it.",
   h1: "Pipedream Connect for AI agents: pricing, MCP and alternatives",
   intro: [
     `[Pipedream Connect](https://pipedream.com/connect) is the part of Pipedream that lets AI agents act in other apps on behalf of each user. Pipedream runs the sign-in for each app, stores the tokens, and serves the app's actions as tools from a remote MCP server. Development is free; production starts at ${YEARLY} a month billed yearly. Pipedream is owned by Workday.`,
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and bots use tools in your apps as well as their own computer. When you host Rakazo yourself, a Pipedream Connect project can supply the apps people connect. Pipedream supplies the tools and logins. Rakazo picks which connected account each bot acts as and asks you before anything that changes data.",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and bots use tools in your apps as well as their own computer. When you host Ai7 yourself, a Pipedream Connect project can supply the apps people connect. Pipedream supplies the tools and logins. Ai7 picks which connected account each bot acts as and asks you before anything that changes data.",
   ],
   scene: {
     bot: "Account Manager",
@@ -71,7 +71,7 @@ export const pipedream: IntegrationPlatform = {
       heading: "What is Pipedream MCP?",
       paragraphs: [
         "Pipedream MCP is Pipedream's remote [MCP server](/integration-platforms/mcp/). Any MCP client, such as Claude, Cursor or an agent you build, can connect to it and get the actions for an app as tools. Pipedream identifies each end user with an external user ID, runs the sign-in for that user, and calls the app's API as them. It is included in every Connect plan, and each tool call is billed like any other action.",
-        "Rakazo uses Pipedream through that server. It opens one MCP connection per connected account, so a person with two Gmail accounts gets two labeled sets of Gmail tools, and a bot can't mix them up.",
+        "Ai7 uses Pipedream through that server. It opens one MCP connection per connected account, so a person with two Gmail accounts gets two labeled sets of Gmail tools, and a bot can't mix them up.",
       ],
     },
     {
@@ -127,12 +127,12 @@ export const pipedream: IntegrationPlatform = {
       ],
     },
     {
-      heading: "What Rakazo bots cost on Pipedream",
+      heading: "What Ai7 bots cost on Pipedream",
       paragraphs: [
-        `Rakazo gives Pipedream one external user per person per space, so someone in two spaces counts as two users. The examples assume one space and calls that finish within 30 seconds. ${WORKLOADS}`,
+        `Ai7 gives Pipedream one external user per person per space, so someone in two spaces counts as two users. The examples assume one space and calls that finish within 30 seconds. ${WORKLOADS}`,
       ],
       table: {
-        caption: "Monthly Pipedream Connect bill for a team of Rakazo bots",
+        caption: "Monthly Pipedream Connect bill for a team of Ai7 bots",
         columns: ["Workload", "Startup, billed yearly", "Startup, billed monthly"],
         rows: [
           {
@@ -157,13 +157,13 @@ export const pipedream: IntegrationPlatform = {
             ],
           },
         ],
-        note: `Worked from [Pipedream's pricing page](${PIPEDREAM_PRICING}), checked ${PRICES_CHECKED}. Model usage and the bots' computers are billed separately, by your model provider or by Rakazo.`,
+        note: `Worked from [Pipedream's pricing page](${PIPEDREAM_PRICING}), checked ${PRICES_CHECKED}. Model usage and the bots' computers are billed separately, by your model provider or by Ai7.`,
       },
     },
     {
       heading: "Pipedream vs Composio",
       paragraphs: [
-        "They do the same job in Rakazo: a hosted catalog with managed sign-in. The difference is mostly price shape and catalog size. [Composio](/integration-platforms/composio/) is free for real use at small volume and cheap per call; Pipedream has about twice as many apps, a fixed monthly floor, and a per-user charge that grows with your team.",
+        "They do the same job in Ai7: a hosted catalog with managed sign-in. The difference is mostly price shape and catalog size. [Composio](/integration-platforms/composio/) is free for real use at small volume and cheap per call; Pipedream has about twice as many apps, a fixed monthly floor, and a per-user charge that grows with your team.",
       ],
       table: {
         caption: "Pipedream Connect and Composio side by side",
@@ -200,7 +200,7 @@ export const pipedream: IntegrationPlatform = {
           },
           { topic: "Owner", cells: ["Workday", "Independent"] },
           {
-            topic: "Setup in Rakazo",
+            topic: "Setup in Ai7",
             cells: ["Project ID, OAuth client ID and secret", "One API key"],
           },
           {
@@ -214,10 +214,10 @@ export const pipedream: IntegrationPlatform = {
     {
       heading: "Pipedream alternatives",
       bullets: [
-        "**[Composio](/integration-platforms/composio/)** is the closest, built into Rakazo, and much cheaper for a small team.",
-        `**Zapier MCP** reaches ${ZAPIER.apps} apps and spends ${ZAPIER.tasksPerCall} Zapier tasks per call; the free plan's ${ZAPIER.freeTasks} tasks cover about ${ZAPIER.freeTasks / ZAPIER.tasksPerCall} calls and paid plans start at ${usd(ZAPIER.pro[0].price)} a month billed yearly ([pricing](${ZAPIER_PRICING})). It isn't built into Rakazo, but you can add it as a remote [MCP server](/integration-platforms/mcp/). It acts as the Zapier account that set it up.`,
-        `**Arcade** charges ${usd(ARCADE.fee)} a month plus ${usd(ARCADE.perCall)} a call and focuses on authorization for each user. **Nango** publishes its source and suits teams adding integrations to their own product. Neither is built into Rakazo.`,
-        "**For Pipedream Workflows users**: Connect is not an automation builder. If you need scheduled workflows rather than tools for agents, look at n8n, Make or Windmill, or give a Rakazo bot a [routine](/docs/routines/).",
+        "**[Composio](/integration-platforms/composio/)** is the closest, built into Ai7, and much cheaper for a small team.",
+        `**Zapier MCP** reaches ${ZAPIER.apps} apps and spends ${ZAPIER.tasksPerCall} Zapier tasks per call; the free plan's ${ZAPIER.freeTasks} tasks cover about ${ZAPIER.freeTasks / ZAPIER.tasksPerCall} calls and paid plans start at ${usd(ZAPIER.pro[0].price)} a month billed yearly ([pricing](${ZAPIER_PRICING})). It isn't built into Ai7, but you can add it as a remote [MCP server](/integration-platforms/mcp/). It acts as the Zapier account that set it up.`,
+        `**Arcade** charges ${usd(ARCADE.fee)} a month plus ${usd(ARCADE.perCall)} a call and focuses on authorization for each user. **Nango** publishes its source and suits teams adding integrations to their own product. Neither is built into Ai7.`,
+        "**For Pipedream Workflows users**: Connect is not an automation builder. If you need scheduled workflows rather than tools for agents, look at n8n, Make or Windmill, or give a Ai7 bot a [routine](/docs/routines/).",
         "**No middleman**: an app's own [MCP server](/integration-platforms/mcp/) or an [API connector](/integration-platforms/api-connectors/) adds no fee on top of the app.",
       ],
     },
@@ -229,7 +229,7 @@ export const pipedream: IntegrationPlatform = {
       bullets: [
         "Connect an app on Pipedream's page. Choose Connect under Integrations, or ask a bot to connect it and use the card it posts. Pipedream's Connect Link opens for that app and you sign in there.",
         "Share it across the space. Once an app is connected, every bot in that space can use it.",
-        "Use more than one account of the same app. Each connected account gets its own set of tools, labeled with the account. If that account goes away, Rakazo stops instead of using another one.",
+        "Use more than one account of the same app. Each connected account gets its own set of tools, labeled with the account. If that account goes away, Ai7 stops instead of using another one.",
         "Keep the tool list short. When the connected apps add up to more than 20 tools, bots get a searchable list instead of every tool up front.",
         "Ask before changes. Pipedream tools follow your [approval settings](/docs/approvals/) like any other tool.",
         "Keep identities private. Pipedream sees an opaque ID for each person and space, not their name or email.",
@@ -238,30 +238,30 @@ export const pipedream: IntegrationPlatform = {
     {
       heading: "When to choose Pipedream",
       paragraphs: [
-        "Choose Pipedream when you self-host Rakazo and already use Pipedream Connect, need an app only Pipedream covers, or want SOC 2 coverage without an enterprise contract. Its tools reach Rakazo through Pipedream's own MCP server, one connection per account.",
-        "[Composio](/integration-platforms/composio/) is the other managed option and the simpler one to set up: a single API key. You can run both, and the Apps list shows apps from each. On [Rakazo Cloud](/pricing/) you don't need a Pipedream account: connecting apps is part of every plan. For an app that publishes its own [MCP server](/integration-platforms/mcp/), or one you can reach with an [API connector](/integration-platforms/api-connectors/), you don't need a hosted middleman at all. The [comparison](/integration-platforms/) puts them side by side.",
+        "Choose Pipedream when you self-host Ai7 and already use Pipedream Connect, need an app only Pipedream covers, or want SOC 2 coverage without an enterprise contract. Its tools reach Ai7 through Pipedream's own MCP server, one connection per account.",
+        "[Composio](/integration-platforms/composio/) is the other managed option and the simpler one to set up: a single API key. You can run both, and the Apps list shows apps from each. On [Ai7 Cloud](/pricing/) you don't need a Pipedream account: connecting apps is part of every plan. For an app that publishes its own [MCP server](/integration-platforms/mcp/), or one you can reach with an [API connector](/integration-platforms/api-connectors/), you don't need a hosted middleman at all. The [comparison](/integration-platforms/) puts them side by side.",
       ],
     },
     {
       heading: "Limits",
       bullets: [
-        `Pipedream's development environment is for testing with your own accounts. It allows ${PIPEDREAM.devUsers} users, and connecting an app only works in a browser signed in to pipedream.com. Rakazo uses development unless you set production, which needs a Connect plan from Pipedream.`,
-        "Rakazo derives each person's Pipedream ID from `ENCRYPTION_KEY`. Change that key and existing Pipedream connections are orphaned and must be connected again.",
+        `Pipedream's development environment is for testing with your own accounts. It allows ${PIPEDREAM.devUsers} users, and connecting an app only works in a browser signed in to pipedream.com. Ai7 uses development unless you set production, which needs a Connect plan from Pipedream.`,
+        "Ai7 derives each person's Pipedream ID from `ENCRYPTION_KEY`. Change that key and existing Pipedream connections are orphaned and must be connected again.",
         "Logins live with Pipedream, not on your server, and every tool call goes through Pipedream's service.",
         "Pipedream is configured for the whole server. A space or user can't bring their own project.",
-        "Rakazo refreshes Pipedream's app list every 10 minutes.",
+        "Ai7 refreshes Pipedream's app list every 10 minutes.",
       ],
     },
     {
       heading: "How to set it up",
       paragraphs: [
-        "These steps are for the admin of a [self-hosted Rakazo](/self-hosted-ai-agent/). Rakazo Cloud users don't need a Pipedream account; they [connect apps](/docs/integrations/) from Integrations.",
+        "These steps are for the admin of a [self-hosted Ai7](/self-hosted-ai-agent/). Ai7 Cloud users don't need a Pipedream account; they [connect apps](/docs/integrations/) from Integrations.",
       ],
       steps: [
         "In [Pipedream](https://pipedream.com), create a project and an OAuth client for its API. Copy the client ID, client secret and project ID.",
-        "Set `PIPEDREAM_CLIENT_ID`, `PIPEDREAM_CLIENT_SECRET` and `PIPEDREAM_PROJECT_ID` on the Rakazo API and worker.",
+        "Set `PIPEDREAM_CLIENT_ID`, `PIPEDREAM_CLIENT_SECRET` and `PIPEDREAM_PROJECT_ID` on the Ai7 API and worker.",
         "Set `PIPEDREAM_ENVIRONMENT` to `development` to test, or `production` for real users, then restart the API and worker.",
-        "Open Integrations in Rakazo, connect one app, and ask a bot to read something from it.",
+        "Open Integrations in Ai7, connect one app, and ask a bot to read something from it.",
       ],
     },
   ],
@@ -284,27 +284,27 @@ export const pipedream: IntegrationPlatform = {
     {
       question: "What is Pipedream MCP?",
       answer:
-        "Pipedream's remote MCP server. It serves the actions for each app a user has connected as MCP tools, with Pipedream handling sign-in. It is included in every Connect plan, and each tool call uses credits. Rakazo connects to it once per connected account.",
+        "Pipedream's remote MCP server. It serves the actions for each app a user has connected as MCP tools, with Pipedream handling sign-in. It is included in every Connect plan, and each tool call uses credits. Ai7 connects to it once per connected account.",
     },
     {
       question: "Is Pipedream shutting down?",
       answer:
-        "Pipedream Workflows and String shut down on March 31, 2027. Pipedream says Connect, its MCP servers and the API proxy are unaffected and still developed, and those are what Rakazo uses.",
+        "Pipedream Workflows and String shut down on March 31, 2027. Pipedream says Connect, its MCP servers and the API proxy are unaffected and still developed, and those are what Ai7 uses.",
     },
     {
       question: "Is Pipedream open source?",
       answer:
-        "No. Pipedream's integration code is public on [GitHub](https://github.com/PipedreamHQ/pipedream) under the Pipedream Source Available License, which forbids competing commercial use. The hosted service is closed. Rakazo uses it through your project's credentials.",
+        "No. Pipedream's integration code is public on [GitHub](https://github.com/PipedreamHQ/pipedream) under the Pipedream Source Available License, which forbids competing commercial use. The hosted service is closed. Ai7 uses it through your project's credentials.",
     },
     {
       question: "Pipedream vs Composio for AI agents?",
       answer:
-        `Both host app logins and give agents thousands of actions. Pipedream has more apps and bills per user and per 30 seconds of compute, from ${YEARLY} a month. [Composio](/integration-platforms/composio/) bills per call and is free up to ${count(COMPOSIO.freeCalls)} calls. In Rakazo, Composio takes one API key and bots search its actions; Pipedream takes a project and OAuth client and serves each account's tools over its MCP server. You can turn on both.`,
+        `Both host app logins and give agents thousands of actions. Pipedream has more apps and bills per user and per 30 seconds of compute, from ${YEARLY} a month. [Composio](/integration-platforms/composio/) bills per call and is free up to ${count(COMPOSIO.freeCalls)} calls. In Ai7, Composio takes one API key and bots search its actions; Pipedream takes a project and OAuth client and serves each account's tools over its MCP server. You can turn on both.`,
     },
     {
       question: "What is a good Pipedream alternative?",
       answer:
-        "[Composio](/integration-platforms/composio/) for agents, which Rakazo also supports. Zapier MCP for the largest catalog, which works in Rakazo as a remote MCP server. For workflow automation rather than agent tools, n8n, Make or Windmill.",
+        "[Composio](/integration-platforms/composio/) for agents, which Ai7 also supports. Zapier MCP for the largest catalog, which works in Ai7 as a remote MCP server. For workflow automation rather than agent tools, n8n, Make or Windmill.",
     },
     {
       question: "Who owns Pipedream?",
@@ -312,7 +312,7 @@ export const pipedream: IntegrationPlatform = {
         "Workday. It announced the deal in November 2025 and reported it closed in its February 2026 results.",
     },
     {
-      question: "Does Rakazo need Pipedream?",
+      question: "Does Ai7 need Pipedream?",
       answer:
         "No. Pipedream is optional. Bots can use [Composio](/integration-platforms/composio/), [MCP servers](/integration-platforms/mcp/) or [API connectors](/integration-platforms/api-connectors/) instead, or alongside it.",
     },

@@ -18,15 +18,15 @@ export const mcp: IntegrationPlatform = {
   slug: "mcp",
   name: "MCP servers",
   gives: "Tools from any MCP server, remote or local",
-  logins: "Your OAuth grant or token, encrypted in Rakazo",
+  logins: "Your OAuth grant or token, encrypted in Ai7",
   bestFor: "Apps that publish their own MCP server",
   title: "What is MCP? MCP servers explained, MCP vs API, and what they cost (2026)",
   description:
-    "What the Model Context Protocol is, what an MCP server does, how MCP differs from an API, whether MCP servers are free, and how to connect remote and local MCP servers to AI agents in Rakazo.",
+    "What the Model Context Protocol is, what an MCP server does, how MCP differs from an API, whether MCP servers are free, and how to connect remote and local MCP servers to AI agents in Ai7.",
   h1: "What is MCP? Connect MCP servers to your AI agents",
   intro: [
     "The [Model Context Protocol](https://modelcontextprotocol.io) (MCP) is an open standard for connecting AI applications to outside tools and data. An app publishes an MCP server, and any agent that speaks MCP can list its tools and call them. Many apps now host a remote MCP server, so giving an agent their tools takes a URL and a sign-in. The protocol itself is free; what you pay for is the app or service behind the server.",
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, bots use tools in your apps, and each bot also has its own computer. You can use it on Rakazo Cloud or host it yourself. Every MCP server you add becomes tools your bots can use, alongside the apps in the [integrations catalog](/integrations/).",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, bots use tools in your apps, and each bot also has its own computer. You can use it on Ai7 Cloud or host it yourself. Every MCP server you add becomes tools your bots can use, alongside the apps in the [integrations catalog](/integrations/).",
   ],
   scene: {
     bot: "Bug Triage",
@@ -140,25 +140,25 @@ export const mcp: IntegrationPlatform = {
             ],
           },
         ],
-        note: `Gateway prices from [Zapier](${ZAPIER_PRICING}), [Composio](${COMPOSIO_PRICING}) and [Pipedream](${PIPEDREAM_PRICING}), checked ${PRICES_CHECKED}. In Rakazo, MCP servers are included in every plan, on Rakazo Cloud and self-hosted.`,
+        note: `Gateway prices from [Zapier](${ZAPIER_PRICING}), [Composio](${COMPOSIO_PRICING}) and [Pipedream](${PIPEDREAM_PRICING}), checked ${PRICES_CHECKED}. In Ai7, MCP servers are included in every plan, on Ai7 Cloud and self-hosted.`,
       },
       bullets: [
-        "The hidden cost is usually tokens, not fees. A server with 40 tools can add thousands of input tokens to every model call. Rakazo counts tools by source, not per server: the MCP servers and OpenAPI and GraphQL connectors installed from **Integrations** share one count, so a few small servers and one large API can add up together. Up to 20 tools, a bot gets them all directly; past that, it searches for the tools it needs and loads only those.",
+        "The hidden cost is usually tokens, not fees. A server with 40 tools can add thousands of input tokens to every model call. Ai7 counts tools by source, not per server: the MCP servers and OpenAPI and GraphQL connectors installed from **Integrations** share one count, so a few small servers and one large API can add up together. Up to 20 tools, a bot gets them all directly; past that, it searches for the tools it needs and loads only those.",
         "A gateway that covers thousands of apps costs money and sees your data in transit. If the app publishes its own server, connecting to it directly is cheaper and has one fewer company in the middle.",
       ],
     },
     {
       heading: "Good MCP servers to start with",
       paragraphs: [
-        "The best MCP server for an app is usually the one the app's own team publishes, because they keep it in step with the API. Many well-known apps now host one with OAuth sign-in: GitHub, Linear, Notion, Sentry, Stripe, Atlassian, Asana, HubSpot, Cloudflare, Supabase and Vercel among them. **Browse MCP servers** in Rakazo searches [integrations.sh](https://integrations.sh) for an app's server so you don't have to hunt for the URL.",
-        "Rakazo bots already have their own computer with a browser and a terminal, so the local servers popular in coding tools, for files, browsing or running commands, add little. Spend MCP servers on the apps your bots need to work in.",
+        "The best MCP server for an app is usually the one the app's own team publishes, because they keep it in step with the API. Many well-known apps now host one with OAuth sign-in: GitHub, Linear, Notion, Sentry, Stripe, Atlassian, Asana, HubSpot, Cloudflare, Supabase and Vercel among them. **Browse MCP servers** in Ai7 searches [integrations.sh](https://integrations.sh) for an app's server so you don't have to hunt for the URL.",
+        "Ai7 bots already have their own computer with a browser and a terminal, so the local servers popular in coding tools, for files, browsing or running commands, add little. Spend MCP servers on the apps your bots need to work in.",
       ],
     },
     {
-      heading: "What bots can do with MCP servers in Rakazo",
+      heading: "What bots can do with MCP servers in Ai7",
       bullets: [
-        "Add a remote server by URL, or find an app's server with **Browse MCP servers**, which searches [integrations.sh](https://integrations.sh). Rakazo speaks Streamable HTTP and the older SSE transport.",
-        "Sign in with OAuth. Rakazo registers itself with the provider when it allows that, stores the grant encrypted and refreshes it. Servers that take a bearer token or a custom header work too, and the credential is never sent to the model.",
+        "Add a remote server by URL, or find an app's server with **Browse MCP servers**, which searches [integrations.sh](https://integrations.sh). Ai7 speaks Streamable HTTP and the older SSE transport.",
+        "Sign in with OAuth. Ai7 registers itself with the provider when it allows that, stores the grant encrypted and refreshes it. Servers that take a bearer token or a custom header work too, and the credential is never sent to the model.",
         "Choose which bots use a server. A bot asks in the chat before its first use; choose **Approve**, or **Authorize** if you need to sign in.",
         "See when a server breaks. **Test connection** shows whether it works and why not. A bot whose server is down is told so instead of quietly losing its tools.",
         "Follow your [approval settings](/docs/approvals/). In **Ask** mode a bot asks before a call that changes something. Tools the server marks as read-only usually run without asking.",
@@ -168,14 +168,14 @@ export const mcp: IntegrationPlatform = {
     {
       heading: "Zapier MCP and other hosted MCP gateways",
       paragraphs: [
-        "Zapier MCP, Arcade, Merge Agent Handler and similar services put many apps behind one MCP endpoint. Rakazo has no built-in support for them, but any of them is just a remote MCP server to Rakazo, as long as it speaks Streamable HTTP or SSE and signs in with OAuth, a bearer token or a single custom header. Zapier MCP uses Streamable HTTP and OAuth, so you add its URL and sign in.",
+        "Zapier MCP, Arcade, Merge Agent Handler and similar services put many apps behind one MCP endpoint. Ai7 has no built-in support for them, but any of them is just a remote MCP server to Ai7, as long as it speaks Streamable HTTP or SSE and signs in with OAuth, a bearer token or a single custom header. Zapier MCP uses Streamable HTTP and OAuth, so you add its URL and sign in.",
         `Two things to know. A gateway acts as whoever signed in to it, so every bot that uses it acts as that person's accounts. And it bills by its own meter: each successful Zapier MCP call spends ${ZAPIER.tasksPerCall} tasks from your Zapier plan.`,
       ],
     },
     {
       heading: "When to choose MCP servers",
       paragraphs: [
-        "Choose an MCP server when the app already publishes one. The app's own team decides what the tools do, there is no platform in the middle, and there is no fee beyond the app's own plan. If you host Rakazo yourself, MCP is also how you reach an internal tool or run a server on your own machine.",
+        "Choose an MCP server when the app already publishes one. The app's own team decides what the tools do, there is no platform in the middle, and there is no fee beyond the app's own plan. If you host Ai7 yourself, MCP is also how you reach an internal tool or run a server on your own machine.",
         "[Composio](/integration-platforms/composio/) and [Pipedream](/integration-platforms/pipedream/) are managed platforms with ready-made tools for many apps, which helps when an app has no good MCP server. If an app only has a REST or GraphQL API, [API connectors](/integration-platforms/api-connectors/) turn it into tools. The [comparison](/integration-platforms/) puts all four side by side.",
       ],
     },
@@ -185,7 +185,7 @@ export const mcp: IntegrationPlatform = {
         "Remote servers must be at a public HTTPS address. Localhost and private networks are refused unless the operator sets `MCP_ALLOW_PRIVATE_ENDPOINT=true` on the API and worker, which allows them for every user. Cloud metadata addresses stay blocked.",
         "Stdio servers are off unless the API and worker have `MCP_STDIO_ENABLED=true` and the command is in `MCP_STDIO_ALLOWED_COMMANDS`. They run with the server's own access, so only admins, the verified accounts in `RAKAZO_ADMIN_EMAILS`, can add one. Bots never do.",
         "`npx` packages are installed once without running install scripts. Other runners such as `uvx` are refused; install those servers on the host and allowlist the binary.",
-        "Plugins can only include remote servers, and Rakazo never runs code from a plugin's repository.",
+        "Plugins can only include remote servers, and Ai7 never runs code from a plugin's repository.",
         "Very large tool results are cut to fit the bot's context, unless you turn on **Keep tool results whole** for that server.",
         "A tool can return text anyone wrote, such as an email. Keep **Ask** or **Auto** approvals on for bots whose servers can make changes.",
       ],
@@ -193,7 +193,7 @@ export const mcp: IntegrationPlatform = {
     {
       heading: "How to set it up",
       paragraphs: [
-        "Anyone with an account can add a remote server, on Rakazo Cloud or a self-hosted server. Stdio servers are for admins of a [self-hosted Rakazo](/self-hosted-ai-agent/). See [Connect apps](/docs/integrations/) and the [tools and integrations guide](/docs/self-host-integrations/).",
+        "Anyone with an account can add a remote server, on Ai7 Cloud or a self-hosted server. Stdio servers are for admins of a [self-hosted Ai7](/self-hosted-ai-agent/). See [Connect apps](/docs/integrations/) and the [tools and integrations guide](/docs/self-host-integrations/).",
       ],
       steps: [
         "Open **Integrations** from **Connect apps** at the bottom of the sidebar and choose **+**.",
@@ -236,32 +236,32 @@ export const mcp: IntegrationPlatform = {
     {
       question: "Does ChatGPT use MCP?",
       answer:
-        "Yes. ChatGPT can connect to remote MCP servers, and so can Claude, Cursor, VS Code and Rakazo. A server written once works with all of them.",
+        "Yes. ChatGPT can connect to remote MCP servers, and so can Claude, Cursor, VS Code and Ai7. A server written once works with all of them.",
     },
     {
-      question: "Can I use Zapier MCP with Rakazo?",
+      question: "Can I use Zapier MCP with Ai7?",
       answer:
-        `Yes, as a remote MCP server: add its URL under **Integrations** and sign in with OAuth. It acts as the Zapier account that signed in, and each call spends ${ZAPIER.tasksPerCall} Zapier tasks. Rakazo has no Zapier-specific integration.`,
+        `Yes, as a remote MCP server: add its URL under **Integrations** and sign in with OAuth. It acts as the Zapier account that signed in, and each call spends ${ZAPIER.tasksPerCall} Zapier tasks. Ai7 has no Zapier-specific integration.`,
     },
     {
       question: "How do I connect a remote MCP server that uses OAuth?",
       answer:
-        "Add its URL in **Integrations**, choose **Connect OAuth** and sign in with the app. Rakazo stores the grant encrypted and refreshes it. If the provider only accepts a client you create, register the **Redirect URI** shown under **Advanced** with it, then enter its client ID there, plus the secret for a confidential client.",
+        "Add its URL in **Integrations**, choose **Connect OAuth** and sign in with the app. Ai7 stores the grant encrypted and refreshes it. If the provider only accepts a client you create, register the **Redirect URI** shown under **Advanced** with it, then enter its client ID there, plus the secret for a confidential client.",
     },
     {
       question: "Can I run local stdio MCP servers?",
       answer:
-        "Yes, on a self-hosted Rakazo with `MCP_STDIO_ENABLED=true` and the command listed in `MCP_STDIO_ALLOWED_COMMANDS`. Only admins can add one, because it runs with the server's own access.",
+        "Yes, on a self-hosted Ai7 with `MCP_STDIO_ENABLED=true` and the command listed in `MCP_STDIO_ALLOWED_COMMANDS`. Only admins can add one, because it runs with the server's own access.",
     },
     {
       question: "Can bots reach an MCP server on localhost or my network?",
       answer:
-        "Only on a self-hosted Rakazo with `MCP_ALLOW_PRIVATE_ENDPOINT=true`. It applies to every user, so leave it off on public installs.",
+        "Only on a self-hosted Ai7 with `MCP_ALLOW_PRIVATE_ENDPOINT=true`. It applies to every user, so leave it off on public installs.",
     },
     {
       question: "Do too many MCP tools slow an agent down?",
       answer:
-        "Every tool description takes room in the model's context. Rakazo counts tools by source, not per server: the MCP servers and OpenAPI and GraphQL connectors installed from **Integrations** share one count, so a few small servers and one large API can add up together. Up to 20 tools, a bot gets them all directly; past that, it searches for the tools it needs and loads only those.",
+        "Every tool description takes room in the model's context. Ai7 counts tools by source, not per server: the MCP servers and OpenAPI and GraphQL connectors installed from **Integrations** share one count, so a few small servers and one large API can add up together. Up to 20 tools, a bot gets them all directly; past that, it searches for the tools it needs and loads only those.",
     },
   ],
   sources: [
@@ -286,7 +286,7 @@ export const mcp: IntegrationPlatform = {
     { label: "Zapier pricing", href: ZAPIER_PRICING },
     { label: "integrations.sh", href: "https://integrations.sh" },
     INTEGRATIONS_DOC,
-    { label: "Rakazo, connect apps", href: `${GITHUB_URL}/blob/main/docs/integrations.md` },
-    { label: "Rakazo, build a plugin", href: `${GITHUB_URL}/blob/main/docs/build-a-plugin.md` },
+    { label: "Ai7, connect apps", href: `${GITHUB_URL}/blob/main/docs/integrations.md` },
+    { label: "Ai7, build a plugin", href: `${GITHUB_URL}/blob/main/docs/build-a-plugin.md` },
   ],
 };

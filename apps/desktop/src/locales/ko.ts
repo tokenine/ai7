@@ -3,7 +3,7 @@ export const KO_MESSAGES: Record<string, string> = {
   "Check for Updates…": "업데이트 확인…",
   "Computer Access…": "컴퓨터 접근…",
   "Revoke Local Computer Access": "로컬 컴퓨터 접근 취소",
-  "Change Rakazo Server…": "Rakazo 서버 변경…",
+  "Change Ai7 Server…": "Ai7 서버 변경…",
   "Stop Local Stack": "로컬 스택 중지",
   "Hide {name}": "{name} 가리기",
   "Hide Others": "기타 가리기",
@@ -35,12 +35,12 @@ export const KO_MESSAGES: Record<string, string> = {
   Close: "닫기",
   "Close Window": "윈도우 닫기",
   "Bring All to Front": "모두 앞으로 가져오기",
-  "Rakazo {version} is ready to install.": "Rakazo {version}을(를) 설치할 준비가 되었습니다.",
+  "Ai7 {version} is ready to install.": "Ai7 {version}을(를) 설치할 준비가 되었습니다.",
   Restart: "재시동",
   Later: "나중에",
   "Could not install the update.": "업데이트를 설치할 수 없습니다.",
   "Could not check for updates.": "업데이트를 확인할 수 없습니다.",
-  "Rakazo is up to date.": "Rakazo가 최신 버전입니다.",
+  "Ai7 is up to date.": "Rakazo가 최신 버전입니다.",
   "Version {version}": "버전 {version}",
   "Automatic updates are turned off for this install.":
     "이 설치에서는 자동 업데이트가 꺼져 있습니다.",
@@ -48,10 +48,10 @@ export const KO_MESSAGES: Record<string, string> = {
     "자동 업데이트는 설치된 빌드에서만 실행됩니다.",
   "No desktop releases are published for this build yet.":
     "이 빌드용 데스크톱 릴리스가 아직 게시되지 않았습니다.",
-  "Move Rakazo to Applications to install updates.":
+  "Move Ai7 to Applications to install updates.":
     "업데이트를 설치하려면 Rakazo를 응용 프로그램 폴더로 옮기세요.",
   "Free up disk space to install updates.": "업데이트를 설치하려면 디스크 공간을 확보하세요.",
-  "This update could not be verified. Reinstall Rakazo from a trusted download.":
+  "This update could not be verified. Reinstall Ai7 from a trusted download.":
     "이 업데이트를 확인할 수 없습니다. 신뢰할 수 있는 다운로드에서 Rakazo를 다시 설치하세요.",
   "The update could not be completed. Try again later.":
     "업데이트를 완료할 수 없습니다. 나중에 다시 시도하세요.",
@@ -71,12 +71,12 @@ export const KO_MESSAGES: Record<string, string> = {
     "이미 로그인 시도가 진행 중입니다. 취소한 후 다시 시도하세요.",
   "Could not open browser sign-in. Close other sign-in attempts and retry.":
     "브라우저 로그인을 열 수 없습니다. 다른 로그인 시도를 닫고 다시 시도하세요.",
-  "Sign-in callback rejected. Return to Rakazo to retry.":
+  "Sign-in callback rejected. Return to Ai7 to retry.":
     "로그인 응답이 거부되었습니다. Rakazo로 돌아가 다시 시도하세요.",
-  "You can close this tab and return to Rakazo.": "이 탭을 닫고 Rakazo로 돌아가세요.",
-  "Set up Rakazo": "Rakazo 설정",
-  "Quit Rakazo": "Rakazo 종료",
-  "Welcome to Rakazo": "Rakazo에 오신 것을 환영합니다",
+  "You can close this tab and return to Ai7.": "이 탭을 닫고 Rakazo로 돌아가세요.",
+  "Set up Ai7": "Ai7 설정",
+  "Quit Ai7": "Ai7 종료",
+  "Welcome to Ai7": "Rakazo에 오신 것을 환영합니다",
   "Choose which server this app should use.": "이 앱에서 사용할 서버를 선택하세요.",
   Instance: "인스턴스",
   "This computer": "이 컴퓨터",
@@ -91,14 +91,14 @@ export const KO_MESSAGES: Record<string, string> = {
   "Check again": "다시 확인",
   Retry: "다시 시도",
   "Getting ready…": "준비 중…",
-  "Downloading Rakazo…": "Rakazo 다운로드 중…",
-  "Starting Rakazo…": "Rakazo 시작 중…",
+  "Downloading Ai7…": "Ai7 다운로드 중…",
+  "Starting Ai7…": "Ai7 시작 중…",
   "Almost ready…": "거의 완료…",
-  "Rakazo is ready.": "Rakazo가 준비되었습니다.",
+  "Ai7 is ready.": "Rakazo가 준비되었습니다.",
   "{size} downloaded": "{size} 다운로드됨",
   "Connecting…": "연결 중…",
   "Checking…": "확인 중…",
-  "Rakazo answered at {url}.": "Rakazo가 {url}에서 응답했습니다.",
+  "Ai7 answered at {url}.": "Rakazo가 {url}에서 응답했습니다.",
   "Enter a server address first.": "먼저 서버 주소를 입력하세요.",
   "Could not save that address.": "해당 주소를 저장할 수 없습니다.",
   "Could not save that address. Try again.": "해당 주소를 저장할 수 없습니다. 다시 시도하세요.",
@@ -107,17 +107,17 @@ export const KO_MESSAGES: Record<string, string> = {
   "Could not start the local stack. Try again.": "로컬 스택을 시작할 수 없습니다. 다시 시도하세요.",
   "Could not run the connection check. Try again.": "연결을 확인할 수 없습니다. 다시 시도하세요.",
   "Setup bridge unavailable.": "설정 브리지를 사용할 수 없습니다.",
-  "Setup could not start. Quit Rakazo and try again.":
+  "Setup could not start. Quit Ai7 and try again.":
     "설정을 시작할 수 없습니다. Rakazo를 종료하고 다시 시도하세요.",
   "Enter a server address.": "서버 주소를 입력하세요.",
   "Enter a valid http:// or https:// address.": "올바른 http:// 또는 https:// 주소를 입력하세요.",
   "Enter a valid server address. Public servers require HTTPS; a new local instance must use localhost.":
     "올바른 서버 주소를 입력하세요. 공개 서버는 HTTPS가 필요하며, 새 로컬 인스턴스는 localhost를 사용해야 합니다.",
   "Invalid custom headers": "사용자 지정 헤더가 올바르지 않습니다",
-  "That address redirects elsewhere. Enter the final Rakazo server address.":
-    "해당 주소는 다른 곳으로 리디렉션됩니다. 최종 Rakazo 서버 주소를 입력하세요.",
-  "That address did not respond like a Rakazo server.":
-    "해당 주소가 Rakazo 서버처럼 응답하지 않았습니다.",
+  "That address redirects elsewhere. Enter the final Ai7 server address.":
+    "해당 주소는 다른 곳으로 리디렉션됩니다. 최종 Ai7 서버 주소를 입력하세요.",
+  "That address did not respond like a Ai7 server.":
+    "해당 주소가 Ai7 서버처럼 응답하지 않았습니다.",
   "The server answered with HTTP {status}.": "서버가 HTTP {status}(으)로 응답했습니다.",
   "Timed out reaching that address.": "해당 주소에 연결하는 중 시간이 초과되었습니다.",
   "Nothing is listening at that address yet.": "해당 주소에서 아직 수신 대기 중인 것이 없습니다.",
@@ -142,8 +142,8 @@ export const KO_MESSAGES: Record<string, string> = {
     "설정을 저장할 수 없습니다. 이전 인스턴스를 복원했습니다.",
   "Connected, but could not save setup for the next launch. Try Continue again.":
     "연결되었지만 다음 실행을 위해 설정을 저장할 수 없습니다. 계속을 다시 클릭하세요.",
-  "The app-managed Rakazo services are not ready. Retry setup.":
-    "앱에서 관리하는 Rakazo 서비스가 준비되지 않았습니다. 설정을 다시 시도하세요.",
+  "The app-managed Ai7 services are not ready. Retry setup.":
+    "앱에서 관리하는 Ai7 서비스가 준비되지 않았습니다. 설정을 다시 시도하세요.",
   "Docker is not installed on this computer.": "이 컴퓨터에 Docker가 설치되어 있지 않습니다.",
   "Docker is installed, but Docker Compose is missing. Install Docker Desktop or the docker-compose-plugin.":
     "Docker는 설치되어 있지만 Docker Compose가 없습니다. Docker Desktop 또는 docker-compose-plugin을 설치하세요.",
@@ -167,10 +167,10 @@ export const KO_MESSAGES: Record<string, string> = {
     "Docker가 응답하지 않습니다. Docker를 시작한 후 다시 시도하세요.",
   "Docker Compose is missing. Install Docker Desktop or the docker-compose-plugin, then retry.":
     "Docker Compose가 없습니다. Docker Desktop 또는 docker-compose-plugin을 설치한 후 다시 시도하세요.",
-  "Downloading Rakazo images failed. Check the output below, then retry.":
-    "Rakazo 이미지를 다운로드하지 못했습니다. 아래 출력을 확인한 후 다시 시도하세요.",
-  "Rakazo services did not start. Check the output below, then retry.":
-    "Rakazo 서비스가 시작되지 않았습니다. 아래 출력을 확인한 후 다시 시도하세요.",
+  "Downloading Ai7 images failed. Check the output below, then retry.":
+    "Ai7 이미지를 다운로드하지 못했습니다. 아래 출력을 확인한 후 다시 시도하세요.",
+  "Ai7 services did not start. Check the output below, then retry.":
+    "Ai7 서비스가 시작되지 않았습니다. 아래 출력을 확인한 후 다시 시도하세요.",
   "The stack started but the web app did not answer. Retry, and check the output below.":
     "스택은 시작되었지만 웹 앱이 응답하지 않았습니다. 다시 시도하고 아래 출력을 확인하세요.",
   "Could not prepare the local stack. Retry.": "로컬 스택을 준비할 수 없습니다. 다시 시도하세요.",

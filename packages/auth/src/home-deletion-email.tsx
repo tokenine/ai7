@@ -34,7 +34,7 @@ export function homeDeletionEmail(
       </Text>
       <Text>
         <Link href={appUrl} style={linkStyle}>
-          {say("Open Rakazo")}
+          {say("Open Ai7")}
         </Link>
       </Text>
     </>,

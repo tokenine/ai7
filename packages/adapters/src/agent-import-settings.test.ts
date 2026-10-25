@@ -213,7 +213,7 @@ describe("OpenClaw settings", () => {
     });
   });
 
-  it("maps MCP servers and skips what Rakazo cannot express", () => {
+  it("maps MCP servers and skips what Ai7 cannot express", () => {
     const settings = openclaw(false);
     expect(settings.mcpServers.map((server) => [server.title, server.config])).toEqual([
       [

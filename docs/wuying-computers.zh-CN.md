@@ -3,7 +3,7 @@
 [English](./wuying-computers.md) | [简体中文](./wuying-computers.zh-CN.md)
 
 Bot 可以把一台现有的[无影云电脑](https://www.aliyun.com/product/ecs/gws)（Windows）当作自己的电脑：
-在上面执行 PowerShell 命令、读写文件、看屏幕、操作鼠标和键盘；你也可以在 Rakazo 里观看或接管屏幕。
+在上面执行 PowerShell 命令、读写文件、看屏幕、操作鼠标和键盘；你也可以在 Ai7 里观看或接管屏幕。
 
 ## 整体结构
 
@@ -11,10 +11,10 @@ Bot 可以把一台现有的[无影云电脑](https://www.aliyun.com/product/ecs
 | --- | --- |
 | ECD API（AccessKey） | 查询云电脑状态、开机、签发一次性的屏幕登录码 |
 | 云电脑的 MCP 网关 | 执行命令、读写文件、截屏、发送鼠标和键盘输入 |
-| 无影 Web SDK | 在电脑面板里显示实时画面，由 Rakazo 在 `/computer-screen/screen.html` 提供 |
+| 无影 Web SDK | 在电脑面板里显示实时画面，由 Ai7 在 `/computer-screen/screen.html` 提供 |
 
 每台 bot 电脑的 home 是云电脑上的一个文件夹：`%USERPROFILE%\rakazo\<home>`。文件保存在云电脑自己的磁盘上。
-所有 bot 电脑共用这台云电脑，所以只有最后一台使用它的电脑停止时，Rakazo 才会关机；有电脑需要时再开机。删除 bot 电脑只会删掉它的 home 文件夹，不会删除云电脑本身。
+所有 bot 电脑共用这台云电脑，所以只有最后一台使用它的电脑停止时，Ai7 才会关机；有电脑需要时再开机。删除 bot 电脑只会删掉它的 home 文件夹，不会删除云电脑本身。
 
 ## 准备工作
 
@@ -85,10 +85,10 @@ SDK 的本地模式在屏幕页内加载 `/computer-screen/sdk/ASP/container.htm
 
 - **Private Computer 也共用这台云电脑。** 无影没有按电脑分配的机器，所以无影上的 Private Computer 和用这个提供方的其他电脑共用同一台云电脑和同一个 Windows 账号。
 - **一台云电脑一个 Windows 账号。** 用同一台云电脑的所有账号（包括所有用部署默认的账号）共用它的文件、屏幕、
-  键鼠输入和命令环境，包括保存的命令凭据。只用来观看的屏幕登录码，在 Rakazo 之外也能操作云电脑。
+  键鼠输入和命令环境，包括保存的命令凭据。只用来观看的屏幕登录码，在 Ai7 之外也能操作云电脑。
   给每个人配自己的云电脑，或者只和彼此信任的人共用一台。
 - **同一时间只能有一个人看屏幕。** 无影每个终端用户只允许一个会话。在第二个浏览器或无影客户端里打开同一台云电脑，
-  会把另一边挤下线。屏幕断开后 Rakazo 最多每 30 秒自动重连一次；超过次数或标签页在后台时，会等你点**重新连接屏幕**。
+  会把另一边挤下线。屏幕断开后 Ai7 最多每 30 秒自动重连一次；超过次数或标签页在后台时，会等你点**重新连接屏幕**。
 - **网关的调用上限。** 每次调用最长 1 分钟、命令输出最多 16 KB、列目录最多 1000 项。允许超过 50 秒的命令会转到后台运行，
   输出写进 `%USERPROFILE%\rakazo\.runs`，每秒读一次，照样能实时看到输出。
 - **按键。** 单个按键直接走网关；Ctrl+A 这类组合键通过一个没有窗口的脚本调用 Windows SendKeys 发送，每次大约 1 秒。
@@ -102,7 +102,7 @@ SDK 的本地模式在屏幕页内加载 `/computer-screen/sdk/ASP/container.htm
 | 电脑面板一直是空白 | 运行 `node scripts/wuying-web-sdk.mjs`，页面需要 `WuyingWebSDK.js` 和 `sdk/ASP/container.html` |
 | 画面连上后很快断开 | 有另一个查看端占用了会话，关掉另一个面板或无影客户端 |
 | 保存时提示 `Could not reach the Wuying desktop` | 检查 AccessKey 权限、地域和云电脑 ID；云电脑运行时，MCP 网关必须能响应 |
-| 中文输出是乱码 | 命令没有经过 PowerShell。Rakazo 会把 PowerShell 的输出切换成 UTF-8，其他 shell 仍使用系统代码页 |
+| 中文输出是乱码 | 命令没有经过 PowerShell。Ai7 会把 PowerShell 的输出切换成 UTF-8，其他 shell 仍使用系统代码页 |
 | 设置里没有切换沙箱的选项 | 在 API 上设置 `COMPUTER_SETTINGS_ENABLED=true`；部署表单还需要管理员账号，检查 `RAKAZO_ADMIN_EMAILS`，并确认邮箱已验证 |
 | 连接 OpenAI 或 Anthropic 时返回 `unsupported_country_region_territory` | 这是模型提供方的地区限制，与无影无关：rakazo 后端所在网络的出口地区不受支持 |
 

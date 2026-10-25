@@ -311,7 +311,7 @@ settings. Uploaded backups stay in the bucket.
 
 ## Moving an account between installs
 
-To move from Rakazo Cloud to your own install (or back), use **Settings → Export data** on the
+To move from Ai7 Cloud to your own install (or back), use **Settings → Export data** on the
 old install and **Import data** on the new one. The export is a zip of every space you belong
 to: bots, chats, files, memory, routines, skills, bot workspace files and, in spaces you own,
 the board. Content is decrypted inside the zip, so keep it private. Importing creates new

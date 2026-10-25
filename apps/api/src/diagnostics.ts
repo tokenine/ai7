@@ -75,7 +75,7 @@ export type DiagnosticsInput = {
 export function renderDiagnostics(input: DiagnosticsInput): string {
   const { env } = input;
   const lines = [
-    "## Rakazo diagnostics",
+    "## Ai7 diagnostics",
     "",
     `- Revision: ${token(env.gitSha, /^[0-9a-f]{7,40}$/) ?? "unknown"}`,
     `- Node: ${token(input.nodeVersion, /^v\d+\.\d+\.\d+$/) ?? "unknown"}`,

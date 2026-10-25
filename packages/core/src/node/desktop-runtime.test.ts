@@ -365,7 +365,6 @@ describe("shared Linux desktop lifecycle", () => {
     expect(lines[execAt]).toContain("--restore-last-session");
   });
 
-<<<<<<< HEAD
   it.skipIf(process.platform !== "linux").each([
     ["readable", false],
     ["readable", true],

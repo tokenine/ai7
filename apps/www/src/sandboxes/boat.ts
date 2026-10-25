@@ -30,13 +30,13 @@ export const boat: Sandbox = {
   runsOn: "Hosted Ubuntu VM in the EU",
   keeps: "Its disk and each bot's Chrome profile",
   bestFor: "Many bots with separate logins",
-  title: "Boat AI agent sandbox: pricing, limits and how Rakazo runs bots on Boat VMs",
+  title: "Boat AI agent sandbox: pricing, limits and how Ai7 runs bots on Boat VMs",
   description:
-    `Boat rents persistent Ubuntu VMs for AI agents from $${BOAT.minimum} a month. Its pricing, sizes and limits, what a bot's computer really costs compared with E2B and Daytona, and how Rakazo runs every bot on Boat.`,
+    `Boat rents persistent Ubuntu VMs for AI agents from $${BOAT.minimum} a month. Its pricing, sizes and limits, what a bot's computer really costs compared with E2B and Daytona, and how Ai7 runs every bot on Boat.`,
   h1: "Boat for AI agents: a cloud computer for every bot",
   intro: [
     "[Boat](https://boat.dev) rents out persistent Ubuntu virtual machines built for AI agents. Each one is a full Linux computer in the cloud that keeps its disk when it stops, so an agent can come back to the same files and installed tools later.",
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and each one gets its own computer with a desktop, browser, terminal and files that you can watch and take over. Rakazo Cloud runs those computers on Boat, and if you host Rakazo yourself you can point it at your own Boat account. Boat supplies the machine. Rakazo puts the desktop on it, gives each bot its own screen and browser, and decides when to start and stop it.",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and each one gets its own computer with a desktop, browser, terminal and files that you can watch and take over. Ai7 Cloud runs those computers on Boat, and if you host Ai7 yourself you can point it at your own Boat account. Boat supplies the machine. Ai7 puts the desktop on it, gives each bot its own screen and browser, and decides when to start and stop it.",
   ],
   scene: {
     bot: "Sales Outbound",
@@ -84,15 +84,15 @@ export const boat: Sandbox = {
       },
       bullets: [
         `The $${BOAT.minimum} minimum buys about ${minimumHours} hours of the default size.`,
-        "Saved snapshots cost $0.056 a day each. Rakazo keeps one base snapshot with the desktop tools installed, about $1.70 a month.",
+        "Saved snapshots cost $0.056 a day each. Ai7 keeps one base snapshot with the desktop tools installed, about $1.70 a month.",
         "Starting machines faster than your plan's limit costs $0.03 to $0.07 a start.",
         "Plans allow 100 to 2,000 machines running at once.",
       ],
     },
     {
-      heading: "What a Rakazo computer costs on Boat",
+      heading: "What a Ai7 computer costs on Boat",
       paragraphs: [
-        `${METHOD_NOTE} Rakazo can't run Boat at that size: its smallest Boat machine is the default ${shape(BOAT_RAKAZO)}, so the table compares that size on providers that bill per second. Because Boat is cheap per hour and has a monthly minimum, most people and small teams pay exactly $${BOAT.minimum}: the minimum covers all the computers on one Boat account.`,
+        `${METHOD_NOTE} Ai7 can't run Boat at that size: its smallest Boat machine is the default ${shape(BOAT_RAKAZO)}, so the table compares that size on providers that bill per second. Because Boat is cheap per hour and has a monthly minimum, most people and small teams pay exactly $${BOAT.minimum}: the minimum covers all the computers on one Boat account.`,
       ],
       table: {
         caption: `One ${shape(BOAT_RAKAZO)} computer a month`,
@@ -125,16 +125,16 @@ export const boat: Sandbox = {
             cells: [`${euro(SERVERS.hetznerCx33)} for a 4 vCPU / 8 GB Hetzner CX33`, euro(SERVERS.hetznerCx33)],
           },
         ],
-        note: "Computed from each provider's rates, checked November 2026, before free credits. Daytona caps one sandbox at 4 vCPU / 8 GiB. The Docker server also has to run Rakazo itself. Your model provider bills separately.",
+        note: "Computed from each provider's rates, checked November 2026, before free credits. Daytona caps one sandbox at 4 vCPU / 8 GiB. The Docker server also has to run Ai7 itself. Your model provider bills separately.",
       },
     },
     {
-      heading: "Which Boat size Rakazo uses",
+      heading: "Which Boat size Ai7 uses",
       paragraphs: [
-        "Rakazo picks a computer's size from its organization's Rakazo Cloud plan. A self-hosted install has no size setting, so its computers always use Boat's default machine. When the plan changes, a running computer keeps its size and moves to the new one the next time Rakazo starts it after a stop; if Boat refuses that size, it starts at the size it had.",
+        "Ai7 picks a computer's size from its organization's Ai7 Cloud plan. A self-hosted install has no size setting, so its computers always use Boat's default machine. When the plan changes, a running computer keeps its size and moves to the new one the next time Ai7 starts it after a stop; if Boat refuses that size, it starts at the size it had.",
       ],
       table: {
-        caption: "Boat machines by Rakazo computer size",
+        caption: "Boat machines by Ai7 computer size",
         columns: ["Used for", "Boat machine", `${WORKDAY_HOURS} hours a month`, "Around the clock"],
         rows: BOAT_SIZES.map((size) => ({
           topic: size.plan,
@@ -144,50 +144,50 @@ export const boat: Sandbox = {
             usd(boatMonthly(size.hour, MONTH_HOURS)),
           ],
         })),
-        note: "What Boat charges for one machine, from its rates checked November 2026, with the monthly minimum applied. Boat offers xlarge only on plans of $100 or more. On Rakazo Cloud you pay Rakazo, not Boat; the [pricing page](/pricing/) lists the computer hours each plan includes.",
+        note: "What Boat charges for one machine, from its rates checked November 2026, with the monthly minimum applied. Boat offers xlarge only on plans of $100 or more. On Ai7 Cloud you pay Ai7, not Boat; the [pricing page](/pricing/) lists the computer hours each plan includes.",
       },
     },
     {
       heading: "What your bots can do on a Boat computer",
       paragraphs: [
-        "When Rakazo runs on Boat, each bot works on a real Linux desktop. You see what it sees in the chat, and you can take the mouse and keyboard whenever you want.",
+        "When Ai7 runs on Boat, each bot works on a real Linux desktop. You see what it sees in the chat, and you can take the mouse and keyboard whenever you want.",
       ],
       bullets: [
         "Use a Chrome browser that is only theirs. Each bot keeps its own persistent Chrome profile, so a sales bot's HubSpot login is never visible to the inbox bot.",
-        "Read web pages as text as well as by screenshot. On Boat, Rakazo installs a page-reading helper so bots can follow links and fill forms without guessing from pixels.",
+        "Read web pages as text as well as by screenshot. On Boat, Ai7 installs a page-reading helper so bots can follow links and fill forms without guessing from pixels.",
         "Run shell commands, read and write files, and open a terminal you can type in yourself.",
         "Share one computer. By default, one person's bots in a space share that person's team computer, each on its own screen. A bot can have a computer of its own instead.",
-        "Pick up where they left off. Stopping a computer keeps its disk, and Rakazo also saves each bot's workspace and browser profile on its own side.",
+        "Pick up where they left off. Stopping a computer keeps its disk, and Ai7 also saves each bot's workspace and browser profile on its own side.",
       ],
     },
     {
       heading: "When to choose Boat",
       paragraphs: [
-        "Choose Boat when you want hosted computers that behave like long-lived machines, and your bots sign in to many different sites. It is what Rakazo Cloud uses, so it is the most exercised path for that kind of work.",
-        "[E2B](/sandboxes/e2b/) is the other well-tested hosted option. It pauses idle computers, and Rakazo's live computer test runs on it. [Novita](/sandboxes/novita/) pauses with memory, so open programs survive a stop. [Daytona](/sandboxes/daytona/) suits teams that already have an account there. If you don't want a cloud account at all, [Docker](/sandboxes/docker/) runs computers on your own server. The [sandbox comparison](/sandboxes/) puts them all side by side.",
+        "Choose Boat when you want hosted computers that behave like long-lived machines, and your bots sign in to many different sites. It is what Ai7 Cloud uses, so it is the most exercised path for that kind of work.",
+        "[E2B](/sandboxes/e2b/) is the other well-tested hosted option. It pauses idle computers, and Ai7's live computer test runs on it. [Novita](/sandboxes/novita/) pauses with memory, so open programs survive a stop. [Daytona](/sandboxes/daytona/) suits teams that already have an account there. If you don't want a cloud account at all, [Docker](/sandboxes/docker/) runs computers on your own server. The [sandbox comparison](/sandboxes/) puts them all side by side.",
       ],
     },
     {
       heading: "Limits",
       bullets: [
-        "Boat's regions are in the EU, and Rakazo doesn't offer a region choice, a machine size or a custom image for Boat on a self-hosted install.",
+        "Boat's regions are in the EU, and Ai7 doesn't offer a region choice, a machine size or a custom image for Boat on a self-hosted install.",
         "Boat is a young company. Its code isn't open source, and you can't run it on your own machines.",
         "Stopping keeps the disk but not running programs. A long job that was running when the computer stopped has to start again.",
-        "Until Rakazo's base snapshot is ready, new computers install the desktop tools themselves, so the first ones start more slowly.",
-        "Rakazo creates every Boat machine without your account's environment variables, so nothing from your Boat account leaks into a bot's computer. Anything a bot needs has to come through Rakazo.",
+        "Until Ai7's base snapshot is ready, new computers install the desktop tools themselves, so the first ones start more slowly.",
+        "Ai7 creates every Boat machine without your account's environment variables, so nothing from your Boat account leaks into a bot's computer. Anything a bot needs has to come through Ai7.",
         "Like other hosted providers that bill while running, a computer is stopped after two hours of continuous uptime by default unless a bot is still working on it or you are in control.",
       ],
     },
     {
       heading: "How to set it up",
       paragraphs: [
-        "On Rakazo Cloud there is nothing to set up: bot computers already run on Boat. These steps are for the admin of a [self-hosted Rakazo](/self-hosted-ai-agent/).",
+        "On Ai7 Cloud there is nothing to set up: bot computers already run on Boat. These steps are for the admin of a [self-hosted Ai7](/self-hosted-ai-agent/).",
       ],
       steps: [
         "Create a Boat account at [boat.dev](https://boat.dev) and make an API key.",
-        "Either set `SANDBOX_PROVIDER=boat` and `BOAT_API_KEY` on the Rakazo API and worker, or sign in as an admin and choose Boat under Settings → Computer, then paste the key. `BOAT_API_URL` is optional.",
-        "Optionally run `pnpm sandbox:boat-snapshot` with the same key to build the base snapshot ahead of time. If you skip it, Rakazo builds it once in the background.",
-        "Open a bot's computer in Rakazo to check that the desktop comes up.",
+        "Either set `SANDBOX_PROVIDER=boat` and `BOAT_API_KEY` on the Ai7 API and worker, or sign in as an admin and choose Boat under Settings → Computer, then paste the key. `BOAT_API_URL` is optional.",
+        "Optionally run `pnpm sandbox:boat-snapshot` with the same key to build the base snapshot ahead of time. If you skip it, Ai7 builds it once in the background.",
+        "Open a bot's computer in Ai7 to check that the desktop comes up.",
       ],
     },
   ],
@@ -199,10 +199,10 @@ export const boat: Sandbox = {
   faq: [
     {
       question: "Boat vs E2B for AI agents?",
-      answer: `Both give Rakazo bots a Linux desktop, terminal and files. Boat machines are long-lived VMs that keep their disk when stopped, cost a flat $${BOAT.minimum} minimum for most small teams, and Rakazo Cloud runs on them. [E2B](/sandboxes/e2b/) bills every second at a higher rate, pauses idle sandboxes with their memory, runs in the US, and is open source. Rakazo keeps its own copy of each bot's workspace on both.`,
+      answer: `Both give Ai7 bots a Linux desktop, terminal and files. Boat machines are long-lived VMs that keep their disk when stopped, cost a flat $${BOAT.minimum} minimum for most small teams, and Ai7 Cloud runs on them. [E2B](/sandboxes/e2b/) bills every second at a higher rate, pauses idle sandboxes with their memory, runs in the US, and is open source. Ai7 keeps its own copy of each bot's workspace on both.`,
     },
     {
-      question: "Do I need Boat to self-host Rakazo?",
+      question: "Do I need Boat to self-host Ai7?",
       answer:
         "No. [Docker](/sandboxes/docker/) is the default and needs no cloud account. Boat is one optional place to run bot computers.",
     },

@@ -1226,7 +1226,7 @@ describe("composio tool mapping", () => {
     ).toEqual({ connectIds: ["row-gh"], revokeIds: [] });
   });
 
-  it("only fetches live Composio slugs when a Rakazo row is still pending or errored", () => {
+  it("only fetches live Composio slugs when an Ai7 row is still pending or errored", () => {
     expect(needsLivePluginSync([{ status: "connected" }, { status: "revoked" }])).toBe(false);
     expect(needsLivePluginSync([{ status: "pending" }])).toBe(true);
     expect(needsLivePluginSync([{ status: "error" }])).toBe(true);
@@ -1241,7 +1241,7 @@ describe("composio tool mapping", () => {
     ).toEqual([{ provider: "github", displayName: "GitHub" }]);
   });
 
-  it("plans DB sync when Composio is connected but Rakazo is still pending", () => {
+  it("plans DB sync when Composio is connected but Ai7 is still pending", () => {
     expect(
       planLiveConnectionSync(
         [

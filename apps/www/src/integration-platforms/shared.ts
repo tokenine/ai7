@@ -25,7 +25,7 @@ export function homepage(slug: string, provider: string, alt: string): ArticleIm
 }
 
 export const INTEGRATIONS_DOC: SourceLink = {
-  label: "Rakazo, tools and integrations",
+  label: "Ai7, tools and integrations",
   href: `${GITHUB_URL}/blob/main/docs/self-host-integrations.md`,
 };
 

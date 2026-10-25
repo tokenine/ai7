@@ -104,7 +104,7 @@ const TELEGRAM_NAMED_TOKEN = /^TELEGRAM_BOT_TOKEN_([A-Z0-9]+)$/;
 /**
  * Extra Telegram bots from TELEGRAM_BOT_TOKEN_<NAME> plus
  * TELEGRAM_WEBHOOK_SECRET_TOKEN_<NAME>. Each is its own Telegram bot (own
- * token, own getUpdates slot), so one person can link a different Rakazo bot
+ * token, own getUpdates slot), so one person can link a different Ai7 bot
  * — typically one per space — to each. <NAME> is letters and digits only and
  * becomes the provider id `telegram-<name>` (lowercased), which also names
  * its webhook route. A name with no secret is skipped, like the default bot.
@@ -139,7 +139,7 @@ const PHOTON_NAMED_PROJECT = /^PHOTON_PROJECT_ID_([A-Z0-9]+)$/;
  * Extra Photon projects from PHOTON_PROJECT_ID_<NAME> plus
  * PHOTON_PROJECT_SECRET_<NAME> (and optionally PHOTON_WEBHOOK_SECRET_<NAME>).
  * Photon gives each person a different number in each project, so one person
- * can link a different Rakazo bot to each, as with named Telegram bots.
+ * can link a different Ai7 bot to each, as with named Telegram bots.
  * <NAME> is letters and digits only and becomes the provider id
  * `photon-<name>` (lowercased), which also names its webhook route.
  */

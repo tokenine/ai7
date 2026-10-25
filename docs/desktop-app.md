@@ -1,6 +1,6 @@
 # Desktop app
 
-The desktop app for Mac, Windows and Linux runs the same Rakazo as the web, and can also run
+The desktop app for Mac, Windows and Linux runs the same Ai7 as the web, and can also run
 everything on your own computer.
 
 ## Install
@@ -11,14 +11,14 @@ Download it from [rakazo.com](https://rakazo.com). The Linux AppImage needs FUSE
 
 The first time it opens, the app asks which server to use:
 
-- **Rakazo Cloud**: sign in to your rakazo.com account.
-- **This computer**: run your own Rakazo locally in Docker. If Docker isn't installed, the app links
+- **Ai7 Cloud**: sign in to your rakazo.com account.
+- **This computer**: run your own Ai7 locally in Docker. If Docker isn't installed, the app links
   to Docker Desktop, OrbStack and Docker Engine. Everything, including your bots' computers, then
   runs on your machine. It is yours alone: once you create your account, it accepts no other.
-- **Existing instance**: connect to a Rakazo server you or your team already run. Enter its
+- **Existing instance**: connect to a Ai7 server you or your team already run. Enter its
   **Server address** and choose **Check connection**.
 
-To switch later, use **Change Rakazo Server…** in the app menu (Cmd+Shift+K, or Ctrl+Shift+K on
+To switch later, use **Change Ai7 Server…** in the app menu (Cmd+Shift+K, or Ctrl+Shift+K on
 Windows and Linux).
 
 > [!NOTE]

@@ -1,4 +1,8 @@
+/** UI preset only; saved connections use the OpenAI-compatible provider. */
 import type { CompatibleEndpointPreset, ModelCatalogEntry } from "./model-connections.js";
+import { BRAND_NAME } from "./brand.js";
+
+export const OLLAMA_CLOUD_BASE_URL = "https://ollama.com/v1";
 
 /** Every hosted service the catalog offers for compatible connections. */
 export function compatibleEndpointPresets(
@@ -25,8 +29,7 @@ export function matchCompatibleEndpointPreset(
   return presets.find((preset) => preset.baseUrl === normalized);
 }
 
-export const OPENAI_COMPATIBLE_BASE_URL_HINT =
-  "Paste the OpenAI-compatible address from your server. Rakazo adds /v1 if needed.";
+export const OPENAI_COMPATIBLE_BASE_URL_HINT = `Paste the OpenAI-compatible address from your server. ${BRAND_NAME} adds /v1 if needed.`;
 
 /** Connect when base URL and model id are set, and a key when the endpoint needs one. */
 export function openAiCompatibleConnectReady(input: {

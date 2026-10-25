@@ -38,11 +38,11 @@ export const fishAudio: VoiceProvider = {
   bestFor: "Expressive voices and your own cloned voice",
   title: "Fish Audio pricing, API and alternatives for AI agents (2026)",
   description:
-    "Fish Audio pricing explained: app plans, API rates per million bytes, transcription per hour, open weights and licensing, and how it compares with ElevenLabs. How to use the Fish Audio API with AI agents in Rakazo.",
+    "Fish Audio pricing explained: app plans, API rates per million bytes, transcription per hour, open weights and licensing, and how it compares with ElevenLabs. How to use the Fish Audio API with AI agents in Ai7.",
   h1: "Fish Audio for AI agents: pricing, API and setup",
   intro: [
     "[Fish Audio](https://fish.audio) is a hosted voice platform for text to speech, voice cloning and speech to text. It has a large library of voices that its users have published, and you can clone a voice of your own from a short recording. Everything it does in the app is also available through its API.",
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and you can also talk to it by voice: hold the mic to speak, have replies read aloud, or call a bot in real time. With a Fish Audio key, your bots speak in a Fish Audio voice and Fish Audio turns what you say into text.",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and you can also talk to it by voice: hold the mic to speak, have replies read aloud, or call a bot in real time. With a Fish Audio key, your bots speak in a Fish Audio voice and Fish Audio turns what you say into text.",
     "This page covers Fish Audio's plans and API prices as of November 2026, what a bot that talks every day costs, its open models and licensing, and how it compares with ElevenLabs and others.",
   ],
   scene: {
@@ -105,13 +105,13 @@ export const fishAudio: VoiceProvider = {
       heading: "Fish Audio API pricing",
       paragraphs: [
         `The API is pay as you go with no subscription. Speech is priced per million bytes of UTF-8 text, so English costs the same per character, while Chinese, Japanese and Korean text, at three bytes a character, costs about three times as much per character. At ${usd(RATES.fish)} per million bytes and about ${count(CHARS_PER_HOUR)} characters an hour of English speech, an hour costs about ${S2_HOUR}.`,
-        "Fish Audio sometimes offers a model free for a limited time; check its pricing page. Because Rakazo lets you enter a Fish Audio **Speech model**, you can use such a model by entering its name there.",
+        "Fish Audio sometimes offers a model free for a limited time; check its pricing page. Because Ai7 lets you enter a Fish Audio **Speech model**, you can use such a model by entering its name there.",
       ],
       table: {
         caption: "Fish Audio API prices, as of November 2026",
         columns: ["Model", "Price", "About per hour"],
         rows: [
-          { topic: "`s2.1-pro` (Rakazo's default)", cells: [`${usd(RATES.fish)} per 1M bytes`, S2_HOUR] },
+          { topic: "`s2.1-pro` (Ai7's default)", cells: [`${usd(RATES.fish)} per 1M bytes`, S2_HOUR] },
           { topic: "`s2-pro`", cells: [`${usd(RATES.fish)} per 1M bytes`, S2_HOUR] },
           {
             topic: "`drama-3`",
@@ -120,7 +120,7 @@ export const fishAudio: VoiceProvider = {
               perHourOfSpeech(RATES.fishDrama3),
             ],
           },
-          { topic: "`transcribe-1-pro` (Rakazo's default)", cells: [
+          { topic: "`transcribe-1-pro` (Ai7's default)", cells: [
               `${usd(RATES.fishTranscribeHour)} per audio hour`,
               usd(RATES.fishTranscribeHour),
             ],
@@ -130,9 +130,9 @@ export const fishAudio: VoiceProvider = {
       },
     },
     {
-      heading: "What a talking Rakazo bot costs on Fish Audio",
+      heading: "What a talking Ai7 bot costs on Fish Audio",
       paragraphs: [
-        "Rakazo calls Fish Audio with your key, so Fish Audio bills you and Rakazo adds nothing.",
+        "Ai7 calls Fish Audio with your key, so Fish Audio bills you and Ai7 adds nothing.",
         `${WORKLOAD} On Fish Audio that is ${usd(WORKLOAD_COST.fish.speech)} of S2.1 Pro speech and ${usd(WORKLOAD_COST.fish.transcription)} of transcription: ${aboutTotal("fish").toLowerCase()} a month, ${shareOf(WORKLOAD_COST.fish.speech + WORKLOAD_COST.fish.transcription, WORKLOAD_COST.elevenlabs.speech + WORKLOAD_COST.elevenlabs.transcription)} what ElevenLabs costs for the same use.`,
       ],
       table: voiceWorkloadTable("One bot, 30 minutes of speech and 30 of transcription a day", WORKLOAD_SHOWN),
@@ -152,7 +152,7 @@ export const fishAudio: VoiceProvider = {
       ],
     },
     {
-      heading: "What you can do with Fish Audio in Rakazo",
+      heading: "What you can do with Fish Audio in Ai7",
       paragraphs: [
         "Fish Audio both speaks and transcribes, so one key covers every voice feature. The [voice and calls guide](/docs/voice-and-calls/) walks through each one.",
       ],
@@ -169,7 +169,7 @@ export const fishAudio: VoiceProvider = {
       heading: "When to choose Fish Audio",
       paragraphs: [
         "Choose Fish Audio when the voice itself matters and so does the price: a cloned voice, an unusual character, or a language where you want more choice than a fixed set of voices gives you. It speaks and transcribes, so one account does both.",
-        "[ElevenLabs](/voice-providers/elevenlabs/) is the other choice for cloning and polished voices, with more enterprise controls. [OpenAI](/voice-providers/openai/) is simplest if you already have a key, and [Cartesia](/voice-providers/cartesia/) is built for low-latency speech but does not transcribe. To keep voice off hosted services entirely, run a [self-hosted speech server](/voice-providers/self-hosted/), or use the [voices built into a Mac](/voice-providers/macos/) when Rakazo runs on one. The [voice provider comparison](/voice-providers/) puts all six side by side.",
+        "[ElevenLabs](/voice-providers/elevenlabs/) is the other choice for cloning and polished voices, with more enterprise controls. [OpenAI](/voice-providers/openai/) is simplest if you already have a key, and [Cartesia](/voice-providers/cartesia/) is built for low-latency speech but does not transcribe. To keep voice off hosted services entirely, run a [self-hosted speech server](/voice-providers/self-hosted/), or use the [voices built into a Mac](/voice-providers/macos/) when Ai7 runs on one. The [voice provider comparison](/voice-providers/) puts all six side by side.",
       ],
     },
     {
@@ -179,7 +179,7 @@ export const fishAudio: VoiceProvider = {
         "Data is hosted in the US, with processing in the US and Tokyo. Zero data retention is for enterprise contracts, and its SOC 2 audit was still underway as of November 2026.",
         "API requests at once depend on how much you've prepaid in total: 5 under $100, 15 from $100, 50 from $1,000. Over the limit, requests fail until one finishes.",
         "The public voice library includes voices uploaded by other users, and voice actors have reported clones made without consent. Fish Audio handles DMCA takedowns. Only use voices you have the right to use, especially for anything public.",
-        "Rakazo asks Fish Audio for each reply as a finished clip. It doesn't use Fish Audio's realtime streaming API.",
+        "Ai7 asks Fish Audio for each reply as a finished clip. It doesn't use Fish Audio's realtime streaming API.",
         "The voice picker shows your own voices and the top public voices, not the whole library.",
         "When your Fish Audio balance runs out or the key is rejected, speaking and transcribing stop until you fix the account.",
         "On the mobile app, calls can use your phone's own voices if you pick a **Device voice** in the bot's settings. Otherwise replies use this provider.",
@@ -188,14 +188,14 @@ export const fishAudio: VoiceProvider = {
     {
       heading: "How to set it up",
       paragraphs: [
-        "Each person connects their own key in the app, on Rakazo Cloud or a [self-hosted Rakazo](/self-hosted-ai-agent/). A space can use different voice settings from the rest of your account.",
+        "Each person connects their own key in the app, on Ai7 Cloud or a [self-hosted Ai7](/self-hosted-ai-agent/). A space can use different voice settings from the rest of your account.",
       ],
       steps: [
         "Create an API key in your Fish Audio account. To use your own voice, clone it in the Fish Audio app first.",
-        "In Rakazo, open **Settings → Voice**, set **Provider** to **Fish Audio** and paste the key.",
+        "In Ai7, open **Settings → Voice**, set **Provider** to **Fish Audio** and paste the key.",
         "Pick a **Voice**, then choose **Hear a sample** to check it.",
         "Optionally enter a **Speech model** to use a Fish Audio model other than the default `s2.1-pro`.",
-        "If you host Rakazo yourself, set `PHONE_CALLS_ENABLED=true` on the API and worker to turn on hold-to-talk and calls. Server admins can change the defaults with `FISH_TTS_MODEL` and `FISH_ASR_MODEL`.",
+        "If you host Ai7 yourself, set `PHONE_CALLS_ENABLED=true` on the API and worker to turn on hold-to-talk and calls. Server admins can change the defaults with `FISH_TTS_MODEL` and `FISH_ASR_MODEL`.",
       ],
     },
   ],
@@ -223,22 +223,22 @@ export const fishAudio: VoiceProvider = {
     {
       question: "Can I use a cloned Fish Audio voice for my AI agent?",
       answer:
-        "Yes. Clone the voice in your Fish Audio account, then pick it from the **Voice** list in Rakazo's voice settings. Your own voices are listed before public ones.",
+        "Yes. Clone the voice in your Fish Audio account, then pick it from the **Voice** list in Ai7's voice settings. Your own voices are listed before public ones.",
     },
     {
       question: "Does the Fish Audio API do speech to text?",
       answer:
-        `Yes. Rakazo uses it to transcribe what you say when you hold the mic or talk on a call, with \`transcribe-1-pro\` by default, at ${usd(RATES.fishTranscribeHour)} per hour of audio.`,
+        `Yes. Ai7 uses it to transcribe what you say when you hold the mic or talk on a call, with \`transcribe-1-pro\` by default, at ${usd(RATES.fishTranscribeHour)} per hour of audio.`,
     },
     {
-      question: "Which Fish Audio model does Rakazo use?",
+      question: "Which Fish Audio model does Ai7 use?",
       answer:
         "`s2.1-pro` for speech and `transcribe-1-pro` for transcription. You can enter another speech model in **Settings → Voice**, and a self-hosted server can change both defaults.",
     },
     {
       question: "Fish Audio vs ElevenLabs?",
       answer:
-        `Both offer expressive voices, cloning and transcription, and both work fully in Rakazo. Per character, Fish Audio costs ${shareOf(RATES.fish, RATES.elevenlabsFlash)} ElevenLabs Flash v2.5, and per hour its transcription is ${priceVersus(RATES.fishTranscribeHour, RATES.elevenlabsScribeHour)} ElevenLabs Scribe v2. [ElevenLabs](/voice-providers/elevenlabs/) has a more established platform and enterprise options such as EU data residency.`,
+        `Both offer expressive voices, cloning and transcription, and both work fully in Ai7. Per character, Fish Audio costs ${shareOf(RATES.fish, RATES.elevenlabsFlash)} ElevenLabs Flash v2.5, and per hour its transcription is ${priceVersus(RATES.fishTranscribeHour, RATES.elevenlabsScribeHour)} ElevenLabs Scribe v2. [ElevenLabs](/voice-providers/elevenlabs/) has a more established platform and enterprise options such as EU data residency.`,
     },
   ],
   sources: withPricingSources(

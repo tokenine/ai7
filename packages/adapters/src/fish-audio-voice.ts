@@ -60,7 +60,7 @@ export class FishAudioVoiceProvider implements VoiceProvider {
     });
   }
 
-  /** Return user-owned then bounded public Fish Audio voices as Rakazo choices. */
+  /** Return user-owned then bounded public Fish Audio voices as Ai7 choices. */
   async listVoices(
     apiKey: string,
     context: AdapterContext,

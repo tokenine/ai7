@@ -203,7 +203,7 @@ export function createCuaHostScreen(options: CuaHostScreenOptions): HostScreen {
   async function target(query: string, signal: AbortSignal): Promise<Target> {
     const app = matchApp(await listApps(signal), query);
     if (app.running && app.pid === options.selfPid)
-      throw new HostScreenError("Rakazo can't use its own window.");
+      throw new HostScreenError("Ai7 can't use its own window.");
     const pid = app.running ? app.pid : await launch(app, signal);
     if (!pid) throw new HostScreenError(`${app.name} did not open.`);
     // An app started in the background may open no window; launching it again asks it to

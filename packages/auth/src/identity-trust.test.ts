@@ -727,7 +727,7 @@ describe("identity confirmation", () => {
     expect((await f.request("/request-identity-code", {}, token)).status).toBe(200);
     expect(f.messages.at(-1)).toMatchObject({
       to: "approved@example.test",
-      subject: "Your Rakazo confirmation code",
+      subject: "Your Ai7 confirmation code",
     });
     const code = f.lastCode();
     expect(JSON.stringify(f.data.verification)).not.toContain(code);
@@ -749,7 +749,7 @@ describe("identity confirmation", () => {
     const user = f.data.user!.find((row) => row.email === "approved@example.test")!;
     user.locale = "es";
     expect((await f.request("/request-identity-code", {}, token)).status).toBe(200);
-    expect(f.messages.at(-1)).toMatchObject({ subject: "Tu código de confirmación de Rakazo" });
+    expect(f.messages.at(-1)).toMatchObject({ subject: "Tu código de confirmación de Ai7" });
   });
 
   it("binds an emailed code to the session that requested it", async () => {
@@ -796,7 +796,7 @@ describe("verification email without blocking", () => {
     expect(await f.sessionFor(token)).toMatchObject({ user: { emailVerified: false } });
     expect(bootstrapUserSpace).toHaveBeenCalledTimes(1);
     expect(f.messages).toHaveLength(1);
-    expect(f.messages[0]).toMatchObject({ subject: "Verify your Rakazo email" });
+    expect(f.messages[0]).toMatchObject({ subject: "Verify your Ai7 email" });
     expect((await f.signin()).status).toBe(200);
     expect(f.messages).toHaveLength(1);
     await f.verify();
@@ -820,7 +820,7 @@ describe("email code sign-in", () => {
     expect(f.messages).toHaveLength(1);
     expect(f.messages[0]).toMatchObject({
       to: "approved@example.test",
-      subject: "Your Rakazo sign-in code",
+      subject: "Your Ai7 sign-in code",
     });
     const code = f.lastCode();
     expect(JSON.stringify(f.data.verification)).not.toContain(code);
@@ -931,7 +931,7 @@ describe("email code sign-in", () => {
     expect((await f.signin()).status).toBe(200);
   });
 
-  it("closes the OTP routes Rakazo does not use", async () => {
+  it("closes the OTP routes Ai7 does not use", async () => {
     const f = fixture();
     for (const type of ["email-verification", "forget-password", "change-email"]) {
       expect((await f.sendCode("approved@example.test", type)).status, type).toBe(404);

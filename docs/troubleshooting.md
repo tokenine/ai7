@@ -9,7 +9,7 @@ You can give this page, the error code, and the app version to an AI assistant f
 applying the instructions to your setup. Copy this prompt and fill in the placeholders:
 
 ```text
-Help me troubleshoot Rakazo using this guide:
+Help me troubleshoot Ai7 using this guide:
 https://rakazo.com/docs/troubleshooting/
 
 Error code: <code from the relevant section below>
@@ -40,7 +40,7 @@ it happens before the external service's sign-in flow starts.
 
 1. Copy the origin from the browser address: scheme, hostname, and port, without a path.
    For example, `https://app.example.com` or `http://127.0.0.1:5173`.
-2. Check the API's effective `WEB_ORIGIN`. If it is the intended public address, open Rakazo
+2. Check the API's effective `WEB_ORIGIN`. If it is the intended public address, open Ai7
    at that address instead. `localhost` and `127.0.0.1` differ for this check, as do
    HTTP and HTTPS or different ports.
 3. If the configuration is wrong, set `WEB_ORIGIN` to the address people actually use.

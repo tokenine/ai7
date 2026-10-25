@@ -35,11 +35,11 @@ export const e2b: Sandbox = {
   bestFor: "Public or multi-user deployments",
   title: "E2B pricing, limits and alternatives in 2026: E2B vs Daytona, Modal and Vercel",
   description:
-    `E2B sandbox pricing explained: the free tier, the $${E2B_PRO_FEE} Pro plan, per-second rates and what an AI agent's desktop really costs a month. Plus E2B vs Daytona, Modal and Vercel, and how Rakazo runs bots on E2B.`,
+    `E2B sandbox pricing explained: the free tier, the $${E2B_PRO_FEE} Pro plan, per-second rates and what an AI agent's desktop really costs a month. Plus E2B vs Daytona, Modal and Vercel, and how Ai7 runs bots on E2B.`,
   h1: "E2B for AI agents: pricing, limits and alternatives",
   intro: [
     "[E2B](https://e2b.dev) is an open source cloud for running AI agents in isolated sandboxes. Each sandbox is a small Linux virtual machine in E2B's cloud, so agent code and commands never run on your own server.",
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and each one gets its own computer with a desktop, browser, terminal and files that you can watch and take over. E2B can be the place those computers live when you host Rakazo yourself. E2B supplies the sandbox. Rakazo puts each bot's screen on it, saves its work, and pauses it when nobody is using it.",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and each one gets its own computer with a desktop, browser, terminal and files that you can watch and take over. E2B can be the place those computers live when you host Ai7 yourself. E2B supplies the sandbox. Ai7 puts each bot's screen on it, saves its work, and pauses it when nobody is using it.",
     "This page covers what E2B costs as of November 2026, the limits that matter for a bot that works for hours, and how it compares with Daytona, Modal, Vercel Sandbox and the other options.",
   ],
   scene: {
@@ -62,7 +62,7 @@ export const e2b: Sandbox = {
       heading: "What is E2B?",
       paragraphs: [
         "[E2B](https://e2b.dev) runs sandboxes for AI agents as a hosted service. Each sandbox is a Firecracker microVM, a lightweight virtual machine with its own kernel, so what an agent does inside it stays inside it. Firecracker is the same technology AWS Lambda runs on. The SDKs and the sandbox runtime are open source under the Apache-2.0 license.",
-        "Sandboxes start from templates, can be paused with their memory and files and resumed later, and are billed per second only while they run. E2B also publishes a desktop sandbox with a graphical Linux desktop, which is what Rakazo builds on. E2B reports SOC 2 Type II, and runs in the US by default, with Europe and Asia available on request.",
+        "Sandboxes start from templates, can be paused with their memory and files and resumed later, and are billed per second only while they run. E2B also publishes a desktop sandbox with a graphical Linux desktop, which is what Ai7 builds on. E2B reports SOC 2 Type II, and runs in the US by default, with Europe and Asia available on request.",
       ],
       image: true,
     },
@@ -104,9 +104,9 @@ export const e2b: Sandbox = {
       ],
     },
     {
-      heading: "What a Rakazo computer costs on E2B",
+      heading: "What a Ai7 computer costs on E2B",
       paragraphs: [
-        `${METHOD_NOTE} Rakazo's \`rakazo-computer\` template is exactly that size.`,
+        `${METHOD_NOTE} Ai7's \`rakazo-computer\` template is exactly that size.`,
       ],
       table: {
         caption: "One 2 vCPU / 4 GB computer on E2B",
@@ -131,21 +131,21 @@ export const e2b: Sandbox = {
         note: "Computed from E2B's per-second rates, checked November 2026, before the free credit. Your model provider bills separately.",
       },
       bullets: [
-        `If you skip the template build, Rakazo falls back to E2B's stock desktop template, which reserves ${E2B_STOCK_SIZE.vcpus} vCPU and ${E2B_STOCK_SIZE.gb} GB. That is about ${usd(stockHour)} an hour, more than three times as much.`,
-        "On Rakazo Cloud you don't pay E2B at all. Cloud computers run on [Boat](/sandboxes/boat/) and are included in the [plan](/pricing/).",
+        `If you skip the template build, Ai7 falls back to E2B's stock desktop template, which reserves ${E2B_STOCK_SIZE.vcpus} vCPU and ${E2B_STOCK_SIZE.gb} GB. That is about ${usd(stockHour)} an hour, more than three times as much.`,
+        "On Ai7 Cloud you don't pay E2B at all. Cloud computers run on [Boat](/sandboxes/boat/) and are included in the [plan](/pricing/).",
       ],
     },
     {
       heading: "What your bots can do on an E2B computer",
       paragraphs: [
-        "On E2B, each Rakazo bot works on a real Linux desktop. You see its screen in the chat and can take the mouse and keyboard at any time.",
+        "On E2B, each Ai7 bot works on a real Linux desktop. You see its screen in the chat and can take the mouse and keyboard at any time.",
       ],
       bullets: [
         "Browse the web in Chromium, with its own screen and browser profile. Signed-in sessions stay between runs.",
         "Run shell commands, read and write files, and open a terminal you can type in yourself.",
         "Share one computer. By default, one person's bots in a space share that person's team computer, each on its own screen. A bot can have a computer of its own instead.",
         "Come back to the same machine. After 10 minutes without use the computer pauses instead of being deleted, and stops billing for compute. The next time a bot needs it, the same computer resumes with its files. Removing the computer deletes it.",
-        "Survive a lost sandbox. Rakazo keeps its own copy of each bot's workspace, so the E2B disk is a cache. If a sandbox disappears, a new one starts from the saved work.",
+        "Survive a lost sandbox. Ai7 keeps its own copy of each bot's workspace, so the E2B disk is a cache. If a sandbox disappears, a new one starts from the saved work.",
       ],
     },
     {
@@ -155,9 +155,9 @@ export const e2b: Sandbox = {
       ],
       table: HOSTED_SANDBOXES_TABLE,
       bullets: [
-        `**E2B vs Daytona.** Same price per second, but Daytona has no monthly fee and no session cap, while E2B needs the $${E2B_PRO_FEE} Pro plan for sessions over an hour. E2B gives every sandbox its own kernel; Daytona's default sandboxes are containers that share the host's kernel. E2B is open source; [Daytona](/sandboxes/daytona/) closed its source in June 2026. In Rakazo, E2B starts from a ready desktop template; Daytona installs the desktop on first start.`,
-        `**E2B vs Modal.** Modal Sandboxes run on gVisor and cost about ${Math.round((workdayModal / workday - 1) * 100)}% more for this computer, but the free plan's $30 monthly credit covers light use and Modal has GPUs. Rakazo doesn't support Modal.`,
-        "**E2B vs Vercel Sandbox.** Both are Firecracker microVMs. Vercel bills CPU only while it is busy, which is cheap for a bot that mostly waits on a model, and keeps the filesystem when stopped but not running programs. Rakazo doesn't support Vercel Sandbox.",
+        `**E2B vs Daytona.** Same price per second, but Daytona has no monthly fee and no session cap, while E2B needs the $${E2B_PRO_FEE} Pro plan for sessions over an hour. E2B gives every sandbox its own kernel; Daytona's default sandboxes are containers that share the host's kernel. E2B is open source; [Daytona](/sandboxes/daytona/) closed its source in June 2026. In Ai7, E2B starts from a ready desktop template; Daytona installs the desktop on first start.`,
+        `**E2B vs Modal.** Modal Sandboxes run on gVisor and cost about ${Math.round((workdayModal / workday - 1) * 100)}% more for this computer, but the free plan's $30 monthly credit covers light use and Modal has GPUs. Ai7 doesn't support Modal.`,
+        "**E2B vs Vercel Sandbox.** Both are Firecracker microVMs. Vercel bills CPU only while it is busy, which is cheap for a bot that mostly waits on a model, and keeps the filesystem when stopped but not running programs. Ai7 doesn't support Vercel Sandbox.",
         `**Cheaper per hour.** Northflank lists the lowest rate for this size and can run in your own cloud. [Novita](/sandboxes/novita/) works with the E2B SDK at about ${Math.round((1 - workdayNovita / workday) * 100)}% less and pauses with memory too.`,
         "**Not per hour at all.** [Boat](/sandboxes/boat/) has a flat monthly minimum that covers hundreds of hours. [Docker](/sandboxes/docker/) on a server you rent costs the same however much the bots work.",
       ],
@@ -165,36 +165,36 @@ export const e2b: Sandbox = {
     {
       heading: "When to choose E2B",
       paragraphs: [
-        "Choose E2B when you self-host Rakazo for other people, such as a team or a public instance, and you don't want bots running on the same server as Rakazo. Rakazo's own setup docs suggest it for that case, and Rakazo's live computer acceptance test runs on E2B. It is also the safest bet if open source matters to you: if E2B the company disappeared, the code would not.",
-        `Look elsewhere if your bots run long jobs and you don't want the $${E2B_PRO_FEE} Pro fee, or if your team is small and price matters more than the microVM boundary. [Boat](/sandboxes/boat/) is what Rakazo Cloud runs on: long-lived VMs that keep their disk when stopped. [Novita](/sandboxes/novita/) uses a similar sandbox model and keeps open programs in memory when it pauses. [Daytona](/sandboxes/daytona/) suits teams already on it. For no cloud account at all, use [Docker](/sandboxes/docker/) on your own machine, or [Kubernetes](/sandboxes/kubernetes/) on a cluster you run. The [sandbox comparison](/sandboxes/) has them all side by side.`,
+        "Choose E2B when you self-host Ai7 for other people, such as a team or a public instance, and you don't want bots running on the same server as Ai7. Ai7's own setup docs suggest it for that case, and Ai7's live computer acceptance test runs on E2B. It is also the safest bet if open source matters to you: if E2B the company disappeared, the code would not.",
+        `Look elsewhere if your bots run long jobs and you don't want the $${E2B_PRO_FEE} Pro fee, or if your team is small and price matters more than the microVM boundary. [Boat](/sandboxes/boat/) is what Ai7 Cloud runs on: long-lived VMs that keep their disk when stopped. [Novita](/sandboxes/novita/) uses a similar sandbox model and keeps open programs in memory when it pauses. [Daytona](/sandboxes/daytona/) suits teams already on it. For no cloud account at all, use [Docker](/sandboxes/docker/) on your own machine, or [Kubernetes](/sandboxes/kubernetes/) on a cluster you run. The [sandbox comparison](/sandboxes/) has them all side by side.`,
       ],
     },
     {
       heading: "Limits",
       bullets: [
         "On Hobby a session lasts at most one hour and 20 sandboxes can run at once. Pro raises that to 24 hours and 100.",
-        "Rakazo doesn't expose a region choice, a custom image, or E2B's own snapshots, volumes or network rules.",
+        "Ai7 doesn't expose a region choice, a custom image, or E2B's own snapshots, volumes or network rules.",
         `Computers use the \`rakazo-computer\` template at 2 vCPU and 4 GB once you build it. Before that, they use E2B's stock desktop at ${E2B_STOCK_SIZE.vcpus} vCPU and ${E2B_STOCK_SIZE.gb} GB. An existing computer keeps the size it was created with until it is replaced.`,
         "Like other hosted providers that bill while running, a computer is paused after two hours of continuous uptime by default unless a bot is still working on it or you are in control.",
-        "Public status pages recorded short E2B outages in 2026, such as a few minutes of failed sandbox starts in March and August. Rakazo keeps the saved workspace, so a failed start loses no work.",
+        "Public status pages recorded short E2B outages in 2026, such as a few minutes of failed sandbox starts in March and August. Ai7 keeps the saved workspace, so a failed start loses no work.",
       ],
     },
     {
       heading: "Can you self-host E2B?",
       paragraphs: [
-        "Yes, with effort. E2B's runtime is open source and runs on Linux machines with KVM, using Terraform on AWS or Google Cloud, Kubernetes, or a single-node package. E2B also offers a managed deployment inside your own AWS, Google Cloud or Azure account on Enterprise. Rakazo's settings take only an API key for E2B's hosted service; pointing it at a self-hosted E2B isn't a documented setup. If you want everything on your own machines, Rakazo's [Docker](/sandboxes/docker/) and [Kubernetes](/sandboxes/kubernetes/) computers are the simpler path.",
+        "Yes, with effort. E2B's runtime is open source and runs on Linux machines with KVM, using Terraform on AWS or Google Cloud, Kubernetes, or a single-node package. E2B also offers a managed deployment inside your own AWS, Google Cloud or Azure account on Enterprise. Ai7's settings take only an API key for E2B's hosted service; pointing it at a self-hosted E2B isn't a documented setup. If you want everything on your own machines, Ai7's [Docker](/sandboxes/docker/) and [Kubernetes](/sandboxes/kubernetes/) computers are the simpler path.",
       ],
     },
     {
       heading: "How to set it up",
       paragraphs: [
-        "These steps are for the admin of a [self-hosted Rakazo](/self-hosted-ai-agent/). Rakazo Cloud users don't need an E2B account.",
+        "These steps are for the admin of a [self-hosted Ai7](/self-hosted-ai-agent/). Ai7 Cloud users don't need an E2B account.",
       ],
       steps: [
         "Create an account at [e2b.dev](https://e2b.dev) and copy an API key.",
-        "Either set `SANDBOX_PROVIDER=e2b` and `E2B_API_KEY` on the Rakazo API and worker, or sign in as an admin and choose E2B under Settings → Computer, then paste the key.",
-        "Build the smaller template once with `E2B_API_KEY=<your key> pnpm sandbox:e2b-template`, in the E2B team that owns the key. Run it again when Rakazo's template definition changes.",
-        "Open a bot's computer in Rakazo to check that the desktop comes up.",
+        "Either set `SANDBOX_PROVIDER=e2b` and `E2B_API_KEY` on the Ai7 API and worker, or sign in as an admin and choose E2B under Settings → Computer, then paste the key.",
+        "Build the smaller template once with `E2B_API_KEY=<your key> pnpm sandbox:e2b-template`, in the E2B team that owns the key. Run it again when Ai7's template definition changes.",
+        "Open a bot's computer in Ai7 to check that the desktop comes up.",
       ],
     },
   ],
@@ -212,10 +212,10 @@ export const e2b: Sandbox = {
     {
       question: "Is E2B open source?",
       answer:
-        "Yes. E2B's SDKs and runtime are on [GitHub](https://github.com/e2b-dev/E2B) under the Apache-2.0 license, and you can run the runtime yourself. Rakazo uses E2B's hosted service through its API key.",
+        "Yes. E2B's SDKs and runtime are on [GitHub](https://github.com/e2b-dev/E2B) under the Apache-2.0 license, and you can run the runtime yourself. Ai7 uses E2B's hosted service through its API key.",
     },
     {
-      question: "Do I need E2B to run Rakazo?",
+      question: "Do I need E2B to run Ai7?",
       answer:
         "No. [Docker](/sandboxes/docker/) is the default when you self-host and needs no cloud account. E2B is one optional place to run bot computers.",
     },
