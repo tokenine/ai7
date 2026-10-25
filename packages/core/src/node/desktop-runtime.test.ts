@@ -22,6 +22,7 @@ import {
   desktopUrl,
   ensureScreenCommand,
   interactiveScreenCommand,
+  launchBrowserCommand,
   MAX_DESKTOP_DISPLAY,
   managedDesktopCommand,
   quiesceBrowserProfilesCommand,
@@ -287,6 +288,27 @@ describe("shared Linux desktop lifecycle", () => {
     const execAt = lines.findIndex((line) => line.startsWith("exec "));
     expect(unsetAt).toBeGreaterThan(-1);
     expect(execAt).toBeGreaterThan(unsetAt);
+  });
+
+  it("keeps the browser stopped on ensure and starts it on demand instead", () => {
+    // Default: ensure-screen writes the launcher (the fluxbox menu entry needs it)
+    // but never starts the browser or gates on its CDP port.
+    const ensure = ensureScreenCommand(0, "bot", "view");
+    expect(ensure).toContain("/tmp/rakazo/browser-launch-1");
+    expect(ensure).not.toContain("nohup /tmp/rakazo/browser-launch-1");
+    expect(ensure).not.toContain("CDP not ready");
+    // First page-browser use runs the standalone launcher: start if stopped, then wait.
+    const launch = launchBrowserCommand(0, "bot");
+    expect(launch).toContain("nohup /tmp/rakazo/browser-launch-1");
+    expect(launch).toContain("browser_running");
+    expect(launch).toContain("CDP not ready on 9222");
+    // Opt-in restores the eager launch inside ensure-screen.
+    const eager = ensureScreenCommand(0, "bot", "view", {
+      ...DEFAULT_DESKTOP_ENV,
+      browserAutostart: true,
+    });
+    expect(eager).toContain("nohup /tmp/rakazo/browser-launch-1");
+    expect(eager).toContain("CDP not ready on 9222");
   });
 
   it.each([false, true])(

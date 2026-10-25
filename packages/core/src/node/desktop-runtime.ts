@@ -25,6 +25,13 @@ export interface DesktopEnvironment {
   preservePrimaryDisplay?: boolean;
   portStart?: number;
   bindHost?: string;
+  /**
+   * Launch the browser as part of ensure-screen. Off by default (Ai7): opening
+   * a screen shows the bare desktop, and the browser starts on first
+   * page-browser use via `launchBrowserCommand`. Opt in per deployment with
+   * RAKAZO_COMPUTER_BROWSER_AUTOSTART=1.
+   */
+  browserAutostart?: boolean;
 }
 export const DEFAULT_DESKTOP_ENV: DesktopEnvironment = {
   homeDir: "/home/rakazo",
@@ -33,6 +40,7 @@ export const DEFAULT_DESKTOP_ENV: DesktopEnvironment = {
   displayStart: 1,
   bindHost: "127.0.0.1",
   preservePrimaryDisplay: true,
+  browserAutostart: false,
 };
 function gatewayHost(host = "127.0.0.1") {
   if (host !== "localhost" && !isIPv4(host)) throw new Error("invalid screen gateway bind host");
@@ -588,19 +596,53 @@ function renderEnsureScreenCommand(
     `mkdir -p /tmp/rakazo ${shellQuote(path.posix.dirname(profile))}`,
     ...browserRunningFunction(profile, pidFile),
     `printf %s ${shellQuote(profile)} >/tmp/rakazo/browser-profile-${layout.displayNumber}`,
+    ...(env.browserAutostart
+      ? [
+          "if ! browser_running; then",
+          prepareBrowserProfileCommand(screenId, env),
+          `  rm -f ${shellQuote(profile)}/SingletonLock ${shellQuote(profile)}/SingletonCookie ${shellQuote(profile)}/SingletonSocket`,
+          `  nohup ${browserLauncherPath(layout.displayNumber)} 8>&- 9>&- </dev/null >${log}-browser.log 2>&1 & printf %s "$!" >${pidFile}`,
+          "fi",
+          `for i in $(seq 1 80); do browser_running && (echo >/dev/tcp/127.0.0.1/${layout.debugPort}) >/dev/null 2>&1 && break; sleep 0.25; done`,
+          `if ! browser_running || ! (echo >/dev/tcp/127.0.0.1/${layout.debugPort}) >/dev/null 2>&1; then`,
+          `  echo "computer browser CDP not ready on ${layout.debugPort} (running=$(browser_running && echo yes || echo no))" >&2`,
+          `  tail -c 4000 ${log}-browser.log >&2 || true`,
+          "  exit 1",
+          "fi",
+        ]
+      : []),
+    ...setupView,
+    `for i in $(seq 1 50); do (echo >/dev/tcp/${gatewayProbeHost(layout.bindHost)}/${layout.viewPort}) >/dev/null 2>&1 && exit 0; sleep 0.1; done`,
+    "exit 1",
+  ].join("\n");
+}
+
+/**
+ * Start (or reuse) the browser for one screen and wait until its CDP port
+ * answers. With browserAutostart off, ensure-screen leaves the browser stopped
+ * and callers run this at first page-browser use, so opening a screen never
+ * pops a window the bot has not asked for yet.
+ */
+export function launchBrowserCommand(index: number, screenId: string, env = DEFAULT_DESKTOP_ENV) {
+  const layout = screenPorts(index, env);
+  const log = `/tmp/rakazo/screen-${layout.displayNumber}`;
+  const profile = browserProfilePathForScreen(screenId, env);
+  const pidFile = browserPidPathForScreen(screenId);
+  return [
+    "set -eu",
+    "mkdir -p /tmp/rakazo",
+    `printf %s ${shellQuote(browserLauncherCommand(index, screenId, env))} >${browserLauncherPath(layout.displayNumber)}`,
+    `chmod 700 ${browserLauncherPath(layout.displayNumber)}`,
+    ...browserRunningFunction(profile, pidFile),
+    `printf %s ${shellQuote(profile)} >/tmp/rakazo/browser-profile-${layout.displayNumber}`,
     "if ! browser_running; then",
     prepareBrowserProfileCommand(screenId, env),
     `  rm -f ${shellQuote(profile)}/SingletonLock ${shellQuote(profile)}/SingletonCookie ${shellQuote(profile)}/SingletonSocket`,
     `  nohup ${browserLauncherPath(layout.displayNumber)} 8>&- 9>&- </dev/null >${log}-browser.log 2>&1 & printf %s "$!" >${pidFile}`,
     "fi",
-    `for i in $(seq 1 80); do browser_running && (echo >/dev/tcp/127.0.0.1/${layout.debugPort}) >/dev/null 2>&1 && break; sleep 0.25; done`,
-    `if ! browser_running || ! (echo >/dev/tcp/127.0.0.1/${layout.debugPort}) >/dev/null 2>&1; then`,
-    `  echo "computer browser CDP not ready on ${layout.debugPort} (running=$(browser_running && echo yes || echo no))" >&2`,
-    `  tail -c 4000 ${log}-browser.log >&2 || true`,
-    "  exit 1",
-    "fi",
-    ...setupView,
-    `for i in $(seq 1 50); do (echo >/dev/tcp/${gatewayProbeHost(layout.bindHost)}/${layout.viewPort}) >/dev/null 2>&1 && exit 0; sleep 0.1; done`,
+    `for i in $(seq 1 80); do browser_running && (echo >/dev/tcp/127.0.0.1/${layout.debugPort}) >/dev/null 2>&1 && exit 0; sleep 0.25; done`,
+    `echo "computer browser CDP not ready on ${layout.debugPort} (running=$(browser_running && echo yes || echo no))" >&2`,
+    `tail -c 4000 ${log}-browser.log >&2 || true`,
     "exit 1",
   ].join("\n");
 }

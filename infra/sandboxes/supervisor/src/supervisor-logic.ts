@@ -2,6 +2,7 @@ import type { DesktopEnvironment } from "@rakazo/core/node/desktop-runtime";
 import {
   ensureScreenCommand as coreEnsureScreenCommand,
   interactiveScreenCommand as coreInteractiveScreenCommand,
+  launchBrowserCommand as coreLaunchBrowserCommand,
   terminalCommand as coreTerminalCommand,
   DEFAULT_DESKTOP_ENV,
   BROWSER_APPLICATIONS as DOCKER_BROWSER_ALIASES,
@@ -31,7 +32,13 @@ import type { SandboxInput } from "./computer-spec.js";
 import { xdotoolCommand } from "./computer-spec.js";
 
 // Docker forwarding reaches the isolated container's bridge interface; loopback cannot serve it.
-const DOCKER_DESKTOP_ENV: DesktopEnvironment = { ...DEFAULT_DESKTOP_ENV, bindHost: "0.0.0.0" };
+// RAKAZO_COMPUTER_BROWSER_AUTOSTART=1 restores launching the browser whenever a
+// screen is ensured; by default it starts on first page-browser use instead.
+const DOCKER_DESKTOP_ENV: DesktopEnvironment = {
+  ...DEFAULT_DESKTOP_ENV,
+  bindHost: "0.0.0.0",
+  browserAutostart: process.env.RAKAZO_COMPUTER_BROWSER_AUTOSTART === "1",
+};
 
 export function ensureScreenCommand(
   index: number,
@@ -40,6 +47,10 @@ export function ensureScreenCommand(
   env = DOCKER_DESKTOP_ENV,
 ) {
   return coreEnsureScreenCommand(index, screenId, viewToken, env);
+}
+
+export function launchBrowserCommand(index: number, screenId: string) {
+  return coreLaunchBrowserCommand(index, screenId, DOCKER_DESKTOP_ENV);
 }
 
 export function interactiveScreenCommand(

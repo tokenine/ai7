@@ -77,6 +77,7 @@ import {
   hasValidBearerToken,
   interactiveScreenCommand,
   isComputerControlUnavailable,
+  launchBrowserCommand,
   nextScreenIndex,
   normalizeWorkspaceRelative,
   oldestIdleScreen,
@@ -539,13 +540,24 @@ app.post("/computers/:id/browser", async (c) => {
   const carriesSavedLogin =
     body.command === "act" && body.actions.some((step) => "origin" in step && step.origin);
   try {
-    const { container, layout } = await managedScreen(
+    const { container, layout, index, screenKey } = await managedScreen(
       c.req.param("id"),
       c.req.header("x-rakazo-bot-id"),
       c.req.header("x-rakazo-space-id"),
       c.req.header("x-rakazo-screen-id"),
       c.req.header("x-rakazo-screen-lease-id"),
     );
+    // The browser may be intentionally stopped (browserAutostart off): opening a
+    // screen must not pop a window, but a page-browser call starts it on demand.
+    // Re-running over a live browser is a cheap profile scan that exits 0.
+    const launched = await runContainerCommand(container, [
+      "bash",
+      "-c",
+      launchBrowserCommand(index, screenKey),
+    ]);
+    if (launched.code !== 0) {
+      throw new Error(launched.stderr.trim() || `computer browser failed to start on ${layout.display}`);
+    }
     const result = await runContainerCommand(
       container,
       // Arguments go over stdin: origin-bound fills carry saved logins, and argv is readable by
