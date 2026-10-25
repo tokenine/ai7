@@ -83,7 +83,14 @@ cp -n /usr/share/rakazo-brand/desktop/*.desktop "$AGENT_HOME/Desktop/" 2>/dev/nu
 for launcher in "$AGENT_HOME"/Desktop/*.desktop; do
   [ -e "$launcher" ] || continue
   chmod +x "$launcher" 2>/dev/null || true
-  gio set "$launcher" metadata::trusted true 2>/dev/null || true
+  # gio's metadata write spawns gvfsd-metadata over the session bus, which can
+  # lose the race on a cold desktop: set, then read back until it sticks. A
+  # launcher pcmanfm sees as untrusted raises a dialog on every double click.
+  for _ in $(seq 1 10); do
+    gio set "$launcher" metadata::trusted true 2>/dev/null || true
+    gio info "$launcher" 2>/dev/null | grep -q "metadata::trusted: true" && break
+    sleep 0.5
+  done
 done
 pcmanfm --desktop --profile rakazo >/tmp/rakazo/pcmanfm.log 2>&1 &
 # Apply the wallpaper through the running instance. The call must carry the same
