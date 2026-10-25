@@ -48,6 +48,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     xdg-utils \
     pcmanfm \
     libglib2.0-bin \
+    gvfs-daemons \
     curl \
     git \
     jq \
