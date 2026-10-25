@@ -18,15 +18,15 @@ export const apiConnectors: IntegrationPlatform = {
   slug: "api-connectors",
   name: "API connectors",
   gives: "One tool per operation in an OpenAPI or GraphQL API",
-  logins: "Your API key or token, encrypted in Rakazo",
+  logins: "Your API key or token, encrypted in Ai7",
   bestFor: "APIs with a key and no MCP server",
   title: "API connectors for AI agents: turn OpenAPI and GraphQL APIs into tools, and what they cost",
   description:
-    "How Rakazo turns an OpenAPI description or a GraphQL endpoint into tools for AI agents, what calling a third-party API really costs, how it compares with MCP and Composio, and how integrations.sh helps find an app's API.",
+    "How Ai7 turns an OpenAPI description or a GraphQL endpoint into tools for AI agents, what calling a third-party API really costs, how it compares with MCP and Composio, and how integrations.sh helps find an app's API.",
   h1: "Turn any OpenAPI or GraphQL API into tools for your AI agents",
   intro: [
     "Many apps have an API but no MCP server and no ready-made integration. An API connector closes that gap: point it at the API's [OpenAPI](https://www.openapis.org) description or GraphQL endpoint, and each operation becomes a tool an AI agent can call. There is no platform fee in the middle: you pay only what the API itself charges. [integrations.sh](https://integrations.sh) is an open source catalog that helps you find those descriptions.",
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, bots use tools in your apps, and each bot also has its own computer. You can use it on Rakazo Cloud or host it yourself. API connectors let your bots use apps that aren't in the [integrations catalog](/integrations/), with only an API key.",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, bots use tools in your apps, and each bot also has its own computer. You can use it on Ai7 Cloud or host it yourself. API connectors let your bots use apps that aren't in the [integrations catalog](/integrations/), with only an API key.",
   ],
   scene: {
     bot: "Account Manager",
@@ -50,10 +50,10 @@ export const apiConnectors: IntegrationPlatform = {
       image: true,
     },
     {
-      heading: "What bots can do with API connectors in Rakazo",
+      heading: "What bots can do with API connectors in Ai7",
       bullets: [
-        "Use a REST API from its OpenAPI description. Paste the document's URL, in JSON or YAML, and Rakazo turns every operation with an `operationId` into a tool, up to 100 per API.",
-        "Use a GraphQL API from its endpoint. Rakazo introspects the schema and turns queries and mutations into tools, up to 100 per API.",
+        "Use a REST API from its OpenAPI description. Paste the document's URL, in JSON or YAML, and Ai7 turns every operation with an `operationId` into a tool, up to 100 per API.",
+        "Use a GraphQL API from its endpoint. Ai7 introspects the schema and turns queries and mutations into tools, up to 100 per API.",
         "Authenticate with a bearer token or an API key header. The key is encrypted, never sent to the model, and removed from what the API sends back.",
         "Find an API by domain. When the operator points `INTEGRATIONS_CATALOG_URL` at an integrations.sh-compatible catalog, **Search by domain** adds a service's OpenAPI description or MCP server with the address and sign-in method filled in.",
         "Read without asking. A `GET` operation or a GraphQL query counts as reading, so in **Ask** mode it usually runs without a card. Writes ask first, under your [approval settings](/docs/approvals/).",
@@ -63,7 +63,7 @@ export const apiConnectors: IntegrationPlatform = {
     {
       heading: "What API connectors cost",
       paragraphs: [
-        "Rakazo adds nothing per call: API connectors are part of every plan on Rakazo Cloud and free when you host Rakazo yourself. integrations.sh is free and open source. The cost is whatever the API's owner charges for the calls your bot makes, under your own account and key, and it comes in three shapes.",
+        "Ai7 adds nothing per call: API connectors are part of every plan on Ai7 Cloud and free when you host Ai7 yourself. integrations.sh is free and open source. The cost is whatever the API's owner charges for the calls your bot makes, under your own account and key, and it comes in three shapes.",
         "Many business apps include API access in the plan you already pay for and limit how fast you can call it. Some services charge for each request or for what the request does, such as sending a text message. And your own company's APIs cost only the servers they run on. Either way the bill comes from the API's owner, on the terms of your account with them.",
       ],
       table: {
@@ -97,7 +97,7 @@ export const apiConnectors: IntegrationPlatform = {
       },
       bullets: [
         `A worked example: a bot that texts ${REMINDERS} appointment reminders a month through Twilio spends about ${REMINDERS} × (${usd(TWILIO.segment)} + ${usd(TWILIO.carrierTypical)}) ≈ ${usd(Number((REMINDERS * (TWILIO.segment + TWILIO.carrierTypical)).toFixed(2)))}, plus the phone number's monthly fee. The same bot reading 2,000 HubSpot records a month costs nothing beyond your HubSpot plan, well inside its limits.`,
-        "The cost people miss is model tokens. Every response an API sends back goes into the bot's context and is billed as input by your model provider. Rakazo cuts responses at 1 MB, but asking for only the fields you need, through an operation's filters, saves more.",
+        "The cost people miss is model tokens. Every response an API sends back goes into the bot's context and is billed as input by your model provider. Ai7 cuts responses at 1 MB, but asking for only the fields you need, through an operation's filters, saves more.",
         "Rate limits belong to your account or key, so several bots sharing one key share one limit. A bot that hits a limit gets the API's error and can wait and try again.",
         `Compared with a hosted platform: [Composio](/integration-platforms/composio/) charges from ${usd(COMPOSIO.per1000.own)} to ${usd(COMPOSIO.per1000.premium)} per 1,000 calls past its free tier and [Pipedream Connect](/integration-platforms/pipedream/) starts at ${usd(PIPEDREAM.yearlyFee)} a month, on top of the same API limits. An API connector skips that layer when a key is all you need.`,
       ],
@@ -122,7 +122,7 @@ export const apiConnectors: IntegrationPlatform = {
           },
           {
             topic: "Where logins live",
-            cells: ["Encrypted in Rakazo", "Encrypted in Rakazo", "With the platform"],
+            cells: ["Encrypted in Ai7", "Encrypted in Ai7", "With the platform"],
           },
           {
             topic: "Tool quality",
@@ -149,13 +149,13 @@ export const apiConnectors: IntegrationPlatform = {
         "An OpenAPI document must list a server URL, give operations an `operationId` and be under 2 MB. Only the first 100 operations are imported, and request bodies are JSON.",
         "A GraphQL API must allow introspection. Larger schemas are cut to 100 operations, split between queries and mutations.",
         "APIs must be at public addresses. Localhost and private networks are refused unless the operator sets `MCP_ALLOW_PRIVATE_ENDPOINT=true` on the API and worker, which allows them for every user. Cloud metadata addresses stay blocked.",
-        "The Settings form sends a key as a bearer token or a header. Connectors installed through Rakazo's API can also put it in the URL as a query parameter, so avoid that for sensitive keys. Redirects aren't followed, each call has 30 seconds and responses over 1 MB are cut short.",
+        "The Settings form sends a key as a bearer token or a header. Connectors installed through Ai7's API can also put it in the URL as a query parameter, so avoid that for sensitive keys. Redirects aren't followed, each call has 30 seconds and responses over 1 MB are cut short.",
       ],
     },
     {
       heading: "How to set it up",
       paragraphs: [
-        "Anyone with an account can add an API connector, on Rakazo Cloud or a self-hosted server. The catalog search is an optional setting for the admin of a [self-hosted Rakazo](/self-hosted-ai-agent/). See [Connect apps](/docs/integrations/) and the [tools and integrations guide](/docs/self-host-integrations/).",
+        "Anyone with an account can add an API connector, on Ai7 Cloud or a self-hosted server. The catalog search is an optional setting for the admin of a [self-hosted Ai7](/self-hosted-ai-agent/). See [Connect apps](/docs/integrations/) and the [tools and integrations guide](/docs/self-host-integrations/).",
       ],
       steps: [
         "Find the API's OpenAPI document or GraphQL endpoint in its developer docs or on [integrations.sh](https://integrations.sh).",
@@ -175,12 +175,12 @@ export const apiConnectors: IntegrationPlatform = {
     {
       question: "Can an AI agent use any REST API?",
       answer:
-        "Any that has an OpenAPI description: Rakazo turns each operation into a tool. For an API without one, ask the bot to save your key as a [reusable credential](/docs/bot-secrets/), and it can call the API without ever seeing the key.",
+        "Any that has an OpenAPI description: Ai7 turns each operation into a tool. For an API without one, ask the bot to save your key as a [reusable credential](/docs/bot-secrets/), and it can call the API without ever seeing the key.",
     },
     {
       question: "What is integrations.sh?",
       answer:
-        "An open source catalog of the MCP servers, OpenAPI descriptions, GraphQL APIs and command-line tools that services offer, grouped by domain. Rakazo searches it to find an app's MCP server, and can search it or a mirror to find an app's API.",
+        "An open source catalog of the MCP servers, OpenAPI descriptions, GraphQL APIs and command-line tools that services offer, grouped by domain. Ai7 searches it to find an app's MCP server, and can search it or a mirror to find an app's API.",
     },
     {
       question: "Should I use an API connector or an MCP server?",
@@ -190,12 +190,12 @@ export const apiConnectors: IntegrationPlatform = {
     {
       question: "How much does it cost to connect an AI agent to an API?",
       answer:
-        "Rakazo charges nothing per call. You pay the API's own price under your account, which for many business apps is included in your plan with a rate limit, and for metered services such as SMS or search is a price per request. The bot's model tokens for reading the responses are billed by your model provider.",
+        "Ai7 charges nothing per call. You pay the API's own price under your account, which for many business apps is included in your plan with a rate limit, and for metered services such as SMS or search is a price per request. The bot's model tokens for reading the responses are billed by your model provider.",
     },
     {
       question: "Does the model see my API key?",
       answer:
-        "No. Rakazo stores the key encrypted, adds it to each request itself, and removes it from responses before the bot sees them.",
+        "No. Ai7 stores the key encrypted, adds it to each request itself, and removes it from responses before the bot sees them.",
     },
   ],
   sources: [
@@ -217,6 +217,6 @@ export const apiConnectors: IntegrationPlatform = {
     },
     { label: "Twilio, US SMS pricing", href: TWILIO_SMS_PRICING },
     INTEGRATIONS_DOC,
-    { label: "Rakazo, connect apps", href: `${GITHUB_URL}/blob/main/docs/integrations.md` },
+    { label: "Ai7, connect apps", href: `${GITHUB_URL}/blob/main/docs/integrations.md` },
   ],
 };

@@ -4,6 +4,12 @@ import path from "node:path";
 import { Readable } from "node:stream";
 import { resolveSupervisorToken } from "@rakazo/core";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+// These suites exercise browser lifecycle across screen ensure/release, so run the
+// supervisor with the eager-launch mode (the product default starts the browser on
+// first page-browser use instead).
+process.env.RAKAZO_COMPUTER_BROWSER_AUTOSTART = "1";
+
 import {
   COMPUTER_IMAGE,
   computerBridgeNameFor,

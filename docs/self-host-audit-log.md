@@ -1,6 +1,6 @@
 # Audit log
 
-Rakazo keeps a record of who did what in each organization: which bot or person took an action,
+Ai7 keeps a record of who did what in each organization: which bot or person took an action,
 what was approved and by whom, and which settings and credentials changed. Recording is always on.
 
 Organization owners and admins can export it as JSON Lines, and operators can forward it to a SIEM.
@@ -45,7 +45,7 @@ first, as `application/x-ndjson` (one JSON event per line, the same shape as the
 `Bearer <token>` or `Splunk <token>`.
 
 Delivery is at least once: deduplicate on `id`. Events are sent about a minute after they are
-written. When the endpoint fails, Rakazo keeps its place and retries with backoff up to an hour
+written. When the endpoint fails, Ai7 keeps its place and retries with backoff up to an hour
 apart, so nothing is skipped while it is down. Events pruned by retention before they are delivered
 are not sent.
 

@@ -67,11 +67,11 @@ const HUB_SECTIONS: readonly ArticleSection[] = [
   {
     heading: "Pricing compared",
     paragraphs: [
-      "On [Rakazo Cloud](/pricing/), connecting apps and MCP servers is part of every plan, and you don't need an account with any of these platforms. When you host Rakazo yourself, Rakazo is free and you pay any platform you turn on directly, on its own terms. The units differ, so the next table works out a real workload.",
+      "On [Ai7 Cloud](/pricing/), connecting apps and MCP servers is part of every plan, and you don't need an account with any of these platforms. When you host Ai7 yourself, Ai7 is free and you pay any platform you turn on directly, on its own terms. The units differ, so the next table works out a real workload.",
     ],
     table: {
       caption: `Integration platforms for AI agents: prices as of ${PRICES_CHECKED}`,
-      columns: ["Option", "Free tier", "Paid from", "Billed by", "Apps", "In Rakazo"],
+      columns: ["Option", "Free tier", "Paid from", "Billed by", "Apps", "In Ai7"],
       rows: [
         {
           topic: "[Composio](/integration-platforms/composio/)",
@@ -88,7 +88,7 @@ const HUB_SECTIONS: readonly ArticleSection[] = [
         {
           topic: "[API connectors](/integration-platforms/api-connectors/)",
           cells: [
-            "Free in Rakazo",
+            "Free in Ai7",
             "The API's own price",
             "Nothing extra",
             "Any OpenAPI or GraphQL API",
@@ -159,7 +159,7 @@ const HUB_SECTIONS: readonly ArticleSection[] = [
   {
     heading: "Sign-in, self-hosting and compliance",
     paragraphs: [
-      "A managed platform holds the OAuth tokens for every account your bots use, so who holds them matters. With MCP servers and API connectors, the grant or key is stored encrypted in your Rakazo and the model never sees it. With Composio, Pipedream or Zapier, it lives with them.",
+      "A managed platform holds the OAuth tokens for every account your bots use, so who holds them matters. With MCP servers and API connectors, the grant or key is stored encrypted in your Ai7 and the model never sees it. With Composio, Pipedream or Zapier, it lives with them.",
     ],
     table: {
       caption: "Who holds the logins, and what you can run yourself",
@@ -184,14 +184,14 @@ const HUB_SECTIONS: readonly ArticleSection[] = [
         {
           topic: "MCP servers",
           cells: [
-            "The app's; Rakazo registers itself or uses a client you enter",
-            "Depends on the server; Rakazo is open source",
+            "The app's; Ai7 registers itself or uses a client you enter",
+            "Depends on the server; Ai7 is open source",
             "The app's own",
           ],
         },
         {
           topic: "API connectors",
-          cells: ["None: an API key or token", "Rakazo is open source", "The API's own"],
+          cells: ["None: an API key or token", "Ai7 is open source", "The API's own"],
         },
         {
           topic: "Zapier MCP",
@@ -214,13 +214,13 @@ const HUB_SECTIONS: readonly ArticleSection[] = [
     },
   },
   {
-    heading: "Alternatives that aren't built into Rakazo",
+    heading: "Alternatives that aren't built into Ai7",
     paragraphs: [
-      "Comparison articles often list these next to Composio and Pipedream. Here is what each is and how it fits with Rakazo.",
+      "Comparison articles often list these next to Composio and Pipedream. Here is what each is and how it fits with Ai7.",
     ],
     bullets: [
-      `**Zapier MCP** gives an MCP client actions in ${ZAPIER.apps} apps through your Zapier account. It speaks Streamable HTTP and signs in with OAuth, so it works in Rakazo as a remote [MCP server](/integration-platforms/mcp/). Every bot that uses it acts as the Zapier account that signed in, and each call spends ${ZAPIER.tasksPerCall} Zapier tasks.`,
-      `**Arcade** is a hosted runtime for agent tools, with ${ARCADE.toolkits} toolkits and a focus on authorizing each user. Its MCP gateways work in Rakazo only if their sign-in fits what Rakazo sends: OAuth, a bearer token or one custom header.`,
+      `**Zapier MCP** gives an MCP client actions in ${ZAPIER.apps} apps through your Zapier account. It speaks Streamable HTTP and signs in with OAuth, so it works in Ai7 as a remote [MCP server](/integration-platforms/mcp/). Every bot that uses it acts as the Zapier account that signed in, and each call spends ${ZAPIER.tasksPerCall} Zapier tasks.`,
+      `**Arcade** is a hosted runtime for agent tools, with ${ARCADE.toolkits} toolkits and a focus on authorizing each user. Its MCP gateways work in Ai7 only if their sign-in fits what Ai7 sends: OAuth, a bearer token or one custom header.`,
       "**Nango** handles OAuth, syncs and tool calls for software companies building integrations into their own product, and publishes its source. It is a building block for developers, not a catalog a team connects to.",
       "**Paragon** and **Merge Agent Handler** serve the same product builders, with custom or high entry prices. A team that wants its own bots in Gmail and HubSpot doesn't need them.",
     ],
@@ -235,7 +235,7 @@ export const INTEGRATION_PLATFORMS_HUB = {
   h1: "Integration platforms for AI agents in 2026: pricing and comparison",
   intro: [
     "An AI agent is only as useful as the apps it can work in. To triage an inbox, update a CRM or file an issue, it needs tools for those apps and a safe way to sign in to them. There are a few ways to get there: a hosted platform that manages the logins for thousands of apps, an MCP server the app publishes itself, or a connector built straight from an API's description. For the same work, the price ranges from nothing beyond the app's own plan to hundreds of dollars a month.",
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and it uses your apps on your behalf, asking before it changes anything you've told it to check with you. Rakazo supports all four ways of giving bots tools, and you can mix them. This page compares them with the main alternatives, prices included. For the individual apps bots can use, see the [integrations catalog](/integrations/).",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and it uses your apps on your behalf, asking before it changes anything you've told it to check with you. Ai7 supports all four ways of giving bots tools, and you can mix them. This page compares them with the main alternatives, prices included. For the individual apps bots can use, see the [integrations catalog](/integrations/).",
   ],
   scene: {
     bot: "Chief of Staff",
@@ -252,12 +252,12 @@ export const INTEGRATION_PLATFORMS_HUB = {
   sections: HUB_SECTIONS,
   choose: [
     {
-      heading: "You use Rakazo Cloud",
-      text: "Connect apps from **Integrations** and add any MCP server or API you like. It is part of every [plan](/pricing/), and you don't need a Composio or Pipedream account. The choices below matter when you host Rakazo yourself.",
+      heading: "You use Ai7 Cloud",
+      text: "Connect apps from **Integrations** and add any MCP server or API you like. It is part of every [plan](/pricing/), and you don't need a Composio or Pipedream account. The choices below matter when you host Ai7 yourself.",
     },
     {
       heading: "The app has its own MCP server",
-      text: "If the app publishes an MCP server, [connect it directly](/integration-platforms/mcp/): paste its URL or find it with Browse MCP servers, and sign in with OAuth. It costs nothing beyond the app, and no integration platform sits in between. On Rakazo Cloud, Rakazo stores the sign-in encrypted; when you host Rakazo yourself, it stays on your server. Anyone can add remote servers. Admins of a [self-hosted Rakazo](/self-hosted-ai-agent/) can also run local servers and reach internal ones.",
+      text: "If the app publishes an MCP server, [connect it directly](/integration-platforms/mcp/): paste its URL or find it with Browse MCP servers, and sign in with OAuth. It costs nothing beyond the app, and no integration platform sits in between. On Ai7 Cloud, Ai7 stores the sign-in encrypted; when you host Ai7 yourself, it stays on your server. Anyone can add remote servers. Admins of a [self-hosted Ai7](/self-hosted-ai-agent/) can also run local servers and reach internal ones.",
     },
     {
       heading: "The app only has an API",
@@ -277,7 +277,7 @@ export const INTEGRATION_PLATFORMS_HUB = {
     },
     {
       heading: "You can't send app logins to a third party",
-      text: "Host Rakazo yourself and use only MCP servers and API connectors. Grants and keys are stored encrypted on your server, and calls go straight from your server to each app.",
+      text: "Host Ai7 yourself and use only MCP servers and API connectors. Grants and keys are stored encrypted on your server, and calls go straight from your server to each app.",
     },
   ],
   faq: [
@@ -302,14 +302,14 @@ export const INTEGRATION_PLATFORMS_HUB = {
         "Yes. The protocol and its SDKs are open source. An app's own MCP server costs nothing beyond the app's plan; hosted gateways like Zapier MCP, Composio and Pipedream charge by use.",
     },
     {
-      question: "Can I use Zapier MCP, Arcade or Nango with Rakazo?",
+      question: "Can I use Zapier MCP, Arcade or Nango with Ai7?",
       answer:
         "Zapier MCP, yes, as a remote MCP server signed in with OAuth. Other hosted MCP gateways work if their sign-in is OAuth, a bearer token or one custom header. None of them is built in. Nango and Paragon are for building integrations into your own product, not for connecting a team's bots.",
     },
     {
-      question: "Do I need Composio or Pipedream to use Rakazo?",
+      question: "Do I need Composio or Pipedream to use Ai7?",
       answer:
-        "No. Both are optional. Without them, bots can still use [MCP servers](/integration-platforms/mcp/), [API connectors](/integration-platforms/api-connectors/) and plugins you add. On a self-hosted server, the built-in app catalog appears once one of them is set up. On Rakazo Cloud, the catalog is there already.",
+        "No. Both are optional. Without them, bots can still use [MCP servers](/integration-platforms/mcp/), [API connectors](/integration-platforms/api-connectors/) and plugins you add. On a self-hosted server, the built-in app catalog appears once one of them is set up. On Ai7 Cloud, the catalog is there already.",
     },
     {
       question: "Can I use more than one?",

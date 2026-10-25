@@ -301,8 +301,8 @@ export function stackFailureMessage(
       );
     case "other":
       return phase === "pulling"
-        ? t("Downloading Rakazo images failed. Check the output below, then retry.")
-        : t("Rakazo services did not start. Check the output below, then retry.");
+        ? t("Downloading Ai7 images failed. Check the output below, then retry.")
+        : t("Ai7 services did not start. Check the output below, then retry.");
   }
 }
 

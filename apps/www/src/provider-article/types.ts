@@ -38,7 +38,7 @@ export type ArticleSection = {
   image?: boolean;
 };
 
-/** An article about one provider Rakazo supports, such as a sandbox or an integration platform. */
+/** An article about one provider Ai7 supports, such as a sandbox or an integration platform. */
 export type ProviderArticle = {
   /** Path segment under the article's hub. */
   slug: string;

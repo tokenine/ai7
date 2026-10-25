@@ -7,9 +7,9 @@ const publishedSlugs = [
   ...readFileSync(repoFile("apps/www/src/docs.ts"), "utf8").matchAll(/slug: "([\w-]+)"/g),
 ].map((match) => match[1]);
 
-describe("Rakazo skill", () => {
+describe("Ai7 skill", () => {
   it("links only to published docs pages", () => {
-    const skill = BUILTIN_AGENT_SKILLS.find((s) => s.name === "Rakazo")!;
+    const skill = BUILTIN_AGENT_SKILLS.find((s) => s.name === "Ai7")!;
     const urls = [...skill.content.matchAll(/https?:\/\/\S+/g)].map((match) => match[0]);
     expect(urls).toEqual(RAKAZO_DOCS_URLS);
     for (const url of urls) {

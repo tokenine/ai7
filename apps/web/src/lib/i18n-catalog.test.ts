@@ -43,7 +43,7 @@ describe("lingui catalogs", () => {
       "utf8",
     );
     for (const message of [
-      "Allow Rakazo to use Speech Recognition and the microphone in System Settings.",
+      "Allow Ai7 to use Speech Recognition and the microphone in System Settings.",
       "This browser can't detect when you stop talking. Use Chrome, the desktop app, or hold-to-talk in the composer.",
       "Dictation failed: {code}",
       "Transcription request timed out.",
@@ -72,7 +72,7 @@ describe("lingui catalogs", () => {
       "Your model provider",
       "The model provider returned an error.",
       "Connect a model in Settings before running bots.",
-      "Connect your own API key in Models or choose Rakazo credits in Billing.",
+      "Connect your own API key in Models or choose Ai7 credits in Billing.",
       "{provider} is rate limiting requests. Try again shortly.",
       "{summary} Resets {date}.",
       "{provider} rejected the API key. Check your connection settings.",

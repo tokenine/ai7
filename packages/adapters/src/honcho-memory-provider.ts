@@ -68,7 +68,7 @@ export function honchoBotPeerId(botId: string): string {
   return honchoResourceId(`bot-${botId}`);
 }
 
-/** Peer IDs Rakazo creates and writes to: the shared Space peer and every bot peer. */
+/** Peer IDs Ai7 creates and writes to: the shared Space peer and every bot peer. */
 export function isReservedHonchoPeerId(peerId: string): boolean {
   return peerId === SHARED_PEER_ID || peerId.startsWith("bot-");
 }
@@ -108,9 +108,9 @@ function parseHonchoConnection(
   if (userPeerId && !/^[A-Za-z0-9_-]{1,512}$/.test(userPeerId)) {
     throw new Error("userPeerId may contain only letters, digits, '_' and '-'");
   }
-  // Rakazo writes to its own peers, so a user peer that aliases one would not stay read-only.
+  // Ai7 writes to its own peers, so a user peer that aliases one would not stay read-only.
   if (userPeerId && isReservedHonchoPeerId(userPeerId)) {
-    throw new Error("userPeerId uses a peer ID reserved for Rakazo");
+    throw new Error("userPeerId uses a peer ID reserved for Ai7");
   }
   // A user peer only exists in a workspace another Honcho app already writes to.
   if (userPeerId && !workspaceId) {
@@ -301,7 +301,7 @@ export class HonchoMemoryProvider implements SemanticMemoryProvider {
       perspectives.map(async ({ entity, ...perspective }) => {
         const [result, conclusions] = await Promise.all([
           honchoPeerChat(connection.value, workspaceId, perspective, context.signal),
-          // Only Rakazo's own facts are cited, so forget never reaches the user peer.
+          // Only Ai7's own facts are cited, so forget never reaches the user peer.
           observers.includes(entity)
             ? queryHonchoConclusions(
                 connection.value,
@@ -373,7 +373,7 @@ export class HonchoMemoryProvider implements SemanticMemoryProvider {
     context: AdapterContext,
   ): Promise<SemanticMemoryResponse> {
     if (request.source.kind === "history") {
-      // Compaction summaries stay in Rakazo; Honcho holds durable facts only.
+      // Compaction summaries stay in Ai7; Honcho holds durable facts only.
       return { ok: true, value: undefined };
     }
     const content = truncateUtf8(request.content.trim(), MAX_HONCHO_CONCLUSION_BYTES);

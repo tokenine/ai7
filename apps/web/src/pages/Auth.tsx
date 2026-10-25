@@ -62,9 +62,9 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
     sent || codeStep ? (
       <Trans>Check your email</Trans>
     ) : mode === "in" ? (
-      <Trans>Sign in to Rakazo</Trans>
+      <Trans>Sign in to Ai7</Trans>
     ) : mode === "up" ? (
-      <Trans>Create your Rakazo</Trans>
+      <Trans>Create your Ai7</Trans>
     ) : (
       <Trans>Reset your password</Trans>
     );

@@ -3,7 +3,7 @@ export const ZH_TW_MESSAGES: Record<string, string> = {
   "Check for Updates…": "檢查更新項目…",
   "Computer Access…": "電腦存取權…",
   "Revoke Local Computer Access": "撤銷本機電腦存取權",
-  "Change Rakazo Server…": "更換 Rakazo 伺服器…",
+  "Change Ai7 Server…": "更換 Ai7 伺服器…",
   "Stop Local Stack": "停止本機服務堆疊",
   "Hide {name}": "隱藏 {name}",
   "Hide Others": "隱藏其他",
@@ -35,21 +35,20 @@ export const ZH_TW_MESSAGES: Record<string, string> = {
   Close: "關閉",
   "Close Window": "關閉視窗",
   "Bring All to Front": "將此程式所有視窗移至最前",
-  "Rakazo {version} is ready to install.": "Rakazo {version} 已可安裝。",
+  "Ai7 {version} is ready to install.": "Ai7 {version} 已可安裝。",
   Restart: "重新啟動",
   Later: "稍後",
   "Could not install the update.": "無法安裝更新項目。",
   "Could not check for updates.": "無法檢查更新項目。",
-  "Rakazo is up to date.": "Rakazo 已是最新版本。",
+  "Ai7 is up to date.": "Ai7 已是最新版本。",
   "Version {version}": "版本 {version}",
   "Automatic updates are turned off for this install.": "此安裝已關閉自動更新。",
   "Automatic updates only run in an installed build.": "自動更新僅在已安裝的版本中執行。",
   "No desktop releases are published for this build yet.": "此版本尚未發佈桌面版。",
-  "Move Rakazo to Applications to install updates.":
-    "將 Rakazo 移到「應用程式」檔案夾以安裝更新項目。",
+  "Move Ai7 to Applications to install updates.": "將 Ai7 移到「應用程式」檔案夾以安裝更新項目。",
   "Free up disk space to install updates.": "釋放磁碟空間以安裝更新項目。",
-  "This update could not be verified. Reinstall Rakazo from a trusted download.":
-    "無法驗證此更新項目。請從可信任的來源重新下載並安裝 Rakazo。",
+  "This update could not be verified. Reinstall Ai7 from a trusted download.":
+    "無法驗證此更新項目。請從可信任的來源重新下載並安裝 Ai7。",
   "The update could not be completed. Try again later.": "無法完成更新。請稍後再試一次。",
   "Could not reach the update server.": "無法連線到更新伺服器。",
   "Allow local computer access?": "要允許存取本機電腦嗎？",
@@ -67,11 +66,11 @@ export const ZH_TW_MESSAGES: Record<string, string> = {
     "已有登入正在進行。請取消後再試一次。",
   "Could not open browser sign-in. Close other sign-in attempts and retry.":
     "無法開啟瀏覽器登入。請關閉其他登入嘗試後再試一次。",
-  "Sign-in callback rejected. Return to Rakazo to retry.": "登入回應遭拒。請返回 Rakazo 再試一次。",
-  "You can close this tab and return to Rakazo.": "你可以關閉此分頁並返回 Rakazo。",
-  "Set up Rakazo": "設定 Rakazo",
-  "Quit Rakazo": "結束 Rakazo",
-  "Welcome to Rakazo": "歡迎使用 Rakazo",
+  "Sign-in callback rejected. Return to Ai7 to retry.": "登入回應遭拒。請返回 Ai7 再試一次。",
+  "You can close this tab and return to Ai7.": "你可以關閉此分頁並返回 Ai7。",
+  "Set up Ai7": "設定 Ai7",
+  "Quit Ai7": "結束 Ai7",
+  "Welcome to Ai7": "歡迎使用 Ai7",
   "Choose which server this app should use.": "選擇此 App 要使用的伺服器。",
   Instance: "執行個體",
   "This computer": "這台電腦",
@@ -86,14 +85,14 @@ export const ZH_TW_MESSAGES: Record<string, string> = {
   "Check again": "再次檢查",
   Retry: "重試",
   "Getting ready…": "準備中…",
-  "Downloading Rakazo…": "正在下載 Rakazo…",
-  "Starting Rakazo…": "正在啟動 Rakazo…",
+  "Downloading Ai7…": "正在下載 Ai7…",
+  "Starting Ai7…": "正在啟動 Ai7…",
   "Almost ready…": "即將完成…",
-  "Rakazo is ready.": "Rakazo 已就緒。",
+  "Ai7 is ready.": "Ai7 已就緒。",
   "{size} downloaded": "已下載 {size}",
   "Connecting…": "正在連線…",
   "Checking…": "正在檢查…",
-  "Rakazo answered at {url}.": "Rakazo 已在 {url} 回應。",
+  "Ai7 answered at {url}.": "Ai7 已在 {url} 回應。",
   "Enter a server address first.": "請先輸入伺服器位址。",
   "Could not save that address.": "無法儲存該位址。",
   "Could not save that address. Try again.": "無法儲存該位址。請再試一次。",
@@ -101,15 +100,15 @@ export const ZH_TW_MESSAGES: Record<string, string> = {
   "Could not start the local stack. Try again.": "無法啟動本機服務堆疊。請再試一次。",
   "Could not run the connection check. Try again.": "無法檢查連線。請再試一次。",
   "Setup bridge unavailable.": "無法使用設定橋接。",
-  "Setup could not start. Quit Rakazo and try again.": "無法開始設定。請結束 Rakazo 後再試一次。",
+  "Setup could not start. Quit Ai7 and try again.": "無法開始設定。請結束 Ai7 後再試一次。",
   "Enter a server address.": "請輸入伺服器位址。",
   "Enter a valid http:// or https:// address.": "請輸入有效的 http:// 或 https:// 位址。",
   "Enter a valid server address. Public servers require HTTPS; a new local instance must use localhost.":
     "請輸入有效的伺服器位址。公開伺服器需要 HTTPS；新的本機執行個體必須使用 localhost。",
   "Invalid custom headers": "自訂標頭無效",
-  "That address redirects elsewhere. Enter the final Rakazo server address.":
-    "該位址會重新導向到其他位置。請輸入 Rakazo 伺服器的最終位址。",
-  "That address did not respond like a Rakazo server.": "該位址的回應不像 Rakazo 伺服器。",
+  "That address redirects elsewhere. Enter the final Ai7 server address.":
+    "該位址會重新導向到其他位置。請輸入 Ai7 伺服器的最終位址。",
+  "That address did not respond like a Ai7 server.": "該位址的回應不像 Ai7 伺服器。",
   "The server answered with HTTP {status}.": "伺服器回應了 HTTP {status}。",
   "Timed out reaching that address.": "連線到該位址逾時。",
   "Nothing is listening at that address yet.": "該位址目前沒有任何服務在監聽。",
@@ -132,8 +131,8 @@ export const ZH_TW_MESSAGES: Record<string, string> = {
     "無法儲存設定。已還原先前的執行個體。",
   "Connected, but could not save setup for the next launch. Try Continue again.":
     "已連線，但無法為下次啟動儲存設定。請再按一次「繼續」。",
-  "The app-managed Rakazo services are not ready. Retry setup.":
-    "由 App 管理的 Rakazo 服務尚未就緒。請重新設定。",
+  "The app-managed Ai7 services are not ready. Retry setup.":
+    "由 App 管理的 Ai7 服務尚未就緒。請重新設定。",
   "Docker is not installed on this computer.": "這台電腦未安裝 Docker。",
   "Docker is installed, but Docker Compose is missing. Install Docker Desktop or the docker-compose-plugin.":
     "已安裝 Docker，但缺少 Docker Compose。請安裝 Docker Desktop 或 docker-compose-plugin。",
@@ -156,10 +155,10 @@ export const ZH_TW_MESSAGES: Record<string, string> = {
     "Docker 已停止回應。請啟動 Docker 後再試一次。",
   "Docker Compose is missing. Install Docker Desktop or the docker-compose-plugin, then retry.":
     "缺少 Docker Compose。請安裝 Docker Desktop 或 docker-compose-plugin 後再試一次。",
-  "Downloading Rakazo images failed. Check the output below, then retry.":
-    "無法下載 Rakazo 映像檔。請查看下方輸出後再試一次。",
-  "Rakazo services did not start. Check the output below, then retry.":
-    "Rakazo 服務未能啟動。請查看下方輸出後再試一次。",
+  "Downloading Ai7 images failed. Check the output below, then retry.":
+    "無法下載 Ai7 映像檔。請查看下方輸出後再試一次。",
+  "Ai7 services did not start. Check the output below, then retry.":
+    "Ai7 服務未能啟動。請查看下方輸出後再試一次。",
   "The stack started but the web app did not answer. Retry, and check the output below.":
     "服務堆疊已啟動，但網頁 App 沒有回應。請重試並查看下方輸出。",
   "Could not prepare the local stack. Retry.": "無法準備本機服務堆疊。請再試一次。",

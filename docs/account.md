@@ -16,7 +16,7 @@ Under **Advanced**:
 - **Show tool activity**: list the tools a bot used under its reply. Off by default.
 - **Load web images automatically**: show images from outside sites in chat.
 
-When you open an outside link from a chat, Rakazo asks first. Choose **Always open** for a site you
+When you open an outside link from a chat, Ai7 asks first. Choose **Always open** for a site you
 trust; those sites are listed under **Trusted sites**, where you can remove them.
 
 ## Sign-in and security
@@ -50,7 +50,7 @@ plan:
 
 - **Use my subscription or API key**: works with your ChatGPT or Claude plan, or any
   [model provider](./models.md) key. You pay the provider for model usage.
-- **Use Rakazo credits**: model usage is paid from **Monthly credits** included in the plan. Choose
+- **Use Ai7 credits**: model usage is paid from **Monthly credits** included in the plan. Choose
   **Add credits** for more. Monthly credits expire at renewal; credits you add don't.
 
 **Settings → Billing** shows your plan and when it renews. Choose **Manage** to change it.

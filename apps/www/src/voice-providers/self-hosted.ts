@@ -36,12 +36,12 @@ export const selfHosted: VoiceProvider = {
   bestFor: "Private, offline voice with no vendor account",
   title: "Kokoro TTS and open source text to speech for AI agents: self-hosted voice in 2026",
   description:
-    "Run Kokoro, Whisper and other open source text to speech and speech to text models for your AI agents. Licenses, hardware and real costs compared, OpenAI-compatible servers, and how to connect them to Rakazo with no hosted voice vendor.",
+    "Run Kokoro, Whisper and other open source text to speech and speech to text models for your AI agents. Licenses, hardware and real costs compared, OpenAI-compatible servers, and how to connect them to Ai7 with no hosted voice vendor.",
   h1: "Self-hosted voice for AI agents: Kokoro, Whisper and open source TTS",
   intro: [
     "You don't need a voice vendor to talk to an AI agent. Open models such as [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M) for speech and Whisper for transcription run on an ordinary computer, and several open source servers put them behind the same API shape OpenAI uses. Point an agent at that server and no voice vendor ever hears you. The finished audio still goes to whichever device is listening.",
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and you can also talk to it by voice: hold the mic to speak, have replies read aloud, or call a bot in real time. Its **Self-hosted** voice option connects to any OpenAI-compatible speech server you run, so a [self-hosted Rakazo](/self-hosted-ai-agent/) can have voice with no hosted service at all.",
-    "This page compares the open source speech models people actually run in 2026, their licenses and hardware, what self-hosting costs against hosted APIs, and how to connect a server to Rakazo.",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and you can also talk to it by voice: hold the mic to speak, have replies read aloud, or call a bot in real time. Its **Self-hosted** voice option connects to any OpenAI-compatible speech server you run, so a [self-hosted Ai7](/self-hosted-ai-agent/) can have voice with no hosted service at all.",
+    "This page compares the open source speech models people actually run in 2026, their licenses and hardware, what self-hosting costs against hosted APIs, and how to connect a server to Ai7.",
   ],
   scene: {
     bot: "Inbox Manager",
@@ -60,7 +60,7 @@ export const selfHosted: VoiceProvider = {
       heading: "What is a self-hosted speech server?",
       paragraphs: [
         "It's a small web service on a machine you control that answers OpenAI's audio API: `POST /v1/audio/speech` turns text into audio and `POST /v1/audio/transcriptions` turns audio into text. Because the shape is shared, one client works with many servers and models.",
-        "[Kokoro-FastAPI](https://github.com/remsky/Kokoro-FastAPI) serves the Apache-licensed Kokoro-82M model and only speaks. [Speaches](https://github.com/speaches-ai/speaches) does both, with faster-whisper for transcription and Kokoro or Piper for speech. [mlx-audio](https://github.com/Blaizzy/mlx-audio) runs Kokoro, Whisper and many newer models on Apple Silicon. Rakazo's default model names match mlx-audio's.",
+        "[Kokoro-FastAPI](https://github.com/remsky/Kokoro-FastAPI) serves the Apache-licensed Kokoro-82M model and only speaks. [Speaches](https://github.com/speaches-ai/speaches) does both, with faster-whisper for transcription and Kokoro or Piper for speech. [mlx-audio](https://github.com/Blaizzy/mlx-audio) runs Kokoro, Whisper and many newer models on Apple Silicon. Ai7's default model names match mlx-audio's.",
       ],
       image: true,
     },
@@ -68,13 +68,13 @@ export const selfHosted: VoiceProvider = {
       heading: "Kokoro TTS",
       paragraphs: [
         "Kokoro-82M is the open model most people start with. It has only 82 million parameters, is licensed Apache 2.0 for commercial use, and ranks close to much larger models on public listening tests. It ships 54 preset voices across American and British English, Spanish, French, Hindi, Italian, Japanese, Brazilian Portuguese and Mandarin; the English voices such as `af_heart` are the strongest. It can't clone a voice, only blend the presets.",
-        "It is fast enough for a CPU. Testers report about 6 times faster than real time on an M3 Pro's CPU, under a second to first audio on Apple Silicon, and 35 to 100 times real time on a mid-range NVIDIA GPU, using 2 to 4 GB of memory. On a Raspberry Pi 5 it runs at roughly real time. Kokoro sounds best on sentences of moderate length, which suits Rakazo, since replies are spoken a sentence at a time.",
+        "It is fast enough for a CPU. Testers report about 6 times faster than real time on an M3 Pro's CPU, under a second to first audio on Apple Silicon, and 35 to 100 times real time on a mid-range NVIDIA GPU, using 2 to 4 GB of memory. On a Raspberry Pi 5 it runs at roughly real time. Kokoro sounds best on sentences of moderate length, which suits Ai7, since replies are spoken a sentence at a time.",
       ],
     },
     {
       heading: "Best open source text to speech models in 2026",
       paragraphs: [
-        "Kokoro is the safe default, but it isn't the only option. The table lists the open models with the most use, what their licenses allow, and whether you can put them behind the OpenAI-shaped API Rakazo talks to. Several of the highest-rated open-weight models are research or non-commercial only, which matters if your bots work for a business.",
+        "Kokoro is the safe default, but it isn't the only option. The table lists the open models with the most use, what their licenses allow, and whether you can put them behind the OpenAI-shaped API Ai7 talks to. Several of the highest-rated open-weight models are research or non-commercial only, which matters if your bots work for a business.",
       ],
       table: {
         caption: "Open text to speech models, as of November 2026",
@@ -120,13 +120,13 @@ export const selfHosted: VoiceProvider = {
       heading: "Open source speech to text",
       paragraphs: [
         "For transcription, Whisper is still the default. `whisper-large-v3-turbo` (MIT, 809M parameters) is several times faster than large-v3 with similar accuracy in the main languages, and faster-whisper runs it with int8 in about 3 GB of GPU memory. On a CPU, a smaller Whisper model is the practical choice, and short hold-to-talk clips transcribe in a second or two. NVIDIA's Parakeet TDT 0.6B (CC-BY-4.0) is far faster and among the most accurate open models for English and 25 European languages, and runs through mlx-audio on a Mac.",
-        "Rakazo sends transcription to the same address as speech, so pick a server that does both: Speaches (faster-whisper with Kokoro or Piper) or mlx-audio on a Mac. Kokoro-FastAPI alone only speaks.",
+        "Ai7 sends transcription to the same address as speech, so pick a server that does both: Speaches (faster-whisper with Kokoro or Piper) or mlx-audio on a Mac. Kokoro-FastAPI alone only speaks.",
       ],
     },
     {
       heading: "What self-hosted voice costs",
       paragraphs: [
-        "The models are free; you pay for the machine. If Rakazo already runs on a Mac or a PC at home, Kokoro and a small Whisper model fit alongside it and the extra cost is electricity. A dedicated machine for voice ranges from a small rented CPU server to a GPU.",
+        "The models are free; you pay for the machine. If Ai7 already runs on a Mac or a PC at home, Kokoro and a small Whisper model fit alongside it and the extra cost is electricity. A dedicated machine for voice ranges from a small rented CPU server to a GPU.",
       ],
       table: {
         caption: "Hardware for a self-hosted speech server, as of November 2026",
@@ -164,29 +164,29 @@ export const selfHosted: VoiceProvider = {
     {
       heading: "Hosted servers that copy OpenAI's audio API",
       paragraphs: [
-        `**Self-hosted** isn't limited to your own machine. It accepts any public HTTPS address with an API key, so a hosted service that serves OpenAI's audio endpoints can work there too: DeepInfra and Together AI host Kokoro for ${usd(RATES.deepinfraKokoro)} and ${usd(RATES.togetherKokoro)} per million characters, and Groq serves Whisper for ${usd(RATES.groqWhisperHour)} an hour. We haven't tested these with Rakazo, and two details matter. Rakazo sends speech and transcription to the same address, so the service needs to do both. And the voice list comes from the server; when a server doesn't publish one, Rakazo offers Kokoro's voice names, which only work if the service runs Kokoro.`,
+        `**Self-hosted** isn't limited to your own machine. It accepts any public HTTPS address with an API key, so a hosted service that serves OpenAI's audio endpoints can work there too: DeepInfra and Together AI host Kokoro for ${usd(RATES.deepinfraKokoro)} and ${usd(RATES.togetherKokoro)} per million characters, and Groq serves Whisper for ${usd(RATES.groqWhisperHour)} an hour. We haven't tested these with Ai7, and two details matter. Ai7 sends speech and transcription to the same address, so the service needs to do both. And the voice list comes from the server; when a server doesn't publish one, Ai7 offers Kokoro's voice names, which only work if the service runs Kokoro.`,
         "Deepgram, Google, Azure and Amazon use their own API shapes, so **Self-hosted** can't reach them directly.",
       ],
       table: voicePriceTable("Self-hosted and hosted open models compared", COMPARED),
     },
     {
-      heading: "What you can do with self-hosted voice in Rakazo",
+      heading: "What you can do with self-hosted voice in Ai7",
       paragraphs: [
-        "Rakazo sends both speech and transcription to the one **Server URL** you enter. If that server does both, you get every voice feature in the [voice and calls guide](/docs/voice-and-calls/).",
+        "Ai7 sends both speech and transcription to the one **Server URL** you enter. If that server does both, you get every voice feature in the [voice and calls guide](/docs/voice-and-calls/).",
       ],
       bullets: [
         "Talk instead of typing. Hold the mic in the composer and your server transcribes what you say.",
         "Hear replies. Choose **Speak this reply** on a message, or turn on **Read replies aloud** in a bot's settings.",
         "Call a bot with **Call** at the top of the chat, or let a bot call you, for example when you ask it to call you at 5.",
-        "Pick a voice from the server's own list. Kokoro voices show their language, and Rakazo passes that language to the server so a French voice reads with French pronunciation.",
+        "Pick a voice from the server's own list. Kokoro voices show their language, and Ai7 passes that language to the server so a French voice reads with French pronunciation.",
         "Choose the models. **Speech model** and **Transcription model** take whatever names your server uses.",
       ],
     },
     {
       heading: "When to choose self-hosted voice",
       paragraphs: [
-        "Choose it when you don't want a hosted vendor to process your voice, when you want voice with no vendor account or usage bill, or when you already run local models. It pairs naturally with a [self-hosted Rakazo](/self-hosted-ai-agent/) and a local model, so the whole assistant can work offline.",
-        "Hosted providers are less work and usually sound more polished. [ElevenLabs](/voice-providers/elevenlabs/) and [Fish Audio](/voice-providers/fish-audio/) offer cloning, [OpenAI](/voice-providers/openai/) reuses a key you may already have, and [Cartesia](/voice-providers/cartesia/) is tuned for low latency. If Rakazo runs directly on a Mac, [Server (Mac)](/voice-providers/macos/) speaks with nothing to install, but doesn't transcribe. See the [comparison](/voice-providers/) for all six.",
+        "Choose it when you don't want a hosted vendor to process your voice, when you want voice with no vendor account or usage bill, or when you already run local models. It pairs naturally with a [self-hosted Ai7](/self-hosted-ai-agent/) and a local model, so the whole assistant can work offline.",
+        "Hosted providers are less work and usually sound more polished. [ElevenLabs](/voice-providers/elevenlabs/) and [Fish Audio](/voice-providers/fish-audio/) offer cloning, [OpenAI](/voice-providers/openai/) reuses a key you may already have, and [Cartesia](/voice-providers/cartesia/) is tuned for low latency. If Ai7 runs directly on a Mac, [Server (Mac)](/voice-providers/macos/) speaks with nothing to install, but doesn't transcribe. See the [comparison](/voice-providers/) for all six.",
       ],
     },
     {
@@ -204,12 +204,12 @@ export const selfHosted: VoiceProvider = {
     {
       heading: "How to set it up",
       paragraphs: [
-        "Whoever runs the Rakazo server allows the address once; then each person connects in the app. The [self-hosted model settings](/docs/self-host-models/) cover the network options in full.",
+        "Whoever runs the Ai7 server allows the address once; then each person connects in the app. The [self-hosted model settings](/docs/self-host-models/) cover the network options in full.",
       ],
       steps: [
         "Start a speech server, for example the Kokoro-FastAPI Docker image, Speaches, or `mlx_audio.server` on a Mac.",
-        "On the Rakazo API and worker, set `MCP_ALLOW_PRIVATE_ENDPOINT=true` for a server on your network, and `PHONE_CALLS_ENABLED=true` to turn on hold-to-talk and calls. Restart them.",
-        "Open **Settings → Voice**, set **Provider** to **Self-hosted** and enter the **Server URL**, such as `http://192.168.1.10:8880/v1`. Rakazo adds `/v1` if you leave it off. If Rakazo runs in Docker and the speech server is on the same machine, use `host.docker.internal` instead of `localhost`.",
+        "On the Ai7 API and worker, set `MCP_ALLOW_PRIVATE_ENDPOINT=true` for a server on your network, and `PHONE_CALLS_ENABLED=true` to turn on hold-to-talk and calls. Restart them.",
+        "Open **Settings → Voice**, set **Provider** to **Self-hosted** and enter the **Server URL**, such as `http://192.168.1.10:8880/v1`. Ai7 adds `/v1` if you leave it off. If Ai7 runs in Docker and the speech server is on the same machine, use `host.docker.internal` instead of `localhost`.",
         "Add an **API key** only if your server needs one. Change **Speech model** and **Transcription model** if your server uses other names; Kokoro-FastAPI expects `kokoro`.",
         "Choose **Connect**, pick a **Voice** and choose **Hear a sample**.",
       ],
@@ -232,7 +232,7 @@ export const selfHosted: VoiceProvider = {
     {
       question: "Can I use Kokoro TTS with an AI agent?",
       answer:
-        "Yes. Run Kokoro behind an OpenAI-compatible server such as Kokoro-FastAPI, Speaches or mlx-audio, then enter its URL under **Self-hosted** in Rakazo's voice settings. Rakazo lists the Kokoro voices and reads replies with the one you pick.",
+        "Yes. Run Kokoro behind an OpenAI-compatible server such as Kokoro-FastAPI, Speaches or mlx-audio, then enter its URL under **Self-hosted** in Ai7's voice settings. Ai7 lists the Kokoro voices and reads replies with the one you pick.",
     },
     {
       question: "What is the best open source text to speech model?",
@@ -252,12 +252,12 @@ export const selfHosted: VoiceProvider = {
     {
       question: "Does self-hosted voice work offline?",
       answer:
-        "Voice does: speech and transcription go only to your server. For a fully offline assistant, also self-host Rakazo and use a local language model.",
+        "Voice does: speech and transcription go only to your server. For a fully offline assistant, also self-host Ai7 and use a local language model.",
     },
     {
-      question: "Why can't Rakazo reach my speech server on localhost?",
+      question: "Why can't Ai7 reach my speech server on localhost?",
       answer:
-        "Private addresses are refused until the server sets `MCP_ALLOW_PRIVATE_ENDPOINT=true` on the API and worker. If Rakazo runs in Docker, `localhost` is the container itself, so use `host.docker.internal` or the machine's network address.",
+        "Private addresses are refused until the server sets `MCP_ALLOW_PRIVATE_ENDPOINT=true` on the API and worker. If Ai7 runs in Docker, `localhost` is the container itself, so use `host.docker.internal` or the machine's network address.",
     },
   ],
   sources: withPricingSources(

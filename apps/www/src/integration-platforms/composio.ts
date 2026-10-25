@@ -41,11 +41,11 @@ export const composio: IntegrationPlatform = {
   bestFor: "A large app catalog with no OAuth apps to register",
   title: "Composio pricing, review and alternatives for AI agents (2026)",
   description:
-    "What Composio is, what it costs per tool call in 2026, what a team of bots really spends, how it compares with Pipedream, Arcade and Zapier MCP, and how Rakazo bots use it.",
+    "What Composio is, what it costs per tool call in 2026, what a team of bots really spends, how it compares with Pipedream, Arcade and Zapier MCP, and how Ai7 bots use it.",
   h1: "Composio for AI agents: pricing, limits and alternatives",
   intro: [
     `[Composio](https://composio.dev) is a hosted service that gives AI agents actions in other apps, such as sending an email in Gmail or opening an issue in GitHub. It runs the sign-in for each app, stores the tokens, and calls the app's API when an agent asks it to. It is free up to ${FREE_CALLS} tool calls a month, and the paid plan starts at ${PRO} a month plus usage.`,
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and bots use tools in your apps as well as their own computer. When you host Rakazo yourself, one Composio API key fills the app catalog people connect from. Composio supplies the app actions and logins. Rakazo decides which account each bot acts as and asks you before anything that changes data.",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and bots use tools in your apps as well as their own computer. When you host Ai7 yourself, one Composio API key fills the app catalog people connect from. Composio supplies the app actions and logins. Ai7 decides which account each bot acts as and asks you before anything that changes data.",
   ],
   scene: {
     bot: "Inbox Manager",
@@ -130,12 +130,12 @@ export const composio: IntegrationPlatform = {
       ],
     },
     {
-      heading: "What Rakazo bots cost on Composio",
+      heading: "What Ai7 bots cost on Composio",
       paragraphs: [
-        `Rakazo uses Composio's managed apps unless you add your own auth config in Composio. ${WORKLOADS} Bots in Rakazo also search Composio's catalog for the right action; if every search counted as a call, double these numbers.`,
+        `Ai7 uses Composio's managed apps unless you add your own auth config in Composio. ${WORKLOADS} Bots in Ai7 also search Composio's catalog for the right action; if every search counted as a call, double these numbers.`,
       ],
       table: {
-        caption: "Monthly Composio bill for a team of Rakazo bots",
+        caption: "Monthly Composio bill for a team of Ai7 bots",
         columns: ["Workload", "Hobby", "Pro"],
         rows: [
           {
@@ -161,7 +161,7 @@ export const composio: IntegrationPlatform = {
             cells: [composioHobby(LARGE, "own"), usd(composioPro(LARGE, "own"))],
           },
         ],
-        note: `Worked from [Composio's pricing page](${COMPOSIO_PRICING}), checked ${PRICES_CHECKED}. Model usage and the bots' computers are billed separately, by your model provider or by Rakazo.`,
+        note: `Worked from [Composio's pricing page](${COMPOSIO_PRICING}), checked ${PRICES_CHECKED}. Model usage and the bots' computers are billed separately, by your model provider or by Ai7.`,
       },
     },
     {
@@ -171,7 +171,7 @@ export const composio: IntegrationPlatform = {
       ],
       table: {
         caption: "Composio and its main alternatives",
-        columns: ["Option", "Free tier", "Paid from", "Billed by", "Apps", "Self-host", "In Rakazo"],
+        columns: ["Option", "Free tier", "Paid from", "Billed by", "Apps", "Self-host", "In Ai7"],
         rows: [
           {
             topic: "Composio",
@@ -243,9 +243,9 @@ export const composio: IntegrationPlatform = {
         note: `Prices from each provider's pricing page, checked ${PRICES_CHECKED}: [Composio](${COMPOSIO_PRICING}), [Pipedream](${PIPEDREAM_PRICING}), [Zapier](${ZAPIER_PRICING}), Arcade, Merge and Nango as linked.`,
       },
       bullets: [
-        "**Pipedream Connect** is the closest match: another hosted catalog with managed logins, about twice as many apps, and SOC 2 Type 2 on every plan. It costs more at low volume and charges per user. Rakazo supports it too, and you can run both.",
+        "**Pipedream Connect** is the closest match: another hosted catalog with managed logins, about twice as many apps, and SOC 2 Type 2 on every plan. It costs more at low volume and charges per user. Ai7 supports it too, and you can run both.",
         "**Zapier MCP** has the most apps and suits one person's own accounts. It signs in as the Zapier account that set it up, so every bot using it acts as that person.",
-        "**Arcade** focuses on fewer, deeper toolkits and on authorization for each user. It is not built into Rakazo; its MCP gateways work only if their sign-in fits what Rakazo sends: OAuth, a bearer token or one custom header.",
+        "**Arcade** focuses on fewer, deeper toolkits and on authorization for each user. It is not built into Ai7; its MCP gateways work only if their sign-in fits what Ai7 sends: OAuth, a bearer token or one custom header.",
         "**Nango** and **Paragon** are for software companies adding integrations to their own product. They are a poor fit for a team that just wants its bots in Gmail.",
         "**No middleman**: if an app publishes its own [MCP server](/integration-platforms/mcp/) or has an API key, connect it directly or with an [API connector](/integration-platforms/api-connectors/). You pay nothing extra.",
       ],
@@ -253,7 +253,7 @@ export const composio: IntegrationPlatform = {
     {
       heading: "Is Composio safe?",
       paragraphs: [
-        "Composio keeps the OAuth tokens for every app your bots connect, so its security matters as much as Rakazo's. In May 2026 it [disclosed a breach](https://composio.dev/blog/composio-may-2026-security-incident): an attacker reached internal systems and took about 0.3% of active connections, almost all of them GitHub. A cache it likely reached held 5,241 API keys, which Composio revoked. Composio made every customer rotate their API keys within about two days and revoked the tokens it could.",
+        "Composio keeps the OAuth tokens for every app your bots connect, so its security matters as much as Ai7's. In May 2026 it [disclosed a breach](https://composio.dev/blog/composio-may-2026-security-incident): an attacker reached internal systems and took about 0.3% of active connections, almost all of them GitHub. A cache it likely reached held 5,241 API keys, which Composio revoked. Composio made every customer rotate their API keys within about two days and revoked the tokens it could.",
         "Since then, Composio says its APIs no longer return account tokens, OAuth credentials use envelope encryption, API keys are stored as hashes, and customers can restrict keys by IP address. Weigh that history against the alternatives, and keep [approvals](/docs/approvals/) on for actions that change data, whichever platform you choose.",
       ],
     },
@@ -265,17 +265,17 @@ export const composio: IntegrationPlatform = {
       bullets: [
         "Connect an app in one step. Choose Connect under Integrations, or ask a bot to \"connect my Google Calendar\" and use the card it posts. You sign in on the app's own page through Composio.",
         "Share it across the space. Once an app is connected, every bot in that space can use it. You don't set it up per bot.",
-        "Keep accounts apart. Rakazo pins each connection to the exact account you signed in with, so a bot never falls back to another mailbox or workspace. You can connect more than one account of the same app.",
+        "Keep accounts apart. Ai7 pins each connection to the exact account you signed in with, so a bot never falls back to another mailbox or workspace. You can connect more than one account of the same app.",
         "Find the right action. Bots search Composio's actions and can run several in one batch.",
         "Ask before changes. [Approvals](/docs/approvals/) judge each action inside a batch on its own, so allowing one action never allows the rest.",
-        "Run code on their own computer. Rakazo turns off Composio's hosted code sandbox in the sessions it creates, so you don't pay for sandbox runs.",
+        "Run code on their own computer. Ai7 turns off Composio's hosted code sandbox in the sessions it creates, so you don't pay for sandbox runs.",
       ],
     },
     {
       heading: "When to choose Composio",
       paragraphs: [
-        "Choose Composio when you self-host Rakazo and want a broad app catalog that works with a single API key, without registering an OAuth app with Google, Slack or anyone else. For a small team its free tier covers real use, which no other managed option here matches.",
-        "Choose something else when you need production-grade sign-in for many people on apps billed at the top managed rate, when you can't send app tokens to a third party at all, or when the apps you need publish their own [MCP servers](/integration-platforms/mcp/). On [Rakazo Cloud](/pricing/) you don't need a Composio account: connecting apps is part of every plan. The [comparison](/integration-platforms/) puts every option side by side.",
+        "Choose Composio when you self-host Ai7 and want a broad app catalog that works with a single API key, without registering an OAuth app with Google, Slack or anyone else. For a small team its free tier covers real use, which no other managed option here matches.",
+        "Choose something else when you need production-grade sign-in for many people on apps billed at the top managed rate, when you can't send app tokens to a third party at all, or when the apps you need publish their own [MCP servers](/integration-platforms/mcp/). On [Ai7 Cloud](/pricing/) you don't need a Composio account: connecting apps is part of every plan. The [comparison](/integration-platforms/) puts every option side by side.",
       ],
     },
     {
@@ -285,19 +285,19 @@ export const composio: IntegrationPlatform = {
         "Some apps have no sign-in managed by Composio. Connecting one of them fails until you add your own auth config for it in Composio.",
         "The consent screen shows Composio unless you set up your own OAuth app in Composio.",
         "Managed apps share Composio's OAuth app, and each app's own rate limits still apply to it.",
-        "Rakazo reads Composio's catalog once an hour, so newly added apps can take that long to appear.",
+        "Ai7 reads Composio's catalog once an hour, so newly added apps can take that long to appear.",
         "Composio is configured for the whole server. A space or user can't bring their own Composio key.",
       ],
     },
     {
       heading: "How to set it up",
       paragraphs: [
-        "These steps are for the admin of a [self-hosted Rakazo](/self-hosted-ai-agent/). Rakazo Cloud users don't need a Composio account; they [connect apps](/docs/integrations/) from Integrations.",
+        "These steps are for the admin of a [self-hosted Ai7](/self-hosted-ai-agent/). Ai7 Cloud users don't need a Composio account; they [connect apps](/docs/integrations/) from Integrations.",
       ],
       steps: [
         "Create an account at [composio.dev](https://composio.dev) and copy an API key.",
-        "Set `COMPOSIO_API_KEY` on the Rakazo API and worker, then restart them.",
-        "Open Integrations in Rakazo and check that the Apps catalog appears.",
+        "Set `COMPOSIO_API_KEY` on the Ai7 API and worker, then restart them.",
+        "Open Integrations in Ai7 and check that the Apps catalog appears.",
         "Connect one app, such as Gmail, and ask a bot to read something from it.",
         "To cut costs or show your own name on the consent screen, add your own OAuth app for your busiest apps as a custom auth config in Composio.",
       ],
@@ -322,7 +322,7 @@ export const composio: IntegrationPlatform = {
     {
       question: "Is Composio open source?",
       answer:
-        "Partly. Composio's SDKs are on [GitHub](https://github.com/ComposioHQ/composio) under the MIT license. The hosted service that stores logins and runs actions is not, and self-hosting it is an Enterprise option. Rakazo uses that service through an API key.",
+        "Partly. Composio's SDKs are on [GitHub](https://github.com/ComposioHQ/composio) under the MIT license. The hosted service that stores logins and runs actions is not, and self-hosting it is an Enterprise option. Ai7 uses that service through an API key.",
     },
     {
       question: "Is Composio safe to use?",
@@ -332,7 +332,7 @@ export const composio: IntegrationPlatform = {
     {
       question: "Composio vs Pipedream: which is better for AI agents?",
       answer:
-        "Both host app logins and give agents thousands of actions. Composio has the bigger free tier and bills per call. [Pipedream Connect](/integration-platforms/pipedream/) has more apps, bills per user and per 30 seconds of compute, and has no free production use. In Rakazo, Composio needs one API key and bots search its actions; Pipedream needs a project and OAuth client and serves each account's tools over its MCP server. You can turn on both.",
+        "Both host app logins and give agents thousands of actions. Composio has the bigger free tier and bills per call. [Pipedream Connect](/integration-platforms/pipedream/) has more apps, bills per user and per 30 seconds of compute, and has no free production use. In Ai7, Composio needs one API key and bots search its actions; Pipedream needs a project and OAuth client and serves each account's tools over its MCP server. You can turn on both.",
     },
     {
       question: "What are the best Composio alternatives?",
@@ -340,12 +340,12 @@ export const composio: IntegrationPlatform = {
         "[Pipedream Connect](/integration-platforms/pipedream/) is the closest. Zapier MCP has the most apps, Arcade focuses on per-user authorization, and Nango, which publishes its source, suits teams building integrations into a product. To skip a middleman, use the app's own [MCP server](/integration-platforms/mcp/) or an [API connector](/integration-platforms/api-connectors/).",
     },
     {
-      question: "Does Rakazo need Composio?",
+      question: "Does Ai7 need Composio?",
       answer:
         "No. Composio is optional. Without a managed provider, a self-hosted server shows no app catalog, but bots can still use [MCP servers](/integration-platforms/mcp/), OpenAPI and GraphQL [API connectors](/integration-platforms/api-connectors/), and plugins you add.",
     },
     {
-      question: "Can a Rakazo bot send email through Composio without asking?",
+      question: "Can a Ai7 bot send email through Composio without asking?",
       answer:
         "Only if you let it. In the Ask approval mode, the bot asks before any action that changes something, such as sending an email. You can allow a specific action for good or block it entirely in Settings → Approvals.",
     },

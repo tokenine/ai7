@@ -264,8 +264,7 @@ const subscriptionCatalog: ModelCatalogEntry[] = [
     providerName: "OpenAI Codex",
     id: "gpt-6.1-sol",
     label: "GPT-6.1 Sol",
-    billing:
-      "Sign in with ChatGPT Plus or Pro. Uses your OpenAI subscription. Rakazo does not pay.",
+    billing: "Sign in with ChatGPT Plus or Pro. Uses your OpenAI subscription. Ai7 does not pay.",
     auth: "oauth",
     oauthLabel: "Sign in with ChatGPT",
     authHint: "ChatGPT Plus/Pro",
@@ -279,7 +278,7 @@ const subscriptionCatalog: ModelCatalogEntry[] = [
     providerName: "xAI",
     id: "grok-4.6",
     label: "grok-4.6",
-    billing: "Sign in with SuperGrok or X Premium, or paste an xAI API key. Rakazo does not pay.",
+    billing: "Sign in with SuperGrok or X Premium, or paste an xAI API key. Ai7 does not pay.",
     auth: "both",
     oauthLabel: "Sign in with SuperGrok or X Premium",
     authHint: "SuperGrok / key",

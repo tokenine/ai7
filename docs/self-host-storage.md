@@ -11,7 +11,7 @@ homes and new artifacts can live in [object storage](#bot-homes-in-object-storag
 
 ## Content encryption
 
-Rakazo encrypts chat messages, thread events, compacted history summaries, memory documents and
+Ai7 encrypts chat messages, thread events, compacted history summaries, memory documents and
 their revisions, and uploaded or generated files before they reach PostgreSQL or `DATA_DIR`.
 Names, ids, timestamps and other metadata stay readable. Credentials are always encrypted,
 whatever this setting says. Details and the threat model are in

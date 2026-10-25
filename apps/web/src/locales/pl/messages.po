@@ -750,8 +750,8 @@ msgid "Allow once"
 msgstr "Zezwól raz"
 
 #: src/lib/dictation.ts
-msgid "Allow Rakazo to use Speech Recognition and the microphone in System Settings."
-msgstr "Zezwól Rakazo na rozpoznawanie mowy i dostęp do mikrofonu w Ustawieniach systemowych."
+msgid "Allow Ai7 to use Speech Recognition and the microphone in System Settings."
+msgstr "Zezwól Ai7 na rozpoznawanie mowy i dostęp do mikrofonu w Ustawieniach systemowych."
 
 #: src/pages/memory-providers/SerenitySettingsForm.tsx
 msgid "Allow writing"
@@ -802,8 +802,8 @@ msgid "An API key is stored for this provider, not a subscription sign-in."
 msgstr "Dla tego dostawcy zapisano klucz API, a nie logowanie przez subskrypcję."
 
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
-msgid "An existing Honcho peer to read from. Rakazo never writes to it."
-msgstr "Istniejący profil Honcho do odczytu. Rakazo nigdy w nim nie zapisuje."
+msgid "An existing Honcho peer to read from. Ai7 never writes to it."
+msgstr "Istniejący profil Honcho do odczytu. Ai7 nigdy w nim nie zapisuje."
 
 #: src/lib/agent-import-errors.ts
 msgid "An imported API key could not be checked. Try again."
@@ -1454,8 +1454,8 @@ msgstr "Wybierz folder"
 
 #: src/components/ModelCredits.tsx
 #: src/components/SubscriptionGate.tsx
-msgid "Choose how to use Rakazo"
-msgstr "Wybierz sposób korzystania z Rakazo"
+msgid "Choose how to use Ai7"
+msgstr "Wybierz sposób korzystania z Ai7"
 
 #: src/components/vault/VaultItemEditor.tsx
 msgid "City"
@@ -1774,8 +1774,8 @@ msgstr "Najpierw połącz dostawcę tego modelu."
 
 #. js-lingui-explicit-id
 #: src/lib/run-error.ts
-msgid "Connect your own API key in Models or choose Rakazo credits in Billing."
-msgstr "Połącz własny klucz API w Modelach lub wybierz środki Rakazo w Rozliczeniach."
+msgid "Connect your own API key in Models or choose Ai7 credits in Billing."
+msgstr "Połącz własny klucz API w Modelach lub wybierz środki Ai7 w Rozliczeniach."
 
 #: src/components/ComputerDeviceSettings.tsx
 #: src/components/integrations/IntegrationSetup.tsx
@@ -2539,8 +2539,8 @@ msgid "Create space"
 msgstr "Utwórz przestrzeń"
 
 #: src/pages/Auth.tsx
-msgid "Create your Rakazo"
-msgstr "Utwórz swoje Rakazo"
+msgid "Create your Ai7"
+msgstr "Utwórz swoje Ai7"
 
 #: src/components/AskCard.tsx
 msgid "Created"
@@ -3022,8 +3022,8 @@ msgid "Ends {day}"
 msgstr "Koniec {day}"
 
 #: src/components/GitHubStarPrompt.tsx
-msgid "Enjoying Rakazo?"
-msgstr "Podoba Ci się Rakazo?"
+msgid "Enjoying Ai7?"
+msgstr "Podoba Ci się Ai7?"
 
 #: src/lib/user-error.ts
 msgid "Enter a password"
@@ -3527,8 +3527,8 @@ msgid "How to check"
 msgstr "Jak sprawdzić"
 
 #: src/components/SignupSurvey.tsx
-msgid "How will you use Rakazo?"
-msgstr "Jak będziesz korzystać z Rakazo?"
+msgid "How will you use Ai7?"
+msgstr "Jak będziesz korzystać z Ai7?"
 
 #: src/pages/shell/computer-release-actions.tsx
 msgid "I’m done"
@@ -4576,8 +4576,8 @@ msgid "Not imported"
 msgstr "Nie zaimportowano"
 
 #: src/pages/shell/import-status.ts
-msgid "Not in Rakazo's catalog"
-msgstr "Poza katalogiem Rakazo"
+msgid "Not in Ai7's catalog"
+msgstr "Poza katalogiem Ai7"
 
 #: src/pages/PluginsOverlay.tsx
 msgid "Not in the plugin catalog"
@@ -4590,12 +4590,12 @@ msgstr "Nie teraz"
 
 #: src/pages/shell/agent-import.tsx
 #: src/pages/shell/import-status.ts
-msgid "Not supported in Rakazo"
-msgstr "Nieobsługiwane w Rakazo"
+msgid "Not supported in Ai7"
+msgstr "Nieobsługiwane w Ai7"
 
 #: src/pages/shell/agent-import.tsx
-msgid "Not used by Rakazo"
-msgstr "Nieużywane przez Rakazo"
+msgid "Not used by Ai7"
+msgstr "Nieużywane przez Ai7"
 
 #: src/components/McpServerHealthLine.tsx
 msgid "Not working"
@@ -4739,8 +4739,8 @@ msgstr "Otwórz nawigację"
 
 #: src/components/pages/PublicPageShell.tsx
 #: src/pages/SharedPage.tsx
-msgid "Open Rakazo"
-msgstr "Otwórz Rakazo"
+msgid "Open Ai7"
+msgstr "Otwórz Ai7"
 
 #: src/pages/ScratchpadSection.tsx
 msgid "Open work"
@@ -4917,8 +4917,8 @@ msgid "Paste a replacement key"
 msgstr "Wklej nowy klucz"
 
 #: src/pages/model-settings/compatible-model-fields.tsx
-msgid "Paste the OpenAI-compatible address from your server. Rakazo adds /v1 if needed."
-msgstr "Wklej ze swojego serwera adres zgodny z OpenAI. Rakazo doda /v1, jeśli będzie potrzebne."
+msgid "Paste the OpenAI-compatible address from your server. Ai7 adds /v1 if needed."
+msgstr "Wklej ze swojego serwera adres zgodny z OpenAI. Ai7 doda /v1, jeśli będzie potrzebne."
 
 #: src/pages/shell/agent-import.tsx
 msgid "Paste the reply"
@@ -5110,16 +5110,16 @@ msgstr "W kolejce"
 
 #: src/pages/AccountSettingsOverlay.tsx
 #: src/pages/shell/avatar-studio-popover.tsx
-msgid "Rakazo"
-msgstr "Rakazo"
+msgid "Ai7"
+msgstr "Ai7"
 
 #: src/pages/Onboarding.tsx
-msgid "Rakazo credits"
-msgstr "Środki Rakazo"
+msgid "Ai7 credits"
+msgstr "Środki Ai7"
 
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
-msgid "rakazo-shared and IDs starting with bot- are reserved for Rakazo."
-msgstr "Nazwy rakazo-shared i identyfikatory zaczynające się od bot- są zastrzeżone dla Rakazo."
+msgid "rakazo-shared and IDs starting with bot- are reserved for Ai7."
+msgstr "Nazwy rakazo-shared i identyfikatory zaczynające się od bot- są zastrzeżone dla Ai7."
 
 #: src/pages/shell/message-hover-actions.tsx
 msgid "React"
@@ -5544,8 +5544,8 @@ msgstr "Wróć do rozmowy z {0}"
 
 #: src/pages/McpOAuthCallback.tsx
 #: src/pages/SlackInstallCallback.tsx
-msgid "Return to Rakazo"
-msgstr "Wróć do Rakazo"
+msgid "Return to Ai7"
+msgstr "Wróć do Ai7"
 
 #: src/lib/model-connection-preflight.ts
 msgid "Review provider settings and test again."
@@ -6028,8 +6028,8 @@ msgid "Sign in at <0>{0}</0>, then paste the code here."
 msgstr "Zaloguj się pod adresem <0>{0}</0>, a potem wklej tutaj kod."
 
 #: src/pages/Auth.tsx
-msgid "Sign in to Rakazo"
-msgstr "Zaloguj się do Rakazo"
+msgid "Sign in to Ai7"
+msgstr "Zaloguj się do Ai7"
 
 #: src/lib/user-error.ts
 msgid "Sign in to your existing account to link SSO"
@@ -6667,8 +6667,8 @@ msgid "This server's tool result does not fit the model. Turn off Keep tool resu
 msgstr "Wynik narzędzia tego serwera nie mieści się w modelu. Wyłącz dla tego serwera opcję Zachowuj pełne wyniki narzędzi lub wybierz inny model."
 
 #: src/pages/model-settings/connection-controls.tsx
-msgid "This subscription sign-in is not available in Rakazo yet. Use a deployment credential or choose another provider."
-msgstr "To logowanie przez subskrypcję nie jest jeszcze dostępne w Rakazo. Użyj danych uwierzytelniających wdrożenia lub wybierz innego dostawcę."
+msgid "This subscription sign-in is not available in Ai7 yet. Use a deployment credential or choose another provider."
+msgstr "To logowanie przez subskrypcję nie jest jeszcze dostępne w Ai7. Użyj danych uwierzytelniających wdrożenia lub wybierz innego dostawcę."
 
 #: src/pages/Artifacts.tsx
 msgid "This week"
@@ -6980,8 +6980,8 @@ msgid "Use Protected input for passwords."
 msgstr "Do haseł używaj opcji Chronione wprowadzanie."
 
 #: src/components/ModelCredits.tsx
-msgid "Use Rakazo credits"
-msgstr "Użyj środków Rakazo"
+msgid "Use Ai7 credits"
+msgstr "Użyj środków Ai7"
 
 #: src/pages/model-settings/space-bots-model.tsx
 msgid "Use space default"
@@ -7132,8 +7132,8 @@ msgid "Weekly"
 msgstr "Co tydzień"
 
 #: src/components/SignupSurvey.tsx
-msgid "Welcome to Rakazo"
-msgstr "Witaj w Rakazo"
+msgid "Welcome to Ai7"
+msgstr "Witaj w Ai7"
 
 #: src/pages/shell/dialogs.tsx
 msgid "What about its memories?"
@@ -7144,8 +7144,8 @@ msgid "What can this space use?"
 msgstr "Z czego może korzystać ta przestrzeń?"
 
 #: src/components/SignupSurvey.tsx
-msgid "What do you most want Rakazo to help with?"
-msgstr "W czym Rakazo ma Ci najbardziej pomóc?"
+msgid "What do you most want Ai7 to help with?"
+msgstr "W czym Ai7 ma Ci najbardziej pomóc?"
 
 #: src/pages/shell/message-cards.tsx
 msgid "What do you want me on first?"

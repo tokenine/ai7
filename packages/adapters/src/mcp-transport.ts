@@ -314,10 +314,10 @@ function stdioParams(options: McpStdioOptions): StdioServerParameters {
   }
   if (isPackageRunnerCommand(options.command)) throw new Error(PACKAGE_RUNNER_REFUSAL);
   if (options.installedBin !== undefined && !isInstalledMcpBin(options.installedBin)) {
-    throw new Error("MCP stdio bin was not installed by Rakazo");
+    throw new Error("MCP stdio bin was not installed by Ai7");
   }
   if (options.installedBin === undefined && isNpxCommand(options.command)) {
-    throw new Error("npx only launches a package bin Rakazo installed");
+    throw new Error("npx only launches a package bin Ai7 installed");
   }
   const command = options.installedBin?.binPath ?? options.command.trim();
   const env: Record<string, string> = {};

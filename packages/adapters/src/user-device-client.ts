@@ -33,7 +33,7 @@ export interface UserDeviceClientOptions {
 }
 
 /**
- * Connects outbound to a Rakazo server so its bots can use this computer. The server never
+ * Connects outbound to a Ai7 server so its bots can use this computer. The server never
  * connects in. Runs only while started; `close` stops every command and the connection, and
  * `cancelAll` stops every command and refuses requests still waiting on `authorize`.
  */

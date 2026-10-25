@@ -3,7 +3,7 @@ export const PT_BR_MESSAGES: Record<string, string> = {
   "Check for Updates…": "Buscar Atualizações…",
   "Computer Access…": "Acesso ao Computador…",
   "Revoke Local Computer Access": "Revogar Acesso ao Computador Local",
-  "Change Rakazo Server…": "Trocar Servidor do Rakazo…",
+  "Change Ai7 Server…": "Trocar Servidor do Ai7…",
   "Stop Local Stack": "Parar Stack Local",
   "Hide {name}": "Ocultar {name}",
   "Hide Others": "Ocultar Outros",
@@ -35,12 +35,12 @@ export const PT_BR_MESSAGES: Record<string, string> = {
   Close: "Fechar",
   "Close Window": "Fechar Janela",
   "Bring All to Front": "Trazer Todas para a Frente",
-  "Rakazo {version} is ready to install.": "O Rakazo {version} está pronto para ser instalado.",
+  "Ai7 {version} is ready to install.": "O Ai7 {version} está pronto para ser instalado.",
   Restart: "Reiniciar",
   Later: "Mais tarde",
   "Could not install the update.": "Não foi possível instalar a atualização.",
   "Could not check for updates.": "Não foi possível buscar atualizações.",
-  "Rakazo is up to date.": "O Rakazo está atualizado.",
+  "Ai7 is up to date.": "O Ai7 está atualizado.",
   "Version {version}": "Versão {version}",
   "Automatic updates are turned off for this install.":
     "As atualizações automáticas estão desativadas nesta instalação.",
@@ -48,11 +48,11 @@ export const PT_BR_MESSAGES: Record<string, string> = {
     "As atualizações automáticas só funcionam em uma versão instalada.",
   "No desktop releases are published for this build yet.":
     "Ainda não há versões para desktop publicadas para esta build.",
-  "Move Rakazo to Applications to install updates.":
-    "Mova o Rakazo para Aplicativos para instalar atualizações.",
+  "Move Ai7 to Applications to install updates.":
+    "Mova o Ai7 para Aplicativos para instalar atualizações.",
   "Free up disk space to install updates.": "Libere espaço em disco para instalar atualizações.",
-  "This update could not be verified. Reinstall Rakazo from a trusted download.":
-    "Não foi possível verificar esta atualização. Reinstale o Rakazo a partir de um download confiável.",
+  "This update could not be verified. Reinstall Ai7 from a trusted download.":
+    "Não foi possível verificar esta atualização. Reinstale o Ai7 a partir de um download confiável.",
   "The update could not be completed. Try again later.":
     "Não foi possível concluir a atualização. Tente novamente mais tarde.",
   "Could not reach the update server.": "Não foi possível acessar o servidor de atualizações.",
@@ -71,12 +71,12 @@ export const PT_BR_MESSAGES: Record<string, string> = {
     "Já há um login em andamento. Cancele-o e tente novamente.",
   "Could not open browser sign-in. Close other sign-in attempts and retry.":
     "Não foi possível abrir o login no navegador. Feche as outras tentativas de login e tente novamente.",
-  "Sign-in callback rejected. Return to Rakazo to retry.":
-    "A resposta do login foi recusada. Volte ao Rakazo para tentar novamente.",
-  "You can close this tab and return to Rakazo.": "Você pode fechar esta aba e voltar ao Rakazo.",
-  "Set up Rakazo": "Configurar o Rakazo",
-  "Quit Rakazo": "Encerrar o Rakazo",
-  "Welcome to Rakazo": "Boas-vindas ao Rakazo",
+  "Sign-in callback rejected. Return to Ai7 to retry.":
+    "A resposta do login foi recusada. Volte ao Ai7 para tentar novamente.",
+  "You can close this tab and return to Ai7.": "Você pode fechar esta aba e voltar ao Ai7.",
+  "Set up Ai7": "Configurar o Ai7",
+  "Quit Ai7": "Encerrar o Ai7",
+  "Welcome to Ai7": "Boas-vindas ao Ai7",
   "Choose which server this app should use.": "Escolha qual servidor este app deve usar.",
   Instance: "Instância",
   "This computer": "Este computador",
@@ -91,14 +91,14 @@ export const PT_BR_MESSAGES: Record<string, string> = {
   "Check again": "Verificar novamente",
   Retry: "Tentar novamente",
   "Getting ready…": "Preparando…",
-  "Downloading Rakazo…": "Baixando o Rakazo…",
-  "Starting Rakazo…": "Iniciando o Rakazo…",
+  "Downloading Ai7…": "Baixando o Ai7…",
+  "Starting Ai7…": "Iniciando o Ai7…",
   "Almost ready…": "Quase pronto…",
-  "Rakazo is ready.": "O Rakazo está pronto.",
+  "Ai7 is ready.": "O Ai7 está pronto.",
   "{size} downloaded": "{size} baixados",
   "Connecting…": "Conectando…",
   "Checking…": "Verificando…",
-  "Rakazo answered at {url}.": "O Rakazo respondeu em {url}.",
+  "Ai7 answered at {url}.": "O Ai7 respondeu em {url}.",
   "Enter a server address first.": "Primeiro, digite o endereço de um servidor.",
   "Could not save that address.": "Não foi possível salvar esse endereço.",
   "Could not save that address. Try again.":
@@ -110,17 +110,17 @@ export const PT_BR_MESSAGES: Record<string, string> = {
   "Could not run the connection check. Try again.":
     "Não foi possível verificar a conexão. Tente novamente.",
   "Setup bridge unavailable.": "A ponte de configuração não está disponível.",
-  "Setup could not start. Quit Rakazo and try again.":
-    "Não foi possível iniciar a configuração. Encerre o Rakazo e tente novamente.",
+  "Setup could not start. Quit Ai7 and try again.":
+    "Não foi possível iniciar a configuração. Encerre o Ai7 e tente novamente.",
   "Enter a server address.": "Digite o endereço de um servidor.",
   "Enter a valid http:// or https:// address.": "Digite um endereço http:// ou https:// válido.",
   "Enter a valid server address. Public servers require HTTPS; a new local instance must use localhost.":
     "Digite um endereço de servidor válido. Servidores públicos exigem HTTPS; uma nova instância local precisa usar localhost.",
   "Invalid custom headers": "Cabeçalhos personalizados inválidos",
-  "That address redirects elsewhere. Enter the final Rakazo server address.":
-    "Esse endereço redireciona para outro lugar. Digite o endereço final do servidor do Rakazo.",
-  "That address did not respond like a Rakazo server.":
-    "Esse endereço não respondeu como um servidor do Rakazo.",
+  "That address redirects elsewhere. Enter the final Ai7 server address.":
+    "Esse endereço redireciona para outro lugar. Digite o endereço final do servidor do Ai7.",
+  "That address did not respond like a Ai7 server.":
+    "Esse endereço não respondeu como um servidor do Ai7.",
   "The server answered with HTTP {status}.": "O servidor respondeu com HTTP {status}.",
   "Timed out reaching that address.": "O tempo para acessar esse endereço se esgotou.",
   "Nothing is listening at that address yet.": "Ainda não há nada escutando nesse endereço.",
@@ -145,8 +145,8 @@ export const PT_BR_MESSAGES: Record<string, string> = {
     "Não foi possível salvar a configuração. A instância anterior foi restaurada.",
   "Connected, but could not save setup for the next launch. Try Continue again.":
     "Conectado, mas não foi possível salvar a configuração para a próxima abertura. Clique em Continuar novamente.",
-  "The app-managed Rakazo services are not ready. Retry setup.":
-    "Os serviços do Rakazo gerenciados pelo app não estão prontos. Refaça a configuração.",
+  "The app-managed Ai7 services are not ready. Retry setup.":
+    "Os serviços do Ai7 gerenciados pelo app não estão prontos. Refaça a configuração.",
   "Docker is not installed on this computer.": "O Docker não está instalado neste computador.",
   "Docker is installed, but Docker Compose is missing. Install Docker Desktop or the docker-compose-plugin.":
     "O Docker está instalado, mas o Docker Compose está ausente. Instale o Docker Desktop ou o docker-compose-plugin.",
@@ -170,10 +170,10 @@ export const PT_BR_MESSAGES: Record<string, string> = {
     "O Docker parou de responder. Inicie o Docker e tente novamente.",
   "Docker Compose is missing. Install Docker Desktop or the docker-compose-plugin, then retry.":
     "O Docker Compose está ausente. Instale o Docker Desktop ou o docker-compose-plugin e tente novamente.",
-  "Downloading Rakazo images failed. Check the output below, then retry.":
-    "Não foi possível baixar as imagens do Rakazo. Confira a saída abaixo e tente novamente.",
-  "Rakazo services did not start. Check the output below, then retry.":
-    "Os serviços do Rakazo não iniciaram. Confira a saída abaixo e tente novamente.",
+  "Downloading Ai7 images failed. Check the output below, then retry.":
+    "Não foi possível baixar as imagens do Ai7. Confira a saída abaixo e tente novamente.",
+  "Ai7 services did not start. Check the output below, then retry.":
+    "Os serviços do Ai7 não iniciaram. Confira a saída abaixo e tente novamente.",
   "The stack started but the web app did not answer. Retry, and check the output below.":
     "A stack iniciou, mas o app web não respondeu. Tente novamente e confira a saída abaixo.",
   "Could not prepare the local stack. Retry.":

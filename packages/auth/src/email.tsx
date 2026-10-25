@@ -175,14 +175,14 @@ export function verificationEmail(
   return message(
     email,
     locale,
-    say("Verify your Rakazo email"),
+    say("Verify your Ai7 email"),
     <>
       <Text>
         <Link href={url} style={linkStyle}>
           {say("Verify email")}
         </Link>
       </Text>
-      <Text>{say("Then return to Rakazo to sign in.")}</Text>
+      <Text>{say("Then return to Ai7 to sign in.")}</Text>
       <Text>
         {say("This link expires in one hour. If you did not register, ignore this email.")}
       </Text>
@@ -199,9 +199,9 @@ export function signInCodeEmail(
   return message(
     email,
     locale,
-    say("Your Rakazo sign-in code"),
+    say("Your Ai7 sign-in code"),
     <>
-      <Text>{say("Enter this code to sign in to Rakazo:")}</Text>
+      <Text>{say("Enter this code to sign in to Ai7:")}</Text>
       <Text>
         <strong>{code}</strong>
       </Text>
@@ -221,10 +221,10 @@ export function passwordResetEmail(
   return message(
     user.email,
     locale,
-    say("Reset your Rakazo password"),
+    say("Reset your Ai7 password"),
     <>
       <Text>{greeting(say, user.name)}</Text>
-      <Text>{say("Reset your Rakazo password:")}</Text>
+      <Text>{say("Reset your Ai7 password:")}</Text>
       <Text>
         <Link href={resetUrl} style={linkStyle}>
           {say("Reset password")}
@@ -248,9 +248,9 @@ export function accountDeletionEmail(
   return message(
     email,
     locale,
-    say("Confirm Rakazo account deletion"),
+    say("Confirm Ai7 account deletion"),
     <>
-      <Text>{say("Enter this code in Rakazo to delete your account:")}</Text>
+      <Text>{say("Enter this code in Ai7 to delete your account:")}</Text>
       <Text>{code}</Text>
       <Text>
         {say(
@@ -270,9 +270,9 @@ export function identityCodeEmail(
   return message(
     email,
     locale,
-    say("Your Rakazo confirmation code"),
+    say("Your Ai7 confirmation code"),
     <>
-      <Text>{say("Enter this code in Rakazo to confirm it's you:")}</Text>
+      <Text>{say("Enter this code in Ai7 to confirm it's you:")}</Text>
       <Text>
         <strong>{code}</strong>
       </Text>

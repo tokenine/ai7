@@ -686,7 +686,7 @@ async function runMenuUpdateCheck() {
       : dialog.showMessageBox(options);
   if (state.phase === "ready") {
     const { response } = await alert({
-      message: t("Rakazo {version} is ready to install.", {
+      message: t("Ai7 {version} is ready to install.", {
         version: state.availableVersion ?? "",
       }),
       buttons: [t("Restart"), t("Later")],
@@ -712,7 +712,7 @@ async function runMenuUpdateCheck() {
     });
   } else if (state.phase === "idle") {
     await alert({
-      message: t("Rakazo is up to date."),
+      message: t("Ai7 is up to date."),
       detail: t("Version {version}", { version: state.currentVersion }),
     });
   }
@@ -774,7 +774,7 @@ function installApplicationMenu() {
   };
   const changeServer: Electron.MenuItemConstructorOptions = {
     id: "change-rakazo-server",
-    label: t("Change Rakazo Server…"),
+    label: t("Change Ai7 Server…"),
     accelerator: "CmdOrCtrl+Shift+K",
     click: () => showSetupWindow(),
   };
@@ -959,7 +959,7 @@ function installApplicationMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
-/** Setup IPC must only answer the setup window, never a connected Rakazo server. */
+/** Setup IPC must only answer the setup window, never a connected Ai7 server. */
 function fromSetupWindow(event: Pick<Electron.IpcMainInvokeEvent, "sender">) {
   return (
     setupWindow !== null && !setupWindow.isDestroyed() && event.sender === setupWindow.webContents
@@ -990,7 +990,7 @@ async function probeServer(
         ok: false,
         status: response.status,
         url,
-        error: t("That address redirects elsewhere. Enter the final Rakazo server address."),
+        error: t("That address redirects elsewhere. Enter the final Ai7 server address."),
       };
     }
     if (!response.ok) {
@@ -1007,7 +1007,7 @@ async function probeServer(
         ok: false,
         status: response.status,
         url,
-        error: t("That address did not respond like a Rakazo server."),
+        error: t("That address did not respond like a Ai7 server."),
       };
     }
     return {
@@ -1698,7 +1698,7 @@ app.whenReady().then(async () => {
         if (managedUrl === null || !(await localStack.matchesDesiredStack())) {
           return {
             ok: false,
-            error: t("The app-managed Rakazo services are not ready. Retry setup."),
+            error: t("The app-managed Ai7 services are not ready. Retry setup."),
           };
         }
         openSetup = { mode: "new", serverUrl: managedUrl };

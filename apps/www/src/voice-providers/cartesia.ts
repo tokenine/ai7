@@ -53,12 +53,12 @@ export const cartesia: VoiceProvider = {
   bestFor: "Fast, natural voices on calls",
   title: "Cartesia pricing and Cartesia vs ElevenLabs for AI voice agents (2026)",
   description:
-    "Cartesia Sonic pricing explained: plans, credits, cost per hour of speech and Ink transcription, and how Cartesia compares with ElevenLabs on latency, price and cloning. How Rakazo uses Cartesia for calls, limits and setup.",
+    "Cartesia Sonic pricing explained: plans, credits, cost per hour of speech and Ink transcription, and how Cartesia compares with ElevenLabs on latency, price and cloning. How Ai7 uses Cartesia for calls, limits and setup.",
   h1: "Cartesia for AI agents: pricing, Cartesia vs ElevenLabs, and setup",
   intro: [
     "[Cartesia](https://cartesia.ai) builds speech models for live conversation. Its Sonic text to speech is designed to start talking almost immediately, which is what a voice agent needs when someone is waiting on the other end.",
-    "[Rakazo](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and you can also talk to it by voice: hold the mic to speak, have replies read aloud, or call a bot in real time. Connect Cartesia and it gives your bots their voice. Your device listens and turns your speech into text, and Rakazo runs the bot and keeps the transcript in the chat.",
-    "This page covers Cartesia's plans and prices as of November 2026, what a bot that talks every day costs, how Cartesia compares with ElevenLabs, and what Rakazo does and doesn't use.",
+    "[Ai7](/) is an open source app for AI teammates that do real work. You talk to each bot in chat, and you can also talk to it by voice: hold the mic to speak, have replies read aloud, or call a bot in real time. Connect Cartesia and it gives your bots their voice. Your device listens and turns your speech into text, and Ai7 runs the bot and keeps the transcript in the chat.",
+    "This page covers Cartesia's plans and prices as of November 2026, what a bot that talks every day costs, how Cartesia compares with ElevenLabs, and what Ai7 does and doesn't use.",
   ],
   scene: {
     bot: "Sales Outbound",
@@ -78,7 +78,7 @@ export const cartesia: VoiceProvider = {
       heading: "What is Cartesia?",
       paragraphs: [
         "[Cartesia](https://cartesia.ai) is a voice AI company that makes speech models and a platform for voice agents that answer and make phone calls. Its text to speech family is called Sonic, and it is built on state space models, an architecture Cartesia uses to keep latency low.",
-        "As of November 2026 the newest model is Sonic 3.6, in 44 languages; Sonic 3 and 3.5 remain available. Cartesia advertises first audio in under 90 ms; independent tests over a real network have measured about 250 ms, still among the fastest. Emotion is inferred from the text, `[laughter]` can be inserted, and pronunciation dictionaries fix names. You can choose from Cartesia's voice library or clone a voice from about 10 seconds of audio. Cartesia also sells a speech to text model, Ink, but Rakazo doesn't use it.",
+        "As of November 2026 the newest model is Sonic 3.6, in 44 languages; Sonic 3 and 3.5 remain available. Cartesia advertises first audio in under 90 ms; independent tests over a real network have measured about 250 ms, still among the fastest. Emotion is inferred from the text, `[laughter]` can be inserted, and pronunciation dictionaries fix names. You can choose from Cartesia's voice library or clone a voice from about 10 seconds of audio. Cartesia also sells a speech to text model, Ink, but Ai7 doesn't use it.",
       ],
       image: true,
     },
@@ -141,13 +141,13 @@ export const cartesia: VoiceProvider = {
           planRow("startup", "Startup"),
           planRow("scale", "Scale"),
         ],
-        note: `Derived from [Cartesia's pricing page](https://cartesia.ai/pricing), checked November 2026, at about ${count(CHARS_PER_HOUR)} characters per hour of speech. Rakazo doesn't use Ink.`,
+        note: `Derived from [Cartesia's pricing page](https://cartesia.ai/pricing), checked November 2026, at about ${count(CHARS_PER_HOUR)} characters per hour of speech. Ai7 doesn't use Ink.`,
       },
     },
     {
-      heading: "What a talking Rakazo bot costs on Cartesia",
+      heading: "What a talking Ai7 bot costs on Cartesia",
       paragraphs: [
-        "Rakazo calls Cartesia with your key, so Cartesia bills you and Rakazo adds nothing. Because Rakazo uses Cartesia only to speak, transcription is free: your browser, the desktop app or your phone does the listening.",
+        "Ai7 calls Cartesia with your key, so Cartesia bills you and Ai7 adds nothing. Because Ai7 uses Cartesia only to speak, transcription is free: your browser, the desktop app or your phone does the listening.",
         `${WORKLOAD} That is about ${count(WORKLOAD_CHARS)} credits, which fits inside the Startup plan's ${count(startup.credits)}: ${usd(startup.price)} a month. On Pro you'd pay ${usd(pro.price)} plus about $${Math.round(onPro(WORKLOAD_CHARS))} of overage, so Startup is the better fit at this volume. Someone who hears 10 minutes a day uses about ${count(LIGHT_CHARS)} credits, which is Pro plus about $${Math.round(onPro(LIGHT_CHARS))} of overage.`,
       ],
       table: voiceWorkloadTable("One bot, 30 minutes of speech and 30 of transcription a day", WORKLOAD_SHOWN),
@@ -156,14 +156,14 @@ export const cartesia: VoiceProvider = {
       heading: "Cartesia vs ElevenLabs",
       paragraphs: [
         `Both make natural, clonable voices for agents. Per character, Cartesia on its Startup plan is ${priceVersus(cartesiaPerMillion("startup"), RATES.elevenlabsFlash)} ElevenLabs Flash v2.5: Cartesia costs ${usd(LOW)} to ${usd(HIGH)} per million depending on plan, ElevenLabs ${usd(RATES.elevenlabsFlash)}. The differences are elsewhere. Cartesia is designed around latency, and in tests with lots of interruptions the difference is noticeable. ElevenLabs has the larger voice library, the more expressive top model (Eleven v4), and its own transcription. Reviewers rate Cartesia's English highly but say other languages trail ElevenLabs.`,
-        "In Rakazo the practical difference is transcription: ElevenLabs does both directions with one key, while Cartesia only speaks, so the mic depends on your device's speech recognition.",
+        "In Ai7 the practical difference is transcription: ElevenLabs does both directions with one key, while Cartesia only speaks, so the mic depends on your device's speech recognition.",
       ],
       table: voicePriceTable("Cartesia compared with ElevenLabs and other voice APIs", COMPARED),
     },
     {
-      heading: "What you can do with Cartesia in Rakazo",
+      heading: "What you can do with Cartesia in Ai7",
       paragraphs: [
-        "In Rakazo, Cartesia speaks and doesn't transcribe. Everything that needs a voice works with it, and your device handles listening. The [voice and calls guide](/docs/voice-and-calls/) shows where each control lives.",
+        "In Ai7, Cartesia speaks and doesn't transcribe. Everything that needs a voice works with it, and your device handles listening. The [voice and calls guide](/docs/voice-and-calls/) shows where each control lives.",
       ],
       bullets: [
         "Hear replies. Choose **Speak this reply** on any message, or turn on **Read replies aloud** in a bot's settings. Replies are spoken with `sonic-3`.",
@@ -186,9 +186,9 @@ export const cartesia: VoiceProvider = {
       bullets: [
         "No transcription. In a browser without on-device speech recognition, holding the mic shows an error until you switch to Chrome or the desktop app, or connect a provider that transcribes.",
         "Voice notes sent to a bot through a chat app such as Telegram arrive as audio files without a transcript.",
-        "Rakazo always speaks with `sonic-3`. You can't pick Sonic 3.6 or set emotion, speed or pronunciation from Rakazo.",
+        "Ai7 always speaks with `sonic-3`. You can't pick Sonic 3.6 or set emotion, speed or pronunciation from Ai7.",
         "Each sentence is generated as a finished clip and played in order, rather than streamed over Cartesia's real-time connection, so a bot starts talking a little later than Sonic alone could.",
-        "Rakazo doesn't clone voices itself. Create the clone in Cartesia first. The picker loads up to 2,000 voices, and voices beyond that can't be chosen.",
+        "Ai7 doesn't clone voices itself. Create the clone in Cartesia first. The picker loads up to 2,000 voices, and voices beyond that can't be chosen.",
         "Speech requests at once are capped per plan, from 2 on Free to 15 on Scale. Several people sharing one key on calls can hit that.",
         "Zero data retention, HIPAA agreements and regional endpoints in the EU, UK, India and Australia are Enterprise features. Cartesia is SOC 2 Type II certified.",
         "Calls and hold-to-talk are a server setting. On a self-hosted server they stay off until the admin turns them on.",
@@ -197,11 +197,11 @@ export const cartesia: VoiceProvider = {
     {
       heading: "How to set it up",
       paragraphs: [
-        "Anyone can do this in their own settings, on Rakazo Cloud or a self-hosted server. The key belongs to your account, not the whole server.",
+        "Anyone can do this in their own settings, on Ai7 Cloud or a self-hosted server. The key belongs to your account, not the whole server.",
       ],
       steps: [
         "Create an API key in your [Cartesia](https://cartesia.ai) account.",
-        "In Rakazo, open **Settings → Voice**, choose **Cartesia** as the **Provider**, paste the **API key** and choose **Connect**.",
+        "In Ai7, open **Settings → Voice**, choose **Cartesia** as the **Provider**, paste the **API key** and choose **Connect**.",
         "Pick a **Voice** and use **Hear a sample** to check it.",
         "Optionally, open a bot's settings, expand **Advanced**, turn on **Read replies aloud** and give it its own **Voice**.",
         "If you run your own server and want calls and hold-to-talk, set `PHONE_CALLS_ENABLED=true` on the API and worker.",
@@ -222,22 +222,22 @@ export const cartesia: VoiceProvider = {
     {
       question: "Cartesia vs ElevenLabs: which is better for AI agents?",
       answer:
-        "Both give natural voices you can clone, at a similar price per character. Cartesia is built for speed in live conversation. [ElevenLabs](/voice-providers/elevenlabs/) has more voices and languages and also transcribes, so in Rakazo the mic and chat app voice notes work everywhere with one key. Cartesia only speaks in Rakazo.",
+        "Both give natural voices you can clone, at a similar price per character. Cartesia is built for speed in live conversation. [ElevenLabs](/voice-providers/elevenlabs/) has more voices and languages and also transcribes, so in Ai7 the mic and chat app voice notes work everywhere with one key. Cartesia only speaks in Ai7.",
     },
     {
       question: "Can I build a voice agent with Cartesia Sonic?",
       answer:
-        "Yes. In Rakazo, connect Cartesia in **Settings → Voice** and your bots speak with Sonic when they read replies or take a call. Your device turns your speech into text, so you don't need a second provider.",
+        "Yes. In Ai7, connect Cartesia in **Settings → Voice** and your bots speak with Sonic when they read replies or take a call. Your device turns your speech into text, so you don't need a second provider.",
     },
     {
-      question: "Does Cartesia transcribe speech in Rakazo?",
+      question: "Does Cartesia transcribe speech in Ai7?",
       answer:
-        "No. Cartesia sells a speech to text model, Ink, but Rakazo uses Cartesia only to speak. Listening uses your browser's, computer's or phone's speech recognition. For transcription from the provider, use [ElevenLabs](/voice-providers/elevenlabs/), [OpenAI](/voice-providers/openai/) or [Fish Audio](/voice-providers/fish-audio/).",
+        "No. Cartesia sells a speech to text model, Ink, but Ai7 uses Cartesia only to speak. Listening uses your browser's, computer's or phone's speech recognition. For transcription from the provider, use [ElevenLabs](/voice-providers/elevenlabs/), [OpenAI](/voice-providers/openai/) or [Fish Audio](/voice-providers/fish-audio/).",
     },
     {
-      question: "Can a Rakazo bot use my cloned Cartesia voice?",
+      question: "Can a Ai7 bot use my cloned Cartesia voice?",
       answer:
-        "Yes. Clone the voice in Cartesia, and it appears in Rakazo's voice picker with the other voices your account can use. Only clone voices you have the right to use.",
+        "Yes. Clone the voice in Cartesia, and it appears in Ai7's voice picker with the other voices your account can use. Only clone voices you have the right to use.",
     },
     {
       question: "Is Cartesia open source?",

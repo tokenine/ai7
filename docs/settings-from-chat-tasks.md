@@ -1,8 +1,8 @@
 # Settings from chat, product help, and lazy tool loading
 
-Goal: a bot can manage Rakazo for its user when asked (its own model,
+Goal: a bot can manage Ai7 for its user when asked (its own model,
 instructions, voice and profile, plus low-risk user settings), answers questions
-about Rakazo from real docs, and the model sees a small tool list that loads the
+about Ai7 from real docs, and the model sees a small tool list that loads the
 rest on demand. Every step is measured with tool-choice evals before and after.
 
 ## Why
@@ -14,7 +14,7 @@ rest on demand. Every step is measured with tool-choice evals before and after.
 - `propose_instructions_update` adds a second path the model keeps missing:
   `update_bot` regularly rejects direct instruction writes and tells the model
   to propose instead. Approval modes already cover users who want review.
-- Questions about Rakazo itself (where a setting is, billing, credits, how an
+- Questions about Ai7 itself (where a setting is, billing, credits, how an
   integration works) get web searches, guessed UI steps, or no reply.
 - A run uses a handful of tools, but every model call carries every tool
   definition. Several tools are almost never called.
@@ -37,7 +37,7 @@ rest on demand. Every step is measured with tool-choice evals before and after.
   before answering; tool catalog in the prompt capped by a token budget.
 - Claude Code: skills listed as one line, body loaded on demand; deferred tool
   schemas behind a search tool. Native `defer_loading` is Anthropic-only, so
-  Rakazo needs a provider-neutral bridge (it may use the native path in the
+  Ai7 needs a provider-neutral bridge (it may use the native path in the
   Anthropic adapter later, behind the same interface).
 
 ## Decisions

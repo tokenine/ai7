@@ -16,7 +16,7 @@ Open **Settings → Models**. Under **Add provider**, pick a provider and connec
 Connected providers are listed under **Providers** and are available in every [space](./spaces.md).
 
 > [!NOTE]
-> On rakazo.com you can skip this and choose **Use Rakazo credits**, which includes monthly model
+> On rakazo.com you can skip this and choose **Use Ai7 credits**, which includes monthly model
 > credits. See [Account and billing](./account.md).
 
 ## Main model and fallbacks

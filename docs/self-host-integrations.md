@@ -32,15 +32,15 @@ the default work as described for Parallel.
 Supermemory and Honcho can run on your own network. In **Settings → Memory**, choose **Local**
 and enter the instance's base URL. The operator must set `MCP_ALLOW_PRIVATE_ENDPOINT=true`; workspace owners can then save a local endpoint. It must
 be loopback or resolve to private addresses (a Compose service name, an RFC1918 or unique-local
-address, or a `.internal` name such as Railway's private network); Rakazo pins the resolved
+address, or a `.internal` name such as Railway's private network); Ai7 pins the resolved
 address for every request. Space members use the saved connection without seeing its key.
 
 For [Honcho](https://github.com/plastic-labs/honcho), enable `AUTH_USE_AUTH` on the Honcho
 server and use an admin JWT from its `scripts/generate_jwt.py --admin` as the key, so each Space
 gets its own workspace. A workspace-scoped JWT works when you enter that workspace. Honcho needs
 its own PostgreSQL with pgvector, an LLM provider, and an embedding provider; set
-`EMBEDDING_VECTOR_DIMENSIONS` before its first start. Rakazo stores only explicitly saved facts
-in Honcho; conversation summaries stay in Rakazo. Bots can forget a saved fact on Honcho v3.2 or
+`EMBEDDING_VECTOR_DIMENSIONS` before its first start. Ai7 stores only explicitly saved facts
+in Honcho; conversation summaries stay in Ai7. Bots can forget a saved fact on Honcho v3.2 or
 later.
 
 ## MCP servers
@@ -50,17 +50,17 @@ owner can attach one on localhost, the same LAN, or a Docker network. Set
 `MCP_ALLOW_PRIVATE_ENDPOINT=true` on the API and worker to allow these for every user. Cloud
 metadata addresses stay blocked. Leave the flag unset on public installs.
 
-Remote MCP servers that use OAuth normally register Rakazo with their provider on the first
+Remote MCP servers that use OAuth normally register Ai7 with their provider on the first
 **Connect OAuth**. Some providers only accept a client you create in their console. For those,
 enter the client ID (and secret, for a confidential client) under **Advanced** when adding the
 server, and add the **Redirect URI** shown there (`<your web origin>/mcp/oauth/callback`) to the
 client's allowed redirect URIs. The client is stored encrypted with the server's other
 credentials and survives **Disconnect**; switching to a different client drops the current grant.
-On first use the client is bound to the authorization server the MCP server pointed to, and Rakazo
+On first use the client is bound to the authorization server the MCP server pointed to, and Ai7
 refuses to send it anywhere else afterwards. Replacing the client clears the binding.
 
 Stdio MCP servers can use OAuth too. They do not authorize themselves (the MCP spec has them
-read credentials from the environment), so Rakazo runs the flow for them. They are off unless
+read credentials from the environment), so Ai7 runs the flow for them. They are off unless
 the API and worker have `MCP_STDIO_ENABLED=true` and the command is listed in
 `MCP_STDIO_ALLOWED_COMMANDS`. A stdio server runs inside the API and worker with their access,
 so only admins (verified accounts listed in `RAKAZO_ADMIN_EMAILS`) can add or edit one, in
@@ -80,12 +80,12 @@ through its environment variables:
   written to a private temporary directory when the process starts, and the variable receives
   the file's path. Use this for packages that read a credentials or token file path.
 
-Rakazo refreshes the grant and restarts the process shortly before an access token it passed
+Ai7 refreshes the grant and restarts the process shortly before an access token it passed
 expires, so a long-running process never keeps a dead token. A process that only receives the
 refresh token refreshes on its own. Temporary files are removed when the process stops.
 
 A server launched as `npx [-y] <package>[@version]` (or `npx -p <package> <bin>`) is not
-downloaded on every start. Rakazo installs the package once, without running its install
+downloaded on every start. Ai7 installs the package once, without running its install
 scripts, with `npm install` into
 `MCP_PACKAGES_DIR` (default `DATA_DIR/mcp-packages`, shared by the API and worker), then runs
 its bin directly; `npx` must still be in `MCP_STDIO_ALLOWED_COMMANDS`. The install has its own
@@ -122,11 +122,11 @@ API and worker.
 
 `INTEGRATIONS_CATALOG_URL` points API connector search at an
 [integrations.sh](https://integrations.sh/)-compatible catalog, such as a mirror you host. Give the
-base URL; Rakazo appends `api/search`.
+base URL; Ai7 appends `api/search`.
 
 ## Messaging apps
 
-Optional messaging platforms (iMessage through Sendblue or Photon, Slack, WhatsApp, Telegram, Feishu/Lark) mount when their env credentials are set — see `.env.example`. The Lark adapter and official SDK load only when configured. Point a Feishu/Lark bot event subscription at `/api/v1/messaging/webhook/lark` (webhook/HTTP inbound only; do not enable long connection). Personal group linking works on iMessage and Telegram (see the Telegram privacy note below); WhatsApp and Feishu/Lark are direct-only, and Slack channels use workspace installations below. Telegram can run several bots side by side (`TELEGRAM_BOT_TOKEN_<NAME>` plus `TELEGRAM_WEBHOOK_SECRET_TOKEN_<NAME>`), for example one per space, so the same person can chat with a different Rakazo bot through each. Photon works the same way: each extra project (`PHOTON_PROJECT_ID_<NAME>` plus `PHOTON_PROJECT_SECRET_<NAME>`, and `PHOTON_WEBHOOK_SECRET_<NAME>` for webhooks) gives the person a different number, mounted as provider `photon-<name>`. Photon receives iMessage over an outbound stream from the API, so it works on a server with no public URL; on Photon's shared lines the person texts first, and group chats are not available.
+Optional messaging platforms (iMessage through Sendblue or Photon, Slack, WhatsApp, Telegram, Feishu/Lark) mount when their env credentials are set — see `.env.example`. The Lark adapter and official SDK load only when configured. Point a Feishu/Lark bot event subscription at `/api/v1/messaging/webhook/lark` (webhook/HTTP inbound only; do not enable long connection). Personal group linking works on iMessage and Telegram (see the Telegram privacy note below); WhatsApp and Feishu/Lark are direct-only, and Slack channels use workspace installations below. Telegram can run several bots side by side (`TELEGRAM_BOT_TOKEN_<NAME>` plus `TELEGRAM_WEBHOOK_SECRET_TOKEN_<NAME>`), for example one per space, so the same person can chat with a different Ai7 bot through each. Photon works the same way: each extra project (`PHOTON_PROJECT_ID_<NAME>` plus `PHOTON_PROJECT_SECRET_<NAME>`, and `PHOTON_WEBHOOK_SECRET_<NAME>` for webhooks) gives the person a different number, mounted as provider `photon-<name>`. Photon receives iMessage over an outbound stream from the API, so it works on a server with no public URL; on Photon's shared lines the person texts first, and group chats are not available.
 
 Each platform turns on when its full set of credentials is present on the API and worker.
 Webhooks arrive at `/api/v1/messaging/webhook/<provider>`.
@@ -171,7 +171,7 @@ reinstall the Slack app after changing scopes. Socket Mode is not used.
 
 In Messaging settings, select **Connect** on the Slack row. The workspace answers as
 the first bot in your default space, whichever space is open. Each Slack workspace
-belongs to one Rakazo space and one installation owner; installing it from another
+belongs to one Ai7 space and one installation owner; installing it from another
 space is rejected. To DM that bot, use **Link DMs** and send the code in a DM to the
 Slack app. Teammates in the same space can link their own bots the same way.
 Invite the Slack app to channels and mention it to receive replies there. The
@@ -183,7 +183,7 @@ finishes. Channel listening settings currently live in the web/desktop interface
 Tokens are encrypted with the configured secret store. Workers resolve the
 installation for every outbound operation, including queued replies; disconnecting
 an installation stops further delivery and unlinks its personal DMs. Slack's signed
-`app_uninstalled` event also removes the installation. Disconnect removes Rakazo's
+`app_uninstalled` event also removes the installation. Disconnect removes Ai7's
 local credentials; remove the app in Slack to revoke Slack's installation itself.
 The installation owner must retain space membership and an active bot. Workspace
 installations require a workspace-level bot token without Slack token rotation;
