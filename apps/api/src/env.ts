@@ -137,6 +137,9 @@ export interface AppEnv {
   emailReplyTo?: string;
   /** Mail to bots' addresses, posted by a relay; off unless the domain and secret are both set. */
   inboundEmail?: { domain: string; secret: string };
+  /** Cloudflare Email Sending: token + account id switch transactional email to the REST API. */
+  cloudflareEmailApiToken: string | undefined;
+  cloudflareAccountId: string | undefined;
   /** Billing turns on only when all three are set; self-hosted installs leave them unset. */
   stripeSecretKey: string | undefined;
   stripeWebhookSecret: string | undefined;
@@ -333,6 +336,8 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
     emailReplyTo: optional(source.EMAIL_REPLY_TO),
     inboundEmail: inboundEmailFromEnv(source),
     welcomeEmailEnabled: source.WELCOME_EMAIL_ENABLED === "true",
+    cloudflareEmailApiToken: optional(source.CLOUDFLARE_EMAIL_API_TOKEN),
+    cloudflareAccountId: optional(source.CLOUDFLARE_ACCOUNT_ID),
     stripeSecretKey: optional(source.STRIPE_SECRET_KEY),
     stripeWebhookSecret: optional(source.STRIPE_WEBHOOK_SECRET),
     stripePriceId: optional(source.STRIPE_PRICE_ID),
