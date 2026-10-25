@@ -27,6 +27,7 @@ import type {
 import {
   applyMessagingOutboundStatus,
   ChatSdkMessagingSurface,
+  CloudflareEmailProvider,
   CodexCatalogCache,
   ComposioConnector,
   createAgentHomeStore,
@@ -397,9 +398,15 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
   }
   const email: TransactionalEmailProvider | undefined =
     emailOverride ??
-    (env.smtpUrl
-      ? new SmtpEmailProvider({ url: env.smtpUrl, from: env.emailFrom ?? "" })
-      : localEmailEmulator);
+    (env.cloudflareEmailApiToken && env.cloudflareAccountId
+      ? new CloudflareEmailProvider({
+          accountId: env.cloudflareAccountId,
+          apiToken: env.cloudflareEmailApiToken,
+          from: env.emailFrom ?? "",
+        })
+      : env.smtpUrl
+        ? new SmtpEmailProvider({ url: env.smtpUrl, from: env.emailFrom ?? "" })
+        : localEmailEmulator);
   const stripeBilling = stripeBillingConfigFromEnv(env);
   const billingProvider: BillingProvider | undefined =
     billingOverride ?? (stripeBilling ? new StripeBillingProvider(stripeBilling) : undefined);
