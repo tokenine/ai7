@@ -38,7 +38,8 @@ is_snap_browser() {
 }
 BIN=""
 SNAP_BIN=""
-for candidate in chromium chromium-browser google-chrome google-chrome-stable /opt/google/chrome/chrome brave-browser /opt/brave.com/brave/brave; do
+# Chrome first: Google account sign-in works there and the image bakes it on amd64.
+for candidate in google-chrome-stable google-chrome /opt/google/chrome/chrome chromium chromium-browser brave-browser /opt/brave.com/brave/brave; do
   found="$(command -v "$candidate" || true)"
   [ -n "$found" ] && [ -x "$found" ] || continue
   if is_snap_browser "$found"; then
@@ -50,7 +51,7 @@ for candidate in chromium chromium-browser google-chrome google-chrome-stable /o
 done
 BIN="${BIN:-$SNAP_BIN}"
 if [ -z "$BIN" ]; then
-  echo "no browser found: install chromium, google-chrome or brave-browser" >&2
+  echo "no browser found: install google-chrome, chromium or brave-browser" >&2
   exit 1
 fi
 USER_DATA_DIR_SET=0

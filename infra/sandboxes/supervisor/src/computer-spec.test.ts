@@ -293,6 +293,27 @@ describe("graphical computer spec", () => {
     expect(dockerfile).toMatch(/rakazo-focus-or-launch/);
   });
 
+  it("bakes Google Chrome, Thai fonts and a Thai locale into the image", () => {
+    const root = path.resolve(import.meta.dirname, "../../computer");
+    const dockerfile = readFileSync(path.join(root, "Dockerfile"), "utf8");
+    const browser = readFileSync(path.join(root, "rakazo-browser"), "utf8");
+    // Chrome installs on amd64 only; Debian chromium stays for other architectures.
+    expect(dockerfile).toMatch(/google-chrome-stable_current_amd64\.deb/);
+    expect(dockerfile).toMatch(/dpkg --print-architecture\)" = "amd64"/);
+    expect(browser).toMatch(
+      /google-chrome-stable google-chrome \/opt\/google\/chrome\/chrome chromium chromium-browser/,
+    );
+    // Thai display support: TLWG packages, Google families and an opt-in th_TH locale.
+    expect(dockerfile).toMatch(/fonts-thai-tlwg/);
+    expect(dockerfile).toMatch(/thai-google/);
+    expect(dockerfile).toMatch(/Sarabun/);
+    expect(dockerfile).toMatch(/th_TH\.UTF-8 UTF-8/);
+    // The new tab page still opens the ThaiFi wallet for Chrome and chromium alike.
+    expect(dockerfile).toMatch(/NewTabPageLocation/);
+    expect(dockerfile).toMatch(/wallet\.thaifi\.com/);
+    expect(dockerfile).toMatch(/policies\/managed\/rakazo\.json/);
+  });
+
   it.skipIf(process.platform === "win32")(
     "finds Google Chrome and passes over Ubuntu's snap chromium",
     () => {

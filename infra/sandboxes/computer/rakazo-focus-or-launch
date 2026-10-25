@@ -14,8 +14,17 @@ import subprocess
 import sys
 
 # Launchers whose process WM_CLASS differs from the launcher name. The browser
-# is Chromium unless the image was built with BROWSER=brave.
-BROWSER_WM_CLASS = "brave-browser" if shutil.which("brave-browser") and not shutil.which("chromium") else "chromium"
+# is Google Chrome when the image baked it (amd64), else Chromium unless the
+# image was built with BROWSER=brave.
+def _browser_wm_class():
+    if shutil.which("google-chrome-stable") or shutil.which("google-chrome"):
+        return "google-chrome"
+    if shutil.which("brave-browser") and not shutil.which("chromium"):
+        return "brave-browser"
+    return "chromium"
+
+
+BROWSER_WM_CLASS = _browser_wm_class()
 WM_CLASS = {"rakazo-browser": BROWSER_WM_CLASS}
 WMCTRL_TIMEOUT_SEC = 5
 # control.py uses the same bounds: a browser may still be forwarding a URL

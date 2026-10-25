@@ -40,6 +40,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     fonts-liberation \
     fonts-dejavu-core \
     fonts-noto-cjk \
+    fonts-thai-tlwg \
     locales \
     dbus-x11 \
     xdg-desktop-portal \
@@ -90,6 +91,25 @@ RUN set -eux; \
           '}' > /etc/brave/policies/managed/rakazo.json ;; \
       *) echo "unsupported BROWSER: $BROWSER (use chromium or brave)" >&2; exit 1 ;; \
     esac
+# Google Chrome on amd64: real Chrome signs into Google accounts and plays the
+# DRM/proprietary-codec media Debian chromium cannot. Chromium stays installed
+# above as the fallback for other architectures (local dev on Apple Silicon).
+RUN set -eux; \
+  if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
+    curl -fsSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /tmp/google-chrome.deb; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends /tmp/google-chrome.deb; \
+    rm -f /tmp/google-chrome.deb; \
+    rm -rf /var/lib/apt/lists/*; \
+    google-chrome-stable --version; \
+  fi; \
+  # Wallet-first first page: the new tab page opens the ThaiFi wallet instead of
+  # google.com, for Chrome and the chromium fallback alike. Session restore is
+  # untouched (--restore-last-session keeps bringing back the previous tabs).
+  mkdir -p /etc/opt/chrome/policies/managed /etc/chromium/policies/managed; \
+  printf '%s\n' '{"NewTabPageLocation":"https://wallet.thaifi.com"}' \
+    | tee /etc/opt/chrome/policies/managed/rakazo.json /etc/chromium/policies/managed/rakazo.json >/dev/null; \
+  python3 -m json.tool /etc/opt/chrome/policies/managed/rakazo.json
 RUN ln -s "$(dpkg -L libnss-wrapper | grep '/libnss_wrapper.so$')" /usr/local/lib/libnss_wrapper.so
 ARG TARGETARCH
 ARG UV_VERSION=0.12.19
@@ -120,12 +140,29 @@ RUN set -eux; \
   tar -xzf "$archive" -C /usr/local/bin --strip-components=2 "gh_${GH_VERSION}_linux_${gh_arch}/bin/gh"; \
   rm -f "$archive"; \
   gh --version
+# Popular Thai Google families on top of the TLWG/Noto base, so Thai sites in
+# the browser render with real Thai typefaces (Sarabun, Prompt, Kanit, ...).
+# Best-effort: a failed download just leaves fewer families behind.
+RUN install -d /usr/local/share/fonts/thai-google \
+  && for fam in Sarabun Prompt Kanit Mitr "Bai+Jamjuree" "Chakra+Petch" K2D KoHo Krub \
+                Pridi Maitree "IBM+Plex+Sans+Thai" "IBM+Plex+Sans+Thai+Looped" Anuphan "Noto+Sans+Thai"; do \
+      css=$(curl -fsSL "https://fonts.googleapis.com/css2?family=${fam}:wght@400;500;700" || true); \
+      [ -n "$css" ] || continue; \
+      i=0; \
+      for url in $(printf '%s\n' "$css" | grep -oE 'https://[^)]+\.ttf' | sort -u); do \
+        i=$((i + 1)); \
+        curl -fsSL -o "/usr/local/share/fonts/thai-google/$(printf '%s' "$fam" | tr -d '+')-${i}.ttf" "$url" \
+          || rm -f "/usr/local/share/fonts/thai-google/$(printf '%s' "$fam" | tr -d '+')-${i}.ttf"; \
+      done; \
+    done \
+  && fc-cache -fs || true
 ENV DISPLAY=:1
 ENV HOME=/home/rakazo
 # Keep UTF-8 explicit (an empty LANG broke non-ASCII file handling in the
-# file chooser for CJK-market users) and generate zh_CN.UTF-8 so deployments
-# that override the computer environment can opt in to a Chinese locale.
-RUN sed -i 's/^# zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
+# file chooser for CJK-market users) and generate zh_CN.UTF-8 / th_TH.UTF-8 so
+# deployments that override the computer environment can opt in to a Chinese
+# or Thai locale. Thai display rendering itself relies on the fonts above.
+RUN sed -i -e 's/^# zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/' -e 's/^# th_TH.UTF-8 UTF-8/th_TH.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 ENV LANG=C.UTF-8
 ENV UV_TOOL_DIR=/home/rakazo/.local/share/uv/tools \
     UV_TOOL_BIN_DIR=/home/rakazo/.local/bin \
