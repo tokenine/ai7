@@ -86,8 +86,11 @@ for launcher in "$AGENT_HOME"/Desktop/*.desktop; do
   gio set "$launcher" metadata::trusted true 2>/dev/null || true
 done
 pcmanfm --desktop --profile rakazo >/tmp/rakazo/pcmanfm.log 2>&1 &
+# Apply the wallpaper through the running instance. The call must carry the same
+# profile and a timeout: without --profile it targets a non-existent default
+# instance and hangs, which would block the rest of startup.
 for _ in $(seq 1 20); do
-  pcmanfm --set-wallpaper=/usr/local/share/rakazo-brand/wallpaper.png >/dev/null 2>&1 && break
+  timeout 5 pcmanfm --profile rakazo --set-wallpaper=/usr/local/share/rakazo-brand/wallpaper.png >/dev/null 2>&1 && break
   sleep 0.5
 done
 

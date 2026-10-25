@@ -202,6 +202,10 @@ COPY --chmod=644 brand/desktop/chrome.desktop /usr/share/rakazo-brand/desktop/ch
 COPY --chmod=644 brand/desktop/terminal.desktop /usr/share/rakazo-brand/desktop/terminal.desktop
 COPY --chmod=644 brand/desktop/files.desktop /usr/share/rakazo-brand/desktop/files.desktop
 COPY --chmod=644 brand/pcmanfm.conf /etc/xdg/pcmanfm/rakazo/pcmanfm.conf
+# COPY --chmod only normalizes the files; the intermediate directories it
+# creates end up root-only, which uid 1000 could not read at boot.
+RUN chmod 755 /usr/share/rakazo-brand/desktop /etc/xdg/pcmanfm/rakazo /usr/local/share/rakazo-brand \
+  && chmod 644 /usr/share/rakazo-brand/desktop/*.desktop /etc/xdg/pcmanfm/rakazo/pcmanfm.conf
 # Strip CR so shebangs work even if the build context came from a CRLF checkout.
 RUN ldconfig \
   && sed -i 's/\r$//' /usr/local/bin/rakazo-computer /usr/local/lib/rakazo-user-env.sh /usr/local/bin/rakazo-computer-control /usr/local/bin/rakazo-browser /usr/local/bin/rakazo-focus-or-launch /usr/local/bin/rakazo-page-browser \
