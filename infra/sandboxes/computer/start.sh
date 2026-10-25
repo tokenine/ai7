@@ -73,6 +73,24 @@ if [ -x /usr/libexec/xdg-desktop-portal ] && [ -x /usr/libexec/xdg-desktop-porta
 fi
 
 xsetroot -solid "#111113" >/dev/null 2>&1 || true
+
+# Ai7 brand desktop: pcmanfm draws the wallpaper and the ~/Desktop launchers
+# (Chrome, Terminal, Files) on the root window. Launchers are synced into the
+# durable home once (cp -n), then marked executable + trusted so a double
+# click runs them without a confirmation dialog.
+mkdir -p "$AGENT_HOME/Desktop"
+cp -n /usr/share/rakazo-brand/desktop/*.desktop "$AGENT_HOME/Desktop/" 2>/dev/null || true
+for launcher in "$AGENT_HOME"/Desktop/*.desktop; do
+  [ -e "$launcher" ] || continue
+  chmod +x "$launcher" 2>/dev/null || true
+  gio set "$launcher" metadata::trusted true 2>/dev/null || true
+done
+pcmanfm --desktop --profile rakazo >/tmp/rakazo/pcmanfm.log 2>&1 &
+for _ in $(seq 1 20); do
+  pcmanfm --set-wallpaper=/usr/local/share/rakazo-brand/wallpaper.png >/dev/null 2>&1 && break
+  sleep 0.5
+done
+
 mkdir -p /tmp/fluxbox-home/.fluxbox
 cp /etc/rakazo/fluxbox/init /tmp/fluxbox-home/.fluxbox/init
 cp /etc/rakazo/fluxbox/apps /tmp/fluxbox-home/.fluxbox/apps 2>/dev/null || true

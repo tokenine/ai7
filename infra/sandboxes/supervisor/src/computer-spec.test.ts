@@ -297,6 +297,7 @@ describe("graphical computer spec", () => {
     const root = path.resolve(import.meta.dirname, "../../computer");
     const dockerfile = readFileSync(path.join(root, "Dockerfile"), "utf8");
     const browser = readFileSync(path.join(root, "rakazo-browser"), "utf8");
+    const start = readFileSync(path.join(root, "start.sh"), "utf8");
     // Chrome installs on amd64 only; Debian chromium stays for other architectures.
     expect(dockerfile).toMatch(/google-chrome-stable_current_amd64\.deb/);
     expect(dockerfile).toMatch(/dpkg --print-architecture\)" = "amd64"/);
@@ -312,6 +313,12 @@ describe("graphical computer spec", () => {
     expect(dockerfile).toMatch(/NewTabPageLocation/);
     expect(dockerfile).toMatch(/wallet\.thaifi\.com/);
     expect(dockerfile).toMatch(/policies\/managed\/rakazo\.json/);
+    // Ai7 brand desktop: pcmanfm draws wallpaper + desktop launchers at boot.
+    expect(dockerfile).toMatch(/brand\/wallpaper-ai7\.png/);
+    expect(dockerfile).toMatch(/brand\/desktop\/chrome\.desktop/);
+    expect(start).toMatch(/pcmanfm --desktop/);
+    expect(start).toMatch(/pcmanfm --set-wallpaper=/);
+    expect(start).toMatch(/Desktop/);
   });
 
   it.skipIf(process.platform === "win32")(

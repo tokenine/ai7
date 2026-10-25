@@ -46,6 +46,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     xdg-desktop-portal \
     xdg-desktop-portal-gtk \
     xdg-utils \
+    pcmanfm \
+    libglib2.0-bin \
     curl \
     git \
     jq \
@@ -106,9 +108,11 @@ RUN set -eux; \
   # Wallet-first first page: the new tab page opens the ThaiFi wallet instead of
   # google.com, for Chrome and the chromium fallback alike. Session restore is
   # untouched (--restore-last-session keeps bringing back the previous tabs).
-  mkdir -p /etc/opt/chrome/policies/managed /etc/chromium/policies/managed; \
+  mkdir -p /etc/opt/chrome/policies/managed /etc/chromium/policies/managed /usr/local/share/rakazo-brand/icons; \
   printf '%s\n' '{"NewTabPageLocation":"https://wallet.thaifi.com"}' \
     | tee /etc/opt/chrome/policies/managed/rakazo.json /etc/chromium/policies/managed/rakazo.json >/dev/null; \
+  cp /usr/share/icons/hicolor/256x256/apps/google-chrome.png /usr/local/share/rakazo-brand/icons/chrome.png \
+    || cp /usr/share/icons/hicolor/256x256/apps/chromium.png /usr/local/share/rakazo-brand/icons/chrome.png; \
   python3 -m json.tool /etc/opt/chrome/policies/managed/rakazo.json
 RUN ln -s "$(dpkg -L libnss-wrapper | grep '/libnss_wrapper.so$')" /usr/local/lib/libnss_wrapper.so
 ARG TARGETARCH
@@ -188,6 +192,16 @@ COPY --chmod=644 mobile-keyboard.js /usr/share/novnc/mobile-keyboard.js
 # Login shells source this after Debian's /etc/profile resets PATH. The home
 # volume hides /etc/skel, so ~/.local/bin has to be restored from the image.
 COPY --chmod=644 rakazo-local-bin.sh /etc/profile.d/rakazo-local-bin.sh
+# Ai7 brand desktop: wallpaper + Chrome/Terminal/Files launchers drawn on the root
+# window by pcmanfm --desktop (started in start.sh). The Chromium fallback build
+# (arm64 local dev) gets its browser icon from chromium's hicolor file instead.
+COPY --chmod=644 brand/wallpaper-ai7.png /usr/local/share/rakazo-brand/wallpaper.png
+COPY --chmod=644 brand/icon-terminal.png /usr/local/share/rakazo-brand/icons/terminal.png
+COPY --chmod=644 brand/icon-file-manager.png /usr/local/share/rakazo-brand/icons/file-manager.png
+COPY --chmod=644 brand/desktop/chrome.desktop /usr/share/rakazo-brand/desktop/chrome.desktop
+COPY --chmod=644 brand/desktop/terminal.desktop /usr/share/rakazo-brand/desktop/terminal.desktop
+COPY --chmod=644 brand/desktop/files.desktop /usr/share/rakazo-brand/desktop/files.desktop
+COPY --chmod=644 brand/pcmanfm.conf /etc/xdg/pcmanfm/rakazo/pcmanfm.conf
 # Strip CR so shebangs work even if the build context came from a CRLF checkout.
 RUN ldconfig \
   && sed -i 's/\r$//' /usr/local/bin/rakazo-computer /usr/local/lib/rakazo-user-env.sh /usr/local/bin/rakazo-computer-control /usr/local/bin/rakazo-browser /usr/local/bin/rakazo-focus-or-launch /usr/local/bin/rakazo-page-browser \

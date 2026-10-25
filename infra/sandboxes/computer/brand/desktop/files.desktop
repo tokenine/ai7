@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Files
+GenericName=File Manager
+Comment=Browse files with PCManFM
+Exec=pcmanfm
+Icon=/usr/local/share/rakazo-brand/icons/file-manager.png
+Terminal=false
+Categories=Utility;FileManager;
