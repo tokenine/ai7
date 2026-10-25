@@ -48,6 +48,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     xdg-utils \
     pcmanfm \
     libglib2.0-bin \
+    # gio's metadata::trusted (desktop launcher trust) needs both sides: the
+    # gvfs giomodule client (package gvfs) and gvfsd-metadata (gvfs-daemons).
+    gvfs \
     gvfs-daemons \
     curl \
     git \
