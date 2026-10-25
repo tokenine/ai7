@@ -69,7 +69,7 @@ describe("automated messages are labelled as not from the user", () => {
     expect(await plain.onPayload?.({ messages: [] }, undefined as never)).toBeUndefined();
   });
 
-  it("marks Rakazo's continue nudges and finished shell output, and lets the bot ask the user", () => {
+  it("marks Ai7's continue nudges and finished shell output, and lets the bot ask the user", () => {
     for (const prompt of [
       SILENT_TOOL_CONTINUATION_PROMPT,
       SILENT_ALLOWED_TOOL_CONTINUATION_PROMPT,

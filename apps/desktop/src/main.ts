@@ -618,7 +618,7 @@ function installApplicationMenu() {
   };
   const changeServer: Electron.MenuItemConstructorOptions = {
     id: "change-rakazo-server",
-    label: "Change Rakazo Server…",
+    label: "Change Ai7 Server…",
     accelerator: "CmdOrCtrl+Shift+K",
     click: () => showSetupWindow(),
   };
@@ -701,7 +701,7 @@ function installApplicationMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
-/** Setup IPC must only answer the setup window, never a connected Rakazo server. */
+/** Setup IPC must only answer the setup window, never a connected Ai7 server. */
 function fromSetupWindow(event: Electron.IpcMainInvokeEvent) {
   return (
     setupWindow !== null && !setupWindow.isDestroyed() && event.sender === setupWindow.webContents
@@ -728,7 +728,7 @@ async function probeServer(rawUrl: string, signal?: AbortSignal): Promise<Deskto
         ok: false,
         status: response.status,
         url,
-        error: "That address redirects elsewhere. Enter the final Rakazo server address.",
+        error: "That address redirects elsewhere. Enter the final Ai7 server address.",
       };
     }
     if (!response.ok) {
@@ -745,7 +745,7 @@ async function probeServer(rawUrl: string, signal?: AbortSignal): Promise<Deskto
         ok: false,
         status: response.status,
         url,
-        error: "That address did not respond like a Rakazo server.",
+        error: "That address did not respond like an Ai7 server.",
       };
     }
     return {
@@ -1258,7 +1258,7 @@ app.whenReady().then(async () => {
         if (managedUrl === null || !(await localStack.matchesDesiredStack())) {
           return {
             ok: false,
-            error: "The app-managed Rakazo services are not ready. Retry setup.",
+            error: "The app-managed Ai7 services are not ready. Retry setup.",
           };
         }
         openSetup = { mode: "new", serverUrl: managedUrl };

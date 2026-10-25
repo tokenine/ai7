@@ -1,11 +1,11 @@
 ---
 title: "Claude Duet vs Grok Bot, and an open source alternative"
-description: "Anthropic released Claude Duet on October 21, 2026. How it compares with xAI's Grok Bot, and with Rakazo, the open source option you run yourself."
+description: "Anthropic released Claude Duet on October 21, 2026. How it compares with xAI's Grok Bot, and with Ai7, the open source option you run yourself."
 published: "2026-10-24"
 updated: "2026-10-24"
 author: "Elie Steinbock"
 category: "comparisons"
-tldr: "Claude Duet is one proactive agent in one thread: it briefs you each morning, watches your inbox and calendar, and asks before it sends, pays, signs, or deletes. Grok Bot is a set of named bots with routines on a shared cloud computer. Both are hosted and pick the model for you. Rakazo is the open source version you run, with the model you choose, including your Claude subscription."
+tldr: "Claude Duet is one proactive agent in one thread: it briefs you each morning, watches your inbox and calendar, and asks before it sends, pays, signs, or deletes. Grok Bot is a set of named bots with routines on a shared cloud computer. Both are hosted and pick the model for you. Ai7 is the open source version you run, with the model you choose, including your Claude subscription."
 sources:
   - label: "Anthropic, Introducing Claude Duet (October 21, 2026)"
     href: "https://claude.com/resources/articles/claude-duet"
@@ -23,12 +23,12 @@ sources:
     href: "https://docs.x.ai/grok-bot/faq"
   - label: "xAI pricing"
     href: "https://x.ai/pricing"
-  - label: "Rakazo source"
+  - label: "Ai7 source"
     href: "https://github.com/elie222/rakazo"
 related:
   - href: "/claude-duet-alternative/"
     title: "Open source Claude Duet alternative"
-    description: "The full Rakazo and Claude Duet comparison table."
+    description: "The full Ai7 and Claude Duet comparison table."
   - href: "/grok-bot-alternative/"
     title: "Open source Grok Bot alternative"
     description: "The longer Grok Bot page, with setup and screenshots."
@@ -37,14 +37,14 @@ related:
     description: "Every hosted and open source agent we compare, in one table."
   - href: "/blog/self-host-an-ai-agent/"
     title: "How to self-host an AI agent"
-    description: "The published-image install for Rakazo."
+    description: "The published-image install for Ai7."
 faq:
   - question: "Is Claude Duet available to everyone?"
     answer: "No. It is a research preview for Claude Pro and Max subscribers in the US, and invitations go out from a waitlist. Team and Enterprise plans are not included yet."
   - question: "Can I pick the model in Claude Duet or Grok Bot?"
-    answer: "No. Duet runs on Claude Opus 5.5, and the help center says you cannot choose a model. The Grok Bot docs do not describe connecting your own provider. Rakazo lets each bot use a different model, including Claude through your Pro or Max sign-in."
+    answer: "No. Duet runs on Claude Opus 5.5, and the help center says you cannot choose a model. The Grok Bot docs do not describe connecting your own provider. Ai7 lets each bot use a different model, including Claude through your Pro or Max sign-in."
   - question: "Can I self-host Claude Duet or Grok Bot?"
-    answer: "Neither product's pages describe a self-hosted install. Duet runs on a cloud computer Anthropic operates. Grok Bot uses a cloud computer on your account, with an optional local computer for approved commands. Rakazo is Apache-2.0 and runs on hardware you control."
+    answer: "Neither product's pages describe a self-hosted install. Duet runs on a cloud computer Anthropic operates. Grok Bot uses a cloud computer on your account, with an optional local computer for approved commands. Ai7 is Apache-2.0 and runs on hardware you control."
   - question: "Where do these details come from?"
     answer: "Anthropic's Duet announcement, product page, help center article, and safety post, xAI's Grok Bot docs and pricing page, and this project's source. They were read on October 24, 2026. Duet is a research preview, so check those pages before you rely on a detail."
 comparison:
@@ -53,7 +53,7 @@ comparison:
     - "Topic"
     - "Claude Duet"
     - "Grok Bot"
-    - "Rakazo"
+    - "Ai7"
   rows:
     - topic: "Shape"
       cells:
@@ -64,7 +64,7 @@ comparison:
       cells:
         - "Anthropic, on a cloud computer"
         - "xAI, on a shared cloud computer"
-        - "You, or Rakazo Cloud in beta"
+        - "You, or Ai7 Cloud in beta"
     - topic: "Model"
       cells:
         - "Claude Opus 5.5. No choice."
@@ -111,13 +111,13 @@ Duet is proactive by default: the morning brief and check-ins are the product. G
 
 Price follows a plan in both cases. Duet comes with Claude Pro at $20 a month and Max from $100. Grok Bot comes with paid Cursor plans and SuperGrok, listed at $30 a month. Neither lets you bring your own model provider, and neither describes running the service yourself.
 
-## Where Rakazo fits
+## Where Ai7 fits
 
-Rakazo is the open source version of this shape. It is Apache-2.0, and it is in beta. You run it with the published Docker images or the desktop app, or use Rakazo Cloud, in beta. The clients are the web app, the Electron desktop app, and the Expo mobile app.
+Ai7 is the open source version of this shape. It is Apache-2.0, and it is in beta. You run it with the published Docker images or the desktop app, or use Ai7 Cloud, in beta. The clients are the web app, the Electron desktop app, and the Expo mobile app.
 
 Like Grok Bot, it is just chat once it is running. You create named bots and manage each one from its conversation. Each bot keeps memory, routines, and history. Routines are readable Markdown and can run on a schedule, so a morning brief is a routine you write, not a fixed feature. A bot can pause for approval at a boundary you set, and actions are recorded in an audit log.
 
-The model is yours. You can sign in with Claude Pro or Max, ChatGPT Plus or Pro, or SuperGrok, or bring a key for OpenAI, Anthropic, Google, OpenRouter, or a local server such as Ollama. Each bot can use a different model. So if you already pay for Claude, Rakazo can use that subscription on a computer you run.
+The model is yours. You can sign in with Claude Pro or Max, ChatGPT Plus or Pro, or SuperGrok, or bring a key for OpenAI, Anthropic, Google, OpenRouter, or a local server such as Ollama. Each bot can use a different model. So if you already pay for Claude, Ai7 can use that subscription on a computer you run.
 
 The computer is yours too. Local Docker is the default. E2B, Daytona, CreateOS, and Boat are optional. Team computers are shared, and private computers are isolated. Connector credentials are encrypted on your server and are never returned by the API.
 
@@ -127,6 +127,6 @@ Choose Claude Duet when you pay for Claude Pro or Max, live in the US, and want 
 
 Choose Grok Bot when you already pay for Cursor or SuperGrok and want several named bots on a computer xAI hosts.
 
-Choose Rakazo when the agents should run on hardware you control, with the model you pick, and you want more than one bot. The cost is the install: Docker or the desktop app, then an account and a model. [How to self-host an AI agent](/blog/self-host-an-ai-agent/) walks through it.
+Choose Ai7 when the agents should run on hardware you control, with the model you pick, and you want more than one bot. The cost is the install: Docker or the desktop app, then an account and a model. [How to self-host an AI agent](/blog/self-host-an-ai-agent/) walks through it.
 
 This page compares public descriptions. It does not measure how often any of them gets a task right. Duet especially will change during the preview, so check the linked sources before you rely on a detail.

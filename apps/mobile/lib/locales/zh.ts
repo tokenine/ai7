@@ -535,8 +535,8 @@ export const ZH_MESSAGES: Record<string, string> = {
   "Photo library": "相册",
   Pin: "置顶",
   "Please try again.": "请重试。",
-  "Point this app at your self-hosted Rakazo origin, the same HTTPS URL you open in a browser.":
-    "将此应用指向你自托管的 Rakazo 源站，地址与你在浏览器中打开的 HTTPS URL 相同。",
+  "Point this app at your self-hosted Ai7 origin, the same HTTPS URL you open in a browser.":
+    "将此应用指向你自托管的 Ai7 源站，地址与你在浏览器中打开的 HTTPS URL 相同。",
   Private: "私有",
   Profile: "资料",
   Providers: "提供商",
@@ -599,10 +599,10 @@ export const ZH_MESSAGES: Record<string, string> = {
   "Show more": "显示更多",
   "Show {label}": "显示 {label}",
   "Sign in": "登录",
-  "Sign in to Rakazo": "登录 Rakazo",
+  "Sign in to Ai7": "登录 Ai7",
   "Sign out": "退出登录",
   "Sign up": "注册",
-  "Sign up for Rakazo": "注册 Rakazo",
+  "Sign up for Ai7": "注册 Ai7",
   "Sign-in": "登录",
   "Sign-up": "注册",
   "Sign-in did not return a session": "登录未返回会话",
@@ -635,7 +635,7 @@ export const ZH_MESSAGES: Record<string, string> = {
   Team: "团队",
   "Team Computer": "团队电脑",
   "That doesn’t look like a URL": "这看起来不像 URL",
-  "That URL did not look like a Rakazo server": "该地址看起来不是 Rakazo 服务器",
+  "That URL did not look like an Ai7 server": "该地址看起来不是 Ai7 服务器",
   "That URL is missing a host": "该地址缺少主机名",
   "The server changed while starting the request": "请求开始时服务器已更改",
   "This permanently deletes your account, bots, conversations, memories, files, and saved connections. This cannot be undone.":
@@ -722,8 +722,8 @@ export const ZH_MESSAGES: Record<string, string> = {
   "Open conversation": "打开对话",
   "Open in full window": "在全窗口中打开",
   "OpenAPI JSON": "OpenAPI JSON",
-  "Paste the OpenAI-compatible address from your server. Rakazo adds /v1 if needed.":
-    "粘贴你服务器的 OpenAI 兼容地址。如有需要，Rakazo 会自动补上 /v1。",
+  "Paste the OpenAI-compatible address from your server. Ai7 adds /v1 if needed.":
+    "粘贴你服务器的 OpenAI 兼容地址。如有需要，Ai7 会自动补上 /v1。",
   Paused: "已暂停",
   Prompt: "提示词",
   "Recording a live demonstration needs desktop or web with the full computer view. You can still ask this bot to run saved skills from chat.":
@@ -736,8 +736,8 @@ export const ZH_MESSAGES: Record<string, string> = {
   "Teach a task": "教一个任务",
   "This removes every message and stops current work. The bot, computer, memory, and routines are kept.":
     "这将删除所有消息并停止当前工作。Bot、电脑、记忆和例行任务会保留。",
-  "This subscription sign-in is not available in Rakazo yet. Use a deployment credential or choose another provider.":
-    "Rakazo 暂不支持此订阅登录。请使用部署凭据或选择其他提供商。",
+  "This subscription sign-in is not available in Ai7 yet. Use a deployment credential or choose another provider.":
+    "Ai7 暂不支持此订阅登录。请使用部署凭据或选择其他提供商。",
   "Tool sources": "工具源",
   Tools: "工具",
   Uninstall: "卸载",
@@ -845,7 +845,7 @@ export const ZH_MESSAGES: Record<string, string> = {
   "AI models": "AI 模型",
   Memory: "记忆",
   "Privacy policies": "隐私政策",
-  Rakazo: "Rakazo",
+  Ai7: "Ai7",
   "Withdraw all permissions": "撤销所有权限",
   "Withdraw all permissions?": "撤销所有权限？",
   "New mobile actions won't send data to these services. Runs already in progress and routines keep going until you stop them.":
@@ -961,7 +961,7 @@ export const ZH_MESSAGES: Record<string, string> = {
   "Use my subscription or API key": "使用我的订阅或 API 密钥",
   "Monthly credits expire at renewal. Top-ups do not expire.":
     "每月额度在续费时到期。单次充值额度不会过期。",
-  "Use Rakazo credits": "使用 Rakazo 额度",
+  "Use Ai7 credits": "使用 Ai7 额度",
   "1 unread": "1 条未读",
   "{count} unread": "{count} 条未读",
   "{count} need attention": "{count} 个需要处理",
@@ -969,9 +969,9 @@ export const ZH_MESSAGES: Record<string, string> = {
   "{label}, below": "{label}，下方",
   Work: "工作",
   Both: "两者都有",
-  "How will you use Rakazo?": "你会如何使用 Rakazo？",
-  "What do you most want Rakazo to help with?": "你最希望 Rakazo 帮你做什么？",
+  "How will you use Ai7?": "你会如何使用 Ai7？",
+  "What do you most want Ai7 to help with?": "你最希望 Ai7 帮你做什么？",
   "How big is your team?": "你的团队有多大？",
   "How did you hear about us?": "你是如何知道我们的？",
-  "Welcome to Rakazo": "欢迎使用 Rakazo",
+  "Welcome to Ai7": "欢迎使用 Ai7",
 };

@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { OpenRouterUsageLookup, openRouterInferenceFetch } from "./openrouter-usage.js";
 
 describe("OpenRouter attribution and usage recovery", () => {
-  it("sends the normal user id and Rakazo attribution while preserving request controls", async () => {
+  it("sends the normal user id and Ai7 attribution while preserving request controls", async () => {
     const fetcher = vi.fn<typeof fetch>(async () => new Response("ok"));
     const controller = new AbortController();
     await openRouterInferenceFetch(fetcher, "user_fixture")(
@@ -17,7 +17,7 @@ describe("OpenRouter attribution and usage recovery", () => {
     const init = fetcher.mock.calls[0]![1]!;
     const headers = new Headers(init.headers);
     expect(headers.get("HTTP-Referer")).toBe("https://rakazo.com");
-    expect(headers.get("X-OpenRouter-Title")).toBe("Rakazo");
+    expect(headers.get("X-OpenRouter-Title")).toBe("Ai7");
     expect(headers.get("Authorization")).toBe("Bearer fixture");
     expect(init.signal).toBe(controller.signal);
     expect(JSON.parse(String(init.body))).toMatchObject({ user: "user_fixture", model: "fixture" });

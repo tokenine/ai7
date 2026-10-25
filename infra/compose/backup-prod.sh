@@ -87,7 +87,7 @@ appdata="$(docker inspect "${api}" \
 install -d -m 700 "${BACKUP_ROOT}"
 # One backup at a time, so cleanup never removes a snapshot another run is still writing.
 exec 8>"${BACKUP_ROOT}/.lock"
-flock -n 8 || { echo "Another Rakazo backup is running" >&2; exit 1; }
+flock -n 8 || { echo "Another Ai7 backup is running" >&2; exit 1; }
 # Newest first; stamps sort by time. Only stamp-named directories are ever listed or removed.
 snapshots() {
   find "${BACKUP_ROOT}" -mindepth 1 -maxdepth 1 -type d -regextype posix-extended \
@@ -245,7 +245,7 @@ while read -r dir; do
   fi
 done < <(snapshots)
 
-echo "Verified Rakazo backup written to ${SNAPSHOT_DIR}"
+echo "Verified Ai7 backup written to ${SNAPSHOT_DIR}"
 
 # Optional off-site copy through any rclone remote (S3-compatible storage, SFTP, ...), configured
 # with rclone's own settings. A failure here keeps the verified local snapshot but fails the run.

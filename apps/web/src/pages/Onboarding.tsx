@@ -1026,7 +1026,7 @@ export function OnboardingPage() {
                       .catch(() => setError(t`Could not open billing`))
                   }
                 >
-                  <Trans>Use Rakazo credits</Trans>
+                  <Trans>Use Ai7 credits</Trans>
                 </Button>
               ) : null}
             </div>

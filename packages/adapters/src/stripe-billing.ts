@@ -187,7 +187,7 @@ export class StripeBillingProvider implements BillingProvider {
                 price_data: {
                   currency: "usd",
                   unit_amount: input.amountCents,
-                  product_data: { name: "Rakazo model credits" },
+                  product_data: { name: "Ai7 model credits" },
                 },
               },
         ],
@@ -254,7 +254,7 @@ export class StripeBillingProvider implements BillingProvider {
         currency: "usd",
         unit_amount: amountCents,
         recurring: { interval: "month" },
-        product_data: { name: "Rakazo monthly model credits" },
+        product_data: { name: "Ai7 monthly model credits" },
         lookup_key: lookupKey,
         transfer_lookup_key: true,
       }),

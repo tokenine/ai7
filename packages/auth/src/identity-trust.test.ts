@@ -1,5 +1,6 @@
 import { createHash, createHmac, generateKeyPairSync, randomBytes, sign } from "node:crypto";
 import type { TransactionalEmail } from "@rakazo/adapter-kit";
+import { BRAND_NAME } from "@rakazo/contracts";
 import { bootstrapUserSpace, recordSecurityEvent } from "@rakazo/db";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CLIENT_IP_HEADER, createAuth } from "./index.js";
@@ -589,7 +590,7 @@ describe("verification email without blocking", () => {
     expect(await f.sessionFor(token)).toMatchObject({ user: { emailVerified: false } });
     expect(bootstrapUserSpace).toHaveBeenCalledTimes(1);
     expect(f.messages).toHaveLength(1);
-    expect(f.messages[0]).toMatchObject({ subject: "Verify your Rakazo email" });
+    expect(f.messages[0]).toMatchObject({ subject: `Verify your ${BRAND_NAME} email` });
     expect((await f.signin()).status).toBe(200);
     expect(f.messages).toHaveLength(1);
     await f.verify();
@@ -613,7 +614,7 @@ describe("email code sign-in", () => {
     expect(f.messages).toHaveLength(1);
     expect(f.messages[0]).toMatchObject({
       to: "approved@example.test",
-      subject: "Your Rakazo sign-in code",
+      subject: `Your ${BRAND_NAME} sign-in code`,
     });
     const code = f.lastCode();
     expect(JSON.stringify(f.data.verification)).not.toContain(code);
@@ -724,7 +725,7 @@ describe("email code sign-in", () => {
     expect((await f.signin()).status).toBe(200);
   });
 
-  it("closes the OTP routes Rakazo does not use", async () => {
+  it(`closes the OTP routes ${BRAND_NAME} does not use`, async () => {
     const f = fixture();
     for (const type of ["email-verification", "forget-password", "change-email"]) {
       expect((await f.sendCode("approved@example.test", type)).status, type).toBe(404);

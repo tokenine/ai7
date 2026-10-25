@@ -11,8 +11,8 @@ const pkg = JSON.parse(readFileSync(path.join(root, "package.json"), "utf8")) as
 const base = readFileSync(path.join(root, pkg.build.mac.entitlements), "utf8");
 
 describe("associatedPasskeyRpIds", () => {
-  const resourcesPath = "/Applications/Rakazo.app/Contents/Resources";
-  const profile = "/Applications/Rakazo.app/Contents/embedded.provisionprofile";
+  const resourcesPath = "/Applications/Ai7.app/Contents/Resources";
+  const profile = "/Applications/Ai7.app/Contents/embedded.provisionprofile";
 
   it("is the hosted server's domain", () => {
     expect(PASSKEY_RP_ID).toBe(new URL(RAKAZO_CLOUD_URL).hostname);

@@ -556,7 +556,9 @@ app.post("/computers/:id/browser", async (c) => {
       launchBrowserCommand(index, screenKey),
     ]);
     if (launched.code !== 0) {
-      throw new Error(launched.stderr.trim() || `computer browser failed to start on ${layout.display}`);
+      throw new Error(
+        launched.stderr.trim() || `computer browser failed to start on ${layout.display}`,
+      );
     }
     const result = await runContainerCommand(
       container,

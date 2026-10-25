@@ -22,7 +22,7 @@ const BLOG_OG: readonly OgPage[] = [
   {
     id: "blog-openclaw-vs-hermes-vs-rakazo",
     kicker: "Comparison",
-    title: "OpenClaw vs Hermes Agent vs Rakazo",
+    title: "OpenClaw vs Hermes Agent vs Ai7",
   },
   {
     id: "blog-self-host-an-ai-agent",

@@ -151,8 +151,8 @@ export const DE_MESSAGES: Record<string, string> = {
   "Chat Settings": "Chat-Einstellungen",
   "Configure a plugin catalog on the server to connect apps.":
     "Richte auf dem Server einen Plugin-Katalog ein, um Apps zu verbinden.",
-  "Paste the OpenAI-compatible address from your server. Rakazo adds /v1 if needed.":
-    "Füge die OpenAI-kompatible Adresse deines Servers ein. Rakazo ergänzt /v1 bei Bedarf.",
+  "Paste the OpenAI-compatible address from your server. Ai7 adds /v1 if needed.":
+    "Füge die OpenAI-kompatible Adresse deines Servers ein. Ai7 ergänzt /v1 bei Bedarf.",
   "Settings: General": "Einstellungen: Allgemein",
   "Settings: Usage": "Einstellungen: Nutzung",
   "Sign-in did not return a session": "Die Anmeldung hat keine Sitzung zurückgegeben",
@@ -196,9 +196,9 @@ export const DE_MESSAGES: Record<string, string> = {
   "Reset your password": "Setze dein Passwort zurück",
   "Send reset link": "Link zum Zurücksetzen senden",
   Server: "Server",
-  "Sign in to Rakazo": "Bei Rakazo anmelden",
+  "Sign in to Ai7": "Bei Ai7 anmelden",
   "Sign up": "Registrieren",
-  "Sign up for Rakazo": "Bei Rakazo registrieren",
+  "Sign up for Ai7": "Bei Ai7 registrieren",
   "Use a custom server": "Eigenen Server verwenden",
   "Use default server": "Standardserver verwenden",
   // app/index.tsx
@@ -509,8 +509,8 @@ export const DE_MESSAGES: Record<string, string> = {
   "Supports thinking": "Unterstützt Denkmodus",
   "The final page may not load. Paste its URL or code here.":
     "Die letzte Seite lädt womöglich nicht. Füge ihre URL oder ihren Code hier ein.",
-  "This subscription sign-in is not available in Rakazo yet. Use a deployment credential or choose another provider.":
-    "Diese Abonnementanmeldung ist in Rakazo noch nicht verfügbar. Verwende Zugangsdaten der Bereitstellung oder wähle einen anderen Anbieter.",
+  "This subscription sign-in is not available in Ai7 yet. Use a deployment credential or choose another provider.":
+    "Diese Abonnementanmeldung ist in Ai7 noch nicht verfügbar. Verwende Zugangsdaten der Bereitstellung oder wähle einen anderen Anbieter.",
   "Use a found model": "Gefundenes Modell verwenden",
   "Waiting for sign-in…": "Warten auf Anmeldung…",
   "exact-model-id": "exact-model-id",
@@ -805,8 +805,7 @@ export const DE_MESSAGES: Record<string, string> = {
   "Enter a server URL": "Gib eine Server-URL ein",
   "Public servers need https://. HTTP only works on your local network.":
     "Öffentliche Server brauchen https://. HTTP funktioniert nur im lokalen Netzwerk.",
-  "That URL did not look like a Rakazo server":
-    "Diese URL sieht nicht nach einem Rakazo-Server aus",
+  "That URL did not look like an Ai7 server": "Diese URL sieht nicht nach einem Ai7-Server aus",
   "That URL is missing a host": "Dieser URL fehlt ein Host",
   "That doesn’t look like a URL": "Das sieht nicht nach einer URL aus",
   "Use an http or https URL": "Verwende eine http- oder https-URL",
@@ -880,7 +879,7 @@ export const DE_MESSAGES: Record<string, string> = {
   "AI models": "KI-Modelle",
   Memory: "Gedächtnis",
   "Privacy policies": "Datenschutzerklärungen",
-  Rakazo: "Rakazo",
+  Ai7: "Ai7",
   "Withdraw all permissions": "Alle Berechtigungen widerrufen",
   "Withdraw all permissions?": "Alle Berechtigungen widerrufen?",
   "New mobile actions won't send data to these services. Runs already in progress and routines keep going until you stop them.":
@@ -1001,7 +1000,7 @@ export const DE_MESSAGES: Record<string, string> = {
   "Use my subscription or API key": "Mein Abo oder meinen API-Schlüssel verwenden",
   "Monthly credits expire at renewal. Top-ups do not expire.":
     "Monatliches Guthaben verfällt bei Verlängerung. Einmalige Aufladungen verfallen nicht.",
-  "Use Rakazo credits": "Rakazo-Guthaben verwenden",
+  "Use Ai7 credits": "Ai7-Guthaben verwenden",
   "1 unread": "1 ungelesen",
   "{count} unread": "{count} ungelesen",
   "{count} need attention": "{count} brauchen Aufmerksamkeit",
@@ -1009,9 +1008,9 @@ export const DE_MESSAGES: Record<string, string> = {
   "{label}, below": "{label}, unten",
   Work: "Arbeit",
   Both: "Beides",
-  "How will you use Rakazo?": "Wie wirst du Rakazo nutzen?",
-  "What do you most want Rakazo to help with?": "Wobei soll dir Rakazo am meisten helfen?",
+  "How will you use Ai7?": "Wie wirst du Ai7 nutzen?",
+  "What do you most want Ai7 to help with?": "Wobei soll dir Ai7 am meisten helfen?",
   "How big is your team?": "Wie groß ist dein Team?",
   "How did you hear about us?": "Wie hast du von uns erfahren?",
-  "Welcome to Rakazo": "Willkommen bei Rakazo",
+  "Welcome to Ai7": "Willkommen bei Ai7",
 };

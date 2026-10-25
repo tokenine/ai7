@@ -322,7 +322,7 @@ class AlertTests(unittest.TestCase):
             ):
                 alerts.notify("disk", "Low space", root / "absent.json", root / "state")
                 alerts.notify("disk", "Low space", root / "absent.json", root / "state")
-                self.assertEqual(output.getvalue().count("Rakazo alert: Low space"), 1)
+                self.assertEqual(output.getvalue().count("Ai7 alert: Low space"), 1)
                 send.assert_not_called()
 
     def test_concurrent_calls_deliver_once(self):

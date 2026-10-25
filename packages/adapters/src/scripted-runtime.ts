@@ -575,7 +575,7 @@ code-b
         toolCalls: [
           {
             name: "destination.write",
-            args: { collection: "notes", title: "Rakazo result", body: prompt },
+            args: { collection: "notes", title: "Ai7 result", body: prompt },
           },
         ],
         complete: true,

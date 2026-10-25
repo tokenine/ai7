@@ -2,7 +2,7 @@ import type { TranscriptContext } from "@earendil-works/pi-ai";
 
 /**
  * Claude 5.5 binds each signed thinking block to the conversation prefix it was written in.
- * Rakazo rewrites earlier history between requests (pruned screenshots and page state,
+ * Ai7 rewrites earlier history between requests (pruned screenshots and page state,
  * changed tools), so a replayed block can stop matching and the provider rejects the whole
  * request: "Invalid `signature` in `thinking` block. The block is bound to a different
  * conversation." Retrying the same history fails the same way, so the thread stays broken.

@@ -19,7 +19,7 @@ type BuildTemplate = (
   options: Omit<BuildOptions, "alias">,
 ) => Promise<{ name: string }>;
 
-/** Publish the Rakazo computer template to the E2B team that owns this API key. */
+/** Publish the Ai7 computer template to the E2B team that owns this API key. */
 export function buildE2BComputerTemplate(
   apiKey: string,
   options: {

@@ -595,6 +595,10 @@ msgstr "エージェントの接続"
 msgid "Agents:"
 msgstr "エージェント:"
 
+#: src/components/ModelCredits.tsx
+msgid "Ai7 credits"
+msgstr "Ai7クレジット"
+
 #: src/pages/Artifacts.tsx
 msgid "All bots"
 msgstr "すべてのボット"
@@ -671,8 +675,8 @@ msgid "An API key is stored for this provider, not a subscription sign-in."
 msgstr "このプロバイダーにはサブスクリプションのログインではなく、APIキーが保存されています。"
 
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
-msgid "An existing Honcho peer to read from. Rakazo never writes to it."
-msgstr "読み取り元となる既存のHonchoピアです。Rakazoが書き込むことはありません。"
+msgid "An existing Honcho peer to read from. Ai7 never writes to it."
+msgstr "読み取り元となる既存のHonchoピアです。Ai7が書き込むことはありません。"
 
 #: src/pages/RoutineEditor.tsx
 msgid "An integration tool"
@@ -1190,8 +1194,8 @@ msgid "Choose file"
 msgstr "ファイルを選択"
 
 #: src/components/ModelCredits.tsx
-msgid "Choose how to use Rakazo"
-msgstr "Rakazoの使い方を選択"
+msgid "Choose how to use Ai7"
+msgstr "Ai7の使い方を選択"
 
 #: src/lib/localized-provider-hint.ts
 msgid "Claude subscription"
@@ -2036,8 +2040,8 @@ msgid "Create space"
 msgstr "スペースを作成"
 
 #: src/pages/Auth.tsx
-msgid "Create your Rakazo"
-msgstr "Rakazoを作成"
+msgid "Create your Ai7"
+msgstr "Ai7を作成"
 
 #: src/components/AskCard.tsx
 msgid "Created"
@@ -2769,7 +2773,7 @@ msgstr "チームの規模は？"
 
 #: src/components/SignupSurvey.tsx
 msgid "How did you hear about us?"
-msgstr "Rakazoを何で知りましたか？"
+msgstr "Ai7を何で知りましたか？"
 
 #: src/pages/RoutineSchedule.tsx
 msgid "How often"
@@ -2784,8 +2788,8 @@ msgid "How to check"
 msgstr "確認方法"
 
 #: src/components/SignupSurvey.tsx
-msgid "How will you use Rakazo?"
-msgstr "Rakazoをどのように使いますか？"
+msgid "How will you use Ai7?"
+msgstr "Ai7をどのように使いますか？"
 
 #: src/pages/shell/computer-release-actions.tsx
 msgid "I’m done"
@@ -3802,8 +3806,8 @@ msgid "Paste a replacement key"
 msgstr "新しいキーを貼り付け"
 
 #: src/pages/model-settings/compatible-model-fields.tsx
-msgid "Paste the OpenAI-compatible address from your server. Rakazo adds /v1 if needed."
-msgstr "サーバーのOpenAI互換アドレスを貼り付けてください。必要に応じてRakazoが/v1を追加します。"
+msgid "Paste the OpenAI-compatible address from your server. Ai7 adds /v1 if needed."
+msgstr "サーバーのOpenAI互換アドレスを貼り付けてください。必要に応じてAi7が/v1を追加します。"
 
 #: src/pages/VoiceSettingsOverlay.tsx
 msgid "Paste your API key"
@@ -3933,13 +3937,9 @@ msgstr "待機中"
 msgid "Quote"
 msgstr "引用"
 
-#: src/components/ModelCredits.tsx
-msgid "Rakazo credits"
-msgstr "Rakazoクレジット"
-
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
-msgid "rakazo-shared and IDs starting with bot- are reserved for Rakazo."
-msgstr "rakazo-sharedおよびbot-で始まるIDはRakazo用に予約されています。"
+msgid "rakazo-shared and IDs starting with bot- are reserved for Ai7."
+msgstr "rakazo-sharedおよびbot-で始まるIDはAi7用に予約されています。"
 
 #: src/pages/shell/message-hover-actions.tsx
 msgid "React"
@@ -4275,14 +4275,14 @@ msgstr "今すぐ再試行"
 msgid "Retry screen"
 msgstr "画面を再試行"
 
+#: src/pages/McpOAuthCallback.tsx
+msgid "Return to Ai7"
+msgstr "Ai7に戻る"
+
 #. placeholder {0}: call.botName
 #: src/components/call/CallCard.tsx
 msgid "Return to call with {0}"
 msgstr "{0}との通話に戻る"
-
-#: src/pages/McpOAuthCallback.tsx
-msgid "Return to Rakazo"
-msgstr "Rakazoに戻る"
 
 #: src/lib/model-connection-preflight.ts
 msgid "Review provider settings and test again."
@@ -4656,8 +4656,8 @@ msgid "Sign in again"
 msgstr "再度ログイン"
 
 #: src/pages/Auth.tsx
-msgid "Sign in to Rakazo"
-msgstr "Rakazoにログイン"
+msgid "Sign in to Ai7"
+msgstr "Ai7にログイン"
 
 #: src/lib/user-error.ts
 msgid "Sign in to your existing account to link SSO"
@@ -5040,8 +5040,8 @@ msgid "This server is already connected. Disconnect it first to authorize again.
 msgstr "このサーバーはすでに接続されています。再度認可するには、先に切断してください。"
 
 #: src/pages/model-settings/connection-controls.tsx
-msgid "This subscription sign-in is not available in Rakazo yet. Use a deployment credential or choose another provider."
-msgstr "このサブスクリプションでのログインはRakazoではまだ利用できません。デプロイメントの認証情報を使用するか、別のプロバイダーを選択してください。"
+msgid "This subscription sign-in is not available in Ai7 yet. Use a deployment credential or choose another provider."
+msgstr "このサブスクリプションでのログインはAi7ではまだ利用できません。デプロイメントの認証情報を使用するか、別のプロバイダーを選択してください。"
 
 #: src/pages/Artifacts.tsx
 msgid "This week"
@@ -5283,6 +5283,11 @@ msgstr "アクセストークンには{oauthEnvReference}を使用してくだ�
 msgid "Use a found model"
 msgstr "見つかったモデルを使用"
 
+#: src/components/ModelCredits.tsx
+#: src/pages/Onboarding.tsx
+msgid "Use Ai7 credits"
+msgstr "Ai7クレジットを使用"
+
 #: src/lib/model-connection-preflight.ts
 msgid "Use Connect to verify the key."
 msgstr "「接続」でキーを確認してください。"
@@ -5306,11 +5311,6 @@ msgstr "パスワードを使用"
 #: src/components/teach/TeachRecordingChrome.tsx
 msgid "Use Protected input for passwords."
 msgstr "パスワードには保護された入力を使用してください。"
-
-#: src/components/ModelCredits.tsx
-#: src/pages/Onboarding.tsx
-msgid "Use Rakazo credits"
-msgstr "Rakazoクレジットを使用"
 
 #: src/pages/model-settings/space-bots-model.tsx
 msgid "Use space default"
@@ -5402,16 +5402,16 @@ msgid "Weekdays"
 msgstr "平日"
 
 #: src/components/SignupSurvey.tsx
-msgid "Welcome to Rakazo"
-msgstr "Rakazoへようこそ"
+msgid "Welcome to Ai7"
+msgstr "Ai7へようこそ"
 
 #: src/pages/shell/dialogs.tsx
 msgid "What about its memories?"
 msgstr "メモリはどうしますか？"
 
 #: src/components/SignupSurvey.tsx
-msgid "What do you most want Rakazo to help with?"
-msgstr "Rakazoに最も手伝ってほしいことは何ですか？"
+msgid "What do you most want Ai7 to help with?"
+msgstr "Ai7に最も手伝ってほしいことは何ですか？"
 
 #: src/pages/shell/message-cards.tsx
 msgid "What do you want me on first?"

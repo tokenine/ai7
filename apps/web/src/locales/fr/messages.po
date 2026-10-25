@@ -595,6 +595,10 @@ msgstr "Connexions d'agent"
 msgid "Agents:"
 msgstr "Agents :"
 
+#: src/components/ModelCredits.tsx
+msgid "Ai7 credits"
+msgstr ""
+
 #: src/pages/Artifacts.tsx
 msgid "All bots"
 msgstr "Tous les bots"
@@ -671,8 +675,8 @@ msgid "An API key is stored for this provider, not a subscription sign-in."
 msgstr "Une clé API est enregistrée pour ce fournisseur, et non une connexion par abonnement."
 
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
-msgid "An existing Honcho peer to read from. Rakazo never writes to it."
-msgstr "Un pair Honcho existant à consulter. Rakazo n’y écrit jamais."
+msgid "An existing Honcho peer to read from. Ai7 never writes to it."
+msgstr "Un pair Honcho existant à consulter. Ai7 n’y écrit jamais."
 
 #: src/pages/RoutineEditor.tsx
 msgid "An integration tool"
@@ -1190,7 +1194,7 @@ msgid "Choose file"
 msgstr "Choisir un fichier"
 
 #: src/components/ModelCredits.tsx
-msgid "Choose how to use Rakazo"
+msgid "Choose how to use Ai7"
 msgstr ""
 
 #: src/lib/localized-provider-hint.ts
@@ -2036,8 +2040,8 @@ msgid "Create space"
 msgstr "Créer un espace"
 
 #: src/pages/Auth.tsx
-msgid "Create your Rakazo"
-msgstr "Créez votre Rakazo"
+msgid "Create your Ai7"
+msgstr "Créez votre Ai7"
 
 #: src/components/AskCard.tsx
 msgid "Created"
@@ -2784,7 +2788,7 @@ msgid "How to check"
 msgstr "Comment vérifier"
 
 #: src/components/SignupSurvey.tsx
-msgid "How will you use Rakazo?"
+msgid "How will you use Ai7?"
 msgstr ""
 
 #: src/pages/shell/computer-release-actions.tsx
@@ -3802,8 +3806,8 @@ msgid "Paste a replacement key"
 msgstr "Collez une clé de remplacement"
 
 #: src/pages/model-settings/compatible-model-fields.tsx
-msgid "Paste the OpenAI-compatible address from your server. Rakazo adds /v1 if needed."
-msgstr "Collez l'adresse compatible OpenAI de votre serveur. Rakazo ajoute /v1 si nécessaire."
+msgid "Paste the OpenAI-compatible address from your server. Ai7 adds /v1 if needed."
+msgstr "Collez l'adresse compatible OpenAI de votre serveur. Ai7 ajoute /v1 si nécessaire."
 
 #: src/pages/VoiceSettingsOverlay.tsx
 msgid "Paste your API key"
@@ -3933,12 +3937,8 @@ msgstr "En file d'attente"
 msgid "Quote"
 msgstr "Citer"
 
-#: src/components/ModelCredits.tsx
-msgid "Rakazo credits"
-msgstr ""
-
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
-msgid "rakazo-shared and IDs starting with bot- are reserved for Rakazo."
+msgid "rakazo-shared and IDs starting with bot- are reserved for Ai7."
 msgstr ""
 
 #: src/pages/shell/message-hover-actions.tsx
@@ -4275,14 +4275,14 @@ msgstr "Réessayer maintenant"
 msgid "Retry screen"
 msgstr "Réessayer l'écran"
 
+#: src/pages/McpOAuthCallback.tsx
+msgid "Return to Ai7"
+msgstr "Retour à Ai7"
+
 #. placeholder {0}: call.botName
 #: src/components/call/CallCard.tsx
 msgid "Return to call with {0}"
 msgstr "Revenir à l’appel avec {0}"
-
-#: src/pages/McpOAuthCallback.tsx
-msgid "Return to Rakazo"
-msgstr "Retour à Rakazo"
 
 #: src/lib/model-connection-preflight.ts
 msgid "Review provider settings and test again."
@@ -4656,8 +4656,8 @@ msgid "Sign in again"
 msgstr "Se reconnecter"
 
 #: src/pages/Auth.tsx
-msgid "Sign in to Rakazo"
-msgstr "Connectez-vous à Rakazo"
+msgid "Sign in to Ai7"
+msgstr "Connectez-vous à Ai7"
 
 #: src/lib/user-error.ts
 msgid "Sign in to your existing account to link SSO"
@@ -5040,8 +5040,8 @@ msgid "This server is already connected. Disconnect it first to authorize again.
 msgstr "Ce serveur est déjà connecté. Déconnectez-le d'abord pour l'autoriser à nouveau."
 
 #: src/pages/model-settings/connection-controls.tsx
-msgid "This subscription sign-in is not available in Rakazo yet. Use a deployment credential or choose another provider."
-msgstr "Cette connexion par abonnement n'est pas encore disponible dans Rakazo. Utilisez un identifiant de déploiement ou choisissez un autre fournisseur."
+msgid "This subscription sign-in is not available in Ai7 yet. Use a deployment credential or choose another provider."
+msgstr "Cette connexion par abonnement n'est pas encore disponible dans Ai7. Utilisez un identifiant de déploiement ou choisissez un autre fournisseur."
 
 #: src/pages/Artifacts.tsx
 msgid "This week"
@@ -5283,6 +5283,11 @@ msgstr "Utilisez {oauthEnvReference} pour le jeton d'accès."
 msgid "Use a found model"
 msgstr "Utiliser un modèle trouvé"
 
+#: src/components/ModelCredits.tsx
+#: src/pages/Onboarding.tsx
+msgid "Use Ai7 credits"
+msgstr ""
+
 #: src/lib/model-connection-preflight.ts
 msgid "Use Connect to verify the key."
 msgstr "Utilisez Connecter pour vérifier la clé."
@@ -5305,11 +5310,6 @@ msgstr "Utiliser un mot de passe"
 
 #: src/components/teach/TeachRecordingChrome.tsx
 msgid "Use Protected input for passwords."
-msgstr ""
-
-#: src/components/ModelCredits.tsx
-#: src/pages/Onboarding.tsx
-msgid "Use Rakazo credits"
 msgstr ""
 
 #: src/pages/model-settings/space-bots-model.tsx
@@ -5402,7 +5402,7 @@ msgid "Weekdays"
 msgstr "Jours ouvrés"
 
 #: src/components/SignupSurvey.tsx
-msgid "Welcome to Rakazo"
+msgid "Welcome to Ai7"
 msgstr ""
 
 #: src/pages/shell/dialogs.tsx
@@ -5410,7 +5410,7 @@ msgid "What about its memories?"
 msgstr "Qu'en est-il de ses mémoires ?"
 
 #: src/components/SignupSurvey.tsx
-msgid "What do you most want Rakazo to help with?"
+msgid "What do you most want Ai7 to help with?"
 msgstr ""
 
 #: src/pages/shell/message-cards.tsx

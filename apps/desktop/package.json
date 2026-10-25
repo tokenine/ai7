@@ -1,9 +1,9 @@
 {
   "name": "@rakazo/desktop",
-  "productName": "Rakazo",
+  "productName": "Ai7",
   "version": "0.3.3",
   "author": {
-    "name": "Rakazo"
+    "name": "Ai7"
   },
   "license": "Apache-2.0",
   "type": "module",
@@ -64,13 +64,13 @@
       "main": "dist/main.js"
     },
     "mac": {
-      "icon": "../../packages/ui-tokens/assets/Rakazo.icon",
+      "icon": "../../packages/ui-tokens/assets/Ai7.icns",
       "category": "public.app-category.productivity",
       "x64ArchFiles": "{**/node_modules/@koromix/koffi-darwin-*/darwin_*/koffi.node,**/node_modules/@oxc-parser/binding-darwin-*/parser.darwin-*.node}",
       "entitlements": "assets/entitlements.mac.plist",
       "entitlementsInherit": "assets/entitlements.mac.plist",
       "extendInfo": {
-        "NSMicrophoneUsageDescription": "Rakazo uses the microphone for dictation and voice calls with your bots."
+        "NSMicrophoneUsageDescription": "Ai7 uses the microphone for dictation and voice calls with your bots."
       },
       "target": [
         "dmg",

@@ -1,4 +1,5 @@
 import { createHmac } from "node:crypto";
+import { BRAND_NAME } from "@rakazo/contracts";
 import { describe, expect, it, vi } from "vitest";
 import {
   authRateLimitOptions,
@@ -158,7 +159,7 @@ describe("passwordResetEmail", () => {
 
     expect(message).toMatchObject({
       to: "ada@example.test",
-      subject: "Reset your Rakazo password",
+      subject: `Reset your ${BRAND_NAME} password`,
     });
     expect(message.text).toContain("https://rakazo.test/reset-password?token=secret&next=1");
     expect(message.html).toContain("&lt;Ada &amp; &quot;team&quot;&gt;");
@@ -170,7 +171,10 @@ describe("passwordResetEmail", () => {
 describe("signInCodeEmail", () => {
   it("puts the code in plain text and HTML without links", () => {
     const message = signInCodeEmail("ada@example.test", "042517");
-    expect(message).toMatchObject({ to: "ada@example.test", subject: "Your Rakazo sign-in code" });
+    expect(message).toMatchObject({
+      to: "ada@example.test",
+      subject: `Your ${BRAND_NAME} sign-in code`,
+    });
     expect(message.text).toContain("042517");
     expect(message.html).toContain("042517");
     expect(`${message.text}${message.html}`).not.toMatch(/https?:/);

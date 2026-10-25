@@ -39,7 +39,7 @@ def _deliver(key, message, config_path, state_file):
     reminder = bool(message) and now - previous.get("sent_at", 0) >= 86400
     if not changed and not reminder:
         return
-    text = ("Rakazo alert: " + message) if message else ("Rakazo recovered: " + key)
+    text = ("Ai7 alert: " + message) if message else ("Ai7 recovered: " + key)
     try:
         config = json.loads(config_path.read_text())
     except FileNotFoundError:

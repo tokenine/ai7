@@ -741,6 +741,9 @@ importers:
       '@rakazo/adapter-kit':
         specifier: workspace:*
         version: link:../adapter-kit
+      '@rakazo/contracts':
+        specifier: workspace:*
+        version: link:../contracts
       '@rakazo/core':
         specifier: workspace:*
         version: link:../core
@@ -1007,6 +1010,9 @@ importers:
       '@base-ui/react':
         specifier: 1.9.0
         version: 1.9.0(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@rakazo/contracts':
+        specifier: workspace:*
+        version: link:../contracts
       '@rakazo/core':
         specifier: workspace:*
         version: link:../core

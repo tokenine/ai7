@@ -8,7 +8,7 @@ import {
 } from "./e2b-template.js";
 
 describe("E2B computer template", () => {
-  it("builds the stock desktop at 2 vCPU and 4 GB under the Rakazo name", async () => {
+  it("builds the stock desktop at 2 vCPU and 4 GB under the Ai7 name", async () => {
     const build = vi.fn(async () => ({ name: E2B_COMPUTER_TEMPLATE }));
 
     await buildE2BComputerTemplate("e2b_test", { build });

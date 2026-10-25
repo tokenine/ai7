@@ -480,7 +480,7 @@ export class TeamChatBridge {
       conversation.spaceId !== target.spaceId ||
       !conversation.thread
     ) {
-      throw new Error("Team chat conversation belongs to a different Rakazo target");
+      throw new Error("Team chat conversation belongs to a different Ai7 target");
     }
     return { ...conversation, thread: conversation.thread };
   }
@@ -668,7 +668,7 @@ export class TeamChatBridge {
     const pending = this.mirroring.get(message.id);
     if (pending) return pending;
     const mirroring = (async () => {
-      if (!conversation.thread) throw new Error("Team chat conversation has no Rakazo thread");
+      if (!conversation.thread) throw new Error("Team chat conversation has no Ai7 thread");
       // Fetchers cannot survive a restart; reuse any completed per-file uploads.
       const stored = attachments
         ? await this.storeAttachments(
@@ -978,7 +978,7 @@ export class TeamChatBridge {
       const blocks = Array.isArray(response?.blocks) ? (response.blocks as MessageBlock[]) : [];
       const content =
         run.status === "failed"
-          ? `${target.name} could not complete the delegated request. Open Rakazo for details.`
+          ? `${target.name} could not complete the delegated request. Open Ai7 for details.`
           : teamChatResponseText(blocks, target.name, true);
       if (content) {
         await this.deps.send({
@@ -1229,7 +1229,7 @@ export class TeamChatBridge {
     };
   }): Promise<void> {
     const thread = message.externalConversation.thread;
-    if (!thread) throw new Error("Team chat conversation has no Rakazo thread");
+    if (!thread) throw new Error("Team chat conversation has no Ai7 thread");
     // In-flight routine wakes own the row via engagementReason; never start a
     // fallback TeamChat agent until that claim is cleared.
     if (isRoutingOwnershipReason(message.engagementReason)) {
@@ -1449,7 +1449,7 @@ export class TeamChatBridge {
     await this.sendOnce(message.id, {
       conversationId: message.externalConversation.conversationId,
       replyThreadId: message.replyThreadId,
-      content: `${this.target?.name ?? "The agent"} could not complete that request. Open Rakazo for details.`,
+      content: `${this.target?.name ?? "The agent"} could not complete that request. Open Ai7 for details.`,
       idempotencyKey: `external-message:${message.id}:failure`,
     });
   }

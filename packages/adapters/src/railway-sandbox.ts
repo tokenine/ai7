@@ -542,7 +542,7 @@ export class RailwaySandboxProvider implements SandboxProvider {
 
 /**
  * Railway destroys an idle sandbox, so it must outlast the checkpointing idle sleep. When no
- * finite timeout can, Railway never idles it out and Rakazo's own idle sleep stops it.
+ * finite timeout can, Railway never idles it out and Ai7's own idle sleep stops it.
  */
 function railwayIdleTimeoutMinutes() {
   if (!computerIdleSleepEnabled()) return 0;

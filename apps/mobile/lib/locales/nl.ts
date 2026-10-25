@@ -147,8 +147,8 @@ export const NL_MESSAGES: Record<string, string> = {
   "Chat Settings": "Chatinstellingen",
   "Configure a plugin catalog on the server to connect apps.":
     "Configureer een plugincatalogus op de server om apps te koppelen.",
-  "Paste the OpenAI-compatible address from your server. Rakazo adds /v1 if needed.":
-    "Plak het OpenAI-compatibele adres van je server. Rakazo voegt zo nodig /v1 toe.",
+  "Paste the OpenAI-compatible address from your server. Ai7 adds /v1 if needed.":
+    "Plak het OpenAI-compatibele adres van je server. Ai7 voegt zo nodig /v1 toe.",
   "Settings: General": "Instellingen: algemeen",
   "Settings: Usage": "Instellingen: gebruik",
   "Sign-in did not return a session": "De aanmelding gaf geen sessie terug",
@@ -190,9 +190,9 @@ export const NL_MESSAGES: Record<string, string> = {
   "Reset your password": "Je wachtwoord opnieuw instellen",
   "Send reset link": "Herstellingslink verzenden",
   Server: "Server",
-  "Sign in to Rakazo": "Aanmelden bij Rakazo",
+  "Sign in to Ai7": "Aanmelden bij Ai7",
   "Sign up": "Registreren",
-  "Sign up for Rakazo": "Registreer je voor Rakazo",
+  "Sign up for Ai7": "Registreer je voor Ai7",
   "Use a custom server": "Gebruik een eigen server",
   "Use default server": "Gebruik de standaardserver",
   Activity: "Activiteit",
@@ -492,8 +492,8 @@ export const NL_MESSAGES: Record<string, string> = {
   "Supports thinking": "Ondersteunt denken",
   "The final page may not load. Paste its URL or code here.":
     "De laatste pagina wordt mogelijk niet geladen. Plak de URL of code hier.",
-  "This subscription sign-in is not available in Rakazo yet. Use a deployment credential or choose another provider.":
-    "Deze abonnementsaanmelding is nog niet beschikbaar in Rakazo. Gebruik een implementatiegegeven of kies een andere aanbieder.",
+  "This subscription sign-in is not available in Ai7 yet. Use a deployment credential or choose another provider.":
+    "Deze abonnementsaanmelding is nog niet beschikbaar in Ai7. Gebruik een implementatiegegeven of kies een andere aanbieder.",
   "Use a found model": "Een gevonden model gebruiken",
   "Waiting for sign-in…": "Wachten op aanmelding…",
   "exact-model-id": "exact-model-id",
@@ -768,7 +768,7 @@ export const NL_MESSAGES: Record<string, string> = {
   "Enter a server URL": "Voer een server-URL in",
   "Public servers need https://. HTTP only works on your local network.":
     "Openbare servers vereisen https://. HTTP werkt alleen op je lokale netwerk.",
-  "That URL did not look like a Rakazo server": "Die URL leek geen Rakazo-server",
+  "That URL did not look like an Ai7 server": "Die URL leek geen Ai7-server",
   "That URL is missing a host": "Die URL mist een host",
   "That doesn’t look like a URL": "Dat lijkt geen URL",
   "Use an http or https URL": "Gebruik een http- of https-URL",
@@ -836,7 +836,7 @@ export const NL_MESSAGES: Record<string, string> = {
   "AI models": "AI-modellen",
   Memory: "Geheugen",
   "Privacy policies": "Privacybeleid",
-  Rakazo: "Rakazo",
+  Ai7: "Ai7",
   "Withdraw all permissions": "Alle toestemmingen intrekken",
   "Withdraw all permissions?": "Alle toestemmingen intrekken?",
   "New mobile actions won't send data to these services. Runs already in progress and routines keep going until you stop them.":
@@ -956,7 +956,7 @@ export const NL_MESSAGES: Record<string, string> = {
   "Use my subscription or API key": "Mijn abonnement of API-sleutel gebruiken",
   "Monthly credits expire at renewal. Top-ups do not expire.":
     "Maandelijks tegoed vervalt bij verlenging. Los gekocht tegoed verloopt niet.",
-  "Use Rakazo credits": "Rakazo-tegoed gebruiken",
+  "Use Ai7 credits": "Ai7-tegoed gebruiken",
   "1 unread": "1 ongelezen",
   "{count} unread": "{count} ongelezen",
   "{count} need attention": "{count} vragen aandacht",
@@ -964,9 +964,9 @@ export const NL_MESSAGES: Record<string, string> = {
   "{label}, below": "{label}, onder",
   Work: "Werk",
   Both: "Allebei",
-  "How will you use Rakazo?": "Hoe ga je Rakazo gebruiken?",
-  "What do you most want Rakazo to help with?": "Waarmee wil je vooral hulp van Rakazo?",
+  "How will you use Ai7?": "Hoe ga je Ai7 gebruiken?",
+  "What do you most want Ai7 to help with?": "Waarmee wil je vooral hulp van Ai7?",
   "How big is your team?": "Hoe groot is je team?",
   "How did you hear about us?": "Hoe heb je over ons gehoord?",
-  "Welcome to Rakazo": "Welkom bij Rakazo",
+  "Welcome to Ai7": "Welkom bij Ai7",
 };

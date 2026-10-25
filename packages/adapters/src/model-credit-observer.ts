@@ -19,7 +19,7 @@ export async function hostedModelCreditObserver(
   const account = await creditAccount(prisma, membership.organizationId);
   if (account.mode !== "credits")
     throw new HostedModelCreditsRequiredError(
-      "Connect your own API key in Models or choose Rakazo credits in Billing.",
+      "Connect your own API key in Models or choose Ai7 credits in Billing.",
     );
   return {
     beforeCall: (call) =>

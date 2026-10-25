@@ -1113,7 +1113,7 @@ export function createRouter(deps: RouterDeps) {
               auth.secretIdByModel[entry.provider]?.[entry.id] ||
               auth.secretIdByProvider[entry.provider]
                 ? entry.billing
-                : "Uses Rakazo credits",
+                : "Uses Ai7 credits",
           }
         : entry,
     );

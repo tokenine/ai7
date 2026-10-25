@@ -61,7 +61,7 @@ const [stars, desktopDownloads, recentChanges] = await Promise.all([
   fetchRecentChanges(5),
 ]);
 const starsLabel = stars === null ? copy.starFallback : formatStarCount(stars);
-const setupAgentPrompt = `Set up Rakazo for me. Follow the setup prompt at ${SETUP_PROMPT_URL}`;
+const setupAgentPrompt = `Set up Ai7 for me. Follow the setup prompt at ${SETUP_PROMPT_URL}`;
 const desktopPlatforms = availableDesktopPlatforms(desktopDownloads);
 const PLATFORM_NAMES = { mac: "macOS", windows: "Windows", linux: "Linux" } as const;
 const PROVIDER_LOGOS: Record<string, string> = {

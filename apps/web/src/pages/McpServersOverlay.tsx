@@ -40,7 +40,7 @@ const INSTALL_POLL_MS = 2500;
 
 type EnvRow = { id: number; name: string; value: string; file: boolean };
 
-/** How an env value asks Rakazo to inject the granted OAuth access token. */
+/** How an env value asks Ai7 to inject the granted OAuth access token. */
 const oauthEnvReference = "{{oauth.access_token}}";
 
 let nextEnvRowId = 0;
