@@ -93,25 +93,21 @@ for launcher in "$AGENT_HOME"/Desktop/*.desktop; do
   done
 done
 pcmanfm --desktop --profile rakazo >/tmp/rakazo/pcmanfm.log 2>&1 &
-# Second chance: on a cold boot the metadata daemon can warm up after pcmanfm
-# cached the launchers as untrusted (every double click would then raise a
-# dialog). If any launcher still reads untrusted, mark again and restart the
-# desktop once with the daemon warm.
+# pcmanfm caches each launcher's trust state at startup. On a cold boot the
+# metadata daemon is not up yet, so the first instance can cache launchers as
+# untrusted (every double click would raise the execute-script dialog) and
+# never re-reads. Once the daemon is demonstrably warm, restart the desktop
+# once so it caches the trusted state.
 (
-  sleep 5
-  retried=0
-  for launcher in "$AGENT_HOME"/Desktop/*.desktop; do
-    [ -e "$launcher" ] || continue
-    if ! gio info "$launcher" 2>/dev/null | grep -q "metadata::trusted: true"; then
-      gio set "$launcher" metadata::trusted true 2>/dev/null || true
-      retried=1
+  for _ in $(seq 1 30); do
+    if gio info "$AGENT_HOME/Desktop/chrome.desktop" 2>/dev/null | grep -q "metadata::trusted: true"; then
+      break
     fi
+    sleep 0.5
   done
-  if [ "$retried" -eq 1 ]; then
-    pkill -f "pcmanfm --desktop" 2>/dev/null || true
-    sleep 1
-    pcmanfm --desktop --profile rakazo >>/tmp/rakazo/pcmanfm.log 2>&1 &
-  fi
+  pkill -f "pcmanfm --desktop" 2>/dev/null || true
+  sleep 1
+  pcmanfm --desktop --profile rakazo >>/tmp/rakazo/pcmanfm.log 2>&1 &
 ) &
 # Apply the wallpaper through the running instance. The call must carry the same
 # profile and a timeout: without --profile it targets a non-existent default
