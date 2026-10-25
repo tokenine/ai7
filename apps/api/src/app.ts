@@ -36,6 +36,7 @@ import {
   applyMessagingOutboundStatus,
   auditLogConfig,
   ChatSdkMessagingSurface,
+  CloudflareEmailProvider,
   CodexCatalogCache,
   ComposioConnector,
   contentKeyProviderFromEnv,
@@ -499,7 +500,15 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
   if (localEmailEmulator && !isLocalhostOrLoopbackIp(env.apiHost)) {
     throw new Error("EMAIL_EMULATOR requires API_HOST to be a loopback host");
   }
-  const email: TransactionalEmailProvider | undefined = configuredEmail ?? localEmailEmulator;
+  const email: TransactionalEmailProvider | undefined =
+    emailOverride ??
+    (env.cloudflareEmailApiToken && env.cloudflareAccountId
+      ? new CloudflareEmailProvider({
+          accountId: env.cloudflareAccountId,
+          apiToken: env.cloudflareEmailApiToken,
+          from: env.emailFrom ?? "",
+        })
+      : (configuredEmail ?? localEmailEmulator));
   const onEmailError = (error: unknown) =>
     getLogger().error("transactional email delivery failed", error);
   const stripeBilling = stripeBillingConfigFromEnv(env);
