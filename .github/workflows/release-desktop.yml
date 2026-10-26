@@ -101,10 +101,14 @@ jobs:
           echo "windows=$WINDOWS_SIGNING" >> "$GITHUB_OUTPUT"
 
   build:
-    name: Build signed ${{ matrix.artifact }} artifacts
+    name: Build ${{ matrix.artifact }} artifacts
     needs: validate
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
+    env:
+      # macOS signs and notarizes only when an Apple Developer certificate is configured;
+      # without one the build ships unsigned and the update feed still works via checksums.
+      HAS_MAC_CERT: ${{ secrets.DESKTOP_MAC_CSC_LINK != '' }}
     strategy:
       fail-fast: false
       matrix:
@@ -129,7 +133,7 @@ jobs:
           RAKAZO_ALLOW_DEV_SECRETS: "1"
 
       - name: Require macOS signing and notarization credentials
-        if: runner.os == 'macOS'
+        if: runner.os == 'macOS' && env.HAS_MAC_CERT == 'true'
         shell: bash
         env:
           CSC_LINK: ${{ secrets.DESKTOP_MAC_CSC_LINK }}
@@ -201,8 +205,14 @@ jobs:
             # The main app alone gets the association; helpers keep entitlementsInherit.
             passkeys=("-c.mac.entitlements=$PASSKEY_ENTITLEMENTS" "-c.mac.provisioningProfile=$PASSKEY_PROFILE")
           fi
-          pnpm --filter @rakazo/desktop exec electron-builder \
-            --mac --universal --publish never -c.forceCodeSigning=true "${passkeys[@]}"
+          flags=(--mac --universal --publish never)
+          if [[ -n "$CSC_LINK" ]]; then
+            flags+=(-c.forceCodeSigning=true)
+          else
+            echo "::notice::No DESKTOP_MAC_CSC_LINK configured; building an unsigned macOS app."
+            flags+=(-c.forceCodeSigning=false -c.mac.notarize=false)
+          fi
+          pnpm --filter @rakazo/desktop exec electron-builder "${flags[@]}" "${passkeys[@]}"
       - name: Remove the App Store Connect API key from the runner
         if: always() && runner.os == 'macOS'
         shell: bash
@@ -214,52 +224,57 @@ jobs:
         shell: bash
         env:
           PASSKEY_ENTITLEMENTS: ${{ steps.passkeys.outputs.entitlements }}
+          CSC_LINK: ${{ secrets.DESKTOP_MAC_CSC_LINK }}
         run: |
           set -euo pipefail
-          app="apps/desktop/out/mac-universal/Rakazo.app"
-          codesign --verify --deep --strict --verbose=2 "$app"
-          # Without this entitlement the hardened runtime silences the microphone.
-          # Check the app and every helper it signs, and require the value to be true.
-          entitlements="$(mktemp)"
-          while IFS= read -r -d '' bundle; do
-            codesign -d --entitlements :- "$bundle" > "$entitlements" 2>/dev/null
-            mic="$(/usr/libexec/PlistBuddy -c "Print :com.apple.security.device.audio-input" "$entitlements" 2>/dev/null || true)"
-            if [ "$mic" != "true" ]; then
-              echo "::error::$bundle is missing the microphone entitlement"
-              exit 1
-            fi
-          done < <(find "$app" -type d -name "*.app" -print0)
-          if [[ -n "$PASSKEY_ENTITLEMENTS" ]]; then
-            # The signed app must carry exactly the generated association and its profile.
-            codesign -d --entitlements :- "$app" > "$entitlements" 2>/dev/null
-            for key in com.apple.application-identifier com.apple.developer.associated-domains; do
-              expected="$(/usr/libexec/PlistBuddy -c "Print :$key" "$PASSKEY_ENTITLEMENTS")"
-              actual="$(/usr/libexec/PlistBuddy -c "Print :$key" "$entitlements" 2>/dev/null || true)"
-              if [[ "$actual" != "$expected" ]]; then
-                echo "::error::$app is missing the $key passkey entitlement"
+          app="apps/desktop/out/mac-universal/Ai7.app"
+          if [[ -n "$CSC_LINK" ]]; then
+            codesign --verify --deep --strict --verbose=2 "$app"
+            # Without this entitlement the hardened runtime silences the microphone.
+            # Check the app and every helper it signs, and require the value to be true.
+            entitlements="$(mktemp)"
+            while IFS= read -r -d '' bundle; do
+              codesign -d --entitlements :- "$bundle" > "$entitlements" 2>/dev/null
+              mic="$(/usr/libexec/PlistBuddy -c "Print :com.apple.security.device.audio-input" "$entitlements" 2>/dev/null || true)"
+              if [ "$mic" != "true" ]; then
+                echo "::error::$bundle is missing the microphone entitlement"
                 exit 1
               fi
-            done
-            test -f "$app/Contents/embedded.provisionprofile"
+            done < <(find "$app" -type d -name "*.app" -print0)
+            if [[ -n "$PASSKEY_ENTITLEMENTS" ]]; then
+              # The signed app must carry exactly the generated association and its profile.
+              codesign -d --entitlements :- "$app" > "$entitlements" 2>/dev/null
+              for key in com.apple.application-identifier com.apple.developer.associated-domains; do
+                expected="$(/usr/libexec/PlistBuddy -c "Print :$key" "$PASSKEY_ENTITLEMENTS")"
+                actual="$(/usr/libexec/PlistBuddy -c "Print :$key" "$entitlements" 2>/dev/null || true)"
+                if [[ "$actual" != "$expected" ]]; then
+                  echo "::error::$app is missing the $key passkey entitlement"
+                  exit 1
+                fi
+              done
+              test -f "$app/Contents/embedded.provisionprofile"
+            fi
+            rm -f "$entitlements"
+            xcrun stapler validate "$app"
+            spctl --assess --type execute --verbose=2 "$app"
+          else
+            echo "::notice::Unsigned build; skipping codesign/notarization verification."
           fi
-          rm -f "$entitlements"
-          xcrun stapler validate "$app"
-          spctl --assess --type execute --verbose=2 "$app"
           grep -Fqx "provider: github" "$app/Contents/Resources/app-update.yml"
-          grep -Fqx "owner: elie222" "$app/Contents/Resources/app-update.yml"
-          grep -Fqx "repo: rakazo" "$app/Contents/Resources/app-update.yml"
+          grep -Fqx "owner: tokenine" "$app/Contents/Resources/app-update.yml"
+          grep -Fqx "repo: ai7" "$app/Contents/Resources/app-update.yml"
 
       - name: Verify packaged native dependencies
         if: runner.os == 'macOS'
         shell: bash
         run: |
-          app="apps/desktop/out/mac-universal/Rakazo.app"
+          app="apps/desktop/out/mac-universal/Ai7.app"
           native="$app/Contents/Resources/app.asar.unpacked/node_modules"
           lipo "$native/@koromix/koffi-darwin-x64/darwin_x64/koffi.node" -verify_arch x86_64
           lipo "$native/@koromix/koffi-darwin-arm64/darwin_arm64/koffi.node" -verify_arch arm64
           lipo "$native/@oxc-parser/binding-darwin-x64/parser.darwin-x64.node" -verify_arch x86_64
           lipo "$native/@oxc-parser/binding-darwin-arm64/parser.darwin-arm64.node" -verify_arch arm64
-          ELECTRON_RUN_AS_NODE=1 "$app/Contents/MacOS/Rakazo" -e '
+          ELECTRON_RUN_AS_NODE=1 "$app/Contents/MacOS/Ai7" -e '
             const { createRequire } = require("node:module");
             const appRequire = createRequire(`${process.argv[1]}/Contents/Resources/app.asar/package.json`);
             const koffi = appRequire("koffi");
@@ -312,7 +327,7 @@ jobs:
             throw "Windows update config is not bound to the signing publisher."
           }
           $feed = Get-Content -Raw $config
-          foreach ($expected in @("provider: github", "owner: elie222", "repo: rakazo")) {
+          foreach ($expected in @("provider: github", "owner: tokenine", "repo: ai7")) {
             if ($feed -notmatch "(?m)^$([regex]::Escape($expected))\r?$") {
               throw "Windows update config missing '$expected'."
             }
@@ -337,7 +352,7 @@ jobs:
           test -n "$config"
           test -f "$config"
           grep -Fqx "provider: github" "$config"
-          grep -Fqx "owner: elie222" "$config"
+          grep -Fqx "owner: tokenine" "$config"
           grep -Fqx "repo: rakazo" "$config"
           test -f apps/desktop/out/latest-linux.yml
           grep -Fqx "version: $RELEASE_VERSION" apps/desktop/out/latest-linux.yml

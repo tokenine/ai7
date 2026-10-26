@@ -18,7 +18,7 @@ import {
 describe("normalizeRepoUrl", () => {
   it("accepts the official repository and https forks", () => {
     expect(normalizeRepoUrl(OFFICIAL_REPO_URL)).toEqual({
-      url: "https://github.com/elie222/rakazo",
+      url: "https://github.com/tokenine/ai7",
     });
     expect(normalizeRepoUrl("  https://github.com/me/rakazo.git/  ")).toEqual({
       url: "https://github.com/me/rakazo.git",
@@ -78,9 +78,9 @@ describe("repoIdentity", () => {
   });
 
   it("only calls the real upstream official", () => {
-    expect(isOfficialRepoUrl("git@github.com:elie222/rakazo.git")).toBe(true);
+    expect(isOfficialRepoUrl("git@github.com:tokenine/ai7.git")).toBe(true);
     expect(isOfficialRepoUrl("https://github.com/attacker/rakazo")).toBe(false);
-    expect(isOfficialRepoUrl("https://githubb.com/elie222/rakazo")).toBe(false);
+    expect(isOfficialRepoUrl("https://githubb.com/tokenine/ai7")).toBe(false);
   });
 });
 

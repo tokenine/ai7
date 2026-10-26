@@ -116,8 +116,8 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "elie222",
-        "repo": "rakazo"
+        "owner": "tokenine",
+        "repo": "ai7"
       }
     ]
   }
