@@ -610,6 +610,11 @@ msgstr "代理程式電腦"
 msgid "Agents:"
 msgstr "代理程式："
 
+#: src/components/ModelCredits.tsx
+#: src/pages/Onboarding.tsx
+msgid "Ai7 credits"
+msgstr "Ai7 額度"
+
 #: src/pages/Artifacts.tsx
 #: src/pages/shell/agent-import.tsx
 msgid "All bots"
@@ -672,8 +677,8 @@ msgid "An API key is stored for this provider, not a subscription sign-in."
 msgstr "此供應商儲存的是 API 金鑰，不是訂閱登入。"
 
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
-msgid "An existing Honcho peer to read from. Rakazo never writes to it."
-msgstr "用於讀取資料的現有 Honcho peer。Rakazo 絕不會向其寫入資料。"
+msgid "An existing Honcho peer to read from. Ai7 never writes to it."
+msgstr "用於讀取資料的現有 Honcho peer。Ai7 絕不會向其寫入資料。"
 
 #: src/lib/agent-import-errors.ts
 msgid "An imported API key could not be checked. Try again."
@@ -1226,8 +1231,8 @@ msgid "Choose folder"
 msgstr "選擇資料夾"
 
 #: src/components/ModelCredits.tsx
-msgid "Choose how to use Rakazo"
-msgstr "選擇 Rakazo 的使用方式"
+msgid "Choose how to use Ai7"
+msgstr "選擇 Ai7 的使用方式"
 
 #: src/lib/localized-provider-hint.ts
 msgid "Claude subscription"
@@ -1514,8 +1519,8 @@ msgstr "連線 Treg"
 
 #. js-lingui-explicit-id
 #: src/lib/run-error.ts
-msgid "Connect your own API key in Models or choose Rakazo credits in Billing."
-msgstr "請在「模型」中連接你自己的 API 金鑰，或在「帳務」中選擇 Rakazo 點數。"
+msgid "Connect your own API key in Models or choose Ai7 credits in Billing."
+msgstr "請在「模型」中連接你自己的 API 金鑰，或在「帳務」中選擇 Ai7 點數。"
 
 #: src/components/integrations/IntegrationSetup.tsx
 #: src/pages/McpOAuthCallback.tsx
@@ -2118,8 +2123,8 @@ msgid "Create space"
 msgstr "建立空間"
 
 #: src/pages/Auth.tsx
-msgid "Create your Rakazo"
-msgstr "建立你的 Rakazo"
+msgid "Create your Ai7"
+msgstr "建立你的 Ai7"
 
 #: src/components/AskCard.tsx
 msgid "Created"
@@ -2922,8 +2927,8 @@ msgid "How to check"
 msgstr "如何檢查"
 
 #: src/components/SignupSurvey.tsx
-msgid "How will you use Rakazo?"
-msgstr "你會如何使用 Rakazo？"
+msgid "How will you use Ai7?"
+msgstr "你會如何使用 Ai7？"
 
 #: src/pages/shell/computer-release-actions.tsx
 msgid "I’m done"
@@ -3834,8 +3839,8 @@ msgid "Not imported"
 msgstr "未匯入"
 
 #: src/pages/shell/import-status.ts
-msgid "Not in Rakazo's catalog"
-msgstr "不在 Rakazo 目錄中"
+msgid "Not in Ai7's catalog"
+msgstr "不在 Ai7 目錄中"
 
 #: src/pages/PluginsOverlay.tsx
 msgid "Not in the plugin catalog"
@@ -3847,12 +3852,12 @@ msgstr "暫不"
 
 #: src/pages/shell/agent-import.tsx
 #: src/pages/shell/import-status.ts
-msgid "Not supported in Rakazo"
-msgstr "Rakazo 不支援"
+msgid "Not supported in Ai7"
+msgstr "Ai7 不支援"
 
 #: src/pages/shell/agent-import.tsx
-msgid "Not used by Rakazo"
-msgstr "Rakazo 不使用"
+msgid "Not used by Ai7"
+msgstr "Ai7 不使用"
 
 #: src/components/McpServerHealthLine.tsx
 msgid "Not working"
@@ -4084,8 +4089,8 @@ msgid "Paste a replacement key"
 msgstr "貼上替換金鑰"
 
 #: src/pages/model-settings/compatible-model-fields.tsx
-msgid "Paste the OpenAI-compatible address from your server. Rakazo adds /v1 if needed."
-msgstr "貼上伺服器的 OpenAI 相容地址。需要時 Rakazo 會補上 /v1。"
+msgid "Paste the OpenAI-compatible address from your server. Ai7 adds /v1 if needed."
+msgstr "貼上伺服器的 OpenAI 相容地址。需要時 Ai7 會補上 /v1。"
 
 #: src/pages/shell/agent-import.tsx
 msgid "Paste the reply"
@@ -4232,14 +4237,9 @@ msgstr "Pull request"
 msgid "Queued"
 msgstr "排隊中"
 
-#: src/components/ModelCredits.tsx
-#: src/pages/Onboarding.tsx
-msgid "Rakazo credits"
-msgstr "Rakazo 額度"
-
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
-msgid "rakazo-shared and IDs starting with bot- are reserved for Rakazo."
-msgstr "rakazo-shared 與以 bot- 開頭的 ID 保留給 Rakazo 使用。"
+msgid "rakazo-shared and IDs starting with bot- are reserved for Ai7."
+msgstr "rakazo-shared 與以 bot- 開頭的 ID 保留給 Ai7 使用。"
 
 #: src/pages/shell/message-hover-actions.tsx
 msgid "React"
@@ -4588,14 +4588,14 @@ msgstr "立即重試"
 msgid "Retry screen"
 msgstr "重新連線螢幕"
 
+#: src/pages/McpOAuthCallback.tsx
+msgid "Return to Ai7"
+msgstr "返回 Ai7"
+
 #. placeholder {0}: call.botName
 #: src/components/call/CallCard.tsx
 msgid "Return to call with {0}"
 msgstr "返回與 {0} 的通話"
-
-#: src/pages/McpOAuthCallback.tsx
-msgid "Return to Rakazo"
-msgstr "返回 Rakazo"
 
 #: src/lib/model-connection-preflight.ts
 msgid "Review provider settings and test again."
@@ -4987,8 +4987,8 @@ msgid "Sign in at <0>{0}</0>, then paste the code here."
 msgstr "在 <0>{0}</0> 登入，然後將代碼貼到這裡。"
 
 #: src/pages/Auth.tsx
-msgid "Sign in to Rakazo"
-msgstr "登入 Rakazo"
+msgid "Sign in to Ai7"
+msgstr "登入 Ai7"
 
 #: src/lib/user-error.ts
 msgid "Sign in to your existing account to link SSO"
@@ -5457,8 +5457,8 @@ msgid "This server is already connected. Disconnect it first to authorize again.
 msgstr "此伺服器已連線。請先中斷再重新授權。"
 
 #: src/pages/model-settings/connection-controls.tsx
-msgid "This subscription sign-in is not available in Rakazo yet. Use a deployment credential or choose another provider."
-msgstr "此訂閱登入在 Rakazo 中尚不可用。請使用部署憑證或選擇其他供應商。"
+msgid "This subscription sign-in is not available in Ai7 yet. Use a deployment credential or choose another provider."
+msgstr "此訂閱登入在 Ai7 中尚不可用。請使用部署憑證或選擇其他供應商。"
 
 #: src/pages/Artifacts.tsx
 msgid "This week"
@@ -5720,6 +5720,10 @@ msgstr "存取權杖請使用 {oauthEnvReference}。"
 msgid "Use a found model"
 msgstr "使用找到的模型"
 
+#: src/components/ModelCredits.tsx
+msgid "Use Ai7 credits"
+msgstr "使用 Ai7 額度"
+
 #: src/lib/model-connection-preflight.ts
 msgid "Use Connect to verify the key."
 msgstr "請使用「連線」驗證金鑰。"
@@ -5743,10 +5747,6 @@ msgstr "使用我的訂閱或 API 金鑰"
 #: src/components/teach/TeachRecordingChrome.tsx
 msgid "Use Protected input for passwords."
 msgstr "輸入密碼時，請使用受保護的輸入。"
-
-#: src/components/ModelCredits.tsx
-msgid "Use Rakazo credits"
-msgstr "使用 Rakazo 額度"
 
 #: src/pages/model-settings/space-bots-model.tsx
 msgid "Use space default"
@@ -5856,16 +5856,16 @@ msgid "Weekends"
 msgstr "週末"
 
 #: src/components/SignupSurvey.tsx
-msgid "Welcome to Rakazo"
-msgstr "歡迎使用 Rakazo"
+msgid "Welcome to Ai7"
+msgstr "歡迎使用 Ai7"
 
 #: src/pages/shell/dialogs.tsx
 msgid "What about its memories?"
 msgstr "它的記憶怎麼處理？"
 
 #: src/components/SignupSurvey.tsx
-msgid "What do you most want Rakazo to help with?"
-msgstr "你最希望 Rakazo 幫你做什麼？"
+msgid "What do you most want Ai7 to help with?"
+msgstr "你最希望 Ai7 幫你做什麼？"
 
 #: src/pages/shell/message-cards.tsx
 msgid "What do you want me on first?"

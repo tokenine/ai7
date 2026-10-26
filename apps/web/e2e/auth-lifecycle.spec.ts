@@ -323,7 +323,7 @@ test("changes and recovers an email password", async ({ page }, testInfo) => {
       html: string;
     }>;
     return messages.filter(
-      (message) => message.to === email && message.subject === "Reset your Rakazo password",
+      (message) => message.to === email && message.subject === "Reset your Ai7 password",
     );
   };
   await expect.poll(async () => (await sentToUser()).length).toBeGreaterThan(0);

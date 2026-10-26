@@ -32,14 +32,14 @@ const linkStyle = { color: lightTokens.primary, textDecoration: "underline" };
 export function verificationEmail(email: string, url: string): Promise<TransactionalEmail> {
   return message(
     email,
-    "Verify your Rakazo email",
+    "Verify your Ai7 email",
     <>
       <Text>
         <Link href={url} style={linkStyle}>
           Verify email
         </Link>
       </Text>
-      <Text>Then return to Rakazo to sign in.</Text>
+      <Text>Then return to Ai7 to sign in.</Text>
       <Text>This link expires in one hour. If you did not register, ignore this email.</Text>
     </>,
   );
@@ -48,9 +48,9 @@ export function verificationEmail(email: string, url: string): Promise<Transacti
 export function signInCodeEmail(email: string, code: string): Promise<TransactionalEmail> {
   return message(
     email,
-    "Your Rakazo sign-in code",
+    "Your Ai7 sign-in code",
     <>
-      <Text>Enter this code to sign in to Rakazo:</Text>
+      <Text>Enter this code to sign in to Ai7:</Text>
       <Text>
         <strong>{code}</strong>
       </Text>
@@ -65,10 +65,10 @@ export function passwordResetEmail(
 ): Promise<TransactionalEmail> {
   return message(
     user.email,
-    "Reset your Rakazo password",
+    "Reset your Ai7 password",
     <>
       <Text>Hi {displayName(user.name, "there")},</Text>
-      <Text>Reset your Rakazo password:</Text>
+      <Text>Reset your Ai7 password:</Text>
       <Text>
         <Link href={resetUrl} style={linkStyle}>
           Reset password
@@ -84,9 +84,9 @@ export function passwordResetEmail(
 export function accountDeletionEmail(email: string, code: string): Promise<TransactionalEmail> {
   return message(
     email,
-    "Confirm Rakazo account deletion",
+    "Confirm Ai7 account deletion",
     <>
-      <Text>Enter this code in Rakazo to delete your account:</Text>
+      <Text>Enter this code in Ai7 to delete your account:</Text>
       <Text>{code}</Text>
       <Text>
         This code expires in ten minutes. If you did not request deletion, ignore this email.

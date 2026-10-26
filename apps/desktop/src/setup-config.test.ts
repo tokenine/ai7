@@ -57,12 +57,12 @@ describe("server address normalization", () => {
     expect(normalizeServerUrl("http://[fd00:ec2::254]")).toBeNull();
     // fd::1 is 00fd::1, not unique-local.
     expect(normalizeServerUrl("http://[fd::1]:3100")).toBeNull();
-    // HTTPS to link-local still normalizes; the health probe must match Rakazo.
+    // HTTPS to link-local still normalizes; the health probe must match Ai7.
     expect(normalizeServerUrl("https://169.254.169.254")).toBe("https://169.254.169.254");
   });
 
   it.each(["", "   ", "not a url", "ftp://example.com", "file:///etc/passwd", "http://"])(
-    "rejects an address that cannot reach a Rakazo server (%s)",
+    "rejects an address that cannot reach an Ai7 server (%s)",
     (value) => {
       expect(normalizeServerUrl(value)).toBeNull();
     },
@@ -136,7 +136,7 @@ describe("saved setup", () => {
     });
   });
 
-  it("saves Rakazo Cloud as an existing server under the exact origin setup matches", () => {
+  it("saves Ai7 Cloud as an existing server under the exact origin setup matches", () => {
     // The setup window recognizes a saved Cloud choice by comparing against this constant.
     expect(normalizeServerUrl(RAKAZO_CLOUD_URL)).toBe(RAKAZO_CLOUD_URL);
     expect(parseSetupInput({ mode: "existing", serverUrl: RAKAZO_CLOUD_URL })).toEqual({
@@ -230,7 +230,7 @@ describe("remote-content isolation", () => {
   });
 });
 
-describe("Rakazo health response", () => {
+describe("Ai7 health response", () => {
   it("requires the public RPC health contract", () => {
     expect(isRakazoHealth({ json: { ok: true, version: "0.1.0" } })).toBe(true);
     expect(isRakazoHealth({ json: { ok: true } })).toBe(false);

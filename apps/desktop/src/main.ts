@@ -622,7 +622,7 @@ async function runMenuUpdateCheck() {
       : dialog.showMessageBox(options);
   if (state.phase === "ready") {
     const { response } = await alert({
-      message: `Rakazo ${state.availableVersion} is ready to install.`,
+      message: `Ai7 ${state.availableVersion} is ready to install.`,
       buttons: ["Restart", "Later"],
       defaultId: 0,
       cancelId: 1,
@@ -645,7 +645,7 @@ async function runMenuUpdateCheck() {
       detail: state.message,
     });
   } else if (state.phase === "idle") {
-    await alert({ message: "Rakazo is up to date.", detail: `Version ${state.currentVersion}` });
+    await alert({ message: "Ai7 is up to date.", detail: `Version ${state.currentVersion}` });
   }
 }
 

@@ -361,7 +361,7 @@ const FIND_MISSING_DESKTOP_TOOLS = [
 ];
 
 /**
- * Same as infra/sandboxes/computer/browser-policy.json. Rakazo keeps credentials itself, so
+ * Same as infra/sandboxes/computer/browser-policy.json. Ai7 keeps credentials itself, so
  * the browser's save-password, address, and card prompts only cover the page.
  */
 export const BROWSER_POLICY = JSON.stringify({

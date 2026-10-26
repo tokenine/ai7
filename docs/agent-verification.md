@@ -168,7 +168,7 @@ takes control through the product's takeover path, sees screenshots and clicks
 and types until it hands the screen back. `--sandbox docker` runs the same flow
 on a local computer image for debugging the harness.
 
-Grading reads the website's own records (orders, logins) and Rakazo state
+Grading reads the website's own records (orders, logins) and Ai7 state
 (routines, transcript); the bot's claims are not evidence. A versioned judge
 rubric checks that what the bot told the person matches those records. Each run
 writes `report.html` under `test-report/flows/`: the chat and the bot's screen

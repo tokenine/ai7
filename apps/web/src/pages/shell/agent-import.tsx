@@ -482,10 +482,10 @@ export function AgentImportForm({
   };
   const skipReason = (reason: AgentImportSkipReason) =>
     ({
-      runtime: t`Not used by Rakazo`,
+      runtime: t`Not used by Ai7`,
       invalid_skill: t`Not a valid skill`,
       builtin: t`Built-in`,
-      unsupported: t`Not supported in Rakazo`,
+      unsupported: t`Not supported in Ai7`,
       connected: t`Already connected`,
       invalid_file: t`Could not read these files`,
       default: defaultNote,
