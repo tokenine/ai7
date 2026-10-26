@@ -50,7 +50,6 @@ const NOT_PASSED: Record<string, string> = {
   EMAIL_EMULATOR: "ignored when NODE_ENV=production",
   GIT_SHA: "baked into the image at build time; a pass-through entry would unset it",
   SHELL: "host shell for the desktop computer, which only the Electron app runs",
-  CLOUDFLARE_ACCOUNT_ID: "written into Pi's environment from stored gateway settings",
   CLOUDFLARE_GATEWAY_ID: "written into Pi's environment from stored gateway settings",
   COMPOSE_PROJECT_NAME: "read by the updater sidecar, which has its own environment",
   RAKAZO_COMPOSE_PROJECT_NAME: "read by the updater sidecar, which has its own environment",
@@ -74,7 +73,12 @@ const NOT_PASSED: Record<string, string> = {
  * the identity provider, so the worker resolves no auth secret. Only the API's start command
  * migrates, so the worker never holds the owner database login.
  */
-const WORKER_DENIED = new Set(["BETTER_AUTH_SECRET", "DATABASE_MIGRATION_URL"]);
+const WORKER_DENIED = new Set([
+  "BETTER_AUTH_SECRET",
+  "DATABASE_MIGRATION_URL",
+  // Only the api builds the Cloudflare Email Sending provider; the worker never sends.
+  "CLOUDFLARE_ACCOUNT_ID",
+]);
 
 /** Reads a source scan cannot see: names held in constants or read by third-party SDKs. */
 const INDIRECT = {

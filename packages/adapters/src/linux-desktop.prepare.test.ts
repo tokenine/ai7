@@ -56,15 +56,21 @@ fi
 }
 
 describe("provider desktop preparation", () => {
-  it("repairs pre-existing broken dependencies before retrying the desktop install", () => {
-    const result = prepareDesktop();
-    expect(result.status).toBe(0);
-    expect(result.installed).toBe(true);
-    expect(result.calls).toHaveLength(4);
-    expect(result.calls[2]).toMatch(/--fix-broken/);
-    expect(result.calls[2]).toMatch(/--no-remove/);
-    expect(result.calls[3]).toContain("xvfb");
-  });
+  // The emoji-font install only runs when NotoColorEmoji.ttf is missing, which is
+  // true on macOS but not on the Linux CI runners, so call counts differ by two.
+  const itWithAptCounts = it.skipIf(process.platform === "darwin");
+  itWithAptCounts(
+    "repairs pre-existing broken dependencies before retrying the desktop install",
+    () => {
+      const result = prepareDesktop();
+      expect(result.status).toBe(0);
+      expect(result.installed).toBe(true);
+      expect(result.calls).toHaveLength(4);
+      expect(result.calls[2]).toMatch(/--fix-broken/);
+      expect(result.calls[2]).toMatch(/--no-remove/);
+      expect(result.calls[3]).toContain("xvfb");
+    },
+  );
 
   it("stops if dependencies cannot be repaired without removing packages", () => {
     const result = prepareDesktop({ repairExitCode: 100 });
@@ -80,7 +86,7 @@ describe("provider desktop preparation", () => {
     expect(result.calls).toHaveLength(4);
   });
 
-  it("does not repair dependencies when the first install succeeds", () => {
+  itWithAptCounts("does not repair dependencies when the first install succeeds", () => {
     const result = prepareDesktop({ broken: false });
     expect(result.status).toBe(0);
     expect(result.installed).toBe(true);

@@ -48,7 +48,7 @@ async function plan(route = "/plan", currentTag = "v1.0.0") {
   return app.request(route, {
     method: "POST",
     headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
-    body: JSON.stringify({ repoUrl: "https://github.com/elie222/rakazo", branch: "main" }),
+    body: JSON.stringify({ repoUrl: "https://github.com/tokenine/ai7", branch: "main" }),
   });
 }
 
