@@ -1,6 +1,5 @@
 import { randomBytes } from "node:crypto";
 import type { TransactionalEmailProvider } from "@rakazo/adapter-kit";
-import { BRAND_NAME } from "@rakazo/contracts";
 import type { BetterAuthPlugin } from "better-auth";
 import {
   APIError,
@@ -10,6 +9,7 @@ import {
   sessionMiddleware,
 } from "better-auth/api";
 import { bearer } from "better-auth/plugins";
+import { accountDeletionEmail } from "./email.js";
 import { isCurrentOidcAccount } from "./oidc.js";
 
 export const oidcProofKey = (sessionId: string) => `oidc-reauth-${sessionId}`;
@@ -76,12 +76,7 @@ export function accountSecurity(
             value: user.id,
             expiresAt: new Date(Date.now() + 10 * 60_000),
           });
-          await email.send({
-            to: user.email,
-            subject: `Confirm ${BRAND_NAME} account deletion`,
-            text: `Enter this code in ${BRAND_NAME} to delete your account:\n\n${token}\n\nThis code expires in ten minutes. If you did not request deletion, ignore this email.`,
-            html: `<p>Enter this code in ${BRAND_NAME} to delete your account:</p><p>${token}</p><p>This code expires in ten minutes. If you did not request deletion, ignore this email.</p>`,
-          });
+          await email.send(await accountDeletionEmail(user.email, token));
           return ctx.json({ success: true });
         },
       ),

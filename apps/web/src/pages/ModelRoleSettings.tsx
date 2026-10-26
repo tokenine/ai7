@@ -5,6 +5,7 @@ import type {
   ModelRole,
   ModelRoleChoice,
   ModelRoleSettings as ModelRoleSettingsValue,
+  SettingsScope,
   ThinkingLevel,
 } from "@rakazo/contracts";
 import {
@@ -13,7 +14,7 @@ import {
   MAX_MODEL_BACKUPS,
   modelRoleChoiceKey,
 } from "@rakazo/contracts";
-import { createModelRoleSettings } from "@rakazo/core";
+import { createModelRoleSettings, modelRoleListPatch } from "@rakazo/core";
 import {
   Button,
   DropdownMenu,
@@ -28,10 +29,12 @@ import {
   DropdownMenuTrigger,
   Spinner,
 } from "@rakazo/ui-web";
+import { useQueryClient } from "@tanstack/react-query";
 import { GripVertical, MoreHorizontal, Plus } from "lucide-react";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { thinkingLevelLabel } from "../lib/model-catalog";
+import { spaceQueries } from "../lib/query";
 import { useSpaceRpc } from "../lib/space-rpc";
 import type { ConnectableProvider, RoleModelOption } from "./model-settings/role-model-picker";
 import { RoleModelPicker } from "./model-settings/role-model-picker";
@@ -45,6 +48,8 @@ export type ModelRoleConnectIntent = {
 type Props = {
   userId: string;
   spaceId: string;
+  /** The account's list, or the Space's own when it overrides models. */
+  scope: SettingsScope;
   credentials: ModelCredential[];
   modelRole?: ModelRole;
   title: string;
@@ -76,6 +81,7 @@ const choiceOf = (option: RoleModelOption): ModelRoleChoice => ({
 export function ModelRoleSettings({
   userId,
   spaceId,
+  scope,
   credentials,
   modelRole: role = "main",
   title,
@@ -89,24 +95,42 @@ export function ModelRoleSettings({
   panel,
 }: Props) {
   const rpc = useSpaceRpc();
+  const queryClient = useQueryClient();
   const { t } = useLingui();
-  const controller = useMemo(
-    () =>
-      createModelRoleSettings(
-        {
-          load: () => rpc.models.role({ role, expectedUserId: userId }, { context: { spaceId } }),
-          catalog: () =>
-            rpc.models.forRole({ role, expectedUserId: userId }, { context: { spaceId } }),
-          save: (patch) =>
-            rpc.models.setRole(
-              { role, expectedUserId: userId, ...patch },
-              { context: { spaceId } },
-            ),
+  const controller = useMemo(() => {
+    // The last load is cached per user, space, scope, and role, so a revisit shows it while
+    // refreshing. Which models a role can use does not depend on the scope.
+    const queries = spaceQueries(userId, spaceId);
+    const catalogInput = { role, expectedUserId: userId };
+    const input = { ...catalogInput, scope };
+    const settingsKey = queries.models.role.queryKey({ input });
+    const catalogKey = queries.models.forRole.queryKey({ input: catalogInput });
+    const settings = queryClient.getQueryData(settingsKey);
+    const catalog = queryClient.getQueryData(catalogKey);
+    return createModelRoleSettings(
+      {
+        load: () =>
+          queryClient.fetchQuery({
+            queryKey: settingsKey,
+            queryFn: () => rpc.models.role(input, { context: { spaceId } }),
+            staleTime: 0,
+          }),
+        catalog: () =>
+          queryClient.fetchQuery({
+            queryKey: catalogKey,
+            queryFn: () => rpc.models.forRole(catalogInput, { context: { spaceId } }),
+            staleTime: 0,
+          }),
+        save: async (patch) => {
+          const saved = await rpc.models.setRole({ ...input, ...patch }, { context: { spaceId } });
+          queryClient.setQueryData(settingsKey, saved);
+          return saved;
         },
-        JSON.stringify([window.location.origin, userId, spaceId, role]),
-      ),
-    [rpc, userId, spaceId, role],
-  );
+      },
+      JSON.stringify([window.location.origin, userId, spaceId, scope, role]),
+      settings && catalog ? { settings, catalog } : undefined,
+    );
+  }, [queryClient, rpc, userId, spaceId, scope, role]);
   const state = useSyncExternalStore(controller.subscribe, controller.snapshot);
   const [dragging, setDragging] = useState<number | null>(null);
   // After a connection the slot's picker reopens on that provider's models.
@@ -175,7 +199,7 @@ export function ModelRoleSettings({
   }
   // The first row is the primary; moving a fallback there promotes it. When the primary
   // goes, the next fallback takes over, or the deployment's default runs.
-  const commit = (next: ModelRoleChoice[]) => save((current) => listPatch(current, next));
+  const commit = (next: ModelRoleChoice[]) => save((current) => modelRoleListPatch(current, next));
   const canMove = (index: number, target: number) =>
     target >= 0 && target < rows.length && target !== index;
   // A replaced row is found by its model in the loaded list, since a reload may reorder it.
@@ -186,7 +210,7 @@ export function ModelRoleSettings({
       // list; it keeps its place rather than moving and displacing the main model.
       if (list.some((item) => sameChoice(item, choice))) return {};
       const at = slot === "add" ? -1 : list.findIndex((item) => sameChoice(item, slot));
-      return listPatch(
+      return modelRoleListPatch(
         current,
         at < 0 ? [...list, choice] : list.map((item, index) => (index === at ? choice : item)),
       );
@@ -234,10 +258,10 @@ export function ModelRoleSettings({
   const pickerTrigger = (label: string, sub?: string) => (
     <button
       type="button"
-      className="flex min-w-0 flex-1 items-baseline gap-1.5 rounded-md py-1 text-start outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+      className="flex min-w-0 flex-1 items-baseline gap-2 rounded-md py-1 text-start outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
     >
       <span className="truncate text-[15px] text-foreground">{label}</span>
-      {sub ? <span className="truncate text-[13px] text-muted-foreground">· {sub}</span> : null}
+      {sub ? <span className="truncate text-[13px] text-muted-foreground">{sub}</span> : null}
     </button>
   );
 
@@ -435,11 +459,4 @@ export function ModelRoleSettings({
       ) : null}
     </section>
   );
-}
-
-function listPatch(
-  current: ModelRoleSettingsValue,
-  list: ModelRoleChoice[],
-): Partial<ModelRoleSettingsValue> {
-  return current.primary ? { primary: list[0] ?? null, backups: list.slice(1) } : { backups: list };
 }

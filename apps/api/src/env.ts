@@ -61,6 +61,8 @@ export interface AppEnv {
   phoneCallRingSeconds: number;
   phoneCallCooldownMinutes: number;
   maxUploadSizeBytes: number;
+  /** Bot replies longer than this are read aloud as a summary; unset reads every reply in full. */
+  voiceSummaryMinChars: number | undefined;
   sandboxSupervisorUrl: string;
   sandboxSupervisorToken: string | undefined;
   screenProxySecret: string;
@@ -93,6 +95,8 @@ export interface AppEnv {
   sendbluePhoneNumber: string | undefined;
   expoAccessToken: string | undefined;
   smtpUrl: string | undefined;
+  emailProvider?: string;
+  emailApiKey?: string;
   emailFrom: string | undefined;
   /** Cloudflare Email Sending: token + account id switch transactional email to the REST API. */
   cloudflareEmailApiToken: string | undefined;
@@ -102,6 +106,8 @@ export interface AppEnv {
   stripeWebhookSecret: string | undefined;
   stripePriceId: string | undefined;
   emailEmulator: boolean;
+  slackClientId?: string;
+  slackClientSecret?: string;
   slackBotToken: string | undefined;
   slackSigningSecret: string | undefined;
   whatsappAccessToken: string | undefined;
@@ -222,6 +228,7 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
     ticketBoardEnabled: source.TICKET_BOARD_ENABLED === "true",
     ...phoneCallSettings(source),
     maxUploadSizeBytes: uploadSizeFromEnv(source),
+    voiceSummaryMinChars: voiceSummaryMinCharsFromEnv(source.VOICE_SUMMARY_MIN_CHARS),
     sandboxSupervisorUrl: source.SANDBOX_SUPERVISOR_URL ?? "http://127.0.0.1:7091",
     sandboxSupervisorToken:
       sandboxProvider === "docker" ? resolveSupervisorToken(source) : undefined,
@@ -254,6 +261,8 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
     sendbluePhoneNumber: optional(source.SENDBLUE_PHONE_NUMBER),
     expoAccessToken: optional(source.EXPO_ACCESS_TOKEN),
     smtpUrl: optional(source.SMTP_URL),
+    emailProvider: optional(source.EMAIL_PROVIDER),
+    emailApiKey: optional(source.EMAIL_API_KEY),
     emailFrom: optional(source.EMAIL_FROM),
     cloudflareEmailApiToken: optional(source.CLOUDFLARE_EMAIL_API_TOKEN),
     cloudflareAccountId: optional(source.CLOUDFLARE_ACCOUNT_ID),
@@ -261,6 +270,8 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
     stripeWebhookSecret: optional(source.STRIPE_WEBHOOK_SECRET),
     stripePriceId: optional(source.STRIPE_PRICE_ID),
     emailEmulator: source.EMAIL_EMULATOR === "true" && source.NODE_ENV !== "production",
+    slackClientId: optional(source.SLACK_CLIENT_ID),
+    slackClientSecret: optional(source.SLACK_CLIENT_SECRET),
     slackBotToken: optional(source.SLACK_BOT_TOKEN),
     slackSigningSecret: optional(source.SLACK_SIGNING_SECRET),
     whatsappAccessToken: optional(source.WHATSAPP_ACCESS_TOKEN),
@@ -312,6 +323,15 @@ function browserMonitoringFromEnv(source: NodeJS.ProcessEnv): AppEnv["browserMon
     release: optional(source.SENTRY_RELEASE) ?? (sha === "unknown" ? undefined : sha),
     pseudonymSecret: monitoringPseudonymSecret(source),
   };
+}
+
+function voiceSummaryMinCharsFromEnv(value: string | undefined): number | undefined {
+  const raw = value?.trim();
+  if (!raw) return undefined;
+  if (!/^\d+$/.test(raw) || !Number.isSafeInteger(Number(raw)) || Number(raw) === 0) {
+    throw new Error("VOICE_SUMMARY_MIN_CHARS must be a positive whole number of characters");
+  }
+  return Number(raw);
 }
 
 function optional(value: string | undefined): string | undefined {

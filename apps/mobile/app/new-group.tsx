@@ -1,4 +1,9 @@
-import { defaultGroupName, GROUP_MEMBER_MAX, GROUP_MEMBER_MIN } from "@rakazo/contracts";
+import {
+  defaultGroupName,
+  GROUP_MEMBER_MAX,
+  GROUP_MEMBER_MIN,
+  GROUP_NAME_MAX_LENGTH,
+} from "@rakazo/contracts";
 import { Stack, useRouter } from "expo-router";
 import { useHeaderHeight } from "expo-router/react-navigation";
 import { useEffect, useRef, useState } from "react";
@@ -14,6 +19,7 @@ import { rpc } from "../lib/api";
 import { useI18n } from "../lib/i18n";
 import { native, useMobileTokens } from "../lib/native";
 import { iosAtLeast } from "../lib/native-controls";
+import { addToSearchInbox, searchInboxSession } from "../lib/search-inbox";
 import { useSideInsets } from "../lib/side-insets";
 import { errorText } from "../lib/user-error";
 
@@ -41,7 +47,7 @@ export default function NewGroup() {
     else router.replace("/");
   }
   useEffect(() => {
-    void rpc<MobileBot[]>("bots/list")
+    void rpc("bots/list")
       .then((nextBots) => setBots(nextBots.filter((bot) => !bot.archivedAt)))
       .catch(() => undefined);
   }, []);
@@ -59,11 +65,13 @@ export default function NewGroup() {
     creating.current = true;
     setPending(true);
     setError(null);
+    const askedIn = searchInboxSession();
     try {
-      const group = await rpc<{ id: string; name: string }>("groups/create", {
+      const group = await rpc("groups/create", {
         name: name.trim() || defaultGroupName(picked.map((bot) => bot.name)),
         botIds: selected,
       });
+      addToSearchInbox({ kind: "group", group }, askedIn);
       router.replace({
         pathname: "/group-thread",
         params: { groupId: group.id, name: group.name },
@@ -79,7 +87,7 @@ export default function NewGroup() {
     <>
       <Stack.Screen
         options={{
-          title: t("New group"),
+          title: t("New group chat"),
           headerTransparent: true,
           headerStyle: { backgroundColor: "transparent" },
           headerBackVisible: false,
@@ -166,7 +174,7 @@ export default function NewGroup() {
                 autoFocus
                 value={name}
                 onChangeText={setName}
-                maxLength={80}
+                maxLength={GROUP_NAME_MAX_LENGTH}
                 autoCapitalize="words"
                 autoCorrect={false}
                 autoComplete="off"

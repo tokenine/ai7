@@ -1,6 +1,6 @@
 import type { ModelRoleSettings } from "@rakazo/contracts";
 import { describe, expect, it, vi } from "vitest";
-import { createModelRoleSettings } from "./model-role-settings.js";
+import { createModelRoleSettings, modelRoleListPatch } from "./model-role-settings.js";
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -23,6 +23,22 @@ function setup(key = crypto.randomUUID()) {
   return { transport, controller: createModelRoleSettings(transport, key), key };
 }
 describe("shared model role settings lifecycle", () => {
+  it("shows initial settings at once and replaces them when the load returns", async () => {
+    const transport = {
+      load: vi.fn(async () => empty),
+      catalog: vi.fn(async () => []),
+      save: vi.fn(async (_patch: Partial<ModelRoleSettings>) => saved),
+    };
+    const controller = createModelRoleSettings(transport, crypto.randomUUID(), {
+      settings: saved,
+      catalog: [],
+    });
+    expect(controller.snapshot()).toMatchObject({ settings: saved, busy: false });
+    const loading = controller.load();
+    expect(controller.snapshot()).toMatchObject({ settings: saved, busy: true });
+    await loading;
+    expect(controller.snapshot()).toMatchObject({ settings: empty, busy: false });
+  });
   it("prevents replacing unseen settings, allows retry, and preserves saved settings on failure", async () => {
     const { transport, controller } = setup();
     transport.load.mockRejectedValueOnce(new Error("offline"));
@@ -127,5 +143,36 @@ describe("shared model role settings lifecycle", () => {
     const other = setup();
     await other.controller.load();
     expect(other.controller.snapshot().settings).toEqual(empty);
+  });
+});
+
+describe("modelRoleListPatch", () => {
+  const primary = { provider: "openrouter", modelId: "typesafe/jev-1.14", credentialId: "a" };
+  const backup = { provider: "anthropic", modelId: "opus" };
+
+  it("sends the whole list as fallbacks when no primary is set", () => {
+    expect(modelRoleListPatch(empty, [backup])).toEqual({ backups: [backup] });
+  });
+
+  it("leaves an unchanged primary out of the save", () => {
+    expect(modelRoleListPatch({ primary, backups: [] }, [{ ...primary }, backup])).toEqual({
+      backups: [backup],
+    });
+  });
+
+  it("sends the primary when it changes, including the same model on another connection", () => {
+    expect(modelRoleListPatch({ primary, backups: [backup] }, [backup, primary])).toEqual({
+      primary: backup,
+      backups: [primary],
+    });
+    const other = { ...primary, credentialId: "b" };
+    expect(modelRoleListPatch({ primary, backups: [] }, [other])).toEqual({
+      primary: other,
+      backups: [],
+    });
+    expect(modelRoleListPatch({ primary, backups: [] }, [])).toEqual({
+      primary: null,
+      backups: [],
+    });
   });
 });

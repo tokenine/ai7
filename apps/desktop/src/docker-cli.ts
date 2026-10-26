@@ -196,10 +196,10 @@ export function runDocker(
       if (line !== "") options.onLine?.(line);
     };
     for (const stream of ["stdout", "stderr"] as const) {
-      child[stream]?.on("data", (chunk: Buffer) => {
-        const text = chunk.toString("utf8");
+      child[stream]?.setEncoding("utf8");
+      child[stream]?.on("data", (text: string) => {
         captured[stream] += text;
-        const parts = (pending[stream] + text).split("\n");
+        const parts = (pending[stream] + text).split(/\r?\n/);
         pending[stream] = parts.pop() ?? "";
         for (const part of parts) emit(part);
       });

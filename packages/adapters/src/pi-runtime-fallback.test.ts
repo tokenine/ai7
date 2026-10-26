@@ -60,8 +60,9 @@ vi.mock("./pi-openai-compatible-provider.js", () => ({
 
 import { estimateModelContextTokens } from "./model-context.js";
 import { IMAGE_RETURNING_COMPUTER_TOOLS } from "./model-vision.js";
-import { MODEL_STREAM_IDLE_TIMEOUT_MESSAGE, PiAgentRuntime } from "./pi-runtime.js";
+import { PiAgentRuntime } from "./pi-runtime.js";
 import { MODEL_STREAM_IDLE_TIMEOUT_MS, MODEL_STREAM_TIMEOUT_MS } from "./pi-runtime-limits.js";
+import { MODEL_STREAM_IDLE_TIMEOUT_MESSAGE } from "./pi-runtime-stream.js";
 import { PiJsonlSessionRecorder } from "./pi-session.js";
 
 const primary = model("provider-a", "primary", 32_768);
@@ -2595,5 +2596,102 @@ describe("Pi runtime account request ceilings", () => {
     expect(input.model).not.toHaveProperty("contextWindow");
     expect(input.executeTool).not.toHaveBeenCalled();
     expect(events).toContainEqual(expect.objectContaining({ type: "done", text: "Ready" }));
+  });
+});
+
+describe("Pi runtime fallback error classes and mid-run switches", () => {
+  const providers = (): string[] =>
+    providerState.stream.mock.calls.map(
+      ([target]) => (target as Model<"openai-completions">).provider,
+    );
+  const backups = () => [{ provider: backupA.provider, id: backupA.id, apiKey: "fake-backup-a" }];
+
+  it.each([
+    ["429 rate limit", "429 rate_limit_error: Number of request tokens has exceeded your limit"],
+    ["500 server error", "500 Internal server error"],
+    ["503 unavailable", "503 service unavailable"],
+    ["529 overloaded", "529 overloaded_error: Overloaded"],
+    ["timeout", "Request timed out."],
+  ])("switches to the backup on %s", async (_name, error) => {
+    providerState.stream.mockImplementation((target: Model<"openai-completions">) =>
+      target.provider === primary.provider
+        ? stream(target, message(target, [], "error", error))
+        : stream(target, message(target, [{ type: "text", text: "from backup" }], "stop")),
+    );
+
+    const events = await run(request(backups()));
+
+    expect(providers()).toEqual([primary.provider, backupA.provider]);
+    expect(events).toContainEqual(expect.objectContaining({ type: "text", text: "from backup" }));
+  });
+
+  it("leaves retries to the backup instead of the provider SDK", async () => {
+    vi.stubEnv("MODEL_STREAM_MAX_RETRIES", "1");
+    try {
+      providerState.stream.mockImplementation((target: Model<"openai-completions">) =>
+        stream(target, message(target, [{ type: "text", text: "Ready" }], "stop")),
+      );
+
+      await run(request(backups()));
+      await run(request());
+
+      // A hung primary would otherwise wait out its timeout twice before the switch.
+      expect(providerState.stream.mock.calls.map(([, , options]) => options.maxRetries)).toEqual([
+        0, 1,
+      ]);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+
+  it.each([["403 forbidden", "403 Forbidden"]])(
+    "does not switch to the backup on %s",
+    async (_name, error) => {
+      providerState.stream.mockImplementation((target: Model<"openai-completions">) =>
+        stream(target, message(target, [], "error", error)),
+      );
+
+      await expect(run(request(backups()))).rejects.toThrow();
+
+      expect(providers()).toEqual([primary.provider]);
+    },
+  );
+
+  it("runs the backup's own tool call after a primary tool call, never replaying the first", async () => {
+    const input = request(backups());
+    const executeTool = vi.mocked(input.executeTool!);
+    const call = (id: string, value: string) => ({
+      type: "toolCall" as const,
+      id,
+      name: "write_effect",
+      arguments: { value },
+    });
+    let primaryCalls = 0;
+    let backupCalls = 0;
+    providerState.stream.mockImplementation((target: Model<"openai-completions">) => {
+      if (target.provider === primary.provider) {
+        primaryCalls += 1;
+        return primaryCalls === 1
+          ? stream(target, message(target, [call("first", "one")], "toolUse"))
+          : stream(target, message(target, [], "error", "529 overloaded_error"));
+      }
+      backupCalls += 1;
+      return backupCalls === 1
+        ? stream(target, message(target, [call("second", "two")], "toolUse"))
+        : stream(target, message(target, [{ type: "text", text: "done" }], "stop"));
+    });
+
+    await run(input);
+
+    expect(executeTool.mock.calls.map(([, args]) => args)).toEqual([
+      { value: "one" },
+      { value: "two" },
+    ]);
+    expect(providers()).toEqual([
+      primary.provider,
+      primary.provider,
+      backupA.provider,
+      backupA.provider,
+    ]);
   });
 });

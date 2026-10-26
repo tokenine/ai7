@@ -1,10 +1,10 @@
 import { createHash } from "node:crypto";
-import { isIP } from "node:net";
 import type { DesktopSetup, DesktopStackProbeResponse } from "@rakazo/contracts";
+import { isLoopbackHost, isPrivateNetworkHost } from "@rakazo/contracts/network-host";
 
 /** Managed desktop origin; development keeps its usual web/API ports. */
 export const DEFAULT_LOCAL_WEB_URL = "http://127.0.0.1:45173";
-/** Hosted Ai7; setup saves it as an `existing` server so it opens like any other. */
+/** Hosted Rakazo; setup saves it as an `existing` server so it opens like any other. */
 export const RAKAZO_CLOUD_URL = "https://app.rakazo.com";
 export const PROBE_RESPONSE_LIMIT_BYTES = 64 * 1024;
 
@@ -19,7 +19,7 @@ const SCHEME = /^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//;
 /**
  * Accepts what a person would actually type ("localhost:5173", "rakazo.example.com")
  * and returns a canonical http(s) origin, or null when the input can never
- * securely address an Ai7 server.
+ * securely address a Rakazo server.
  */
 export function normalizeServerUrl(input: string): string | null {
   const trimmed = input.trim();
@@ -31,7 +31,7 @@ export function normalizeServerUrl(input: string): string | null {
       url = new URL(trimmed);
     } else {
       const candidate = new URL(`http://${trimmed}`);
-      url = isLocalNetworkHost(candidate.hostname) ? candidate : new URL(`https://${trimmed}`);
+      url = isPrivateNetworkHost(candidate.hostname) ? candidate : new URL(`https://${trimmed}`);
     }
   } catch {
     return null;
@@ -42,9 +42,9 @@ export function normalizeServerUrl(input: string): string | null {
   // Embedded credentials would be written to disk in cleartext.
   if (url.username !== "" || url.password !== "") return null;
   // Public login cookies and API traffic must never cross a cleartext connection.
-  if (url.protocol === "http:" && !isLocalNetworkHost(url.hostname)) return null;
+  if (url.protocol === "http:" && !isPrivateNetworkHost(url.hostname)) return null;
 
-  // Ai7 serves its renderer, RPC, and auth routes from one origin. Keeping a
+  // Rakazo serves its renderer, RPC, and auth routes from one origin. Keeping a
   // user-supplied path would make the setup probe and the loaded app disagree.
   return url.origin;
 }
@@ -156,7 +156,7 @@ export function servesBundledRenderer(targetUrl: string, managedLocalStack: bool
   }
 }
 
-/** Each Ai7 origin gets its own persistent cookie and storage partition. */
+/** Each Rakazo origin gets its own persistent cookie and storage partition. */
 export function sessionPartitionForServerUrl(targetUrl: string): string | null {
   try {
     const url = new URL(targetUrl);
@@ -257,55 +257,4 @@ function cancelReader(reader: ReadableStreamDefaultReader<Uint8Array>): void {
   } catch {
     // Probe cleanup is best-effort.
   }
-}
-
-export function isLoopbackHost(hostname: string) {
-  const host = unbracketedHost(hostname);
-  if (host === "localhost" || host.endsWith(".localhost")) return true;
-  if (isIP(host) === 4) return host.startsWith("127.");
-  return isIP(host) === 6 && host === "::1";
-}
-
-/**
- * Link-local addresses (IPv4 169.254/16, IPv6 fe80::/10) often host cloud
- * metadata endpoints. Cleartext HTTP to them is never a legitimate Ai7
- * deploy target, so they stay out of the private-network HTTP allowlist.
- */
-function isLinkLocalHost(hostname: string) {
-  const host = unbracketedHost(hostname);
-  if (isIP(host) === 4) {
-    const [first, second] = host.split(".").map(Number);
-    return first === 169 && second === 254;
-  }
-  if (isIP(host) === 6) {
-    const first = host.split(":", 1)[0] ?? "";
-    return /^fe[89ab]/.test(first);
-  }
-  return false;
-}
-
-function isLocalNetworkHost(hostname: string) {
-  const host = unbracketedHost(hostname);
-  if (isLoopbackHost(host) || host.endsWith(".local")) return true;
-  if (isLinkLocalHost(host)) return false;
-
-  if (isIP(host) === 4) {
-    const [first, second] = host.split(".").map(Number);
-    return (
-      first === 10 ||
-      (first === 172 && second !== undefined && second >= 16 && second <= 31) ||
-      (first === 192 && second === 168)
-    );
-  }
-
-  if (isIP(host) === 6) {
-    const first = host.split(":", 1)[0] ?? "";
-    // Unique-local only (fc00::/7). Link-local is rejected above.
-    return /^f[cd]/.test(first);
-  }
-  return false;
-}
-
-function unbracketedHost(hostname: string) {
-  return hostname.replace(/^\[|\]$/g, "").toLowerCase();
 }

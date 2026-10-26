@@ -1,4 +1,10 @@
-import type { ModelCatalogEntry, ModelRoleSettings, ModelRoleView } from "@rakazo/contracts";
+import type {
+  ModelCatalogEntry,
+  ModelRoleChoice,
+  ModelRoleSettings,
+  ModelRoleView,
+} from "@rakazo/contracts";
+import { modelRoleChoiceKey } from "@rakazo/contracts";
 
 export interface ModelRoleTransport {
   load(): Promise<ModelRoleView>;
@@ -17,17 +23,24 @@ export type ModelRoleState = {
 type SaveQueue = { tail: Promise<void>; failures: number };
 const pendingWrites = new Map<string, SaveQueue>();
 
-/** Shared web/native lifecycle. Writes finish in their original scope; stale loads cannot win. */
-export function createModelRoleSettings(transport: ModelRoleTransport, scopeKey: string) {
+/**
+ * Shared web/native lifecycle. Writes finish in their original scope; stale loads cannot win.
+ * `initial` is what this scope showed last time, shown while the first load refreshes it.
+ */
+export function createModelRoleSettings(
+  transport: ModelRoleTransport,
+  scopeKey: string,
+  initial?: { settings: ModelRoleView; catalog: ModelCatalogEntry[] },
+) {
   let state: ModelRoleState = {
-    settings: null,
-    catalog: [],
-    busy: true,
+    settings: initial?.settings ?? null,
+    catalog: initial?.catalog ?? [],
+    busy: !initial,
     stale: false,
     error: null,
   };
   let generation = 0;
-  let confirmed: ModelRoleView | null = null;
+  let confirmed: ModelRoleView | null = initial?.settings ?? null;
   let loading: Promise<void> | null = null;
   const listeners = new Set<() => void>();
   const publish = (patch: Partial<ModelRoleState>) => {
@@ -101,4 +114,19 @@ export function createModelRoleSettings(transport: ModelRoleTransport, scopeKey:
       if (queue.tail === write) pendingWrites.delete(scopeKey);
     },
   };
+}
+
+/**
+ * The save for a purpose's reordered list, whose first row runs. With a primary set, the
+ * primary is sent only when it changes, so editing fallbacks never rewrites the main model.
+ */
+export function modelRoleListPatch(
+  current: ModelRoleSettings,
+  list: ModelRoleChoice[],
+): Partial<ModelRoleSettings> {
+  if (!current.primary) return { backups: list };
+  const primary = list[0] ?? null;
+  return primary && modelRoleChoiceKey(primary) === modelRoleChoiceKey(current.primary)
+    ? { backups: list.slice(1) }
+    : { primary, backups: list.slice(1) };
 }

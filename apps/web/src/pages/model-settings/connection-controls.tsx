@@ -101,42 +101,26 @@ export function ConnectionControls({
               {oauth.mode === "auth-url" ? (
                 <>
                   <p className="text-[13px] leading-[1.5] text-muted-foreground">
-                    {popupBlocked ? (
-                      <Trans>
-                        Open{" "}
-                        <a
-                          href={oauth.verificationUri}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-foreground underline"
-                        >
-                          {new URL(oauth.verificationUri).hostname}
-                        </a>{" "}
-                        to finish signing in.
-                      </Trans>
-                    ) : (
-                      <Trans>
-                        Finish signing in at{" "}
-                        <a
-                          href={oauth.verificationUri}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-foreground underline"
-                        >
-                          {new URL(oauth.verificationUri).hostname}
-                        </a>
-                        . The final page may not load; paste its URL or code here.
-                      </Trans>
-                    )}
+                    <Trans>
+                      Sign in at{" "}
+                      <a
+                        href={oauth.verificationUri}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-foreground underline"
+                      >
+                        {new URL(oauth.verificationUri).hostname}
+                      </a>
+                      , then paste the code here.
+                    </Trans>
                   </p>
                   <div className="mt-3 flex items-center gap-2">
                     <Input
                       value={pasteCode}
                       onChange={(e) => setPasteCode(e.target.value)}
-                      aria-label={t`Authorization code or callback URL`}
+                      aria-label={t`Authorization code`}
                       autoComplete="off"
                       spellCheck={false}
-                      placeholder="http://localhost:53692/callback?code=…"
                       className="text-foreground md:text-[13px]"
                     />
                     <Button
@@ -337,7 +321,6 @@ export function ConnectionControls({
                 type="button"
                 variant="outline"
                 size="sm"
-                className="rounded-full"
                 disabled={busy || preflightTesting || apiKey.trim().length < 8}
                 onClick={() => void testApiKeyConnection()}
               >
@@ -350,7 +333,6 @@ export function ConnectionControls({
             <Button
               type="button"
               variant="secondary"
-              className="rounded-full"
               size="sm"
               disabled={busy || !cloudflareRoutingReady || apiKey.trim().length < 8}
               onClick={() => void connectKey()}
@@ -428,7 +410,7 @@ export function CompatibleKeyControls({
       <Button
         type="button"
         variant="secondary"
-        className="mt-3 rounded-full"
+        className="mt-3"
         size="sm"
         disabled={busy || !openAiCompatibleReady}
         onClick={() => void connectKey()}

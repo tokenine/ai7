@@ -1,10 +1,10 @@
-# Self-hosting Ai7
+# Self-hosting Rakazo
 
 The signed-in product is a long-running API, a Graphile Worker, Postgres, and a computer provider (Docker supervisor, E2B, Daytona, CreateOS, or Boat). It is not a static site. The marketing site in `apps/www` can be hosted separately.
 
 ## Local (source checkout)
 
-Same as the README quick start: `.env` from `.env.example`, Postgres via Compose, `pnpm sandbox:build`, `pnpm dev`, then [http://127.0.0.1:5173](http://127.0.0.1:5173) (or `http://localhost:5173` — both loopback hosts are trusted). Electron: `pnpm --filter @rakazo/desktop dev` while that stack is up, choosing **Existing instance** with that address. The desktop app's **This computer** option instead installs and runs the published images itself with Docker Compose (see [Published images](#published-images-no-checkout)), using port 45173 by default so it can run alongside `pnpm dev`. If that port is occupied, the app selects and remembers another loopback port. The managed API gets a Docker-assigned loopback port; all desktop traffic uses the web origin.
+Same as the README quick start: `.env` from `.env.example`, `pnpm sandbox:build`, `pnpm dev`, then the URL it prints ([http://127.0.0.1:5173](http://127.0.0.1:5173) by default, or `http://localhost:5173` — both loopback hosts are trusted). Electron: `pnpm --filter @rakazo/desktop dev` while that stack is up, choosing **Existing instance** with that address. The desktop app's **This computer** option instead installs and runs the published images itself with Docker Compose (see [Published images](#published-images-no-checkout)), using port 45173 by default so it can run alongside `pnpm dev`. If that port is occupied, the app selects and remembers another loopback port. The managed API gets a Docker-assigned loopback port; all desktop traffic uses the web origin.
 
 For source development in WSL, keep the checkout and `data` directory in the Linux filesystem (for example, `~/rakazo`), and run `pnpm dev` as your normal user. The host-run supervisor matches bot container UID/GID to that user. If Docker Desktop container IPs are unreachable, set `SANDBOX_CONTROL_VIA_LOOPBACK=true` in `.env`; this publishes the token-protected control service on a random loopback port. Leave this unset for the Compose-hosted supervisor.
 
@@ -40,9 +40,15 @@ IRSA or EC2 instance role, opt in with `PI_DEFAULT_CREDENTIALS=host` and set
 `PI_DEFAULT_PROVIDER=amazon-bedrock`, `PI_DEFAULT_MODEL` and `AWS_REGION`. With an instance
 role, keep [restricted computer egress](#restricted-computer-egress) on so bot computers
 cannot read the role's credentials from the metadata endpoint.
-Auto Review is opt-in. In **Settings → Models → Approval model**, each user can select a model
+Approvals have three modes in **Settings → Approvals**: Never ask runs every action, Auto lets an
+approval model pass actions that fit the request, and Ask asks before any change. A space starts
+in Ask, or in Auto when `RAKAZO_AUTO_REVIEW=1` is set and an approval model is available. Each
+person can allow or block single tools and sites in every mode, and a space can customize its
+approvals apart from the account.
+
+In **Settings → Models → Approval model**, each user can select a model
 from an existing connection and add ordered backups, independently of their main model. Personal
-connections use their own credentials; hosted calls follow the same Ai7 credit rules as chat.
+connections use their own credentials; hosted calls follow the same Rakazo credit rules as chat.
 Backups are tried only when a checker fails. An explicit ask, including an uncertain decision,
 still requires a person.
 
@@ -188,7 +194,7 @@ Do not publish Postgres on a public interface.
 
 ### Database roles
 
-Ai7 uses two Postgres logins:
+Rakazo uses two Postgres logins:
 
 - The owner (`POSTGRES_USER`, or `DATABASE_MIGRATION_URL` outside Compose) runs migrations and
   owns the tables.
@@ -287,7 +293,7 @@ AUTH_PASSWORD_ENABLED=true
 OIDC_ALLOW_SIGNUP_BYPASS=false
 ```
 
-The issuer must be HTTPS and exactly match the discovery document's issuer. Ai7 loads
+The issuer must be HTTPS and exactly match the discovery document's issuer. Rakazo loads
 `<issuer>/.well-known/openid-configuration`, verifies ID tokens against discovery JWKS with
 issuer, audience and nonce checks, and uses authorization codes with PKCE. Additional scopes
 may be space- or comma-separated; `openid email profile` are always requested. `OIDC_NAME`
@@ -370,20 +376,39 @@ error that names `EXPO_ACCESS_TOKEN`; the token itself is never logged.
 ### Verification and password recovery email
 
 Password changes for signed-in users require no email configuration. Forgotten-password recovery
-appears on sign-in only when a transactional email provider is available. Ai7 uses a
-provider-neutral contract and ships an SMTP adapter, so Amazon SES, Resend, and self-hosted SMTP
-servers use the same configuration:
+appears on sign-in only when a transactional email provider is available. Rakazo uses a
+provider-neutral contract with Resend API and SMTP adapters. Templates render locally with React
+Email into HTML and plain text, independent of the sending provider.
+
+To use the Resend HTTP API, verify a sending domain and create a sending-only API key restricted
+to that domain, then configure:
+
+```env
+EMAIL_PROVIDER=resend
+EMAIL_API_KEY=replace-with-sending-api-key
+EMAIL_FROM=Rakazo <hello@mail.example.com>
+```
+
+Disable click and open tracking for account email in the provider's domain settings. Resend delivery
+has a ten-second deadline and bounded retries with the same idempotency key, including when a
+response is lost. Errors omit provider response bodies and credentials.
+
+For Amazon SES or another SMTP server, use:
 
 ```env
 SMTP_URL=smtps://smtp-user:replace-with-password@smtp.example.com:465
-EMAIL_FROM=Ai7 <no-reply@example.com>
+EMAIL_FROM=Rakazo <no-reply@example.com>
 ```
 
-For Resend, use `smtp.resend.com`, username `resend`, and an API key as the password. For Amazon
+`EMAIL_PROVIDER=smtp` is optional: an existing `SMTP_URL` continues to select SMTP when no provider
+is specified. `EMAIL_PROVIDER=none` disables external sending. Explicit provider settings take
+precedence over an old `SMTP_URL`; incomplete or unknown provider configurations fail at startup.
+
+Resend also supports SMTP: use `smtp.resend.com`, username `resend`, and an API key as the password. For Amazon
 SES, use the regional SMTP endpoint and SES SMTP credentials; these are different from ordinary AWS
 access keys. Verify the sender/domain with the provider before testing delivery. Keep credentials in
 `.env`, never in tracked files. `smtps://` uses implicit TLS; `smtp://` is also supported but requires
-STARTTLS. Ai7 rejects configuration that disables TLS or certificate verification.
+STARTTLS. Rakazo rejects configuration that disables TLS or certificate verification.
 
 Local source development can use the offline email emulator instead. It captures email without
 contacting a provider:
@@ -420,9 +445,9 @@ The hosted computer is included in both paths.
 
 Configure the managed default model through the existing model connection settings. The default
 OpenRouter model is Luna 6; customers can choose another available model, with its usage deducted
-at model cost. In credit mode, the configured hosted provider uses Ai7's key even when a personal
+at model cost. In credit mode, the configured hosted provider uses Rakazo's key even when a personal
 key for that provider is saved. Switching back to BYOK restores that connection. Personal connections
-to other providers continue to use their own keys and never debit Ai7 credits. Hosted calls reserve an upper cost estimate atomically before starting, then settle
+to other providers continue to use their own keys and never debit Rakazo credits. Hosted calls reserve an upper cost estimate atomically before starting, then settle
 to reported or catalog-priced usage. Unknown usage retains its reservation for reconciliation.
 
 `STRIPE_PRICE_ID` is optional and only needed to display the legacy seat price. Existing live seat
@@ -453,8 +478,8 @@ attempts. An hourly, paginated audit rebuilds drifted balance caches from the jo
 repairs. Investigate `Model credit hold requires review` logs using the shared call ID; do not turn
 missing provider evidence into a zero-cost settlement.
 
-OpenRouter inference requests include the normal Ai7 user ID in `user`, `HTTP-Referer`
-(`https://rakazo.com`), and `X-OpenRouter-Title` (`Ai7`). These values are sent only to OpenRouter's
+OpenRouter inference requests include the normal Rakazo user ID in `user`, `HTTP-Referer`
+(`https://rakazo.com`), and `X-OpenRouter-Title` (`Rakazo`). These values are sent only to OpenRouter's
 HTTPS inference endpoints, never to compatible custom hosts. Recovery uses the existing configured
 deployment credential; no Redis or external accounting service is required.
 
@@ -476,13 +501,13 @@ Set `OTEL_EXPORTER_OTLP_ENDPOINT` on the worker to enable optional OpenTelemetry
 to the base endpoint and honors standard `OTEL_EXPORTER_OTLP_HEADERS` (comma-separated
 `key=value` pairs) and `OTEL_SERVICE_NAME` (default `rakazo-worker`). Compose workers
 read these settings from `.env`. With an empty or unset endpoint, no tracing SDK loads
-or initializes. No collector or hosted service is required to run Ai7.
+or initializes. No collector or hosted service is required to run Rakazo.
 
 Traces contain a `rakazo.agent.run` span with `pi.ai.request` model-call spans and
 `pi.agent.tool` steps, including duration, token usage, cost when known, and success/error
 status. Each span carries `rakazo.bot.id`, `rakazo.run.id`, and `rakazo.routine.id`
 when the run belongs to a routine. Helper model calls inherit the same correlation.
-Pi 0.87.1 exposes built-in telemetry through its newer harness; Ai7’s legacy Agent
+Pi 0.87.1 exposes built-in telemetry through its newer harness; Rakazo’s legacy Agent
 adapter maps its model and tool lifecycle through the same Pi telemetry contract.
 
 Prompt, response, tool arguments and tool results are excluded by default.
@@ -634,7 +659,7 @@ RAKAZO_LOCAL_MAX_TOKENS=4096
 RAKAZO_LOCAL_VISION_MODELS=qwen3-vl
 ```
 
-The loopback default is suitable when running Ai7 from a source checkout. From containers,
+The loopback default is suitable when running Rakazo from a source checkout. From containers,
 prefer a stable LAN RFC1918 address (not Compose service DNS alone). On Docker Desktop,
 `host.docker.internal` also works.
 On Docker Desktop, a bot computer shell can often reach services bound to host `127.0.0.1`
@@ -642,7 +667,7 @@ through that same hostname. Do not run sensitive unauthenticated services on loo
 bots run, or firewall / block that path. Linux does not get `host.docker.internal` the same
 way by default.
 Only configure an endpoint you control: prompts, attachments, and tool results sent to that model
-leave Ai7 through this URL. Leave `RAKAZO_LOCAL_MODELS` blank to disable the provider.
+leave Rakazo through this URL. Leave `RAKAZO_LOCAL_MODELS` blank to disable the provider.
 
 ### Ollama Cloud
 
@@ -863,15 +888,15 @@ the default work as described for Parallel.
 Supermemory and Honcho can run on your own network. In **Settings → Memory**, choose **Local**
 and enter the instance's base URL. The operator must set `MCP_ALLOW_PRIVATE_ENDPOINT=true`; workspace owners can then save a local endpoint. It must
 be loopback or resolve to private addresses (a Compose service name, an RFC1918 or unique-local
-address, or a `.internal` name such as Railway's private network); Ai7 pins the resolved
+address, or a `.internal` name such as Railway's private network); Rakazo pins the resolved
 address for every request. Space members use the saved connection without seeing its key.
 
 For [Honcho](https://github.com/plastic-labs/honcho), enable `AUTH_USE_AUTH` on the Honcho
 server and use an admin JWT from its `scripts/generate_jwt.py --admin` as the key, so each Space
 gets its own workspace. A workspace-scoped JWT works when you enter that workspace. Honcho needs
 its own PostgreSQL with pgvector, an LLM provider, and an embedding provider; set
-`EMBEDDING_VECTOR_DIMENSIONS` before its first start. Ai7 stores only explicitly saved facts
-in Honcho; conversation summaries stay in Ai7. Bots can forget a saved fact on Honcho v3.2 or
+`EMBEDDING_VECTOR_DIMENSIONS` before its first start. Rakazo stores only explicitly saved facts
+in Honcho; conversation summaries stay in Rakazo. Bots can forget a saved fact on Honcho v3.2 or
 later.
 
 Remote MCP servers and installed API / GraphQL connectors default to public HTTPS. The deployment
@@ -879,17 +904,17 @@ owner can attach one on localhost, the same LAN, or a Docker network. Set
 `MCP_ALLOW_PRIVATE_ENDPOINT=true` on the API and worker to allow these for every user. Cloud
 metadata addresses stay blocked. Leave the flag unset on public installs.
 
-Remote MCP servers that use OAuth normally register Ai7 with their provider on the first
+Remote MCP servers that use OAuth normally register Rakazo with their provider on the first
 **Connect OAuth**. Some providers only accept a client you create in their console. For those,
 enter the client ID (and secret, for a confidential client) under **Advanced** when adding the
 server, and add the **Redirect URI** shown there (`<your web origin>/mcp/oauth/callback`) to the
 client's allowed redirect URIs. The client is stored encrypted with the server's other
 credentials and survives **Disconnect**; switching to a different client drops the current grant.
-On first use the client is bound to the authorization server the MCP server pointed to, and Ai7
+On first use the client is bound to the authorization server the MCP server pointed to, and Rakazo
 refuses to send it anywhere else afterwards. Replacing the client clears the binding.
 
 Stdio MCP servers can use OAuth too. They do not authorize themselves (the MCP spec has them
-read credentials from the environment), so Ai7 runs the flow for them. They are off unless
+read credentials from the environment), so Rakazo runs the flow for them. They are off unless
 the API and worker have `MCP_STDIO_ENABLED=true` and the command is listed in
 `MCP_STDIO_ALLOWED_COMMANDS`. When adding the server, enter the OAuth client, its
 **Authorization server** (the issuer, for example `https://accounts.google.com`) and the
@@ -905,12 +930,12 @@ through its environment variables:
   written to a private temporary directory when the process starts, and the variable receives
   the file's path. Use this for packages that read a credentials or token file path.
 
-Ai7 refreshes the grant and restarts the process shortly before an access token it passed
+Rakazo refreshes the grant and restarts the process shortly before an access token it passed
 expires, so a long-running process never keeps a dead token. A process that only receives the
 refresh token refreshes on its own. Temporary files are removed when the process stops.
 
 A server launched as `npx [-y] <package>[@version]` (or `npx -p <package> <bin>`) is not
-downloaded on every start. Ai7 installs the package once with `npm install` into
+downloaded on every start. Rakazo installs the package once with `npm install` into
 `MCP_PACKAGES_DIR` (default `DATA_DIR/mcp-packages`, shared by the API and worker), then runs
 its bin directly; `npx` must still be in `MCP_STDIO_ALLOWED_COMMANDS`. The install has its own
 timeout, `MCP_STDIO_INSTALL_TIMEOUT_MS` (default 180000), separate from the handshake timeout
@@ -935,14 +960,53 @@ Existing connections default to disabled. Reconnect former Qwen-list or deployme
 via **Settings → Models** and turn it on; the old environment list is no longer read.
 
 Enabled connections default to medium thinking. Web and desktop expose **Thinking** in a bot's
-advanced settings; mobile inherits the same backend policy. Ai7 sends standard
+advanced settings; mobile inherits the same backend policy. Rakazo sends standard
 `reasoning_effort` (`minimal`, `low`, `medium`, `high`, or `none` when off); the server owns
 model-specific translation. Leave **Supports thinking** off when the server lacks standard effort
 support. Existing token limits still apply; effort is not a separate reasoning-token budget.
 
 Do not commit `.env`. Never put `COMPOSIO_API_KEY`, OpenRouter keys, or provider tokens in git, logs, or chat.
 
-Optional messaging platforms (iMessage, Slack, WhatsApp, Telegram, Feishu/Lark) mount when their env credentials are set — see `.env.example`. The Lark adapter and official SDK load only when configured. Point a Feishu/Lark bot event subscription at `/api/v1/messaging/webhook/lark` (webhook/HTTP inbound only; do not enable long connection). Groups stay iMessage-only. Telegram can run several bots side by side (`TELEGRAM_BOT_TOKEN_<NAME>` plus `TELEGRAM_WEBHOOK_SECRET_TOKEN_<NAME>`), for example one per space, so the same person can chat with a different Ai7 bot through each.
+Optional messaging platforms (iMessage, Slack, WhatsApp, Telegram, Feishu/Lark) mount when their env credentials are set — see `.env.example`. The Lark adapter and official SDK load only when configured. Point a Feishu/Lark bot event subscription at `/api/v1/messaging/webhook/lark` (webhook/HTTP inbound only; do not enable long connection). Personal group linking stays iMessage-only; Slack channels use workspace installations below. Telegram can run several bots side by side (`TELEGRAM_BOT_TOKEN_<NAME>` plus `TELEGRAM_WEBHOOK_SECRET_TOKEN_<NAME>`), for example one per space, so the same person can chat with a different Rakazo bot through each.
+
+For Slack workspace installations, set `SLACK_CLIENT_ID`, `SLACK_CLIENT_SECRET`, and
+`SLACK_SIGNING_SECRET` on the API and worker. Register the OAuth redirect URL
+`https://app.example.com/api/v1/messaging/install/slack/callback` using your public
+API origin (`API_URL`). Enable distribution in the Slack app's Manage Distribution
+settings so other workspaces can install it. Enable Slack Events API delivery to
+`https://app.example.com/api/v1/messaging/webhook/slack`, with `app_mention`,
+`message.im`, `message.channels`, `message.groups`, `message.mpim`, and
+`app_uninstalled`. Enable the app's Messages tab. The install flow requests the
+message/history, channel/user lookup, file read and write, and reaction-write scopes it uses;
+reinstall the Slack app after changing scopes. Socket Mode is not used.
+
+In Messaging settings, select **Connect** on the Slack row. The workspace answers as
+the first bot in your default space, whichever space is open. Each Slack workspace
+belongs to one Rakazo space and one installation owner; installing it from another
+space is rejected. To DM that bot, use **Link DMs** and send the code in a DM to the
+Slack app. Teammates in the same space can link their own bots the same way.
+Invite the Slack app to channels and mention it to receive replies there. The
+bot's external conversations offer **Mentions only**, **Listen**, and room guidance.
+Workspace setup and personal linking are available on web, desktop and mobile.
+Mobile opens Slack authorization in the system browser; return to the app when it
+finishes. Channel listening settings currently live in the web/desktop interface.
+
+Tokens are encrypted with the configured secret store. Workers resolve the
+installation for every outbound operation, including queued replies; disconnecting
+an installation stops further delivery and unlinks its personal DMs. Slack's signed
+`app_uninstalled` event also removes the installation. Disconnect removes Rakazo's
+local credentials; remove the app in Slack to revoke Slack's installation itself.
+The installation owner must retain space membership and an active bot. Workspace
+installations require a workspace-level bot token without Slack token rotation;
+Enterprise Grid org-wide installs and rotating tokens are rejected explicitly.
+
+The older `SLACK_BOT_TOKEN` plus `SLACK_SIGNING_SECRET` configuration still supports
+a single workspace. OAuth mode takes precedence when configured; existing static
+Slack identities/conversations must be relinked before using workspace installs.
+`TEAM_CHAT_BOT_ID` only selects a channel bot for the static configuration. It does
+not override workspace installations or personal DMs. Slack tools authorized from
+the Integrations screen are a separate connection from this messaging surface.
+
 
 ### Settings with names you choose
 
@@ -976,17 +1040,17 @@ Native file reads and workspace exports are limited to 8 MiB per file. A larger 
 - **Docker** is the quick-start default for published images and for a source checkout / full local
   Compose stack. Workspace bots share a persistent Team Computer by default; Private computers are
   optional. Keep the supervisor private, as the included Compose files do.
-- **E2B** runs bot computers away from the Ai7 host and is a good choice for public or multi-user
-  production deployments. Ai7 checkpoints the portable workspace and browser-profile directory to
+- **E2B** runs bot computers away from the Rakazo host and is a good choice for public or multi-user
+  production deployments. Rakazo checkpoints the portable workspace and browser-profile directory to
   `DATA_DIR`; the E2B disk is a runtime cache, not the durable source of truth.
 - **Daytona** provides the same remote-computer contract through Daytona sandboxes. Configure
   `DAYTONA_API_KEY` and optionally `DAYTONA_API_URL` / `DAYTONA_TARGET` / `DAYTONA_SNAPSHOT`.
 - **CreateOS** provides the same remote-computer contract through CreateOS desktop sandboxes.
   Configure `CREATEOS_SANDBOX_API_KEY` and optionally `CREATEOS_SANDBOX_BASE_URL`,
-  `CREATEOS_SANDBOX_SHAPE`, or `CREATEOS_SANDBOX_ROOTFS`. Ai7 defaults to
+  `CREATEOS_SANDBOX_SHAPE`, or `CREATEOS_SANDBOX_ROOTFS`. Rakazo defaults to
   `https://api.sb.createos.sh`, `s-2vcpu-2gb`, and `desktop:1`.
 - **Boat** provides a managed Linux desktop through `BOAT_API_KEY` and optionally
-  `BOAT_API_URL`. Ai7 always creates or resumes sandboxes with `noEnv: true`, keeps the portable
+  `BOAT_API_URL`. Rakazo always creates or resumes sandboxes with `noEnv: true`, keeps the portable
   workspace under `/home/user/rakazo-home`, and refreshes a two-hour TTL. Boat uses the shared Linux
   desktop runtime and protected port routes for concurrent bot desktops. Each bot has its own
   persistent Chrome profile; logins are not shared between bots.
@@ -1011,7 +1075,7 @@ For provider configuration and health checks, see the [provider setup guide](./s
 
 ## Content encryption
 
-Ai7 encrypts chat messages, thread events, compacted history summaries, memory documents and
+Rakazo encrypts chat messages, thread events, compacted history summaries, memory documents and
 their revisions, and uploaded or generated files before they reach PostgreSQL or `DATA_DIR`.
 Names, ids, timestamps and other metadata stay readable. Credentials are always encrypted,
 whatever this setting says. Details and the threat model are in
@@ -1116,7 +1180,14 @@ objects within the hour, along with any revision an interrupted save left behind
 **The cache.** `DATA_DIR/homes` holds a copy of homes in use. A copy whose revision matches the
 bucket is downloaded again whenever it is missing, so you can remove it. Docker computers work
 directly in their copy until their next save, so only remove the copy of a Docker computer that
-is stopped. Remote computers' copies always match the bucket once saved.
+is stopped. Remote computers save straight from their files to the bucket; the worker removes
+their copies after an hour unread. Homes never saved to the bucket keep their only copy.
+
+**Saving large homes.** A save streams files through `DATA_DIR/staging` on the data volume,
+so memory use does not grow with file or home size. A computer with more than 20 GiB or a
+million files, or more than the volume has free, is not saved and keeps running; the worker logs
+`computer.sleep_deferred` with reason `too_large` or `too_many_files`. Staging left by a killed
+process is removed at startup and by the worker within minutes.
 
 ### Moving existing homes
 
@@ -1390,6 +1461,16 @@ before moving anything. Switching the tree alone does not roll back the database
 
 Plaintext snapshots use `cat` in place of `age -d` and the filenames `rakazo.dump` and
 `appdata.tgz`. Use the same clean-directory procedure.
+
+To restore into a new stack, create the `rakazo_app` role before the procedure above. The dump
+grants to it, and on a new stack only the migration step would create it, so `pg_restore`
+stops without it. Do not run the migrations first: tables newer than the snapshot would block
+the restore. The procedure's final start applies them.
+
+```bash
+ssh deploy@app.example.com "cd /srv/rakazo && $COMPOSE up -d --wait postgres"
+ssh deploy@app.example.com "cd /srv/rakazo && $COMPOSE exec -T postgres sh -c 'psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"CREATE ROLE rakazo_app NOLOGIN NOSUPERUSER NOBYPASSRLS NOCREATEDB NOCREATEROLE\"'"
+```
 
 The scheduled backup uses `/srv/rakazo` by default. For another deployment directory, set
 `RAKAZO_DEPLOY_DIR=/absolute/path/to/checkout` in a root-owned `/etc/rakazo/backup.env`
@@ -1743,8 +1824,13 @@ your CI cannot publish into someone else's.
 
 Every publish, including `edge` from main merges, is multi-arch (`amd64` + `arm64`): each
 architecture builds natively, on Depot when the `DEPOT_PROJECT_ID` repository variable names a
-project and on GitHub's runners otherwise, and one manifest is assembled per image. Before any tag
-points at a new app image, CI fails the publish if it holds a `.env` file, a `.git` directory or a
+project and on GitHub's runners otherwise, and one manifest is assembled per image. Depot builds
+publish and attest each image in the same job; native GitHub builds combine their architecture
+artifacts in a separate publication job. Main CI revisions validate independently. Publication
+locks are per image, and a superseded main build keeps its commit tag without moving `edge`.
+Image and release queues retain pending jobs so a slower older run cannot displace a newer one.
+Production deployment remains serialized and deploys the exact revision that passed its checks.
+Before any tag points at a new app image, CI fails the publish if it holds a `.env` file, a `.git` directory or a
 private key (`infra/compose/check-image.sh`). Until a
 stable `vX.Y.Z` has been published, GHCR may only have `edge` and `sha-*` tags; do not pin
 `latest` unless that tag exists in the registry.
@@ -1973,6 +2059,10 @@ PASSKEY_ANDROID_CERT_SHA256=AA:BB:...:FF
 Until a platform's setting is set, the native app on that platform hides passkeys for this
 server. Both files are served through the web origin, so a reverse proxy in front of the web container
 must pass `/.well-known/` through to it.
+
+## Spoken summaries
+
+Off by default. Set `VOICE_SUMMARY_MIN_CHARS` (for example `600`) to have a voice read a bot reply longer than that many characters as a short summary written by that bot's own model. Each summary is an extra model call billed to the bot. The chat keeps the full reply, and if the summary call fails the full reply is read.
 
 ## Upload size
 
