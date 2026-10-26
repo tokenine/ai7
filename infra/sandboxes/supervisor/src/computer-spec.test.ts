@@ -326,7 +326,7 @@ describe("graphical computer spec", () => {
     expect(dockerfile).toMatch(/brand\/wallpaper-ai7\.png/);
     expect(dockerfile).toMatch(/brand\/desktop\/chrome\.desktop/);
     expect(start).toMatch(/pcmanfm --desktop/);
-    expect(start).toMatch(/pcmanfm --set-wallpaper=/);
+    expect(start).toMatch(/pcmanfm .*--set-wallpaper=/);
     expect(start).toMatch(/Desktop/);
   });
 
