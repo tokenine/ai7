@@ -211,6 +211,9 @@ jobs:
           else
             echo "::notice::No DESKTOP_MAC_CSC_LINK configured; building an unsigned macOS app."
             flags+=(-c.forceCodeSigning=false -c.mac.notarize=false)
+            # A defined-but-empty CSC_LINK makes electron-builder try to read an
+            # empty certificate file ("not a file"); unset the whole set.
+            unset CSC_LINK CSC_KEY_PASSWORD APPLE_API_KEY APPLE_API_KEY_ID APPLE_API_ISSUER
           fi
           pnpm --filter @rakazo/desktop exec electron-builder "${flags[@]}" "${passkeys[@]}"
       - name: Remove the App Store Connect API key from the runner
@@ -353,7 +356,7 @@ jobs:
           test -f "$config"
           grep -Fqx "provider: github" "$config"
           grep -Fqx "owner: tokenine" "$config"
-          grep -Fqx "repo: rakazo" "$config"
+          grep -Fqx "repo: ai7" "$config"
           test -f apps/desktop/out/latest-linux.yml
           grep -Fqx "version: $RELEASE_VERSION" apps/desktop/out/latest-linux.yml
 
