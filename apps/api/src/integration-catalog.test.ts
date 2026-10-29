@@ -77,12 +77,31 @@ describe("searchIntegrationCatalog", () => {
     ]);
   });
 
-  it("does not contact the feed for an empty query", async () => {
+  it("lists the whole feed for an empty query", async () => {
+    const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
+      new Response(JSON.stringify({ results: [{ domain: "github.com", name: "GitHub" }] }), {
+        status: 200,
+      }),
+    );
+    await expect(
+      searchIntegrationCatalog({
+        baseUrl: "https://catalog.example",
+        query: "  ",
+        signal: new AbortController().signal,
+        fetch,
+      }),
+    ).resolves.toEqual([
+      { domain: "github.com", name: "GitHub", description: "", pageUrl: null, surfaces: [] },
+    ]);
+    expect(fetch).toHaveBeenCalledOnce();
+  });
+
+  it("returns nothing when no catalog URL is configured", async () => {
     const fetch = vi.fn<typeof globalThis.fetch>();
     await expect(
       searchIntegrationCatalog({
-        baseUrl: "not a URL",
-        query: "  ",
+        baseUrl: "",
+        query: "git",
         signal: new AbortController().signal,
         fetch,
       }),

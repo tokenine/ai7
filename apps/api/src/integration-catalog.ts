@@ -10,9 +10,11 @@ export async function searchIntegrationCatalog(input: {
   signal: AbortSignal;
   fetch?: typeof globalThis.fetch;
 }): Promise<IntegrationCatalogResult[]> {
+  // Empty query lists the whole configured catalog: the Connect apps page
+  // renders configured feeds as default app tiles, not only as search results.
   const query = input.query.trim();
-  if (!query) return [];
 
+  if (!input.baseUrl) return [];
   const baseUrl = new URL(input.baseUrl);
   if (baseUrl.protocol !== "http:" && baseUrl.protocol !== "https:") {
     throw new Error("Integration catalog URL must use HTTP or HTTPS");
