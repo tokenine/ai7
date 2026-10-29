@@ -562,6 +562,12 @@ function renderEnsureScreenCommand(
           `  cp /etc/rakazo/fluxbox/apps ${fluxHome}/.fluxbox/apps 2>/dev/null || true`,
           `  printf '\\nsession.menuFile: %s\\n' ${fluxHome}/.fluxbox/menu >>${fluxHome}/.fluxbox/init`,
           `  HOME=${shellQuote(env.homeDir)} CHROME_USER_DATA_DIR=${shellQuote(profile)} BROWSER=${browserLauncherPath(layout.displayNumber)} DISPLAY=${layout.display} nohup fluxbox -rc ${fluxHome}/.fluxbox/init 8>&- 9>&- </dev/null >${log}-fluxbox.log 2>&1 &`,
+          // Extra screens get the full Ai7 desktop too: a per-display pcmanfm
+          // profile (distinct from the primary's "rakazo" so the two instances
+          // do not collide over D-Bus) draws the same wallpaper and launchers.
+          `  pcd=${shellQuote(`${env.homeDir}/.config/pcmanfm/rakazo-screen-${layout.displayNumber}`)}; mkdir -p "$pcd" && cp /usr/local/share/rakazo-brand/pcmanfm.conf "$pcd/pcmanfm.conf" 2>/dev/null || true`,
+          `  if [ -z "\${DBUS_SESSION_BUS_ADDRESS:-}" ] && [ -r /tmp/rakazo/dbus-session ]; then . /tmp/rakazo/dbus-session; fi`,
+          `  HOME=${shellQuote(env.homeDir)} DISPLAY=${layout.display} nohup pcmanfm --desktop --profile rakazo-screen-${layout.displayNumber} 8>&- 9>&- </dev/null >${log}-pcmanfm.log 2>&1 &`,
           "fi",
         ];
   const targetFile = `${TARGETS}/view-${layout.displayNumber}`;
