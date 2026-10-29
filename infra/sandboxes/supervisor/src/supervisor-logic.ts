@@ -25,6 +25,7 @@ export {
 
 import { timingSafeEqual } from "node:crypto";
 import path from "node:path";
+import { StringDecoder } from "node:string_decoder";
 import { pathToFileURL } from "node:url";
 import { canReleaseScreenLease, canTakeScreenLease } from "@rakazo/core";
 import { z } from "zod";
@@ -89,8 +90,10 @@ export const computerActionSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("clipboard"), text: z.string() }),
   z.object({
     kind: z.literal("scroll"),
-    direction: z.enum(["up", "down"]),
+    direction: z.enum(["up", "down", "left", "right"]),
     amount: z.number().optional(),
+    x: z.number().optional(),
+    y: z.number().optional(),
   }),
   z.object({ kind: z.literal("wait"), ms: z.number() }),
   z.object({ kind: z.literal("open"), path: z.string() }),
@@ -302,6 +305,8 @@ export function releaseAssignedScreen(
   }
   if (slot.releasing) return slot.index;
   slot.releasing = true;
+  // Release stops the screen's viewer, so the next request sets the screen up again.
+  delete slot.ensuredAt;
   return slot.index;
 }
 
@@ -371,6 +376,42 @@ export interface ScreenAssignment {
   idleAt?: number;
   controlled?: boolean;
   controlToken?: string;
+  /** When the setup script last finished for this screen on the current boot. */
+  ensuredAt?: number;
+}
+
+/** The page helper reached no browser, before dispatching anything. */
+export function pageBrowserNotReady(result: { code: number; stdout: string }) {
+  if (result.code !== 0) return false;
+  try {
+    const output = JSON.parse(result.stdout) as {
+      ok?: unknown;
+      error?: unknown;
+      uncertain?: unknown;
+    };
+    return (
+      output.ok === false &&
+      output.uncertain !== true &&
+      typeof output.error === "string" &&
+      output.error.startsWith("CDP not ready")
+    );
+  } catch {
+    return false;
+  }
+}
+
+/** How long a page-browser request trusts the last setup instead of rerunning it. */
+export const SCREEN_REUSE_MS = 30_000;
+
+/** A screen set up moments ago on this boot still runs; a human-held one may need its viewer back. */
+export function screenRecentlyEnsured(slot: ScreenAssignment | undefined, now: number) {
+  return (
+    slot?.ensuredAt !== undefined &&
+    !slot.releasing &&
+    !slot.controlled &&
+    !slot.controlToken &&
+    now - slot.ensuredAt < SCREEN_REUSE_MS
+  );
 }
 
 /** Forget screen assignments and their boot marker together on every cleanup path. */
@@ -461,6 +502,9 @@ export async function withKeyedLock<T>(
   }
 }
 
+/** X11 wheel buttons: up, down, left and right. */
+const WHEEL_BUTTONS = { up: "4", down: "5", left: "6", right: "7" } as const;
+
 export function containerActionStep(
   action: z.infer<typeof computerActionSchema>,
   display = ":1",
@@ -473,15 +517,18 @@ export function containerActionStep(
   if (action.kind === "key" || action.kind === "pointer" || action.kind === "clipboard") {
     argv = ["env", `DISPLAY=${display}`, ...xdotoolCommand(toSandboxInput(action))];
   } else if (action.kind === "scroll") {
-    argv = [
-      "env",
-      `DISPLAY=${display}`,
-      "xdotool",
+    const wheel = [
       "click",
       "--repeat",
       String(Math.min(Math.max(Math.round(action.amount ?? 3), 1), 20)),
-      action.direction === "up" ? "4" : "5",
+      WHEEL_BUTTONS[action.direction],
     ];
+    // Given a point, the pointer moves there first, so the wheel scrolls what is under it.
+    const at =
+      action.x !== undefined && action.y !== undefined
+        ? ["mousemove", "--", String(Math.round(action.x)), String(Math.round(action.y))]
+        : [];
+    argv = ["env", `DISPLAY=${display}`, "xdotool", ...at, ...wheel];
   } else if (action.kind === "open") {
     const isHttpUrl = /^https?:\/\//i.test(action.path);
     const target = isHttpUrl
@@ -510,6 +557,28 @@ export function containerActionStep(
     ];
   }
   return { argv };
+}
+
+/** Image label of computers whose control service takes aimed and sideways scrolls. */
+export const AIMED_SCROLL_CONTROL_LABEL = "rakazo.control.aimedScroll";
+
+/**
+ * Whether a computer's control service can run these actions. One built before aimed and
+ * sideways scrolls refuses them mid-batch, after earlier steps have run, so such a batch goes
+ * to the fallback whole instead.
+ */
+export function controlHandlesActions(
+  labels: Record<string, string> | undefined,
+  actions: ReadonlyArray<z.infer<typeof computerActionSchema>>,
+) {
+  if (labels?.[AIMED_SCROLL_CONTROL_LABEL] === "1") return true;
+  return !actions.some(
+    (action) =>
+      action.kind === "scroll" &&
+      ((action.x !== undefined && action.y !== undefined) ||
+        action.direction === "left" ||
+        action.direction === "right"),
+  );
 }
 
 export function containerActionSteps(
@@ -605,12 +674,14 @@ export interface DockerStreamChunk {
 export function createDockerStreamDemuxer() {
   let mode: "pending" | "raw" | "multiplex" = "pending";
   let buffer = Buffer.alloc(0);
+  // Docker splits output at arbitrary bytes, so a character can straddle two frames.
+  const decoders = { stdout: new StringDecoder("utf8"), stderr: new StringDecoder("utf8") };
 
   const consume = (final: boolean): DockerStreamChunk[] => {
     const events: DockerStreamChunk[] = [];
     if (mode === "raw") {
       if (buffer.length === 0) return events;
-      events.push({ stream: "stdout", data: buffer.toString("utf8") });
+      events.push({ stream: "stdout", data: decoders.stdout.write(buffer) });
       buffer = Buffer.alloc(0);
       return events;
     }
@@ -622,7 +693,7 @@ export function createDockerStreamDemuxer() {
       if (!frameReady) {
         if (!final && headerReady) return events;
         mode = "raw";
-        events.push({ stream: "stdout", data: buffer.toString("utf8") });
+        events.push({ stream: "stdout", data: decoders.stdout.write(buffer) });
         buffer = Buffer.alloc(0);
         return events;
       }
@@ -632,10 +703,10 @@ export function createDockerStreamDemuxer() {
     while (offset + 8 <= buffer.length && isDockerFrameHeader(buffer, offset)) {
       const size = buffer.readUInt32BE(offset + 4);
       if (offset + 8 + size > buffer.length) break;
-      const payload = Buffer.from(buffer.subarray(offset + 8, offset + 8 + size));
+      const stream = buffer[offset] === 2 ? "stderr" : "stdout";
       events.push({
-        stream: buffer[offset] === 2 ? "stderr" : "stdout",
-        data: payload.toString("utf8"),
+        stream,
+        data: decoders[stream].write(buffer.subarray(offset + 8, offset + 8 + size)),
       });
       offset += 8 + size;
     }
@@ -650,7 +721,12 @@ export function createDockerStreamDemuxer() {
       return consume(false);
     },
     finish() {
-      return consume(true);
+      const events = consume(true);
+      for (const stream of ["stdout", "stderr"] as const) {
+        const rest = decoders[stream].end();
+        if (rest) events.push({ stream, data: rest });
+      }
+      return events;
     },
   };
 }
@@ -669,11 +745,9 @@ function firstDockerFrameComplete(buffer: Buffer): boolean {
 }
 
 /**
- * Split a Docker exec stream into stdout and stderr. Without a TTY the stream is
- * multiplexed: each frame is an 8-byte header (type byte, 3 reserved bytes, big-endian
- * length) followed by the payload, and type 2 is stderr. A raw (TTY) stream has no
- * headers and is all stdout. Only demux when the buffer validates as a complete
- * multiplexed sequence; otherwise return the whole buffer as stdout.
+ * Split a Docker exec stream into stdout and stderr. Without a TTY each frame is an
+ * 8-byte header (type, 3 reserved bytes, big-endian length) plus payload; a raw (TTY)
+ * stream, or anything that does not validate, is all stdout.
  */
 export function demuxDockerStream(buffer: Buffer): { stdout: string; stderr: string } {
   if (!isCompleteDockerMultiplexedStream(buffer)) {

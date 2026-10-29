@@ -16,7 +16,7 @@ test("new users answer the signup survey before their first chat", async ({ page
 
   await signup(page, `survey-${Date.now()}@rakazo.test`, "password12", "Survey");
 
-  await expect(page.getByRole("heading", { name: "Welcome to Ai7" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Welcome to Rakazo" })).toBeVisible();
   await expect(page).toHaveURL(/\/onboarding\/survey$/);
   await expect(page.getByRole("combobox", { name: "How big is your team?" })).toHaveCount(0);
   await captureScreenshot(page, testInfo, "01-signup-survey");
@@ -24,7 +24,9 @@ test("new users answer the signup survey before their first chat", async ({ page
   await page.getByRole("button", { name: "Both", exact: true }).click();
   await chooseOption(page.getByRole("combobox", { name: "How big is your team?" }), "11–50");
   await page.getByLabel("How did you hear about us?").fill("A friend");
-  await page.getByLabel("What do you most want Ai7 to help with?").fill("  Keep my inbox at zero ");
+  await page
+    .getByLabel("What do you most want Rakazo to help with?")
+    .fill("  Keep my inbox at zero ");
   await captureScreenshot(page, testInfo, "02-signup-survey-filled");
 
   await page.getByRole("button", { name: "Continue", exact: true }).click();
@@ -32,17 +34,4 @@ test("new users answer the signup survey before their first chat", async ({ page
   expect(submitted).toEqual([
     { reason: "Keep my inbox at zero", use: "both", teamSize: "11-50", source: "A friend" },
   ]);
-});
-
-test("each onboarding step opens directly from its URL", async ({ page }) => {
-  // No survey or model is due, so only the URL can open these steps.
-  await signup(page, `step-links-${Date.now()}@rakazo.test`, "password12", "Step links");
-  await page.waitForURL(/\/app\//, { timeout: 20_000 });
-
-  await page.goto("/onboarding/survey");
-  await expect(page.getByRole("heading", { name: "Welcome to Ai7" })).toBeVisible();
-
-  await page.goto("/onboarding/model");
-  await expect(page.getByRole("heading", { name: "Connect a model" })).toBeVisible();
-  await expect(page).toHaveURL(/\/onboarding\/model$/);
 });

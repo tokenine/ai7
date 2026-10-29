@@ -6,7 +6,6 @@ import type {
   ThreadMessage,
   VoiceStatus,
 } from "@rakazo/contracts";
-import type { AgentImportReader } from "@rakazo/core";
 import {
   answerableAskMessageIds,
   channelMessageSender,
@@ -52,6 +51,7 @@ import {
   getComposerEnterToSend,
   subscribeComposerEnterToSend,
 } from "../lib/composer-enter-to-send-pref";
+import { desktopBridge } from "../lib/desktop";
 import { markAfterPaint, markOnce } from "../lib/performance";
 import { usePreloadRecoveryState } from "../lib/preload-recovery";
 import { lastChatKey, lastChatOf, queryClient, spaceQueries, spaceSeedKey } from "../lib/query";
@@ -126,6 +126,8 @@ function SpaceShell() {
   });
   const {
     navigate,
+    navigationRevision,
+    overlayRevision,
     alive,
     searchParams,
     setSearchParams,
@@ -178,9 +180,6 @@ function SpaceShell() {
   );
   const rightPanel = useRightPanel({ searchParams, setSearchParams });
   const { panel, setPanel, modelFocusRequest, setModelFocusRequest } = rightPanel;
-  const [droppedAgent, setDroppedAgent] = useState<AgentImportReader | null>(null);
-  // Back returns to the New bot dialog only when the import was opened from it.
-  const [importFromDialog, setImportFromDialog] = useState(false);
   const [peerConversation, setPeerConversation] = usePreloadRecoveryState<{
     peerBotId: string;
     peerBotName: string;
@@ -222,6 +221,7 @@ function SpaceShell() {
       botId: bot.id,
       botName: bot.name,
       botColor: bot.color,
+      botAvatarSet: bot.avatarSet,
       transcribe: voiceStatus ? Boolean(voiceStatus.transcribe) : undefined,
     });
   };
@@ -392,6 +392,8 @@ function SpaceShell() {
     bootstrapSpaceId: bootstrapMe?.spaceId,
     userId,
     navigate,
+    navigationRevision,
+    overlayRevision,
     closeMobileSidebar: () => setMobileSidebarOpen(false),
   });
 
@@ -433,6 +435,7 @@ function SpaceShell() {
     return {
       botId: run.botId,
       color: bot?.color ?? FALLBACK_BOT_COLOR,
+      avatarSet: bot?.avatarSet,
       name: bot?.name,
       status: run.status,
     };
@@ -622,12 +625,6 @@ function SpaceShell() {
     openSettings("space", spaceId);
   }
 
-  function openImport(agent: AgentImportReader | null, fromDialog: boolean) {
-    setDroppedAgent(agent);
-    setImportFromDialog(fromDialog);
-    setPanel("import-agent");
-  }
-
   async function renameSpace(spaceId: string, name: string) {
     await commitSpaceRename({
       rename: async () => {
@@ -775,8 +772,10 @@ function SpaceShell() {
         footerLogos={footerLogos}
         user={session.data?.user}
         ticketBoardEnabled={Boolean(bootstrapMe?.ticketBoardEnabled)}
+        navLinks={desktopBridge() ? [] : (bootstrapMe?.navLinks ?? [])}
         openSettings={openSettings}
         openIntegrations={() => setOverlay({ kind: "integrations" })}
+        openSkills={() => setOverlay({ kind: "skills" })}
       />
 
       {/* Keep the composer's z-index inside the chat so phone overlays like the side panel cover it. */}
@@ -886,7 +885,6 @@ function SpaceShell() {
               speakingMessageId={speakingMessageId}
               onSpeak={speakMessage}
               onOpenComputer={computerControls.onOpenComputer}
-              onOpenImport={() => openImport(null, false)}
               onOpenImportSetup={(target) => {
                 importSetupOpen.current = true;
                 if (target.kind === "models") openSettings("models");
@@ -913,13 +911,14 @@ function SpaceShell() {
               key={inGroup ? `group:${groupId}` : `bot:${active?.id}`}
               draftKey={inGroup ? `group:${groupId}` : `bot:${active?.id}`}
               enterToSend={enterToSend}
-              onImportAgent={(agent) => openImport(agent, false)}
               activeName={inGroup ? (activeGroup?.name ?? activeSnapshot?.groupName) : active?.name}
               running={composerRunning}
               disabled={Boolean(recordingSkill)}
               pendingAttachments={composer.activePendingAttachments}
               attachmentNotice={composer.attachmentNotice}
               sendError={sendError}
+              imageConfirmation={composer.imageConfirmation}
+              onDraftEdited={composer.clearImageConfirmation}
               onOpenModels={() => {
                 // A group's failed run belongs to one member; change that bot's model.
                 const failedBotId =
@@ -992,7 +991,6 @@ function SpaceShell() {
         refreshBots={refreshBots}
         refreshThread={refreshThread}
         refreshGroupThread={refreshGroupThread}
-        refreshActiveThread={refreshActiveThread}
         computer={computer}
         computerOpen={computerOpen}
         booting={booting}
@@ -1033,10 +1031,6 @@ function SpaceShell() {
         routineEditorProps={routineEditorProps}
         openBot={openBot}
         openCreatedBot={openCreatedBot}
-        droppedAgent={droppedAgent}
-        setDroppedAgent={setDroppedAgent}
-        importFromDialog={importFromDialog}
-        setCreateBotOpen={dialogs.setCreateBotOpen}
         modelFocusRequest={modelFocusRequest}
         openSettings={openSettings}
         memoryProviderConfigured={memoryProviderConfig != null}
@@ -1060,10 +1054,6 @@ function SpaceShell() {
           openSpaceSettings={openSpaceSettings}
           closeMobileSidebar={() => setMobileSidebarOpen(false)}
           createBot={createBot}
-          onImportFromCreate={() => {
-            dialogs.setCreateBotOpen(false);
-            openImport(null, true);
-          }}
           clearOpenThread={() => {
             thread.resetHistory();
             thread.updateSnapshot((current) =>
@@ -1092,6 +1082,8 @@ function SpaceShell() {
           spaces={spaces}
           renameSpace={renameSpace}
           removeSpace={removeSpace}
+          refreshSpaces={() => refreshBots()}
+          openAgentImport={() => setPanel("import-agent")}
           alive={alive}
           user={session.data?.user}
           refetchSession={() => session.refetch({ query: { disableCookieCache: true } })}

@@ -17,6 +17,7 @@ import {
   normalizeHost,
 } from "@rakazo/contracts";
 import { Agent } from "undici";
+import { composioToolBatch } from "./composio-batch.js";
 import { combineSignals } from "./connector-safety.js";
 import type { ResolvedAddress, ResolveHostname } from "./network-address.js";
 import {
@@ -49,6 +50,13 @@ export interface RemoteMcpOptions extends RemoteTransportDependencies, RemoteUrl
   signal?: AbortSignal;
 }
 
+export class ConnectorRedirectError extends Error {
+  constructor() {
+    super("Connector redirects are not allowed");
+    this.name = "ConnectorRedirectError";
+  }
+}
+
 export interface SafeRemoteFetch {
   (input: string | URL | Request, init?: RequestInit): Promise<Response>;
   close(): Promise<void>;
@@ -64,6 +72,7 @@ export async function listRemoteMcpTools(options: RemoteMcpOptions): Promise<Con
       description: tool.description ?? tool.title ?? tool.name,
       inputSchema: tool.inputSchema,
       readOnly: tool.annotations?.readOnlyHint,
+      batch: composioToolBatch(tool.name),
     })),
   );
 }
@@ -235,7 +244,7 @@ export function createSafeRemoteFetch(
       });
     }
     if (response.status >= 300 && response.status < 400) {
-      throw new Error("Connector redirects are not allowed");
+      throw new ConnectorRedirectError();
     }
     return response;
   };

@@ -54,6 +54,8 @@ describe("zonedDateTime", () => {
     ["2030-03-01T00:30:15.125+05:30", "2030-02-28T19:00:15.125Z"],
     ["2030-02-28T23:30-04:00", "2030-03-01T03:30:00.000Z"],
     ["2030-03-01T00:30+0530", "2030-02-28T19:00:00.000Z"],
+    ["2030-03-01T00:30+05", "2030-02-28T19:30:00.000Z"],
+    ["2030-02-28T23:30:15-04", "2030-03-01T03:30:15.000Z"],
   ])("preserves the valid offset datetime %s", (value, expected) => {
     expect(zonedDateTime(value, "America/New_York")?.toISOString()).toBe(expected);
   });
@@ -69,6 +71,7 @@ describe("zonedDateTime", () => {
     "2030-01-01T24:00Z",
     "2030-01-01T24:00+05:30",
     "2030-01-01T10:00+24:00",
+    "2030-01-01T10:00+24",
     "2030-01-01T10:00+05:60",
   ])("rejects the impossible offset datetime %s", (value) => {
     expect(zonedDateTime(value, "UTC")).toBeNull();
@@ -289,6 +292,24 @@ describe("formatCron", () => {
     expect(formatCron("5 * * * *")).toBe("Every hour at :05");
   });
 
+  it("describes a fixed minute every few hours", () => {
+    expect(formatCron("43 */2 * * *")).toBe("Every 2 hours at :43");
+    expect(formatCron("5 */6 * * *")).toBe("Every 6 hours at :05");
+    expect(formatCron("0 */2 * * *")).toBe("Every 2 hours");
+    expect(formatCron("30 */12 * * *")).toBe("Every 12 hours at :30");
+  });
+
+  it("names a fixed minute every few hours only when the step divides the day", () => {
+    // */5 runs at 00, 05, 10, 15 and 20, then 00 again: not every five hours.
+    expect(formatCron("15 */5 * * *")).toBe("Cron 15 */5 * * *");
+    expect(formatCron("15 */7 * * *")).toBe("Cron 15 */7 * * *");
+  });
+
+  it("keeps the cron fallback for every few hours when the labels can't say it", () => {
+    const { hoursAtMinute: _, ...labels } = ENGLISH_CRON_LABELS;
+    expect(formatCron("43 */2 * * *", labels)).toBe("Cron 43 */2 * * *");
+  });
+
   it.each([
     "0 9 * * 1-5/2",
     "0 9 * * MON",
@@ -298,6 +319,10 @@ describe("formatCron", () => {
     "0 9 32 * *",
     "0 9 15 1 *",
     "60 * * * *",
+    "15 */1 * * *",
+    "15 */24 * * *",
+    "60 */2 * * *",
+    "15 */2 1 * *",
   ])("keeps the cron fallback for %s", (cron) => {
     expect(formatCron(cron)).toBe(`Cron ${cron}`);
   });

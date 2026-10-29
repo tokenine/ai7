@@ -72,6 +72,7 @@ import {
   computerCommandEnv,
   computerControlTimeoutMs,
   containerActionSteps,
+  controlHandlesActions,
   createDockerStreamDemuxer,
   currentComputerScreens,
   demuxDockerStream,
@@ -84,6 +85,7 @@ import {
   nextScreenIndex,
   normalizeWorkspaceRelative,
   oldestIdleScreen,
+  pageBrowserNotReady,
   parseObservation,
   preferComputerControl,
   quiesceBrowserProfilesCommand,
@@ -91,6 +93,7 @@ import {
   resetManagedScreensCommand,
   sandboxCommandTimedOut,
   sandboxTimeoutCommand,
+  screenRecentlyEnsured,
   screenReleaseStopCommand,
   shouldReplayComputerActions,
   stopExtraScreenCommand,
@@ -522,16 +525,35 @@ app.post("/computers/:id/browser", async (c) => {
                 paths: z.array(z.string().min(1).max(1024)).min(1).max(10),
                 roots: z.array(z.string().min(1).max(1024)).max(2).optional(),
               }),
+              z.object({
+                kind: z.literal("pay_token"),
+                text: z.string().min(1).max(4096),
+                origin: z.string().url().max(2048),
+                merchantAccountId: z.string().min(1).max(128),
+              }),
               z
                 .object({
                   kind: z.enum(["fill", "type"]),
-                  ref: z.string().min(1).max(200),
+                  ref: z.string().min(1).max(200).optional(),
                   text: z.string().max(32_000),
                   origin: z.string().url().max(2048).optional(),
-                  field: z.enum(["username", "password"]).optional(),
+                  field: z.enum(["username", "password", "card"]).optional(),
+                  cardField: z.enum(["number", "expiry", "cvc", "postal_code"]).optional(),
                 })
-                // The field decides which input types the helper accepts for a saved login.
-                .refine((step) => !step.origin || step.field, "A saved login fill needs its field"),
+                // The field decides which input types the helper accepts for a saved login or card.
+                .refine((step) => !step.origin || step.field, "A saved login fill needs its field")
+                // A card detail is hidden and checked only when bound to the merchant's origin.
+                .refine(
+                  (step) => step.field !== "card" || step.origin,
+                  "A card fill needs its origin",
+                )
+                .refine(
+                  (step) =>
+                    step.cardField
+                      ? step.kind === "fill" && step.field === "card" && !step.ref
+                      : Boolean(step.ref),
+                  "A fill needs either its ref or, for a card, its card field",
+                ),
             ]),
           )
           .min(1)
@@ -541,32 +563,23 @@ app.post("/computers/:id/browser", async (c) => {
     .parse(await c.req.json());
   const carriesSavedLogin =
     body.command === "act" && body.actions.some((step) => "origin" in step && step.origin);
-  try {
-    const { container, layout, index, screenKey } = await managedScreen(
+  const screen = (reuseRecent: boolean) =>
+    managedScreen(
       c.req.param("id"),
       c.req.header("x-rakazo-bot-id"),
       c.req.header("x-rakazo-space-id"),
       c.req.header("x-rakazo-screen-id"),
       c.req.header("x-rakazo-screen-lease-id"),
+      true,
+      reuseRecent,
     );
-    // The browser may be intentionally stopped (browserAutostart off): opening a
-    // screen must not pop a window, but a page-browser call starts it on demand.
-    // Re-running over a live browser is a cheap profile scan that exits 0.
-    const launched = await runContainerCommand(container, [
-      "bash",
-      "-c",
-      launchBrowserCommand(index, screenKey),
-    ]);
-    if (launched.code !== 0) {
-      throw new Error(
-        launched.stderr.trim() || `computer browser failed to start on ${layout.display}`,
-      );
-    }
-    const result = await runContainerCommand(
+  const runHelper = ({ container, layout }: Awaited<ReturnType<typeof screen>>) =>
+    runContainerCommand(
       container,
-      // Arguments go over stdin: origin-bound fills carry saved logins, and argv is readable by
-      // any process in the computer, including the bot's own shell. Other commands also keep the
-      // argv copy so a computer still on an older image keeps working until it is replaced.
+      // Arguments go over stdin: origin-bound fills carry saved logins and cards, and argv is
+      // readable by any process in the computer, including the bot's own shell. Other commands
+      // also keep the argv copy so a computer still on an older image keeps working until it is
+      // replaced.
       [
         "/usr/local/bin/rakazo-page-browser",
         body.command,
@@ -589,6 +602,31 @@ app.post("/computers/:id/browser", async (c) => {
         stdin: `${JSON.stringify(body)}\n`,
       },
     );
+  // The browser may be intentionally stopped (browserAutostart off): opening a
+  // screen must not pop a window, but a page-browser call starts it on demand.
+  // Re-running over a live browser is a cheap profile scan that exits 0.
+  const ensureBrowser = async ({ container, layout, index, screenKey }: ScreenContext) => {
+    const launched = await runContainerCommand(container, [
+      "bash",
+      "-c",
+      launchBrowserCommand(index, screenKey),
+    ]);
+    if (launched.code !== 0) {
+      throw new Error(
+        launched.stderr.trim() || `computer browser failed to start on ${layout.display}`,
+      );
+    }
+  };
+  try {
+    const reusable = await screen(true);
+    await ensureBrowser(reusable);
+    let result = await runHelper(reusable);
+    // A reused screen skipped setup, so a browser that has since exited gets it before one retry.
+    if (reusable.reused && pageBrowserNotReady(result)) {
+      const fresh = await screen(false);
+      await ensureBrowser(fresh);
+      result = await runHelper(fresh);
+    }
     // A nonzero exit or malformed output cannot establish which mutations ran.
     if (result.code !== 0 || Buffer.byteLength(result.stdout) > 512 * 1024) {
       throw new Error(
@@ -666,7 +704,9 @@ app.post("/computers/:id/actions", async (c) => {
       c.req.header("x-rakazo-screen-id"),
       c.req.header("x-rakazo-screen-lease-id"),
     );
-    const control = computerControlEndpoint(info);
+    const endpoint = computerControlEndpoint(info);
+    const control =
+      endpoint && controlHandlesActions(info.Config.Labels, body.actions) ? endpoint : undefined;
     const attempt = await attemptComputerControl(
       control
         ? () =>
@@ -1099,7 +1139,10 @@ app.delete("/computers/:id", async (c) => {
     return await withBotLifecycleLock(botId, async () => {
       const { container } = await managedContainer(id, botId, c.req.header("x-rakazo-space-id"));
       await withComputerScreenLock(id, async () => {
-        await container.remove({ force: true }).catch(() => undefined);
+        await container.remove({ force: true }).catch((error) => {
+          // Already gone is deleted; any other failure may leave the computer running.
+          if ((error as { statusCode?: number })?.statusCode !== 404) throw error;
+        });
         clearComputerScreenRegistry(computerScreens, computerScreenBoots, id);
       });
       if (screenNetworkMode !== "internal") {
@@ -1107,8 +1150,12 @@ app.delete("/computers/:id", async (c) => {
       }
       return c.json({ ok: true });
     });
-  } catch {
-    return c.json({ error: "computer not found" }, 404);
+  } catch (error) {
+    if (error instanceof ComputerIdentityError)
+      return c.json({ error: "invalid computer identity" }, 403);
+    if ((error as { statusCode?: number })?.statusCode === 404)
+      return c.json({ error: "computer not found" }, 404);
+    return c.json({ error: "computer failed to delete" }, 500);
   }
 });
 
@@ -1306,11 +1353,53 @@ async function managedScreen(
   screenId: string | undefined,
   screenLeaseId: string | undefined,
   restoreControl = true,
+  reuseRecent = false,
 ) {
   const { container } = await managedContainer(id, botId, spaceId);
-  return withComputerScreenLock(id, () =>
-    ensureManagedScreen(id, container, botId, screenId, screenLeaseId, restoreControl),
-  );
+  return withComputerScreenLock(id, async () => {
+    if (reuseRecent) {
+      const recent = await recentManagedScreen(id, container, botId, screenId, screenLeaseId);
+      if (recent) return recent;
+    }
+    const screen = await ensureManagedScreen(
+      id,
+      container,
+      botId,
+      screenId,
+      screenLeaseId,
+      restoreControl,
+    );
+    return { ...screen, reused: false };
+  });
+}
+
+/** Skip the setup script for a screen set up moments ago on this boot; callers hold the screen lock. */
+async function recentManagedScreen(
+  id: string,
+  container: Docker.Container,
+  botId: string | undefined,
+  screenId: string | undefined,
+  screenLeaseId: string | undefined,
+) {
+  const info = await container.inspect();
+  const startedAt = info.State?.StartedAt;
+  const assigned = currentComputerScreens(computerScreens, computerScreenBoots, id, startedAt);
+  const screenKey = screenId || botId || id;
+  const slot = assigned?.get(screenKey);
+  if (!assigned || !startedAt || computerScreenBoots.get(id) !== startedAt) return undefined;
+  if (!slot?.viewToken || !screenRecentlyEnsured(slot, Date.now())) return undefined;
+  // Still fence the lease: an older execution must not drive this screen.
+  const index = nextScreenIndex(assigned, screenKey, screenLeaseId, teamScreenLimit);
+  return {
+    container,
+    info,
+    layout: screenPorts(index),
+    index,
+    screenKey,
+    browserProfile: browserProfilePathForScreen(screenKey),
+    viewToken: slot.viewToken,
+    reused: true,
+  };
 }
 
 async function ensureManagedScreen(
@@ -1335,6 +1424,8 @@ async function ensureManagedScreen(
     if (info.State?.StartedAt === screen.info.State?.StartedAt) {
       // Confirm the pending boot marker only after setup completes against the same boot.
       if (info.State?.StartedAt) computerScreenBoots.set(id, info.State.StartedAt);
+      const slot = computerScreens.get(id)?.get(screen.screenKey);
+      if (slot) slot.ensuredAt = Date.now();
       try {
         await rejoinComputerNetwork(info);
       } catch (error) {
@@ -1520,20 +1611,9 @@ export async function controlDesktop(
 
 const SCREEN_READY_TIMEOUT_MS = 45_000;
 
-// Docker publishes a container's port mapping (or assigns its internal IP)
-// almost immediately on start, well before the process inside the container
-// is actually listening on it (Xvfb, the browser, x11vnc, then websockify
-// all start in sequence — see infra/sandboxes/computer/start.sh). Returning
-// the URL as soon as the mapping exists lets the frontend iframe race the
-// container's own boot sequence and hit "socket hang up" on first load.
-//
-// A bare TCP connect isn't a strong enough signal either: it only proves the
-// port is accepting connections, not that websockify is actually up and
-// serving — the same race can still slip through between "port open" and
-// "websockify ready" (e.g. right after setInteractiveScreen starts a new
-// x11vnc/websockify pair on the control port for a takeover). An HTTP GET
-// against the same embed.html path the browser will load only succeeds once
-// websockify itself is answering requests, closing that gap too.
+// Docker publishes the port mapping before websockify inside the container is
+// serving, and a bare TCP connect can succeed before it is too. Polling the same
+// embed.html the iframe loads keeps the frontend from hitting "socket hang up".
 export async function waitForScreenReady(host: string, port: number, timeoutMs: number) {
   const deadline = Date.now() + timeoutMs;
   do {

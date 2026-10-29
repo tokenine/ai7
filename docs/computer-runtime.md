@@ -1,16 +1,16 @@
 # Computer runtime
 
-Ai7 keeps the agent runtime and the computer runtime separate:
+Rakazo keeps the agent runtime and the computer runtime separate:
 
 ```text
-chat/API -> one Pi agent session -> Ai7 computer tools -> SandboxProvider -> E2B / Daytona / Boat
+chat/API -> one Pi agent session -> Rakazo computer tools -> SandboxProvider -> E2B / Daytona / Boat
                                                    |-> Docker
                                                    |-> desktop/fake
 
-SandboxProvider workspace <-> AgentHomeStore <-> Ai7-owned DATA_DIR
+SandboxProvider workspace <-> AgentHomeStore <-> Rakazo-owned DATA_DIR
 ```
 
-Pi runs in the Ai7 API/worker process. It is not installed in, or executed by, E2B. The built-in tools are ordinary Pi tools, not Claude- or MCP-specific tools, so any model exposed through Pi can call them. Screen operation still requires a model that can accept image tool results and reason about screenshots.
+Pi runs in the Rakazo API/worker process. It is not installed in, or executed by, E2B. The built-in tools are ordinary Pi tools, not Claude- or MCP-specific tools, so any model exposed through Pi can call them. Screen operation still requires a model that can accept image tool results and reason about screenshots.
 
 ## Computer contract
 
@@ -67,7 +67,7 @@ The web and desktop computer view opens a terminal and a file browser from a doc
 
 The web service logs `screen.proxy.target_rejected`, `screen.proxy.http_failed`, `screen.proxy.http_upstream_response`, `screen.proxy.websocket_handshake_failed`, `screen.proxy.websocket_error`, `screen.proxy.websocket_upgraded`, `screen.proxy.websocket_closed`, and revocation events. Each event includes a random `screen.connection_id` and a view/control policy. WebSocket close events include whether the upstream handshake completed, its duration, and the side that initiated the close (`client`, `upstream`, or `revoked`). Logs omit capability URLs, socket tokens, provider hostnames, cookies, and request headers.
 
-The web and Electron screen frame is sandboxed, so the app cannot look inside it. Before framing a proxied page the app fetches it once and shows the proxy's refusal (for example `Screen unavailable (upstream_timeout)`) in place of the screen. The proxy rewrites every noVNC page with a small reporter that posts `loading` as soon as the page runs and then `connecting`, `connected`, `failed` (with noVNC's status text) or `disconnected` to the app; Ai7's own `embed.html` sets the same noVNC classes so Docker computers report too. A `failed` report, or nothing past `loading` within 15 seconds, shows the error and Retry instead of a blank frame. A frame that stays silent means the document never executed in that browser; one that stops at `loading` means noVNC's modules never finished evaluating; a `failed` report means the page ran and noVNC could not connect.
+The web and Electron screen frame is sandboxed, so the app cannot look inside it. Before framing a proxied page the app fetches it once and shows a fixed, localized reason for a proxy refusal (for example "The screen did not respond.") in place of the screen. The proxy rewrites every noVNC page with a small reporter that posts `loading` as soon as the page runs and then `connecting`, `connected`, `failed` (whose status text is never displayed) or `disconnected` to the app; Rakazo's own `embed.html` sets the same noVNC classes so Docker computers report too. A `failed` report, or nothing past `loading` within 15 seconds, shows the error and Retry instead of a blank frame. The mobile app follows the same screen reports and offers Retry on connection failure. A frame that stays silent means the document never executed in that browser; one that stops at `loading` means noVNC's modules never finished evaluating; a `failed` report means the page ran and noVNC could not connect.
 
 The shim also removes `VideoDecoder` from the page. noVNC releases before 1.7 probe WebCodecs H.264 support with a top-level `await`, and on some Android devices `VideoDecoder.flush()` never returns, which leaves the page on `noVNC_loading` with no error. Screens never use H.264. Every proxied screen response is sent with `Cache-Control: no-transform`, so a CDN in front of the web service does not inject scripts into or minify the page.
 
@@ -75,7 +75,7 @@ When the screen shows a connection error, check whether `computer.screenUrl` suc
 
 ## E2B backend
 
-The E2B adapter uses `@e2b/desktop` for machine lifecycle, shell commands, files, and port URLs. Every bot desktop uses the shared Linux runtime, including the first bot. Its X display, screenshots, input, and view/control transports follow the same lifecycle as the other managed providers.
+The E2B adapter uses `@e2b/desktop` and the Novita adapter uses `novita-sandbox` for machine lifecycle, shell commands, files, and port URLs. Every bot desktop uses the shared Linux runtime, including the first bot. Its X display, screenshots, input, and view/control transports follow the same lifecycle as the other managed providers.
 
 ## Daytona backend
 
@@ -83,15 +83,15 @@ The database stores the provider kind and opaque `providerRef`. That reference i
 
 ## Boat backend
 
-The Boat adapter uses Boat's official TypeScript SDK for lifecycle, command, and file operations. It creates and resumes sandboxes with `noEnv: true`, as required when a third party supplies the API key, and keeps a two-hour TTL refreshed while the computer is active. The shared runtime creates each bot's display and noVNC transports, exposed through protected Boat port hosting. Ai7's encrypted screen capability proxy binds the view/control policy and keeps the provider credentials out of browser-visible URLs. Observations and actions target the assigned bot display.
+The Boat adapter uses Boat's official TypeScript SDK for lifecycle, command, and file operations. It creates and resumes sandboxes with `noEnv: true`, as required when a third party supplies the API key, and keeps a two-hour TTL refreshed while the computer is active. The shared runtime creates each bot's display and noVNC transports, exposed through protected Boat port hosting. Rakazo's encrypted screen capability proxy binds the view/control policy and keeps the provider credentials out of browser-visible URLs. Observations and actions target the assigned bot display.
 
 Boat stop archives the machine and resume reconnects the same opaque sandbox id. Each bot’s Chrome profile lives under the portable workspace and is included in checkpoint/export. Boat states the API cannot recover from (deleted, cancelled, snapshot data expired, or an `error` that recover cannot fix) are reported as gone, so the computer is replaced and restored from its last checkpoint.
 
 ## Persistence
 
-The portable computer workspace is the durable boundary. E2B uses `/home/user/rakazo-home`; Docker and local providers expose the equivalent home. Browser profiles are rooted under `.browser-profiles` in that workspace on E2B. Ai7 checkpoints transferred workspaces into `AgentHomeStore` at run completion or failure, before explicit stop, and before idle suspension. Docker mounts the Ai7-owned home directly and only advances its revision marker at those boundaries. New or replacement machines import the latest stored workspace before use.
+The portable computer workspace is the durable boundary. E2B uses `/home/user/rakazo-home`; Docker and local providers expose the equivalent home. Browser profiles are rooted under `.browser-profiles` in that workspace on E2B. Rakazo checkpoints transferred workspaces into `AgentHomeStore` at run completion or failure, before explicit stop, and before idle suspension. Docker mounts the Rakazo-owned home directly and only advances its revision marker at those boundaries. New or replacement machines import the latest stored workspace before use.
 
-`LocalAgentHomeStore` keeps the latest workspace under `DATA_DIR/homes/<computer-home-key>` and checkpoint metadata separately under `DATA_DIR/home-revisions`. Replacements are staged before the current copy is swapped, and checkpoints are serialized per computer. This implementation is latest-only rather than an immutable revision archive. Deployments using it must put `DATA_DIR` on an Ai7-owned persistent volume, encrypt that volume at rest, and include it in off-host backups.
+`LocalAgentHomeStore` keeps the latest workspace under `DATA_DIR/homes/<computer-home-key>` and checkpoint metadata separately under `DATA_DIR/home-revisions`. Replacements are staged before the current copy is swapped, and checkpoints are serialized per computer. This implementation is latest-only rather than an immutable revision archive. Deployments using it must put `DATA_DIR` on a Rakazo-owned persistent volume, encrypt that volume at rest, and include it in off-host backups.
 
 With `OBJECT_STORAGE_BUCKET` set, `ObjectAgentHomeStore` makes an S3-compatible bucket the source of truth and `DATA_DIR/homes` a cache, without changing agent tools or sandbox providers. Each checkpoint packs the home into one archive of directories and regular files, seals it with the home's data key (64 KiB AES-256-GCM segments bound to the home's storage id and revision), uploads it as `homes/<storage id>/<revision>`, advances the revision on the computer row, and deletes the previous object. Reads and boots first bring the cache up to the stored revision. The data key is wrapped by the space's content key and stored on the computer row, so deleting the computer makes its objects unreadable; the worker's reconciler then deletes objects no computer owns. Restores accept only relative paths without `.` or `..` segments, create only directories and regular files, and enforce size and entry limits. See [self-hosting](./self-host.md#bot-homes-in-object-storage).
 

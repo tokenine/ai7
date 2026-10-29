@@ -1,5 +1,4 @@
 import type { BuildOptions, TemplateClass } from "@e2b/desktop";
-import { Template } from "@e2b/desktop";
 
 /** E2B's stock desktop image, which reserves 8 vCPU and 8 GB for every sandbox. */
 export const E2B_DESKTOP_TEMPLATE = "desktop";
@@ -19,14 +18,15 @@ type BuildTemplate = (
   options: Omit<BuildOptions, "alias">,
 ) => Promise<{ name: string }>;
 
-/** Publish the Ai7 computer template to the E2B team that owns this API key. */
-export function buildE2BComputerTemplate(
+/** Publish the Rakazo computer template to the E2B team that owns this API key. */
+export async function buildE2BComputerTemplate(
   apiKey: string,
   options: {
     build?: BuildTemplate;
     onBuildLogs?: (line: string) => void;
   } = {},
 ) {
+  const { Template } = await import("@e2b/desktop");
   const build: BuildTemplate =
     options.build ??
     ((template, name, buildOptions) => Template.build(template, name, buildOptions));

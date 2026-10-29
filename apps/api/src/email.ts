@@ -8,6 +8,7 @@ export function configuredEmailProvider(
     | "emailProvider"
     | "emailApiKey"
     | "emailFrom"
+    | "emailReplyTo"
     | "smtpUrl"
     | "cloudflareEmailApiToken"
     | "cloudflareAccountId"
@@ -26,9 +27,17 @@ export function configuredEmailProvider(
     case "none":
       return undefined;
     case "smtp":
-      return new SmtpEmailProvider({ url: env.smtpUrl ?? "", from: env.emailFrom ?? "" });
+      return new SmtpEmailProvider({
+        url: env.smtpUrl ?? "",
+        from: env.emailFrom ?? "",
+        replyTo: env.emailReplyTo,
+      });
     case "resend":
-      return new ResendEmailProvider({ apiKey: env.emailApiKey ?? "", from: env.emailFrom ?? "" });
+      return new ResendEmailProvider({
+        apiKey: env.emailApiKey ?? "",
+        from: env.emailFrom ?? "",
+        replyTo: env.emailReplyTo,
+      });
     case "cloudflare":
       return new CloudflareEmailProvider({
         accountId: env.cloudflareAccountId ?? "",
