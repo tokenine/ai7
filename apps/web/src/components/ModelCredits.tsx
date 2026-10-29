@@ -216,7 +216,7 @@ export function CreditChoice({
             <Button
               className="w-full"
               disabled={pending || !status.canManage || !status.creditPurchasesEnabled}
-              aria-label={t`Subscribe to Rakazo credits`}
+              aria-label={t`Subscribe to Ai7 credits`}
               onClick={() => void choose(false)}
             >
               <Trans>Subscribe</Trans>

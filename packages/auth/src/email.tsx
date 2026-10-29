@@ -99,9 +99,9 @@ export function accountDeletionEmail(email: string, code: string): Promise<Trans
 export function identityCodeEmail(email: string, code: string): Promise<TransactionalEmail> {
   return message(
     email,
-    "Your Rakazo confirmation code",
+    "Your Ai7 confirmation code",
     <>
-      <Text>Enter this code in Rakazo to confirm it's you:</Text>
+      <Text>Enter this code in Ai7 to confirm it's you:</Text>
       <Text>
         <strong>{code}</strong>
       </Text>

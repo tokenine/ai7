@@ -37,7 +37,7 @@ function purchase(overrides: Partial<PurchaseRequest> = {}): PurchaseRequest {
 }
 
 async function connect(provider: PaymentWalletProvider): Promise<PaymentWalletCredential> {
-  const start = await provider.beginConnect({ clientName: "Rakazo" }, ctx);
+  const start = await provider.beginConnect({ clientName: "Ai7" }, ctx);
   expect(start.verificationUrl).toMatch(/^https:\/\//);
   expect(start.userCode).toBeTruthy();
   expect(start.expiresAt.getTime()).toBeGreaterThan(Date.now());
@@ -441,7 +441,7 @@ describe("Link wallet protocol", () => {
   it("signs in with the device flow and backs off on slow_down", async () => {
     const link = fakeLink();
     const provider = new LinkWalletProvider({ fetch: link.fetch });
-    const start = await provider.beginConnect({ clientName: "Rakazo" }, ctx);
+    const start = await provider.beginConnect({ clientName: "Ai7" }, ctx);
     expect(start).toMatchObject({
       verificationUrl: "https://app.link.com/device?code=ABCD-EFGH",
       userCode: "ABCD-EFGH",

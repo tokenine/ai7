@@ -174,7 +174,7 @@ export class BoxdSandboxProvider implements SandboxProvider {
       ...(this.org ? { org: this.org } : {}),
       // Bots run untrusted code: no boxd credentials inside, and no route to other machines.
       isolated: true,
-      // Rakazo's idle sleep stops the computer; boxd's own counts only network traffic and would
+      // Ai7's idle sleep stops the computer; boxd's own counts only network traffic and would
       // freeze a long command that prints nothing.
       config: { autoSuspendTimeout: 0 },
     };

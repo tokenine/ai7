@@ -1699,7 +1699,7 @@ export function createRunExecutor(deps: ExecutorDeps) {
           redactSecrets(text, runSecrets),
         );
         // An outage at the computer provider is retried like any setup failure, but is not a
-        // Rakazo bug to report.
+        // Ai7 bug to report.
         if (
           setupError instanceof SandboxUnavailableError ||
           setupError instanceof SandboxUnresponsiveError

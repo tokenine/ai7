@@ -754,7 +754,7 @@ describe("production backup deployment and archive behavior", () => {
       custom ? { RAKAZO_DEPLOY_DIR: deployment } : {},
     );
     expect(result.status, result.stderr).toBe(0);
-    expect(result.stdout).toContain("Verified Rakazo backup");
+    expect(result.stdout).toContain("Verified Ai7 backup");
     for (const command of f.commands().filter((args) => args[0] === "compose")) {
       expect(command.slice(0, 5)).toEqual([
         "compose",
@@ -780,7 +780,7 @@ describe("production backup deployment and archive behavior", () => {
     const result = f.run("infra/compose/backup-prod.sh", [], { CHANGED_TAR: "1" });
     expect(result.status, result.stderr).toBe(0);
     expect(result.stderr).toContain("file changed as we read it");
-    expect(result.stdout).toContain("Verified Rakazo backup");
+    expect(result.stdout).toContain("Verified Ai7 backup");
     const snapshot = result.stdout.trim().split("written to ")[1];
     expect(contents(path.join(snapshot, "appdata.tgz"))).toContain("home.txt");
     expect(existsSync(path.join(snapshot, "SHA256SUMS"))).toBe(true);
@@ -794,7 +794,7 @@ describe("production backup deployment and archive behavior", () => {
       const f = fixture();
       const result = f.run("infra/compose/backup-prod.sh", [], failure);
       expect(result.status).not.toBe(0);
-      expect(result.stdout).not.toContain("Verified Rakazo backup");
+      expect(result.stdout).not.toContain("Verified Ai7 backup");
       expect(snapshotNames(f.snapshots)).toEqual([]);
     },
   );
@@ -912,7 +912,7 @@ echo "/dev/fake 104857600 0 $free 0% /"
         ...(output === "dump" ? { OVERSIZE_DUMP: "1" } : { OVERSIZE_ARCHIVE: "1" }),
       });
       expect(result.status).not.toBe(0);
-      expect(result.stdout).not.toContain("Verified Rakazo backup");
+      expect(result.stdout).not.toContain("Verified Ai7 backup");
       expect(snapshotNames(f.snapshots)).toEqual(["20261017T000000Z"]);
       expect(readFileSync(path.join(last, "SHA256SUMS"), "utf8")).toBe("verified");
     },
@@ -959,7 +959,7 @@ exec /usr/bin/sync "$@"
       chmodSync(sync, 0o755);
       const result = f.run("infra/compose/backup-prod.sh");
       expect(result.status).not.toBe(0);
-      expect(result.stdout).not.toContain("Verified Rakazo backup");
+      expect(result.stdout).not.toContain("Verified Ai7 backup");
       expect(snapshotNames(f.snapshots)).toEqual(["20261017T000000Z"]);
     },
   );
@@ -1002,7 +1002,7 @@ exec /usr/bin/sync "$@"
       },
     );
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("Another Rakazo backup is running");
+    expect(result.stderr).toContain("Another Ai7 backup is running");
   });
 
   it("rejects a non-positive retention", () => {
@@ -1140,7 +1140,7 @@ describe("encrypted production backups", { timeout: 20_000 }, () => {
       RAKAZO_BACKUP_AGE_RECIPIENTS: recipients,
     });
     expect(result.status).not.toBe(0);
-    expect(result.stdout).not.toContain("Verified Rakazo backup");
+    expect(result.stdout).not.toContain("Verified Ai7 backup");
     expect(snapshotNames(f.snapshots)).toEqual([]);
     expect(existsSync(path.join(f.snapshots, ".encrypted"))).toBe(false);
   });
@@ -1213,7 +1213,7 @@ describe("off-site copies", { timeout: 20_000 }, () => {
       ...settings,
     });
     expect(result.status).toBe(1);
-    expect(result.stdout).toContain("Verified Rakazo backup");
+    expect(result.stdout).toContain("Verified Ai7 backup");
     expect(result.stderr).toContain(`Off-site copy failed: ${message}`);
     expect(existsSync(path.join(snapshotOf(result), "SHA256SUMS"))).toBe(true);
     if (message.includes("require")) expect(rcloneCalls(f)).toEqual([]);

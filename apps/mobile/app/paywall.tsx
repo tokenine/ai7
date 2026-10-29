@@ -232,7 +232,7 @@ export default function Paywall() {
         </View>
         <View style={[styles.footer, { paddingHorizontal: 24 }]}>
           <NativeActionButton
-            label={started === "byok" ? t("Connect your AI") : t("Start using Rakazo")}
+            label={started === "byok" ? t("Connect your AI") : t("Start using Ai7")}
             onPress={() => {
               router.back();
               if (started === "byok") router.push("/models");
@@ -349,7 +349,7 @@ export default function Paywall() {
             <PlanCard
               selected={plan === "credits"}
               onPress={() => setPlan("credits")}
-              title={t("Rakazo credits")}
+              title={t("Ai7 credits")}
               price={
                 <MenuView
                   actions={MODEL_CREDIT_AMOUNTS.map((value) => ({

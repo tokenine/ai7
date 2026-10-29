@@ -50,7 +50,7 @@ test("choose your own key or monthly credits, then add a one-time top-up", async
   });
   await page.route("**/rpc/billing/status", (route) => route.fulfill({ json: { json: status } }));
   await page.reload();
-  await expect(page.getByRole("heading", { name: "Choose how to use Rakazo" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Choose how to use Ai7" })).toBeVisible();
   await expect(page.getByText("$10 / month", { exact: true })).toBeVisible();
   await expect(
     page.getByText("Works with your ChatGPT or Claude plan.", { exact: true }),
@@ -92,7 +92,7 @@ test("choose your own key or monthly credits, then add a one-time top-up", async
     });
     await route.fulfill({ json: { json: { url: new URL("/app", page.url()).href } } });
   });
-  await page.getByRole("button", { name: "Subscribe to Rakazo credits", exact: true }).click();
+  await page.getByRole("button", { name: "Subscribe to Ai7 credits", exact: true }).click();
   await expect(page.getByText("Chief").first()).toBeVisible();
   expect(purchase).toEqual({ amountCents: 2000, monthly: true });
   const settings = await openUserSettings(page, "billing");
@@ -145,7 +145,7 @@ test("choose your own key or monthly credits, then add a one-time top-up", async
   await expect(page.getByText("Free plan ends Jan 15, 2030", { exact: true })).toBeVisible();
   await captureScreenshot(page, testInfo, "sidebar-free-plan-ends");
   await page.getByRole("button", { name: "Upgrade", exact: true }).click();
-  const plans = page.getByRole("dialog", { name: "Choose how to use Rakazo" });
+  const plans = page.getByRole("dialog", { name: "Choose how to use Ai7" });
   await expect(plans.getByText("$10 / month", { exact: true })).toBeVisible();
   await expect(
     plans.getByRole("button", { name: "Subscribe with your own AI", exact: true }),
@@ -203,12 +203,12 @@ test("choose your own key or monthly credits, then add a one-time top-up", async
   });
   await captureScreenshot(page, testInfo, "billing-use-existing-credits");
   // Switching reloads the page; the URL keeps Billing open to show the result.
-  await existingCredits.getByRole("button", { name: "Use Rakazo credits", exact: true }).click();
+  await existingCredits.getByRole("button", { name: "Use Ai7 credits", exact: true }).click();
   const reactivated = page.getByTestId("user-settings");
   await expect(reactivated).toHaveAttribute("data-settings-section", "billing");
   await expect(reactivated.getByText("$12.00", { exact: true })).toBeVisible();
   await expect(
-    reactivated.getByRole("button", { name: "Use Rakazo credits", exact: true }),
+    reactivated.getByRole("button", { name: "Use Ai7 credits", exact: true }),
   ).toHaveCount(0);
   expect(purchase).toEqual({ amountCents: 5000, monthly: false });
 });

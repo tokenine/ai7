@@ -1631,15 +1631,15 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
     },
   },
   "es": {
-    title: "Rakazo | Alternativa de código abierto a Grok Bot",
+    title: "Ai7 | Alternativa de código abierto a Grok Bot",
     description:
-      "Rakazo es una alternativa de código abierto a Grok Bot para compañeros de IA persistentes que hacen trabajo real. Tus claves, tu modelo, tu máquina.",
+      "Ai7 es una alternativa de código abierto a Grok Bot para compañeros de IA persistentes que hacen trabajo real. Tus claves, tu modelo, tu máquina.",
     ogImageAlt:
-      "Rakazo. Compañeros de IA que de verdad son tuyos. Tus claves, tu modelo, tu máquina.",
+      "Ai7. Compañeros de IA que de verdad son tuyos. Tus claves, tu modelo, tu máquina.",
     availableLanguage: "Spanish",
     skipToContent: "Saltar al contenido",
     nav: {
-      home: "Inicio de Rakazo",
+      home: "Inicio de Ai7",
       primary: "Navegación principal",
       menu: "Menú",
       docs: "Documentación",
@@ -1724,12 +1724,12 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
         {
           question: "¿Puedo usar mi suscripción a Claude Pro/Max o ChatGPT Plus/Pro?",
           answer:
-            "Sí — inicia sesión con esa suscripción, o usa una clave de API, OpenRouter o un servidor local compatible con OpenAI (Ollama, LM Studio, etc.). Rakazo no paga la factura del modelo.",
+            "Sí — inicia sesión con esa suscripción, o usa una clave de API, OpenRouter o un servidor local compatible con OpenAI (Ollama, LM Studio, etc.). Ai7 no paga la factura del modelo.",
         },
         {
           question: "¿Necesito una clave de API si ya pago Claude o ChatGPT?",
           answer:
-            "No. Inicia sesión con Claude Pro/Max o ChatGPT Plus/Pro y esa suscripción cubre el modelo. Una clave de API es la otra opción, para Anthropic, OpenAI, OpenRouter o Grok. Rakazo no paga en ningún caso.",
+            "No. Inicia sesión con Claude Pro/Max o ChatGPT Plus/Pro y esa suscripción cubre el modelo. Una clave de API es la otra opción, para Anthropic, OpenAI, OpenRouter o Grok. Ai7 no paga en ningún caso.",
         },
         {
           question: "¿Puedo usar un modelo local?",
@@ -1784,15 +1784,15 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
     },
   },
   "fr": {
-    title: "Rakazo | Alternative open source à Grok Bot",
+    title: "Ai7 | Alternative open source à Grok Bot",
     description:
-      "Rakazo est une alternative open source à Grok Bot pour des coéquipiers IA persistants qui font un vrai travail. Vos clés, votre modèle, votre machine.",
+      "Ai7 est une alternative open source à Grok Bot pour des coéquipiers IA persistants qui font un vrai travail. Vos clés, votre modèle, votre machine.",
     ogImageAlt:
-      "Rakazo. Des coéquipiers IA qui vous appartiennent vraiment. Vos clés, votre modèle, votre machine.",
+      "Ai7. Des coéquipiers IA qui vous appartiennent vraiment. Vos clés, votre modèle, votre machine.",
     availableLanguage: "French",
     skipToContent: "Aller au contenu",
     nav: {
-      home: "Accueil Rakazo",
+      home: "Accueil Ai7",
       primary: "Navigation principale",
       menu: "Menu",
       docs: "Documentation",
@@ -1877,12 +1877,12 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
         {
           question: "Puis-je utiliser mon abonnement Claude Pro/Max ou ChatGPT Plus/Pro ?",
           answer:
-            "Oui — connectez-vous avec cet abonnement, ou utilisez une clé API, OpenRouter ou un serveur local compatible OpenAI (Ollama, LM Studio, etc.). Rakazo ne paie pas la facture du modèle.",
+            "Oui — connectez-vous avec cet abonnement, ou utilisez une clé API, OpenRouter ou un serveur local compatible OpenAI (Ollama, LM Studio, etc.). Ai7 ne paie pas la facture du modèle.",
         },
         {
           question: "Ai-je besoin d’une clé API si je paie déjà Claude ou ChatGPT ?",
           answer:
-            "Non. Connectez-vous avec Claude Pro/Max ou ChatGPT Plus/Pro et cet abonnement couvre le modèle. Une clé API est l’autre option, pour Anthropic, OpenAI, OpenRouter ou Grok. Rakazo ne paie dans aucun des cas.",
+            "Non. Connectez-vous avec Claude Pro/Max ou ChatGPT Plus/Pro et cet abonnement couvre le modèle. Une clé API est l’autre option, pour Anthropic, OpenAI, OpenRouter ou Grok. Ai7 ne paie dans aucun des cas.",
         },
         {
           question: "Puis-je utiliser un modèle local ?",
@@ -1937,15 +1937,15 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
     },
   },
   "pt-br": {
-    title: "Rakazo | Alternativa de código aberto ao Grok Bot",
+    title: "Ai7 | Alternativa de código aberto ao Grok Bot",
     description:
-      "Rakazo é uma alternativa de código aberto ao Grok Bot para colegas de IA persistentes que fazem trabalho de verdade. Suas chaves, seu modelo, sua máquina.",
+      "Ai7 é uma alternativa de código aberto ao Grok Bot para colegas de IA persistentes que fazem trabalho de verdade. Suas chaves, seu modelo, sua máquina.",
     ogImageAlt:
-      "Rakazo. Colegas de IA que são realmente seus. Suas chaves, seu modelo, sua máquina.",
+      "Ai7. Colegas de IA que são realmente seus. Suas chaves, seu modelo, sua máquina.",
     availableLanguage: "Portuguese",
     skipToContent: "Pular para o conteúdo",
     nav: {
-      home: "Página inicial do Rakazo",
+      home: "Página inicial do Ai7",
       primary: "Navegação principal",
       menu: "Menu",
       docs: "Documentação",
@@ -2030,12 +2030,12 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
         {
           question: "Posso usar minha assinatura do Claude Pro/Max ou ChatGPT Plus/Pro?",
           answer:
-            "Sim — entre com essa assinatura, ou use uma chave de API, OpenRouter ou um servidor local compatível com OpenAI (Ollama, LM Studio etc.). O Rakazo não paga a conta do modelo.",
+            "Sim — entre com essa assinatura, ou use uma chave de API, OpenRouter ou um servidor local compatível com OpenAI (Ollama, LM Studio etc.). O Ai7 não paga a conta do modelo.",
         },
         {
           question: "Preciso de uma chave de API se já pago pelo Claude ou ChatGPT?",
           answer:
-            "Não. Entre com Claude Pro/Max ou ChatGPT Plus/Pro e essa assinatura cobre o modelo. A chave de API é o outro caminho, para Anthropic, OpenAI, OpenRouter ou Grok. O Rakazo não paga em nenhum dos casos.",
+            "Não. Entre com Claude Pro/Max ou ChatGPT Plus/Pro e essa assinatura cobre o modelo. A chave de API é o outro caminho, para Anthropic, OpenAI, OpenRouter ou Grok. O Ai7 não paga em nenhum dos casos.",
         },
         {
           question: "Posso usar um modelo local?",
@@ -2090,15 +2090,15 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
     },
   },
   "nl": {
-    title: "Rakazo | Open source alternatief voor Grok Bot",
+    title: "Ai7 | Open source alternatief voor Grok Bot",
     description:
-      "Rakazo is een open source alternatief voor Grok Bot voor blijvende AI-teamgenoten die echt werk doen. Jouw keys, jouw model, jouw machine.",
+      "Ai7 is een open source alternatief voor Grok Bot voor blijvende AI-teamgenoten die echt werk doen. Jouw keys, jouw model, jouw machine.",
     ogImageAlt:
-      "Rakazo. AI-teamgenoten die echt van jou zijn. Jouw keys, jouw model, jouw machine.",
+      "Ai7. AI-teamgenoten die echt van jou zijn. Jouw keys, jouw model, jouw machine.",
     availableLanguage: "Dutch",
     skipToContent: "Naar inhoud springen",
     nav: {
-      home: "Rakazo-startpagina",
+      home: "Ai7-startpagina",
       primary: "Hoofdnavigatie",
       menu: "Menu",
       docs: "Docs",
@@ -2183,12 +2183,12 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
         {
           question: "Kan ik mijn Claude Pro/Max- of ChatGPT Plus/Pro-abonnement gebruiken?",
           answer:
-            "Ja — log in met dat abonnement, of gebruik een API-key, OpenRouter of een lokale OpenAI-compatibele server (Ollama, LM Studio enz.). Rakazo betaalt de modelrekening niet.",
+            "Ja — log in met dat abonnement, of gebruik een API-key, OpenRouter of een lokale OpenAI-compatibele server (Ollama, LM Studio enz.). Ai7 betaalt de modelrekening niet.",
         },
         {
           question: "Heb ik een API-key nodig als ik al voor Claude of ChatGPT betaal?",
           answer:
-            "Nee. Log in met Claude Pro/Max of ChatGPT Plus/Pro en dat abonnement dekt het model. Een API-key is de andere route, voor Anthropic, OpenAI, OpenRouter of Grok. Rakazo betaalt in geen van beide gevallen.",
+            "Nee. Log in met Claude Pro/Max of ChatGPT Plus/Pro en dat abonnement dekt het model. Een API-key is de andere route, voor Anthropic, OpenAI, OpenRouter of Grok. Ai7 betaalt in geen van beide gevallen.",
         },
         {
           question: "Kan ik een lokaal model draaien?",
@@ -2243,15 +2243,15 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
     },
   },
   "ru": {
-    title: "Rakazo | Альтернатива Grok Bot с открытым исходным кодом",
+    title: "Ai7 | Альтернатива Grok Bot с открытым исходным кодом",
     description:
-      "Rakazo — альтернатива Grok Bot с открытым исходным кодом: постоянные ИИ-коллеги, которые выполняют реальную работу. Ваши ключи, ваша модель, ваш компьютер.",
+      "Ai7 — альтернатива Grok Bot с открытым исходным кодом: постоянные ИИ-коллеги, которые выполняют реальную работу. Ваши ключи, ваша модель, ваш компьютер.",
     ogImageAlt:
-      "Rakazo. ИИ-коллеги, которые действительно принадлежат вам. Ваши ключи, ваша модель, ваш компьютер.",
+      "Ai7. ИИ-коллеги, которые действительно принадлежат вам. Ваши ключи, ваша модель, ваш компьютер.",
     availableLanguage: "Russian",
     skipToContent: "Перейти к содержимому",
     nav: {
-      home: "Главная Rakazo",
+      home: "Главная Ai7",
       primary: "Основная навигация",
       menu: "Меню",
       docs: "Документация",
@@ -2336,12 +2336,12 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
         {
           question: "Можно ли использовать подписку Claude Pro/Max или ChatGPT Plus/Pro?",
           answer:
-            "Да — войдите с этой подпиской или используйте API-ключ, OpenRouter или локальный OpenAI-совместимый сервер (Ollama, LM Studio и т. д.). Rakazo не оплачивает счёт за модель.",
+            "Да — войдите с этой подпиской или используйте API-ключ, OpenRouter или локальный OpenAI-совместимый сервер (Ollama, LM Studio и т. д.). Ai7 не оплачивает счёт за модель.",
         },
         {
           question: "Нужен ли API-ключ, если я уже плачу за Claude или ChatGPT?",
           answer:
-            "Нет. Войдите с Claude Pro/Max или ChatGPT Plus/Pro, и эта подписка покроет модель. API-ключ — другой путь: для Anthropic, OpenAI, OpenRouter или Grok. В любом случае Rakazo не платит.",
+            "Нет. Войдите с Claude Pro/Max или ChatGPT Plus/Pro, и эта подписка покроет модель. API-ключ — другой путь: для Anthropic, OpenAI, OpenRouter или Grok. В любом случае Ai7 не платит.",
         },
         {
           question: "Можно ли запустить локальную модель?",
@@ -2396,15 +2396,15 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
     },
   },
   "tr": {
-    title: "Rakazo | Açık kaynaklı Grok Bot alternatifi",
+    title: "Ai7 | Açık kaynaklı Grok Bot alternatifi",
     description:
-      "Rakazo, gerçek işler yapan kalıcı yapay zekâ ekip arkadaşları için açık kaynaklı bir Grok Bot alternatifidir. Sizin anahtarlarınız, sizin modeliniz, sizin makineniz.",
+      "Ai7, gerçek işler yapan kalıcı yapay zekâ ekip arkadaşları için açık kaynaklı bir Grok Bot alternatifidir. Sizin anahtarlarınız, sizin modeliniz, sizin makineniz.",
     ogImageAlt:
-      "Rakazo. Gerçekten size ait yapay zekâ ekip arkadaşları. Sizin anahtarlarınız, sizin modeliniz, sizin makineniz.",
+      "Ai7. Gerçekten size ait yapay zekâ ekip arkadaşları. Sizin anahtarlarınız, sizin modeliniz, sizin makineniz.",
     availableLanguage: "Turkish",
     skipToContent: "İçeriğe geç",
     nav: {
-      home: "Rakazo ana sayfa",
+      home: "Ai7 ana sayfa",
       primary: "Ana menü",
       menu: "Menü",
       docs: "Belgeler",
@@ -2489,12 +2489,12 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
         {
           question: "Claude Pro/Max veya ChatGPT Plus/Pro aboneliğimi kullanabilir miyim?",
           answer:
-            "Evet — bu abonelikle giriş yapın ya da bir API anahtarı, OpenRouter veya yerel bir OpenAI uyumlu sunucu (Ollama, LM Studio vb.) kullanın. Model faturasını Rakazo ödemez.",
+            "Evet — bu abonelikle giriş yapın ya da bir API anahtarı, OpenRouter veya yerel bir OpenAI uyumlu sunucu (Ollama, LM Studio vb.) kullanın. Model faturasını Ai7 ödemez.",
         },
         {
           question: "Claude veya ChatGPT için zaten ödeme yapıyorsam API anahtarına ihtiyacım var mı?",
           answer:
-            "Hayır. Claude Pro/Max veya ChatGPT Plus/Pro ile giriş yapın; model bu abonelikle karşılanır. Diğer yol Anthropic, OpenAI, OpenRouter veya Grok için bir API anahtarıdır. Her iki durumda da Rakazo ödeme yapmaz.",
+            "Hayır. Claude Pro/Max veya ChatGPT Plus/Pro ile giriş yapın; model bu abonelikle karşılanır. Diğer yol Anthropic, OpenAI, OpenRouter veya Grok için bir API anahtarıdır. Her iki durumda da Ai7 ödeme yapmaz.",
         },
         {
           question: "Yerel bir model çalıştırabilir miyim?",
@@ -2549,15 +2549,15 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
     },
   },
   "he": {
-    title: "Rakazo | חלופת קוד פתוח ל-Grok Bot",
+    title: "Ai7 | חלופת קוד פתוח ל-Grok Bot",
     description:
-      "Rakazo היא חלופת קוד פתוח ל-Grok Bot לעמיתי AI קבועים שעושים עבודה אמיתית. המפתחות שלך, המודל שלך, המכונה שלך.",
+      "Ai7 היא חלופת קוד פתוח ל-Grok Bot לעמיתי AI קבועים שעושים עבודה אמיתית. המפתחות שלך, המודל שלך, המכונה שלך.",
     ogImageAlt:
-      "Rakazo. עמיתי AI ששייכים לך באמת. המפתחות שלך, המודל שלך, המכונה שלך.",
+      "Ai7. עמיתי AI ששייכים לך באמת. המפתחות שלך, המודל שלך, המכונה שלך.",
     availableLanguage: "Hebrew",
     skipToContent: "דילוג לתוכן",
     nav: {
-      home: "דף הבית של Rakazo",
+      home: "דף הבית של Ai7",
       primary: "ניווט ראשי",
       menu: "תפריט",
       docs: "תיעוד",
@@ -2642,12 +2642,12 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
         {
           question: "אפשר להשתמש במנוי Claude Pro/Max או ChatGPT Plus/Pro שלי?",
           answer:
-            "כן — אפשר להתחבר עם המנוי הזה, או להשתמש במפתח API, ב-OpenRouter או בשרת מקומי תואם OpenAI (Ollama, LM Studio וכו'). Rakazo לא משלמת את חשבון המודל.",
+            "כן — אפשר להתחבר עם המנוי הזה, או להשתמש במפתח API, ב-OpenRouter או בשרת מקומי תואם OpenAI (Ollama, LM Studio וכו'). Ai7 לא משלמת את חשבון המודל.",
         },
         {
           question: "צריך מפתח API אם כבר יש לי מנוי בתשלום ל-Claude או ל-ChatGPT?",
           answer:
-            "לא. מתחברים עם Claude Pro/Max או ChatGPT Plus/Pro, והמנוי הזה מכסה את המודל. מפתח API הוא הדרך השנייה, עבור Anthropic, OpenAI, OpenRouter או Grok. בכל מקרה, Rakazo לא משלמת.",
+            "לא. מתחברים עם Claude Pro/Max או ChatGPT Plus/Pro, והמנוי הזה מכסה את המודל. מפתח API הוא הדרך השנייה, עבור Anthropic, OpenAI, OpenRouter או Grok. בכל מקרה, Ai7 לא משלמת.",
         },
         {
           question: "אפשר להריץ מודל מקומי?",
@@ -2702,15 +2702,15 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
     },
   },
   "hi": {
-    title: "Rakazo | Grok Bot का ओपन सोर्स विकल्प",
+    title: "Ai7 | Grok Bot का ओपन सोर्स विकल्प",
     description:
-      "Rakazo, Grok Bot का ओपन सोर्स विकल्प है, ऐसे स्थायी AI साथियों के लिए जो असली काम करते हैं। आपकी कुंजियाँ, आपका मॉडल, आपकी मशीन।",
+      "Ai7, Grok Bot का ओपन सोर्स विकल्प है, ऐसे स्थायी AI साथियों के लिए जो असली काम करते हैं। आपकी कुंजियाँ, आपका मॉडल, आपकी मशीन।",
     ogImageAlt:
-      "Rakazo. ऐसे AI साथी जो सच में आपके अपने हैं। आपकी कुंजियाँ, आपका मॉडल, आपकी मशीन।",
+      "Ai7. ऐसे AI साथी जो सच में आपके अपने हैं। आपकी कुंजियाँ, आपका मॉडल, आपकी मशीन।",
     availableLanguage: "Hindi",
     skipToContent: "सामग्री पर जाएं",
     nav: {
-      home: "Rakazo होम",
+      home: "Ai7 होम",
       primary: "मुख्य नेविगेशन",
       menu: "मेनू",
       docs: "दस्तावेज़",
@@ -2795,12 +2795,12 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
         {
           question: "क्या मेरा Claude Pro/Max या ChatGPT Plus/Pro सब्सक्रिप्शन इस्तेमाल हो सकता है?",
           answer:
-            "हाँ — उसी सब्सक्रिप्शन से साइन इन करें, या API कुंजी, OpenRouter या कोई लोकल OpenAI-संगत सर्वर (Ollama, LM Studio आदि) इस्तेमाल करें। मॉडल का बिल Rakazo नहीं भरता।",
+            "हाँ — उसी सब्सक्रिप्शन से साइन इन करें, या API कुंजी, OpenRouter या कोई लोकल OpenAI-संगत सर्वर (Ollama, LM Studio आदि) इस्तेमाल करें। मॉडल का बिल Ai7 नहीं भरता।",
         },
         {
           question: "अगर Claude या ChatGPT का पेड सब्सक्रिप्शन पहले से है, तो क्या API कुंजी चाहिए?",
           answer:
-            "नहीं। Claude Pro/Max या ChatGPT Plus/Pro से साइन इन करें, और वही सब्सक्रिप्शन मॉडल का खर्च उठाता है। API कुंजी दूसरा रास्ता है, Anthropic, OpenAI, OpenRouter या Grok के लिए। दोनों में से किसी भी तरीके में Rakazo भुगतान नहीं करता।",
+            "नहीं। Claude Pro/Max या ChatGPT Plus/Pro से साइन इन करें, और वही सब्सक्रिप्शन मॉडल का खर्च उठाता है। API कुंजी दूसरा रास्ता है, Anthropic, OpenAI, OpenRouter या Grok के लिए। दोनों में से किसी भी तरीके में Ai7 भुगतान नहीं करता।",
         },
         {
           question: "क्या लोकल मॉडल चलाया जा सकता है?",
@@ -2855,14 +2855,14 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
     },
   },
   "zh-tw": {
-    title: "Rakazo | 開源 Grok Bot 替代方案",
+    title: "Ai7 | 開源 Grok Bot 替代方案",
     description:
-      "Rakazo 是開源的 Grok Bot 替代方案，讓常駐的 AI 隊友幫你完成實際工作。金鑰、模型、機器，全都屬於你。",
-    ogImageAlt: "Rakazo：真正屬於你的 AI 隊友。金鑰、模型、機器，全都屬於你。",
+      "Ai7 是開源的 Grok Bot 替代方案，讓常駐的 AI 隊友幫你完成實際工作。金鑰、模型、機器，全都屬於你。",
+    ogImageAlt: "Ai7：真正屬於你的 AI 隊友。金鑰、模型、機器，全都屬於你。",
     availableLanguage: "Chinese (Traditional)",
     skipToContent: "跳至主要內容",
     nav: {
-      home: "Rakazo 首頁",
+      home: "Ai7 首頁",
       primary: "主要導覽",
       menu: "選單",
       docs: "說明文件",
@@ -2947,12 +2947,12 @@ const HOME_COPY: Record<Locale, HomeCopy> = {
         {
           question: "可以用我的 Claude Pro/Max 或 ChatGPT Plus/Pro 訂閱嗎？",
           answer:
-            "可以 — 用該訂閱登入，或使用 API 金鑰、OpenRouter，或本機的 OpenAI 相容伺服器（Ollama、LM Studio 等）。模型費用不由 Rakazo 支付。",
+            "可以 — 用該訂閱登入，或使用 API 金鑰、OpenRouter，或本機的 OpenAI 相容伺服器（Ollama、LM Studio 等）。模型費用不由 Ai7 支付。",
         },
         {
           question: "已經付費使用 Claude 或 ChatGPT，還需要 API 金鑰嗎？",
           answer:
-            "不需要。用 Claude Pro/Max 或 ChatGPT Plus/Pro 登入，模型費用由該訂閱涵蓋。API 金鑰是另一種方式，適用於 Anthropic、OpenAI、OpenRouter 或 Grok。無論哪種方式，Rakazo 都不會付費。",
+            "不需要。用 Claude Pro/Max 或 ChatGPT Plus/Pro 登入，模型費用由該訂閱涵蓋。API 金鑰是另一種方式，適用於 Anthropic、OpenAI、OpenRouter 或 Grok。無論哪種方式，Ai7 都不會付費。",
         },
         {
           question: "可以執行本機模型嗎？",

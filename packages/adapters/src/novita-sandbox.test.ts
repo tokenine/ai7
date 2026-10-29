@@ -258,7 +258,7 @@ describe("Novita adapter over the SDK emulator", () => {
     return events;
   }
 
-  it("creates an auto-pausing computer from the Rakazo template and rejects a revoked key", async () => {
+  it("creates an auto-pausing computer from the Ai7 template and rejects a revoked key", async () => {
     const { emulator, provider, computer } = await emulated();
     expect(emulator.computers.get(computer.id)).toMatchObject({
       state: "running",

@@ -1,7 +1,7 @@
 # Build a plugin
 
 A plugin is a public GitHub repository, or a folder in one, that gives bots skills, a hosted MCP
-server, or both. Rakazo reads the files; it never runs code from the repository.
+server, or both. Ai7 reads the files; it never runs code from the repository.
 
 ## Minimal example
 
@@ -23,7 +23,7 @@ hello-world/
   "name": "hello-world",
   "version": "1.0.0",
   "description": "A minimal example plugin with one skill.",
-  "author": { "name": "Rakazo" },
+  "author": { "name": "Ai7" },
   "license": "Apache-2.0",
   "keywords": ["example"]
 }
@@ -43,7 +43,7 @@ description: Greet the user by name and suggest one thing to try next. Use when 
 
 ## Manifest
 
-Rakazo looks for the manifest in this order:
+Ai7 looks for the manifest in this order:
 
 | File | Format |
 | --- | --- |
@@ -99,7 +99,7 @@ A plugin with any of these is refused, because it would only install in part:
 
 ## Test it
 
-In Rakazo, open **Integrations**, choose **+** → **From GitHub**, and paste your repository URL.
+In Ai7, open **Integrations**, choose **+** → **From GitHub**, and paste your repository URL.
 For a plugin in a folder, use the folder's URL, such as
 `https://github.com/acme/plugins/tree/main/acme-tickets`. The preview lists every skill and
 server and anything that was left out.

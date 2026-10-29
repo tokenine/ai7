@@ -309,7 +309,7 @@ describe("user device gateway in the holding process", () => {
     const result = collect(devices.request("user-1", environment, new AbortController().signal));
     await socket.nextRequest();
     await devices.disconnect(device.id);
-    await expect(result).rejects.toThrow("disconnected from Rakazo");
+    await expect(result).rejects.toThrow("disconnected from Ai7");
     expect(socket.sent).toContainEqual({ type: "revoked" });
     expect(socket.closed?.code).toBe(4001);
   });

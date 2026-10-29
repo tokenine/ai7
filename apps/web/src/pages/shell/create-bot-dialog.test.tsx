@@ -93,10 +93,10 @@ describe("CreateBotDialog", () => {
     expect(onCreate.mock.lastCall?.[0]).not.toHaveProperty("id");
   });
 
-  it("sends the Rakazo preview id without an organic family", async () => {
+  it("sends the Ai7 preview id without an organic family", async () => {
     const onCreate = vi.fn(async (_input: CreateBotDialogInput) => undefined);
     await render(onCreate);
-    await click(button("Rakazo"));
+    await click(button("Ai7"));
     await typeName("Scout");
     await click(button("Create"));
     const input = onCreate.mock.lastCall![0];
@@ -107,12 +107,12 @@ describe("CreateBotDialog", () => {
     expect(input.color?.toUpperCase()).toBe(preview.getAttribute("data-color")?.toUpperCase());
   });
 
-  it("preserves an explicitly chosen Rakazo colour through a failed create and retry", async () => {
+  it("preserves an explicitly chosen Ai7 colour through a failed create and retry", async () => {
     const onCreate = vi
       .fn(async (_input: CreateBotDialogInput) => undefined)
       .mockRejectedValueOnce(new Error("Try again"));
     await render(onCreate);
-    await click(button("Rakazo"));
+    await click(button("Ai7"));
     await click(button("Color #10B981"));
     await typeName("Scout");
     await click(button("Create"));
@@ -171,13 +171,13 @@ it("retains the preview identity and colour through rerenders, set toggles and a
     .fn(async (_input: CreateBotDialogInput) => undefined)
     .mockRejectedValueOnce(new Error("Try again"));
   await render(onCreate);
-  await click(button("Rakazo"));
+  await click(button("Ai7"));
   const colour = document.querySelector(".rakazo-logo-avatar")!.getAttribute("data-color");
   await typeName("First name");
   await render(onCreate);
   expect(document.querySelector(".rakazo-logo-avatar")!.getAttribute("data-color")).toBe(colour);
   await click(button("Original"));
-  await click(button("Rakazo"));
+  await click(button("Ai7"));
   await click(button("Create"));
   const first = onCreate.mock.lastCall![0];
   await typeName("Retry name");

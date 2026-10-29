@@ -75,7 +75,9 @@ const NOT_PASSED: Record<string, string> = {
  */
 const DENIED = {
   api: ["DATABASE_MIGRATION_URL"],
-  worker: ["BETTER_AUTH_SECRET", "DATABASE_MIGRATION_URL",
+  worker: [
+    "BETTER_AUTH_SECRET",
+    "DATABASE_MIGRATION_URL",
     // Only the api builds the Cloudflare Email Sending provider; the worker never sends.
     "CLOUDFLARE_ACCOUNT_ID",
   ],

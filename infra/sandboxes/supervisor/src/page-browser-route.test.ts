@@ -438,7 +438,7 @@ describe("screen setup reuse", () => {
     expect(await (await snapshot("computer-reuse", "reuse", "run:1")).json()).toMatchObject({
       ok: true,
     });
-    expect(commands()).toEqual(["helper"]);
+    expect(commands()).toEqual(["setup", "helper"]);
   });
 
   it("sets the screen up again once its last setup is 30 seconds old", async () => {
@@ -489,6 +489,6 @@ describe("screen setup reuse", () => {
     expect(await (await snapshot("computer-exited", "exited", "run:1")).json()).toMatchObject({
       ok: true,
     });
-    expect(commands()).toEqual(["helper", "setup", "helper"]);
+    expect(commands()).toEqual(["setup", "helper", "setup", "setup", "helper"]);
   });
 });

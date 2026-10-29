@@ -3,7 +3,7 @@ export const DOCS_PATH = "/docs/";
 export const DOCS_NAV = [
   { title: "Get started", pages: [{ slug: "getting-started", label: "Getting started" }] },
   {
-    title: "Using Rakazo",
+    title: "Using Ai7",
     pages: [
       { slug: "bot-secrets", label: "Reusable credentials" },
       { slug: "fleet-management", label: "Bots that manage bots" },

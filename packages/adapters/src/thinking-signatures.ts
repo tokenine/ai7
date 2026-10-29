@@ -2,7 +2,7 @@ import type { TranscriptContext } from "@earendil-works/pi-ai";
 
 /**
  * Claude 5.5 binds each signed thinking block to the conversation prefix it was written in, and
- * Rakazo rewrites earlier history between requests, so a replayed block can make the provider
+ * Ai7 rewrites earlier history between requests, so a replayed block can make the provider
  * reject the whole request. Anthropic can drop such blocks itself (thinking.block_binding), but
  * proxies like OpenCode reject that field, so the runtime retries without the earlier thinking.
  */

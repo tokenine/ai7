@@ -1,6 +1,6 @@
 # Getting started
 
-Rakazo gives you persistent AI bots. Each one has its own conversations, memory, routines, and
+Ai7 gives you persistent AI bots. Each one has its own conversations, memory, routines, and
 computer, and keeps working on the web, desktop, and mobile apps.
 
 ## Create your first bot

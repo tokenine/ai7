@@ -67,7 +67,7 @@ export function marketingEmailRoutes(prisma: PrismaClient, secret: string) {
   app.get(UNSUBSCRIBE_PATH, (c) =>
     verifiedUser(c.req.url)
       ? page(
-          `<form method="post"><button type="submit">Unsubscribe from Rakazo emails</button></form>`,
+          `<form method="post"><button type="submit">Unsubscribe from Ai7 emails</button></form>`,
         )
       : page("This link is not valid.", 400),
   );
@@ -87,7 +87,7 @@ export function marketingEmailRoutes(prisma: PrismaClient, secret: string) {
 
 function page(content: string, status = 200): Response {
   return new Response(
-    `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Rakazo</title></head><body style="font-family: Arial, sans-serif; max-width: 480px; margin: 48px auto; padding: 0 24px">${content}</body></html>`,
+    `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Ai7</title></head><body style="font-family: Arial, sans-serif; max-width: 480px; margin: 48px auto; padding: 0 24px">${content}</body></html>`,
     {
       status,
       headers: { "cache-control": "no-store", "content-type": "text/html; charset=utf-8" },

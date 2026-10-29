@@ -1,6 +1,6 @@
 # Import an OpenClaw, Hermes or ChatGPT agent
 
-Moving from OpenClaw, Hermes Agent or another assistant such as ChatGPT or Claude? Rakazo can turn
+Moving from OpenClaw, Hermes Agent or another assistant such as ChatGPT or Claude? Ai7 can turn
 it into a new bot, with its instructions, memory and skills, next to the bots you already have.
 
 Open **Settings → General** and choose **Import an agent**. Import is available in the web app

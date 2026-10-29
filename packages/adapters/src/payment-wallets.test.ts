@@ -201,7 +201,7 @@ describe("payment wallet connection", () => {
       expiresAt: new Date(NOW.getTime() + 15 * 60_000).toISOString(),
     });
     expect(env.provider?.beginConnect).toHaveBeenCalledWith(
-      { clientName: "Rakazo" },
+      { clientName: "Ai7" },
       expect.objectContaining({ userId: actor.userId }),
     );
     const [row] = env.rows;

@@ -70,7 +70,7 @@ describe("marketplace RPC", () => {
     const { client } = setup([approved]);
     const result = await client(actor).marketplace.catalog({ query: "notes" });
     expect(result.entries.map((row) => [row.registry, row.description])).toEqual([
-      ["Rakazo", "Reviewed notes."],
+      ["Ai7", "Reviewed notes."],
       ["Cursor", ""],
     ]);
   });

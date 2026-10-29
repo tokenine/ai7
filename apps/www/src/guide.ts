@@ -282,7 +282,7 @@ There is no seat fee for the open source software. You pay the model provider yo
 
 ## Self-host only, for now
 
-These work on your own deployment and are not yet on Rakazo Cloud. Each turns on from \`.env\`.
+These work on your own deployment and are not yet on Ai7 Cloud. Each turns on from \`.env\`.
 
 - **Telegram, WhatsApp, iMessage and SMS, Feishu and Lark.** Add the platform's credentials: \`TELEGRAM_BOT_TOKEN\`, \`WHATSAPP_*\`, \`SENDBLUE_*\` (iMessage and SMS), or \`LARK_*\`.
 - **Image and video generation.** \`MEDIA_GENERATION_PROVIDER=fal\`, \`MEDIA_GENERATION_API_KEY\`, and an image or video model (\`MEDIA_GENERATION_IMAGE_MODEL\`, \`MEDIA_GENERATION_VIDEO_MODEL\`).

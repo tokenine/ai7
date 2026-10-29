@@ -605,7 +605,12 @@ app.post("/computers/:id/browser", async (c) => {
   // The browser may be intentionally stopped (browserAutostart off): opening a
   // screen must not pop a window, but a page-browser call starts it on demand.
   // Re-running over a live browser is a cheap profile scan that exits 0.
-  const ensureBrowser = async ({ container, layout, index, screenKey }: ScreenContext) => {
+  const ensureBrowser = async ({
+    container,
+    layout,
+    index,
+    screenKey,
+  }: Awaited<ReturnType<typeof screen>>) => {
     const launched = await runContainerCommand(container, [
       "bash",
       "-c",
