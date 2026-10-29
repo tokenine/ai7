@@ -101,6 +101,7 @@ function ConnectorIcon({ name, logo }: { name: string; logo?: string | null }) {
 type SourceKind = "treg" | "executor" | "mcp" | "api" | "graphql";
 type OverlayView = "browse" | "manage" | "github" | "source" | "browseMcp" | "domain";
 
+const NO_CATALOG_FEED_APPS: IntegrationCatalogResult[] = [];
 const NO_CATALOG: ConnectionCatalogItem[] = [];
 const NO_CONNECTIONS: Connection[] = [];
 const NO_SOURCES: CapabilityInstall[] = [];
@@ -197,6 +198,8 @@ export function PluginsOverlay({
       ),
       plugins: installs.filter((install) => install.kind === "plugin"),
       catalogFeedEnabled: catalogFeed.enabled,
+      // A configured feed doubles as the deployment's default app tiles.
+      catalogFeedApps: catalogFeed.enabled ? catalogFeed.results : [],
     };
   }
   const integrationsOptions = queryOptions({
@@ -210,6 +213,22 @@ export function PluginsOverlay({
   const connections = integrations.data?.connections ?? NO_CONNECTIONS;
   const sources = integrations.data?.sources ?? NO_SOURCES;
   const pluginInstalls = integrations.data?.plugins ?? NO_SOURCES;
+  // A configured integrations catalog feed doubles as the deployment's default
+  // app tiles on this page.
+  const catalogFeedApps = integrations.data?.catalogFeedApps ?? NO_CATALOG_FEED_APPS;
+  const visibleFeedApps = catalogFeedApps.filter((app) => {
+    const needle = query.trim().toLowerCase();
+    if (!needle) return true;
+    return (
+      app.name.toLowerCase().includes(needle) ||
+      app.domain.toLowerCase().includes(needle) ||
+      app.description.toLowerCase().includes(needle)
+    );
+  });
+  const feedAppInstalled = (app: IntegrationCatalogResult) => {
+    const surface = app.surfaces[0];
+    return Boolean(surface?.source && sources.some((source) => source.source === surface.source));
+  };
   const pluginCatalog = useQuery(
     queries.marketplace.catalog.queryOptions({ input: { query: "" }, staleTime: 60_000 }),
   );
@@ -250,6 +269,7 @@ export function PluginsOverlay({
           sources: NO_SOURCES,
           plugins: NO_SOURCES,
           catalogFeedEnabled: false,
+          catalogFeedApps: NO_CATALOG_FEED_APPS,
         },
       ),
     );
@@ -1719,8 +1739,48 @@ export function PluginsOverlay({
                 </div>
               ) : null}
 
+              {catalogFeedEnabled && visibleFeedApps.length > 0 ? (
+                <div className="mb-4 grid grid-cols-2 gap-2">
+                  {visibleFeedApps.map((app) => {
+                    const surface = app.surfaces[0];
+                    const installed = feedAppInstalled(app);
+                    return (
+                      <div
+                        key={app.domain}
+                        className="flex min-w-0 items-center gap-3 rounded-xl border px-2.5 py-2"
+                      >
+                        <ConnectorIcon name={app.name} logo={null} />
+                        <div className="min-w-0 flex-1 text-start">
+                          <div className="truncate text-[15px] font-medium text-foreground">
+                            {app.name}
+                          </div>
+                          <div className="truncate text-[12.5px] text-muted-foreground">
+                            {app.description}
+                          </div>
+                        </div>
+                        {installed ? (
+                          <span className="shrink-0 text-[13px] text-muted-foreground">
+                            <Trans>Installed</Trans>
+                          </span>
+                        ) : surface ? (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon-sm"
+                            aria-label={`Add ${app.name}`}
+                            onClick={() => beginCatalogSurface(app, surface)}
+                          >
+                            <Plus />
+                          </Button>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : null}
               {catalogLoaded &&
               catalog.length === 0 &&
+              visibleFeedApps.length === 0 &&
               !showFeatured &&
               !pluginMatches.length &&
               !brandMatches.length ? (
