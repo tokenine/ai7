@@ -1787,6 +1787,11 @@ export function PluginsOverlay({
                 </div>
               ) : null}
 
+              {catalogFeedError && !catalogFeedSearched ? (
+                <p role="alert" className="mb-2 px-2.5 text-sm text-destructive">
+                  {catalogFeedError}
+                </p>
+              ) : null}
               {catalogFeedEnabled && visibleFeedApps.length > 0 ? (
                 <div className="mb-4 grid grid-cols-2 gap-2">
                   {visibleFeedApps.map((app) => {
@@ -1816,9 +1821,10 @@ export function PluginsOverlay({
                             variant="outline"
                             size="icon-sm"
                             aria-label={`Add ${app.name}`}
+                            disabled={pending === `catalog-oauth:${app.domain}`}
                             onClick={() => beginCatalogSurface(app, surface)}
                           >
-                            <Plus />
+                            {pending === `catalog-oauth:${app.domain}` ? <Spinner /> : <Plus />}
                           </Button>
                         ) : null}
                       </div>
