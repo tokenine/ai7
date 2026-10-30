@@ -756,7 +756,7 @@ export const ES_MESSAGES: Record<string, string> = {
   "Enter a server URL": "Introduce la URL de un servidor",
   "Public servers need https://. HTTP only works on your local network.":
     "Los servidores públicos necesitan https://. HTTP solo funciona en tu red local.",
-  "That URL did not look like a Ai7 server": "Esa URL no parece ser de un servidor de Ai7",
+  "That URL did not look like an Ai7 server": "Esa URL no parece ser de un servidor de Ai7",
   "That URL is missing a host": "A esa URL le falta el host",
   "That doesn’t look like a URL": "Eso no parece una URL",
   "Use an http or https URL": "Usa una URL http o https",

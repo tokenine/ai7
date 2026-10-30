@@ -46,6 +46,14 @@ export const COMPUTER_IMAGE_CONTEXT_FILES = [
   "fluxbox.apps",
   "fluxbox.menu",
   "rakazo-local-bin.sh",
+  // Ai7 brand assets the Dockerfile bakes into the desktop image.
+  "brand/wallpaper-ai7.png",
+  "brand/icon-terminal.png",
+  "brand/icon-file-manager.png",
+  "brand/desktop/chrome.desktop",
+  "brand/desktop/terminal.desktop",
+  "brand/desktop/files.desktop",
+  "brand/pcmanfm.conf",
 ] as const;
 
 /**
