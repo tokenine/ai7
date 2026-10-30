@@ -2189,6 +2189,7 @@ msgid "Could not sign in"
 msgstr ""
 
 #: src/pages/McpServersOverlay.tsx
+#: src/pages/PluginsOverlay.tsx
 msgid "Could not start OAuth"
 msgstr "OAuth 인증을 시작하지 못했습니다."
 
@@ -3230,6 +3231,10 @@ msgstr "입력값"
 #: src/components/SidebarFooter.tsx
 msgid "Install update"
 msgstr "업데이트 설치"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Installed"
+msgstr ""
 
 #: src/components/McpServerHealthLine.tsx
 msgid "Installing…"
@@ -5367,6 +5372,7 @@ msgid "Sign up"
 msgstr "가입하기"
 
 #: src/components/integrations/plugin-marketplace.tsx
+#: src/pages/PluginsOverlay.tsx
 msgid "Sign-in cancelled. Try again."
 msgstr ""
 

@@ -2189,6 +2189,7 @@ msgid "Could not sign in"
 msgstr ""
 
 #: src/pages/McpServersOverlay.tsx
+#: src/pages/PluginsOverlay.tsx
 msgid "Could not start OAuth"
 msgstr "Impossible de démarrer OAuth"
 
@@ -3230,6 +3231,10 @@ msgstr "Entrées"
 #: src/components/SidebarFooter.tsx
 msgid "Install update"
 msgstr "Installer la mise à jour"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Installed"
+msgstr ""
 
 #: src/components/McpServerHealthLine.tsx
 msgid "Installing…"
@@ -5367,6 +5372,7 @@ msgid "Sign up"
 msgstr "S'inscrire"
 
 #: src/components/integrations/plugin-marketplace.tsx
+#: src/pages/PluginsOverlay.tsx
 msgid "Sign-in cancelled. Try again."
 msgstr ""
 

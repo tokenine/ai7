@@ -77,6 +77,62 @@ describe("searchIntegrationCatalog", () => {
     ]);
   });
 
+  it("keeps feed-declared OAuth surfaces on the browser sign-in flow", async () => {
+    const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
+      Response.json({
+        results: [
+          {
+            domain: "github.com",
+            name: "GitHub",
+            surfaces: [
+              {
+                kind: "mcp",
+                slug: "github",
+                url: "https://api.githubcopilot.com/mcp/",
+                auth: { kind: "oauth", note: "Sign in with GitHub" },
+              },
+              {
+                kind: "mcp",
+                slug: "github-pat",
+                url: "https://api.githubcopilot.com/mcp/",
+                auth: { kind: "mixed", note: "OAuth or PAT" },
+              },
+            ],
+          },
+        ],
+      }),
+    );
+    await expect(
+      searchIntegrationCatalog({
+        baseUrl: "https://mirror.example/catalog",
+        query: "github",
+        signal: new AbortController().signal,
+        fetch,
+      }),
+    ).resolves.toEqual([
+      {
+        domain: "github.com",
+        name: "GitHub",
+        description: "",
+        pageUrl: null,
+        surfaces: [
+          {
+            kind: "mcp",
+            slug: "github",
+            source: "https://api.githubcopilot.com/mcp/",
+            auth: { type: "oauth", headerName: null, note: "Sign in with GitHub" },
+          },
+          {
+            kind: "mcp",
+            slug: "github-pat",
+            source: "https://api.githubcopilot.com/mcp/",
+            auth: { type: "bearer", headerName: null, note: "OAuth or PAT" },
+          },
+        ],
+      },
+    ]);
+  });
+
   it("lists the whole feed for an empty query", async () => {
     const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
       new Response(JSON.stringify({ results: [{ domain: "github.com", name: "GitHub" }] }), {

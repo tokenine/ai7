@@ -19,6 +19,7 @@ import {
   catalogItemAccounts,
   catalogItemKey,
   connectCatalogItem,
+  deriveMcpSlug,
   filterConnectionCatalogItems,
   humanizeToolName,
   installedPluginParts,
@@ -77,6 +78,7 @@ import {
   useOwnSpaces,
 } from "../components/integrations/space-availability";
 import { connectedAppMarks } from "../lib/connected-apps";
+import { connectMcpOauth } from "../lib/mcp-connect";
 import { optionalCatalogFeedProbe } from "../lib/optional-catalog-feed";
 import { useSpaceQueries } from "../lib/query";
 import { rpc } from "../lib/rpc";
@@ -227,7 +229,12 @@ export function PluginsOverlay({
   });
   const feedAppInstalled = (app: IntegrationCatalogResult) => {
     const surface = app.surfaces[0];
-    return Boolean(surface?.source && sources.some((source) => source.source === surface.source));
+    if (!surface?.source) return false;
+    // OAuth tiles register MCP servers; credential tiles install tool sources.
+    return (
+      sources.some((source) => source.source === surface.source) ||
+      mcpServers.some((server) => server.endpoint === surface.source)
+    );
   };
   const pluginCatalog = useQuery(
     queries.marketplace.catalog.queryOptions({ input: { query: "" }, staleTime: 60_000 }),
@@ -617,16 +624,57 @@ export function PluginsOverlay({
     surface: IntegrationCatalogSurface,
   ) {
     if (!surface.source || (surface.kind !== "mcp" && surface.kind !== "openapi")) return;
+    // A feed-declared OAuth surface has no credential to type: it installs as
+    // a registered MCP server and signs in with the browser right away.
+    if (surface.kind === "mcp" && surface.auth?.type === "oauth") {
+      void installCatalogOauth(result, surface);
+      return;
+    }
     setSourceBack("domain");
     setView("source");
     setSourceKind(surface.kind === "mcp" ? "mcp" : "api");
     setSourceName(result.name);
     setSourceUrl(surface.source);
     setCredential("");
-    setAuthType(surface.auth?.type ?? "none");
+    setAuthType(surface.auth?.type === "oauth" ? "none" : (surface.auth?.type ?? "none"));
     setAuthName(surface.auth?.headerName ?? "x-api-key");
     setSourceHint(surface.auth?.note ?? null);
     setSourceError(null);
+  }
+
+  /** Installs an OAuth catalog surface as a registered MCP server and starts
+   * the browser sign-in in place, so one click on the tile connects the app. */
+  async function installCatalogOauth(
+    result: IntegrationCatalogResult,
+    surface: IntegrationCatalogSurface,
+  ) {
+    const endpoint = surface.source;
+    if (!endpoint) return;
+    setCatalogFeedError(null);
+    setPending(`catalog-oauth:${result.domain}`);
+    try {
+      const existing = (await rpc.mcp.servers.list()).find((row) => row.endpoint === endpoint);
+      const server =
+        existing ??
+        (await rpc.mcp.servers.create({
+          transport: "streamable_http",
+          endpoint,
+          slug: deriveMcpSlug(result.name),
+          name: result.name,
+        }));
+      if (server.oauthStatus !== "connected") {
+        const signed = await connectMcpOauth(server.id);
+        if (signed === "authorization_not_requested") setCatalogFeedError(t`Could not start OAuth`);
+        if (signed === "cancelled") setCatalogFeedError(t`Sign-in cancelled. Try again.`);
+      }
+      await refresh();
+      setSourceBack("domain");
+      setView("manage");
+    } catch (err) {
+      setCatalogFeedError(errorText(err, t`Could not install connector`));
+    } finally {
+      setPending(null);
+    }
   }
 
   async function installSource() {
