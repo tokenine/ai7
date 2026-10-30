@@ -272,6 +272,30 @@ it("names a new account and keeps the email when going back from the code", asyn
   expect(button("Working…").disabled).toBe(true);
 });
 
+it("offers only the emailed code on OTP-only deployments", async () => {
+  vi.mocked(fetchAuthCapabilities).mockResolvedValue({
+    ...codeCapabilities,
+    passwordAuth: false,
+    passwordReset: false,
+    resetUrl: null,
+  });
+  vi.mocked(authClient.emailOtp.sendVerificationOtp).mockResolvedValue({
+    data: { success: true },
+    error: null,
+  } as never);
+  await render();
+  await enter(host.querySelector('input[name="email"]'), " person@example.com ");
+  expect(host.querySelector('input[name="password"]')).toBeNull();
+  expect(host.querySelector('button[type="submit"]')!.textContent).toBe("Continue");
+  await submit();
+  expect(authClient.emailOtp.sendVerificationOtp).toHaveBeenCalledWith({
+    email: "person@example.com",
+    type: "sign-in",
+  });
+  expect(host.querySelector("h1")!.textContent).toBe("Check your email");
+  expect(host.querySelector('input[aria-label="Code"]')).not.toBeNull();
+});
+
 it("sends the code on the first Continue but never submits an unfinished code", async () => {
   vi.mocked(fetchAuthCapabilities).mockResolvedValue(codeCapabilities);
   vi.mocked(authClient.emailOtp.sendVerificationOtp).mockResolvedValue({

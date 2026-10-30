@@ -689,6 +689,31 @@ describe("OIDC callbacks", () => {
   it("refuses password-off without an alternative", () => {
     expect(() => setup({ passwordAuth: false, oidc: undefined })).toThrow(/requires OIDC/);
   });
+  it("runs OTP-only sign-in when otpOnly replaces password auth", async () => {
+    setup({ passwordAuth: false, otpOnly: true, oidc: undefined });
+    expect(auth.emailCodeSignIn).toBe(true);
+    expect(
+      (
+        await request("/sign-in/email", {
+          email: "local@example.test",
+          password: "test-password-123",
+        })
+      ).status,
+    ).toBeGreaterThanOrEqual(400);
+    const sent = await request("/email-otp/send-verification-otp", {
+      email: "local@example.test",
+      type: "sign-in",
+    });
+    expect(sent.status, await sent.text()).toBe(200);
+    const code = sentCodes.at(-1);
+    expect(code).toBeTruthy();
+    const otp = code?.match(/\b\d{6}\b/)?.[0];
+    expect(otp).toBeTruthy();
+    expect((await request("/sign-in/email-otp", { email: "local@example.test", otp })).status).toBe(
+      200,
+    );
+    expect(rows("user")).toHaveLength(1);
+  });
 });
 
 describe("SSO-only account deletion", () => {
