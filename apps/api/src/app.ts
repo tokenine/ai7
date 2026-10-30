@@ -507,6 +507,7 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
   const auth = createAuth(prisma, {
     analytics,
     passwordAuth: env.passwordAuth,
+    otpOnly: env.otpOnly,
     breachedPasswordCheck: env.breachedPasswordCheck,
     oidc: env.oidc,
     secret: env.authSecret,
