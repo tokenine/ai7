@@ -12,6 +12,7 @@ import type {
   SecretStore,
 } from "@rakazo/adapter-kit";
 import type {
+  ModelApiProtocol,
   ModelContextLimits,
   ModelOAuthBegin,
   ModelOAuthSignInMode,
@@ -22,6 +23,7 @@ import {
   canonicalPiProviderId,
   MAX_MODEL_CONTEXT_WINDOW,
   MAX_MODEL_MAX_TOKENS,
+  ModelApiProtocolSchema,
   ModelContextLimitsSchema,
   parseModelHeaders,
   ThinkingLevelSchema,
@@ -286,6 +288,7 @@ export type StoredModelSecret =
   | ({
       kind: "openai_compatible";
       baseUrl: string;
+      apiProtocol?: ModelApiProtocol;
       headers?: Record<string, string>;
       apiKey?: string;
       reasoning?: boolean;
@@ -452,6 +455,10 @@ export function parseModelSecret(plaintext: string): StoredModelSecret {
     if (typeof parsed.baseUrl !== "string" || !parsed.baseUrl.trim()) {
       throw new Error(CORRUPT_MODEL_SECRET_MESSAGE);
     }
+    const apiProtocol =
+      parsed.apiProtocol === undefined
+        ? undefined
+        : ModelApiProtocolSchema.parse(parsed.apiProtocol);
     const headers = parsed.headers === undefined ? undefined : parseModelHeaders(parsed.headers);
     const apiKey = typeof parsed.apiKey === "string" ? parsed.apiKey : undefined;
     const parsedThinkingLevel = ThinkingLevelSchema.nullable().safeParse(parsed.thinkingLevel);
@@ -476,6 +483,7 @@ export function parseModelSecret(plaintext: string): StoredModelSecret {
     return {
       kind: "openai_compatible",
       baseUrl: parsed.baseUrl.trim(),
+      ...(apiProtocol !== undefined ? { apiProtocol } : {}),
       ...(headers !== undefined ? { headers } : {}),
       ...(apiKey ? { apiKey } : {}),
       ...(typeof parsed.reasoning === "boolean" ? { reasoning: parsed.reasoning } : {}),
@@ -545,6 +553,9 @@ export function serializeModelSecret(secret: StoredModelSecret): string {
       kind: "openai_compatible",
       ...modelLimits(secret as unknown as Record<string, unknown>),
       baseUrl: secret.baseUrl,
+      ...(secret.apiProtocol !== undefined
+        ? { apiProtocol: ModelApiProtocolSchema.parse(secret.apiProtocol) }
+        : {}),
       ...(secret.headers !== undefined ? { headers: parseModelHeaders(secret.headers) } : {}),
       ...(secret.apiKey ? { apiKey: secret.apiKey } : {}),
       ...(secret.reasoning !== undefined ? { reasoning: secret.reasoning } : {}),

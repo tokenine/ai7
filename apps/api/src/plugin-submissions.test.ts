@@ -244,6 +244,20 @@ describe("reviewing submissions", () => {
     ]);
   });
 
+  it("approves a plugin that leaves out a skill repeating a built-in one", async () => {
+    const { deps, rows } = await submitted();
+    preview.mockResolvedValue({
+      source: { gitUrl: "https://github.com/acme/plugins" },
+      resolvedSha: SHA,
+      mcpServers: [],
+      skills: [{ name: "a" }],
+      skipped: [],
+      builtinNames: ["interrogate"],
+    });
+    await reviewPluginSubmission(deps, { id: "sub-1", decision: "approve" });
+    expect(rows[0]!.status).toBe("approved");
+  });
+
   it("refuses a plugin with nothing to install", async () => {
     const { deps, rows } = await submitted();
     preview.mockResolvedValue({
@@ -294,20 +308,6 @@ describe("reviewing submissions", () => {
       reviewPluginSubmission(deps, { id: "sub-1", decision: "approve" }),
     ).rejects.toMatchObject({ code: "CONFLICT" });
     expect(rows[0]!.status).toBe("pending");
-  });
-
-  it("refuses a plugin whose skill would clash with a built-in one", async () => {
-    const { deps } = await submitted();
-    preview.mockResolvedValue({
-      source: { gitUrl: "https://github.com/acme/plugins" },
-      resolvedSha: SHA,
-      mcpServers: [],
-      skills: [{ name: "Interrogate" }],
-      skipped: [],
-    });
-    await expect(
-      reviewPluginSubmission(deps, { id: "sub-1", decision: "approve" }),
-    ).rejects.toThrow("Plugin skill conflicts with a built-in skill");
   });
 
   it("keeps a plugin that would install only in part pending", async () => {

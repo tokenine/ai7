@@ -5,13 +5,13 @@ import {
   mcpOAuthEnvReferences,
 } from "@rakazo/contracts";
 import { deriveMcpSlug } from "@rakazo/core";
-import type { McpServer, Prisma } from "@rakazo/db";
+import type { McpServer } from "@rakazo/db";
 import { getLogger } from "@rakazo/logging";
 import type { ExecutorDeps } from "./executor-deps.js";
 import { mcpStdioRefusal } from "./mcp-transport.js";
 import { toStringRecord } from "./memory-provider-factory.js";
-import { assertSafeRemoteUrl } from "./remote-mcp.js";
-import { isUniqueViolation, persistMessageInTransaction } from "./run-messages.js";
+import { assertNoMcpEndpointCredential, assertSafeRemoteUrl } from "./remote-mcp.js";
+import { isUniqueViolation, persistMessageInTransaction, runLeaseFor } from "./run-messages.js";
 
 export { deriveMcpSlug } from "@rakazo/core";
 
@@ -102,6 +102,8 @@ export function parseMcpServerToolArgs(
  * server has no static credential material. */
 export function buildMcpCredentialBlob(parsed: {
   secret?: string;
+  /** Stdio launch arguments, which may carry tokens. */
+  args?: string[];
   env?: Record<string, string>;
   files?: Record<string, string>;
   headers?: Record<string, string>;
@@ -116,9 +118,11 @@ export function buildMcpCredentialBlob(parsed: {
   const env = parsed.env ?? {};
   const headers = parsed.headers ?? {};
   const files = parsed.files ?? {};
+  const args = parsed.args ?? [];
   const client = parsed.oauthClient;
   if (
     !parsed.secret &&
+    args.length === 0 &&
     !client &&
     Object.keys(env).length === 0 &&
     Object.keys(headers).length === 0 &&
@@ -131,6 +135,7 @@ export function buildMcpCredentialBlob(parsed: {
     env,
     headers,
     ...(Object.keys(files).length > 0 ? { files } : {}),
+    ...(args.length > 0 ? { args } : {}),
     ...(client
       ? {
           oauthClient: {
@@ -188,6 +193,7 @@ export async function addMcpServerFromTool(
       await assertSafeRemoteUrl(parsed.endpoint, deps.secretHttp?.resolveHostname, {
         allowPrivateEndpoint: deps.mcpAllowPrivateEndpoint === true,
       });
+      assertNoMcpEndpointCredential(parsed.endpoint);
     } catch (error) {
       return {
         error: error instanceof Error ? error.message : "Invalid MCP endpoint",
@@ -238,7 +244,7 @@ export async function addMcpServerFromTool(
           transport: parsed.transport,
           endpoint: parsed.endpoint ?? null,
           command: parsed.command ?? null,
-          args: parsed.args as unknown as Prisma.InputJsonValue,
+          hasArgs: parsed.args.length > 0,
           env: Object.fromEntries(Object.keys(parsed.env).map((key) => [key, true])),
           headers: Object.fromEntries(Object.keys(parsed.headers).map((key) => [key, true])),
           secretId: storedCredential?.id,
@@ -257,7 +263,16 @@ export async function addMcpServerFromTool(
           status: "pending",
         },
       ];
-      const committed = await persistMessageInTransaction(tx, run, "bot", blocks);
+      const committed = await persistMessageInTransaction(
+        tx,
+        run,
+        "bot",
+        blocks,
+        undefined,
+        undefined,
+        false,
+        runLeaseFor(deps, run.id),
+      );
       return {
         server,
         eventSeq: committed.eventSeq,

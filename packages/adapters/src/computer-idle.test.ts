@@ -46,6 +46,35 @@ describe("sandbox idle", () => {
     installLogger(createLogger({ service: "test", level: "off", sinks: [] }));
   });
 
+  it.each(["bytes", "files"] as const)(
+    "announces an unsaved home once for %s until the next save",
+    async (limit) => {
+      const harness = idleHarness({ exportError: new WorkspaceTooLargeError(limit) });
+      await sleepComputerIfIdle(harness.deps, harness.computer.id);
+      await sleepComputerIfIdle(harness.deps, harness.computer.id);
+      expect(harness.prisma.message.create).toHaveBeenCalledOnce();
+      expect(harness.prisma.message.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            role: "system",
+            blocks: [
+              {
+                kind: "meta",
+                text: `${new WorkspaceTooLargeError(limit).message}. It will keep running unsaved. Remove large files or files you no longer need so it can be saved.`,
+              },
+            ],
+          }),
+        }),
+      );
+      expect(harness.events.notify).toHaveBeenCalledOnce();
+      expect(harness.sandbox.stop).not.toHaveBeenCalled();
+      expect(harness.computer.state).toBe("running");
+      harness.computer.homeRevisionAt = new Date();
+      await sleepComputerIfIdle(harness.deps, harness.computer.id);
+      expect(harness.prisma.message.create).toHaveBeenCalledTimes(2);
+    },
+  );
+
   it("defaults to ten minutes when SANDBOX_IDLE_MS is unset", () => {
     expect(computerIdleSleepEnabled()).toBe(true);
     expect(sandboxIdleMs()).toBe(DEFAULT_SANDBOX_IDLE_MS);
@@ -1199,6 +1228,43 @@ describe("background work launch and probe", () => {
     },
   );
 
+  it.skipIf(process.platform === "win32").each([true, false])(
+    "sweeps every stale marker with held background work: %s",
+    async (held) => {
+      const markerId = `computer-sweep-${randomUUID()}`;
+      const activeMarker = `/tmp/rakazo-background-${markerId}-run-1-a-held`;
+      const staleMarkers = [
+        `/tmp/rakazo-background-${markerId}-run-1-b-stale`,
+        `/tmp/rakazo-background-${markerId}-run-2-c-stale`,
+      ];
+      for (const marker of [activeMarker, ...staleMarkers]) markers.add(marker);
+
+      if (held) {
+        const active = spawn(
+          "bash",
+          [
+            "-c",
+            BACKGROUND_WORK_LAUNCH,
+            "rakazo-background-launch",
+            markerId,
+            "run-1",
+            "a-held",
+            "exec sleep 30",
+          ],
+          { stdio: "ignore", detached: true },
+        );
+        children.push(active);
+        await expect.poll(() => existsSync(activeMarker)).toBe(true);
+      }
+      for (const marker of staleMarkers) writeFileSync(marker, "");
+
+      expect(await probeBackgroundWork(markerId)).toBe(held ? 0 : 1);
+      for (const marker of staleMarkers) expect(existsSync(marker)).toBe(false);
+      expect(existsSync(activeMarker)).toBe(held);
+      expect(await probeBackgroundWork(markerId)).toBe(held ? 0 : 1);
+    },
+  );
+
   it.skipIf(process.platform === "win32")(
     "cleans a completed marker without blocking a later launch",
     async () => {
@@ -1511,8 +1577,26 @@ function idleHarness(
     homeRevisionAt: options.homeRevisionAt ?? null,
     updatedAt: new Date("2026-01-01T00:00:00.000Z"),
   };
+  const notices = new Map<string, { id: string }>();
   const prisma = {
+    $transaction: async <T>(work: (tx: unknown) => Promise<T>): Promise<T> => work(prisma),
+    thread: { update: vi.fn().mockResolvedValue({ nextMessageSeq: 1, nextEventSeq: 1 }) },
+    message: {
+      findUnique: vi.fn(
+        async ({ where }) => notices.get(where.threadId_clientNonce.clientNonce) ?? null,
+      ),
+      create: vi.fn(async ({ data }) => {
+        const message = { id: "notice" };
+        notices.set(data.clientNonce, message);
+        return message;
+      }),
+    },
     computer: {
+      findFirst: vi.fn(async () => ({
+        state: "running",
+        restorePending: false,
+        screenGeneration: 0,
+      })),
       findUnique: vi.fn(async () => ({ ...computer })),
       updateMany: vi.fn(async (args) => {
         if (args.where.updatedAt && args.where.updatedAt.getTime() !== computer.updatedAt.getTime())
@@ -1531,6 +1615,7 @@ function idleHarness(
         .mockResolvedValue(options.takeoverRequestedAt ? [{ id: "waiting-for-user" }] : []),
     },
     event: {
+      create: vi.fn().mockResolvedValue({ seq: 1 }),
       findFirst: vi.fn(async ({ where }) => {
         if (where.type === "computer.takeover.granted") {
           return options.takeoverSinceSave ? { id: "later-takeover" } : null;
@@ -1579,7 +1664,10 @@ function idleHarness(
     cancel: vi.fn().mockResolvedValue(undefined),
     close: vi.fn().mockResolvedValue(undefined),
   };
-  const events = { append: vi.fn().mockResolvedValue({}) };
+  const events = {
+    append: vi.fn().mockResolvedValue({}),
+    notify: vi.fn().mockResolvedValue(undefined),
+  };
   return {
     computer,
     prisma,

@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
+import type { ExecutorDeps } from "./executor-deps.js";
 import {
+  addMcpServerFromTool,
   buildMcpCredentialBlob,
   deriveMcpSlug,
   needsOAuthProbe,
@@ -116,6 +118,26 @@ describe("parseMcpServerToolArgs", () => {
   });
 });
 
+describe("addMcpServerFromTool", () => {
+  it("refuses a credential in the endpoint query, which would be stored in plaintext", async () => {
+    const run = {
+      id: "run-1",
+      spaceId: "space-1",
+      userId: "user-1",
+      threadId: "t-1",
+      botId: "b-1",
+    };
+    const result = await addMcpServerFromTool(
+      { mcpAllowPrivateEndpoint: true } as ExecutorDeps,
+      run,
+      "b-1",
+      { name: "Brex", transport: "streamable_http", endpoint: "http://localhost/mcp?token=abc" },
+      "exec-1",
+    );
+    expect(result).toEqual({ error: "Put token in a header instead of the server URL" });
+  });
+});
+
 describe("buildMcpCredentialBlob", () => {
   it("returns null when no credential material exists", () => {
     expect(buildMcpCredentialBlob({})).toBeNull();
@@ -126,6 +148,13 @@ describe("buildMcpCredentialBlob", () => {
     expect(
       buildMcpCredentialBlob({ secret: "tok", headers: { Authorization: "Bearer tok" }, env: {} }),
     ).toEqual(JSON.stringify({ secret: "tok", env: {}, headers: { Authorization: "Bearer tok" } }));
+  });
+
+  it("stores stdio arguments, which may carry tokens, in the blob", () => {
+    expect(
+      JSON.parse(buildMcpCredentialBlob({ args: ["--api-key", "fake-key"] }) ?? "null"),
+    ).toEqual({ env: {}, headers: {}, args: ["--api-key", "fake-key"] });
+    expect(buildMcpCredentialBlob({ args: [] })).toBeNull();
   });
 
   it("stores a pre-registered OAuth client on its own", () => {
