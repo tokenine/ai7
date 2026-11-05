@@ -65,6 +65,7 @@ import {
   deploymentModelUsageLookup,
   EmailEmulator,
   ExpoPushProvider,
+  GitHubConnector,
   GoogleConnector,
   GraphileJobPublisher,
   InMemoryJobQueue,
@@ -73,6 +74,7 @@ import {
   IntegrationProviderSettings,
   installedMessaging,
   isComposioEnabled,
+  isGitHubEnabled,
   isGoogleEnabled,
   isMessagingSurfaceEnabled,
   isPipedreamEnabled,
@@ -178,6 +180,7 @@ import { cspReportRoutes } from "./csp-report.js";
 import { configuredEmailProvider } from "./email.js";
 import type { AppEnv } from "./env.js";
 import { loadEnv } from "./env.js";
+import { mountGitHubOAuthCallback } from "./github-oauth-callback.js";
 import { mountGoogleOAuthCallback } from "./google-oauth-callback.js";
 import { healthRoutes } from "./health.js";
 import { homeRetentionSweep } from "./home-retention.js";
@@ -462,6 +465,13 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
   const _google = isGoogleEnabled(googleConfig)
     ? new GoogleConnector(googleConfig, { prisma, secrets, artifacts })
     : undefined;
+  const githubConfig = {
+    clientId: env.githubClientId ?? "",
+    clientSecret: env.githubClientSecret ?? "",
+  };
+  const _github = isGitHubEnabled(githubConfig)
+    ? new GitHubConnector(githubConfig, { prisma, secrets })
+    : undefined;
   // This process registers the inbound sink, so it must hold Telegram's getUpdates connection.
   const messagingPlatforms = messagingPlatformsFromEnv(env, { pollInboundMessages: true }).filter(
     (platform) => platform.provider !== "slack" || !env.slackClientId,
@@ -541,6 +551,7 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
     ...integrationSettings
       .providers()
       .filter((provider) => !composioOverride || provider.describe().id !== "composio"),
+    ...(_github ? [_github] : []),
     mcp,
     ...connectorOverrides,
   ]);
@@ -1170,6 +1181,7 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
   );
   mountWebhookHttpRoutes(app, { prisma, secrets, events, jobs });
   mountGoogleOAuthCallback(app, { integrationSettings, env });
+  mountGitHubOAuthCallback(app, { env, github: _github });
   if (billing && billingProvider) {
     mountBillingRoutes(app, {
       billing,

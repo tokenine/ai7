@@ -84,6 +84,7 @@ export * from "./fake-web.js";
 export * from "./favicon.js";
 export * from "./fish-audio-voice.js";
 export * from "./fleet-tools.js";
+export * from "./github-connector.js";
 export * from "./github-webhook-emulator.js";
 export * from "./google-connector.js";
 export * from "./graphql-connectors.js";
