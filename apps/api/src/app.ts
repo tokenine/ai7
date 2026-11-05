@@ -47,10 +47,12 @@ import {
   createTicketChangeNotifier,
   EmailEmulator,
   ExpoPushProvider,
+  GoogleConnector,
   GraphileJobPublisher,
   InMemoryJobQueue,
   InMemoryRealtimeFanout,
   installedMessaging,
+  isGoogleEnabled,
   isMessagingSurfaceEnabled,
   messagingPlatformsFromEnv,
   ObjectAgentHomeStore,
@@ -144,6 +146,7 @@ import { configuredEmailProvider } from "./email.js";
 import { mountEmailInboundRoute } from "./email-inbound.js";
 import type { AppEnv } from "./env.js";
 import { loadEnv } from "./env.js";
+import { mountGoogleOAuthCallback } from "./google-oauth-callback.js";
 import { healthRoutes } from "./health.js";
 import { homeRetentionSweep } from "./home-retention.js";
 import { startHourlySweep } from "./hourly-sweep.js";
@@ -391,6 +394,13 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
   void home.removeStaleStaging().catch((error) => getLogger().error("home staging cleanup", error));
   const artifacts = createArtifactStore(env.dataDir, prisma);
   const memory = new MarkdownMemoryStore(prisma);
+  const googleConfig = {
+    clientId: env.googleClientId ?? "",
+    clientSecret: env.googleClientSecret ?? "",
+  };
+  const googleConnector = isGoogleEnabled(googleConfig)
+    ? new GoogleConnector(googleConfig, { prisma, secrets, artifacts })
+    : undefined;
   // This process registers the inbound sink, so it must hold Telegram's getUpdates connection.
   const messagingPlatforms = messagingPlatformsFromEnv(env, { pollInboundMessages: true }).filter(
     (platform) => platform.provider !== "slack" || !env.slackClientId,
@@ -462,7 +472,7 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
       network: remoteConnectors,
       composio: composioOverride,
       pipedream: pipedreamOverride,
-      connectors: connectorOverrides,
+      connectors: [...(googleConnector ? [googleConnector] : []), ...connectorOverrides],
     },
   );
   const { mcpOAuth, mcp, pipedream, installed, integrationSettings, stack } = connectors;
@@ -1046,6 +1056,7 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
         ),
     });
   }
+  mountGoogleOAuthCallback(app, { integrationSettings, env });
   if (billing && billingProvider) {
     mountBillingRoutes(app, {
       billing,

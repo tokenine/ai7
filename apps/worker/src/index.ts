@@ -35,10 +35,12 @@ import {
   createTicketChangeNotifier,
   databaseCapacityBackoffMs,
   ExpoPushProvider,
+  GoogleConnector,
   GraphileJobPublisher,
   homeStorageSweeper,
   InMemoryJobQueue,
   installedMessaging,
+  isGoogleEnabled,
   isMessagingSurfaceEnabled,
   messagingEnvFromProcess,
   messagingPlatformsFromEnv,
@@ -146,7 +148,17 @@ async function main() {
     prisma,
     secrets,
   });
-  const connectors = createConnectorRuntime(env, { prisma, secrets, events });
+  // Tools execute in THIS process: without the google fallback here, a Google
+  // connection's tools would show in the UI but never surface during a run.
+  const googleConfig = {
+    clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+  };
+  const googleArtifacts = createArtifactStore(env.dataDir, prisma);
+  const google = isGoogleEnabled(googleConfig)
+    ? new GoogleConnector(googleConfig, { prisma, secrets, artifacts: googleArtifacts })
+    : undefined;
+  const connectors = createConnectorRuntime(env, { prisma, secrets, events }, { google });
   // Never poll inbound here: Telegram allows a single getUpdates consumer,
   // and that is the API process, which owns the inbound sink.
   const messagingPlatforms = messagingPlatformsFromEnv(messagingEnvFromProcess(process.env)).filter(
@@ -158,6 +170,7 @@ async function main() {
   })
     ? new ChatSdkMessagingSurface(messagingPlatforms)
     : undefined;
+
   const memoryProviders = new SpaceMemoryProviderResolver(prisma, secrets);
   const home = createAgentHomeStore(env.dataDir, prisma);
   void home.removeStaleStaging().catch((error) => logger.error("home staging cleanup", error));
