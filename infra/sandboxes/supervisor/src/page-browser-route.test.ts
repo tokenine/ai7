@@ -527,8 +527,13 @@ describe("screen setup reuse", () => {
   const bootedAt = "2026-10-27T00:00:00.000Z";
   const helper = (options: { Cmd: string[] }) =>
     options.Cmd.includes("/usr/local/bin/rakazo-page-browser");
+  // The on-demand browser launcher (browserAutostart off) is its own cheap exec.
+  const launcher = (options: { Cmd: string[] }) =>
+    options.Cmd.join("\n").includes("browser_running || launch_browser");
   const commands = () =>
-    mock.exec.mock.calls.map(([options]) => (helper(options) ? "helper" : "setup"));
+    mock.exec.mock.calls.map(([options]) =>
+      helper(options) ? "helper" : launcher(options) ? "launch" : "setup",
+    );
 
   beforeEach(() => {
     mock.inspect.mockResolvedValue({
@@ -548,7 +553,7 @@ describe("screen setup reuse", () => {
     expect(await (await snapshot("computer-reuse", "reuse", "run:1")).json()).toMatchObject({
       ok: true,
     });
-    expect(commands()).toEqual(["helper"]);
+    expect(commands()).toEqual(["launch", "helper"]);
   });
 
   it("sets the screen up again once its last setup is 30 seconds old", async () => {
@@ -599,7 +604,7 @@ describe("screen setup reuse", () => {
     expect(await (await snapshot("computer-exited", "exited", "run:1")).json()).toMatchObject({
       ok: true,
     });
-    expect(commands()).toEqual(["helper", "setup", "helper"]);
+    expect(commands()).toEqual(["launch", "helper", "setup", "helper"]);
   });
 });
 

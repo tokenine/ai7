@@ -14,6 +14,11 @@ import {
   screenPorts,
 } from "./computer-spec.js";
 
+// These tests exercise the eager browser launch lifecycle; deployments opt back
+// into it with the same switch (default launches on first page-browser use).
+// Must run before the dynamic ./index.js import below reads the supervisor env.
+process.env.RAKAZO_COMPUTER_BROWSER_AUTOSTART = "1";
+
 const mocks = vi.hoisted(() => ({
   docker: {
     version: vi.fn(),

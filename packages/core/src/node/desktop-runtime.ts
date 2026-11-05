@@ -25,6 +25,13 @@ export interface DesktopEnvironment {
   preservePrimaryDisplay?: boolean;
   portStart?: number;
   bindHost?: string;
+  /**
+   * Launch the browser as part of ensure-screen. Off by default: opening a
+   * screen shows the bare desktop, and the browser starts on first page-browser
+   * use via `launchBrowserCommand`. Opt in per deployment with
+   * RAKAZO_COMPUTER_BROWSER_AUTOSTART=1.
+   */
+  browserAutostart?: boolean;
 }
 export const DEFAULT_DESKTOP_ENV: DesktopEnvironment = {
   homeDir: "/home/rakazo",
@@ -33,6 +40,7 @@ export const DEFAULT_DESKTOP_ENV: DesktopEnvironment = {
   displayStart: 1,
   bindHost: "127.0.0.1",
   preservePrimaryDisplay: true,
+  browserAutostart: false,
 };
 /** Rebuildable tool caches live outside the saved home. Tools create these under /tmp. */
 export const COMPUTER_CACHE_ENV = {
@@ -573,6 +581,12 @@ function renderEnsureScreenCommand(
           `  cp /etc/rakazo/fluxbox/apps ${fluxHome}/.fluxbox/apps 2>/dev/null || true`,
           `  printf '\\nsession.menuFile: %s\\n' ${fluxHome}/.fluxbox/menu >>${fluxHome}/.fluxbox/init`,
           `  HOME=${shellQuote(env.homeDir)} CHROME_USER_DATA_DIR=${shellQuote(profile)} BROWSER=${browserLauncherPath(layout.displayNumber)} DISPLAY=${layout.display} nohup fluxbox -rc ${fluxHome}/.fluxbox/init 8>&- 9>&- </dev/null >${log}-fluxbox.log 2>&1 &`,
+          // Extra screens get the full desktop too: a per-display pcmanfm
+          // profile (distinct from the primary's "rakazo" so the two instances
+          // do not collide over D-Bus) draws the same wallpaper and launchers.
+          `  pcd=${shellQuote(`${env.homeDir}/.config/pcmanfm/rakazo-screen-${layout.displayNumber}`)}; mkdir -p "$pcd" && cp /usr/local/share/rakazo-brand/pcmanfm.conf "$pcd/pcmanfm.conf" 2>/dev/null || true`,
+          `  if [ -z "\${DBUS_SESSION_BUS_ADDRESS:-}" ] && [ -r /tmp/rakazo/dbus-session ]; then . /tmp/rakazo/dbus-session; fi`,
+          `  HOME=${shellQuote(env.homeDir)} DISPLAY=${layout.display} nohup pcmanfm --desktop --profile rakazo-screen-${layout.displayNumber} 8>&- 9>&- </dev/null >${log}-pcmanfm.log 2>&1 &`,
           "fi",
         ];
   const targetFile = `${TARGETS}/view-${layout.displayNumber}`;
@@ -608,6 +622,33 @@ function renderEnsureScreenCommand(
     `mkdir -p /tmp/rakazo ${shellQuote(path.posix.dirname(profile))}`,
     ...browserRunningFunction(profile, pidFile),
     `printf %s ${shellQuote(profile)} >/tmp/rakazo/browser-profile-${layout.displayNumber}`,
+    // Default (browserAutostart off): ensure-screen leaves the browser stopped,
+    // so opening a screen never pops a window the bot has not asked for yet.
+    // The supervisor runs launchBrowserCommand at first page-browser use; =1
+    // restores the eager launch and CDP wait inside ensure-screen.
+    ...(env.browserAutostart ? browserLaunchAndWaitLines(layout, screenId, env) : []),
+    ...setupView,
+    `for i in $(seq 1 50); do (echo >/dev/tcp/${gatewayProbeHost(layout.bindHost)}/${layout.viewPort}) >/dev/null 2>&1 && exit 0; sleep 0.1; done`,
+    "echo 'screen view port did not open' >&2",
+    "exit 1",
+  ].join("\n");
+}
+
+/**
+ * Shell lines that start (or reuse) the browser for one screen and wait until
+ * its CDP port answers, with one relaunch for a browser that died before its
+ * port opened. Assumes the launcher and `browser_running` are already in place;
+ * exits 1 if the port never answers, falls through on success.
+ */
+function browserLaunchAndWaitLines(
+  layout: DesktopLayout,
+  screenId: string,
+  env: DesktopEnvironment,
+): string[] {
+  const log = `/tmp/rakazo/screen-${layout.displayNumber}`;
+  const profile = browserProfilePathForScreen(screenId, env);
+  const pidFile = browserPidPathForScreen(screenId);
+  return [
     "launch_browser() {",
     `  ${prepareBrowserProfileCommand(screenId, env)}`,
     `  rm -f ${shellQuote(profile)}/SingletonLock ${shellQuote(profile)}/SingletonCookie ${shellQuote(profile)}/SingletonSocket`,
@@ -636,10 +677,28 @@ function renderEnsureScreenCommand(
     `  tail -c 4000 ${log}-browser.log >&2 || true`,
     "  exit 1",
     "fi",
-    ...setupView,
-    `for i in $(seq 1 50); do (echo >/dev/tcp/${gatewayProbeHost(layout.bindHost)}/${layout.viewPort}) >/dev/null 2>&1 && exit 0; sleep 0.1; done`,
-    "echo 'screen view port did not open' >&2",
-    "exit 1",
+  ];
+}
+
+/**
+ * Start (or reuse) the browser for one screen and wait until its CDP port
+ * answers. With browserAutostart off, ensure-screen leaves the browser stopped
+ * and callers run this at first page-browser use, so opening a screen never
+ * pops a window the bot has not asked for yet. Re-running it over a live
+ * browser is a cheap profile scan that exits 0.
+ */
+export function launchBrowserCommand(index: number, screenId: string, env = DEFAULT_DESKTOP_ENV) {
+  const layout = screenPorts(index, env);
+  const profile = browserProfilePathForScreen(screenId, env);
+  const pidFile = browserPidPathForScreen(screenId);
+  return [
+    "set -eu",
+    `mkdir -p /tmp/rakazo`,
+    `printf %s ${shellQuote(browserLauncherCommand(index, screenId, env))} >${browserLauncherPath(layout.displayNumber)}`,
+    `chmod 700 ${browserLauncherPath(layout.displayNumber)}`,
+    ...browserRunningFunction(profile, pidFile),
+    `printf %s ${shellQuote(profile)} >/tmp/rakazo/browser-profile-${layout.displayNumber}`,
+    ...browserLaunchAndWaitLines(layout, screenId, env),
   ].join("\n");
 }
 

@@ -72,6 +72,34 @@ if [ -x /usr/libexec/xdg-desktop-portal ] && [ -x /usr/libexec/xdg-desktop-porta
 fi
 
 xsetroot -solid "#111113" >/dev/null 2>&1 || true
+
+# Desktop launchers: pcmanfm draws the wallpaper and the ~/Desktop launchers
+# (Chrome, Terminal, Files) on the root window. Launchers are synced into the
+# durable home once (cp -n) and marked executable + trusted.
+mkdir -p "$AGENT_HOME/Desktop"
+cp -n /usr/share/rakazo-brand/desktop/*.desktop "$AGENT_HOME/Desktop/" 2>/dev/null || true
+# Once a home has its own pcmanfm config the /etc/xdg seed is ignored, so make
+# sure the no-confirm launch option exists there too (baked in the seed for new
+# homes): without it every double click on a launcher raises a dialog.
+CONF="$AGENT_HOME/.config/pcmanfm/rakazo/pcmanfm.conf"
+mkdir -p "${CONF%/*}"
+if [ -f "$CONF" ] && ! grep -q "^dont_ask=" "$CONF"; then
+  printf '\n[system]\ndont_ask=true\n' >>"$CONF"
+fi
+for launcher in "$AGENT_HOME"/Desktop/*.desktop; do
+  [ -e "$launcher" ] || continue
+  chmod +x "$launcher" 2>/dev/null || true
+  gio set "$launcher" metadata::trusted true 2>/dev/null || true
+done
+pcmanfm --desktop --profile rakazo >/tmp/rakazo/pcmanfm.log 2>&1 &
+# Apply the wallpaper through the running instance. The call must carry the same
+# profile and a timeout: without --profile it targets a non-existent default
+# instance and hangs, which would block the rest of startup.
+for _ in $(seq 1 20); do
+  timeout 5 pcmanfm --desktop --profile rakazo --set-wallpaper=/usr/local/share/rakazo-brand/wallpaper.png >/dev/null 2>&1 && break
+  sleep 0.5
+done
+
 mkdir -p /tmp/fluxbox-home/.fluxbox
 cp /etc/rakazo/fluxbox/init /tmp/fluxbox-home/.fluxbox/init
 cp /etc/rakazo/fluxbox/apps /tmp/fluxbox-home/.fluxbox/apps 2>/dev/null || true

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Chrome
+GenericName=Web Browser
+Comment=Browse the web (rakazo-browser wrapper)
+Exec=/usr/local/bin/rakazo-browser %U
+Icon=/usr/local/share/rakazo-brand/icons/chrome.png
+Terminal=false
+Categories=Network;WebBrowser;
