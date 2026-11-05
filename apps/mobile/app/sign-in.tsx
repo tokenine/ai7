@@ -528,41 +528,6 @@ export default function SignIn() {
                           </Text>
                         </Pressable>
                       ) : null}
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          marginTop: 24,
-                        }}
-                      >
-                        <Text style={{ color: tokens.mutedForeground, fontSize: 15 }}>
-                          {mode === "in"
-                            ? t("Don’t have an account?")
-                            : mode === "up"
-                              ? t("Already have an account?")
-                              : ""}
-                        </Text>
-                        <Pressable
-                          accessibilityRole="button"
-                          hitSlop={8}
-                          onPress={() => {
-                            setMode((current) => (current === "in" ? "up" : "in"));
-                            setError(null);
-                          }}
-                          style={{ marginLeft: 5 }}
-                        >
-                          <Text
-                            style={{ color: tokens.foreground, fontSize: 15, fontWeight: "600" }}
-                          >
-                            {mode === "in"
-                              ? t("Sign up")
-                              : mode === "up"
-                                ? t("Sign in")
-                                : t("Back to sign in")}
-                          </Text>
-                        </Pressable>
-                      </View>
                     </>
                   ) : null}
                 </>
