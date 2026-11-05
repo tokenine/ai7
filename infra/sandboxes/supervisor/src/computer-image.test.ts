@@ -1,5 +1,5 @@
 import { once } from "node:events";
-import { copyFileSync, mkdtempSync, rmSync } from "node:fs";
+import { copyFileSync, mkdirSync, mkdtempSync, rmSync } from "node:fs";
 import http from "node:http";
 import type { Socket } from "node:net";
 import { tmpdir } from "node:os";
@@ -488,6 +488,8 @@ describe("dockerode BuildKit session", () => {
     cleanups.push(() => rmSync(partial, { recursive: true, force: true }));
     for (const file of COMPUTER_IMAGE_CONTEXT_FILES) {
       if (file !== "browser-policy.json") {
+        // Brand files live in subdirectories the partial context has to create.
+        mkdirSync(path.join(partial, path.dirname(file)), { recursive: true });
         copyFileSync(path.join(context, file), path.join(partial, file));
       }
     }
