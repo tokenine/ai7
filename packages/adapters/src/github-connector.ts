@@ -9,6 +9,7 @@ import type {
   SecretStore,
 } from "@rakazo/adapter-kit";
 import type { PrismaClient } from "@rakazo/db";
+import { runAsSystem } from "@rakazo/db";
 import {
   combineSignals,
   redactConnectorPayload,
@@ -181,11 +182,23 @@ export class GitHubConnector implements ManagedConnectorProvider {
     webOrigin: string;
     signal?: AbortSignal;
   }): Promise<GitHubCallbackResult> {
-    const row = await this.dependencies.prisma.connection.findFirst({
-      where: { connectorId: "github", providerRef: input.state, status: "pending" },
-      select: { id: true, userId: true, spaceId: true, secretId: true },
+    // The connect popup's redirect carries no session: the pending row is the
+    // only tenant hint, so the lookup (and everything it drives) runs as system
+    // until the row resolves the Space and user it belongs to.
+    return runAsSystem("persist github oauth tokens from the connect callback", async () => {
+      const row = await this.dependencies.prisma.connection.findFirst({
+        where: { connectorId: "github", providerRef: input.state, status: "pending" },
+        select: { id: true, userId: true, spaceId: true, secretId: true },
+      });
+      if (!row) throw new Error("This GitHub authorization is no longer pending. Connect again.");
+      return this.persistCallbackTokens(input, row);
     });
-    if (!row) throw new Error("This GitHub authorization is no longer pending. Connect again.");
+  }
+
+  private async persistCallbackTokens(
+    input: { state: string; code: string; webOrigin: string; signal?: AbortSignal },
+    row: { id: string; userId: string; spaceId: string; secretId: string | null },
+  ): Promise<GitHubCallbackResult> {
     const exchanged = await this.exchangeCode(
       input.code,
       githubRedirectUri(input.webOrigin),
