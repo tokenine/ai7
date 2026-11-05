@@ -75,7 +75,7 @@ describe("featured connectors", () => {
 
   it("marks all featured tiles missing when the catalog is empty", () => {
     const tiles = buildFeaturedConnectorTiles([]);
-    expect(tiles).toHaveLength(5);
+    expect(tiles).toHaveLength(6);
     expect(tiles.every((tile) => !tile.item && !tile.missing)).toBe(true);
   });
 
