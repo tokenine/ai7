@@ -46,6 +46,7 @@ import {
   createTicketChangeNotifier,
   EmailEmulator,
   ExpoPushProvider,
+  GitHubConnector,
   GoogleConnector,
   GraphileJobPublisher,
   InMemoryJobQueue,
@@ -145,6 +146,7 @@ import { configuredEmailProvider } from "./email.js";
 import { mountEmailInboundRoute } from "./email-inbound.js";
 import type { AppEnv } from "./env.js";
 import { loadEnv } from "./env.js";
+import { mountGitHubOAuthCallback } from "./github-oauth-callback.js";
 import { mountGoogleOAuthCallback } from "./google-oauth-callback.js";
 import { healthRoutes } from "./health.js";
 import { homeRetentionSweep } from "./home-retention.js";
@@ -400,6 +402,13 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
   const googleConnector = isGoogleEnabled(googleConfig)
     ? new GoogleConnector(googleConfig, { prisma, secrets, artifacts })
     : undefined;
+  const githubConfig = {
+    clientId: env.githubClientId ?? "",
+    clientSecret: env.githubClientSecret ?? "",
+  };
+  const _github = isGitHubEnabled(githubConfig)
+    ? new GitHubConnector(githubConfig, { prisma, secrets })
+    : undefined;
   // This process registers the inbound sink, so it must hold Telegram's getUpdates connection.
   const messagingPlatforms = messagingPlatformsFromEnv(env, { pollInboundMessages: true }).filter(
     (platform) => platform.provider !== "slack" || !env.slackClientId,
@@ -463,7 +472,11 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
       network: remoteConnectors,
       composio: composioOverride,
       pipedream: pipedreamOverride,
-      connectors: [...(googleConnector ? [googleConnector] : []), ...connectorOverrides],
+      connectors: [
+        ...(googleConnector ? [googleConnector] : []),
+        ...(_github ? [_github] : []),
+        ...connectorOverrides,
+      ],
     },
   );
   const { mcpOAuth, mcp, pipedream, installed, integrationSettings, stack } = connectors;
@@ -1051,6 +1064,7 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
     });
   }
   mountGoogleOAuthCallback(app, { integrationSettings, env });
+  mountGitHubOAuthCallback(app, { env, github: _github });
   if (billing && billingProvider) {
     mountBillingRoutes(app, {
       billing,

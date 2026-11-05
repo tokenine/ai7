@@ -35,11 +35,13 @@ import {
   createTicketChangeNotifier,
   databaseCapacityBackoffMs,
   ExpoPushProvider,
+  GitHubConnector,
   GoogleConnector,
   GraphileJobPublisher,
   homeStorageSweeper,
   InMemoryJobQueue,
   installedMessaging,
+  isGitHubEnabled,
   isGoogleEnabled,
   isMessagingSurfaceEnabled,
   messagingEnvFromProcess,
@@ -158,7 +160,14 @@ async function main() {
   const google = isGoogleEnabled(googleConfig)
     ? new GoogleConnector(googleConfig, { prisma, secrets, artifacts: googleArtifacts })
     : undefined;
-  const connectors = createConnectorRuntime(env, { prisma, secrets, events }, { google });
+  const githubConfig = {
+    clientId: process.env.GITHUB_CLIENT_ID ?? "",
+    clientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
+  };
+  const github = isGitHubEnabled(githubConfig)
+    ? new GitHubConnector(githubConfig, { prisma, secrets })
+    : undefined;
+  const connectors = createConnectorRuntime(env, { prisma, secrets, events }, { google, github });
   // Never poll inbound here: Telegram allows a single getUpdates consumer,
   // and that is the API process, which owns the inbound sink.
   const messagingPlatforms = messagingPlatformsFromEnv(messagingEnvFromProcess(process.env)).filter(

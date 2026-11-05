@@ -99,6 +99,8 @@ export interface ConnectorRuntimeOverrides {
   pipedream?: ManagedConnectorProvider;
   /** First-party Google connector, registered as the google fallback provider. */
   google?: ManagedConnectorProvider;
+  /** First-party GitHub connector, registered as the github fallback provider. */
+  github?: ManagedConnectorProvider;
   /** Registered beside the configured providers. */
   connectors?: ConnectorProvider[];
 }
@@ -143,6 +145,7 @@ export function createConnectorRuntime(
         : undefined),
     pipedream,
     google: overrides.google,
+    github: overrides.github,
   });
   const stack = createConnectorStack(composio, [
     installed,
