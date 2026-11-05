@@ -1,5 +1,6 @@
 import type {
   AdapterContext,
+  ArtifactStore,
   ConnectorCall,
   ManagedConnectorProvider,
   SecretStore,
@@ -9,6 +10,7 @@ import { IntegrationProviderConfigSchema, IntegrationProviderIdSchema } from "@r
 import type { PrismaClient } from "@rakazo/db";
 import { ComposioConnector } from "./composio-connector.js";
 import { credentialDigest } from "./credential-digest.js";
+import { GoogleConnector } from "./google-connector.js";
 import { PipedreamConnector } from "./pipedream-connector.js";
 
 /** Resolve persisted credentials on every operation so API and workers observe changes.
@@ -27,6 +29,8 @@ export class IntegrationProviderSettings {
       Record<IntegrationProviderId, ManagedConnectorProvider>
     > = {},
     private readonly factory?: (config: IntegrationProviderConfig) => ManagedConnectorProvider,
+    /** Artifact store when the deployment has one — enables google attachment uploads. */
+    private readonly googleArtifacts?: Pick<ArtifactStore, "get">,
   ) {
     this.secrets.onChange?.((ref) => {
       for (const [id, entry] of this.cache) if (entry.ciphertext === ref) this.cache.delete(id);
@@ -35,9 +39,15 @@ export class IntegrationProviderSettings {
 
   private create(config: IntegrationProviderConfig): ManagedConnectorProvider {
     if (this.factory) return this.factory(config);
-    return config.provider === "composio"
-      ? new ComposioConnector({ apiKey: config.apiKey })
-      : new PipedreamConnector({ ...config, identitySecret: this.identitySecret });
+    if (config.provider === "composio") return new ComposioConnector({ apiKey: config.apiKey });
+    if (config.provider === "google") {
+      return new GoogleConnector(config, {
+        prisma: this.prisma,
+        secrets: this.secrets,
+        artifacts: this.googleArtifacts,
+      });
+    }
+    return new PipedreamConnector({ ...config, identitySecret: this.identitySecret });
   }
 
   async configured(id: IntegrationProviderId): Promise<boolean> {

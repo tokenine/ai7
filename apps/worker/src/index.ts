@@ -48,12 +48,14 @@ import {
   databaseCapacityBackoffMs,
   deploymentModelUsageLookup,
   ExpoPushProvider,
+  GoogleConnector,
   GraphileJobPublisher,
   homeStorageSweeper,
   InMemoryJobQueue,
   InstalledConnectorProvider,
   installedMessaging,
   isComposioEnabled,
+  isGoogleEnabled,
   isMessagingSurfaceEnabled,
   isPipedreamEnabled,
   McpConnector,
@@ -199,6 +201,18 @@ async function main() {
   const pipedream = isPipedreamEnabled(pipedreamConfig)
     ? new PipedreamConnector(pipedreamConfig)
     : undefined;
+  // Tools execute in THIS process: without the google fallback here, a Google
+  // connection's tools would show in the UI but never surface during a run.
+  const googleConfig = {
+    clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+  };
+  // Built early so the google connector can upload chat attachments
+  // (artifact_id) straight from disk without the bytes passing the model.
+  const artifacts = createArtifactStore(dataDir, prisma);
+  const google = isGoogleEnabled(googleConfig)
+    ? new GoogleConnector(googleConfig, { prisma, secrets, artifacts })
+    : undefined;
   // Never poll inbound here: Telegram allows a single getUpdates consumer,
   // and that is the API process, which owns the inbound sink.
   const messagingPlatforms = messagingPlatformsFromEnv(messagingEnvFromProcess(process.env)).filter(
@@ -219,7 +233,10 @@ async function main() {
         ? new ComposioConnector({ apiKey: process.env.COMPOSIO_API_KEY })
         : undefined,
       pipedream,
+      google,
     },
+    undefined,
+    artifacts,
   );
   const installedConnectors = new InstalledConnectorProvider(
     prisma,
@@ -236,7 +253,6 @@ async function main() {
   const memoryProviders = new SpaceMemoryProviderResolver(prisma, secrets);
   const home = createAgentHomeStore(dataDir, prisma);
   void home.removeStaleStaging().catch((error) => logger.error("home staging cleanup", error));
-  const artifacts = createArtifactStore(dataDir, prisma);
   const shutdown = new AbortController();
   const inMemoryJobs = process.env.WAKEUP_DRIVER === "memory" ? new InMemoryJobQueue() : undefined;
   const runs = new RunStarter(realtime, { signal: shutdown.signal });

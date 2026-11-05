@@ -278,7 +278,9 @@ export function connectionsRoutes(ctx: RouterContext) {
       begin: authed.connections.begin.handler(async ({ context, input }) => {
         const connector =
           deps.integrationSettings &&
-          (input.connectorId === "composio" || input.connectorId === "pipedream")
+          (input.connectorId === "composio" ||
+            input.connectorId === "pipedream" ||
+            input.connectorId === "google")
             ? await deps.integrationSettings.resolve(input.connectorId)
             : deps.connectors.managed(input.connectorId);
         if (!connector) {
