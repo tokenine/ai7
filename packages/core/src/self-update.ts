@@ -1,5 +1,5 @@
 /** The repository a stock Ai7 deployment tracks. */
-export const OFFICIAL_REPO_URL = "https://github.com/elie222/rakazo";
+export const OFFICIAL_REPO_URL = "https://github.com/tokenine/ai7";
 export const DEFAULT_UPDATE_BRANCH = "main";
 export const DEFAULT_UPDATE_REMOTE = "origin";
 
