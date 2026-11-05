@@ -561,6 +561,30 @@ describe("graphical computer spec", () => {
     expect(dockerfile).toMatch(/rakazo-focus-or-launch/);
   });
 
+  it("bakes Google Chrome, Thai fonts and desktop launchers into the image", () => {
+    const root = path.resolve(import.meta.dirname, "../../computer");
+    const dockerfile = readFileSync(path.join(root, "Dockerfile"), "utf8");
+    const browser = readFileSync(path.join(root, "rakazo-browser"), "utf8");
+    const start = readFileSync(path.join(root, "start.sh"), "utf8");
+    // Chrome installs on amd64 only; Debian chromium stays for other architectures.
+    expect(dockerfile).toMatch(/google-chrome-stable_current_amd64\.deb/);
+    expect(dockerfile).toMatch(/dpkg --print-architecture\)" = "amd64"/);
+    expect(browser).toMatch(
+      /google-chrome-stable google-chrome \/opt\/google\/chrome\/chrome chromium chromium-browser/,
+    );
+    // Thai display support: TLWG packages, Google families and an opt-in th_TH locale.
+    expect(dockerfile).toMatch(/fonts-thai-tlwg/);
+    expect(dockerfile).toMatch(/thai-google/);
+    expect(dockerfile).toMatch(/Sarabun/);
+    expect(dockerfile).toMatch(/th_TH\.UTF-8 UTF-8/);
+    // pcmanfm draws the desktop launchers (Chrome, Terminal, Files) at boot.
+    expect(dockerfile).toMatch(/brand\/desktop\/chrome\.desktop/);
+    expect(dockerfile).toMatch(/brand\/pcmanfm\.conf/);
+    expect(start).toMatch(/pcmanfm --desktop/);
+    expect(start).toMatch(/dont_ask=true/);
+    expect(start).toMatch(/Desktop/);
+  });
+
   it.skipIf(process.platform === "win32")(
     "finds Google Chrome and passes over Ubuntu's snap chromium",
     () => {

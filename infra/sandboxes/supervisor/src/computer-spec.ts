@@ -48,6 +48,13 @@ export const COMPUTER_IMAGE_CONTEXT_FILES = [
   "fluxbox.apps",
   "fluxbox.menu",
   "rakazo-local-bin.sh",
+  "brand/wallpaper.png",
+  "brand/icon-terminal.png",
+  "brand/icon-file-manager.png",
+  "brand/pcmanfm.conf",
+  "brand/desktop/chrome.desktop",
+  "brand/desktop/terminal.desktop",
+  "brand/desktop/files.desktop",
 ] as const;
 
 /**

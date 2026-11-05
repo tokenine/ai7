@@ -41,11 +41,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     fonts-dejavu-core \
     fonts-noto-cjk \
     fonts-noto-color-emoji \
+    fonts-thai-tlwg \
     locales \
     dbus-x11 \
     xdg-desktop-portal \
     xdg-desktop-portal-gtk \
     xdg-utils \
+    pcmanfm \
+    libglib2.0-bin \
     curl \
     git \
     jq \
@@ -92,6 +95,37 @@ RUN set -eux; \
       *) echo "unsupported BROWSER: $BROWSER (use chromium or brave)" >&2; exit 1 ;; \
     esac
 RUN ln -s "$(dpkg -L libnss-wrapper | grep '/libnss_wrapper.so$')" /usr/local/lib/libnss_wrapper.so
+# Google Chrome on amd64: real Chrome signs into Google accounts and plays the
+# DRM/proprietary-codec media Debian chromium cannot. Chromium stays installed
+# above as the fallback for other architectures (local dev on Apple Silicon).
+RUN set -eux; \
+  if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
+    curl -fsSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /tmp/google-chrome.deb; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends /tmp/google-chrome.deb; \
+    rm -f /tmp/google-chrome.deb; \
+    rm -rf /var/lib/apt/lists/*; \
+    google-chrome-stable --version; \
+  fi; \
+  mkdir -p /usr/local/share/rakazo-brand/icons; \
+  cp /usr/share/icons/hicolor/256x256/apps/google-chrome.png /usr/local/share/rakazo-brand/icons/chrome.png \
+    || cp /usr/share/icons/hicolor/256x256/apps/chromium.png /usr/local/share/rakazo-brand/icons/chrome.png
+# Popular Thai Google families on top of the TLWG/Noto base, so Thai sites in
+# the browser render with real Thai typefaces (Sarabun, Prompt, Kanit, ...).
+# Best-effort: a failed download just leaves fewer families behind.
+RUN install -d /usr/local/share/fonts/thai-google \
+  && for fam in Sarabun Prompt Kanit Mitr "Bai+Jamjuree" "Chakra+Petch" K2D KoHo Krub \
+                Pridi Maitree "IBM+Plex+Sans+Thai" "IBM+Plex+Sans+Thai+Looped" Anuphan "Noto+Sans+Thai"; do \
+      css=$(curl -fsSL "https://fonts.googleapis.com/css2?family=${fam}:wght@400;500;700" || true); \
+      [ -n "$css" ] || continue; \
+      i=0; \
+      for url in $(printf '%s\n' "$css" | grep -oE 'https://[^)]+\.ttf' | sort -u); do \
+        i=$((i + 1)); \
+        curl -fsSL -o "/usr/local/share/fonts/thai-google/$(printf '%s' "$fam" | tr -d '+')-${i}.ttf" "$url" \
+          || rm -f "/usr/local/share/fonts/thai-google/$(printf '%s' "$fam" | tr -d '+')-${i}.ttf"; \
+      done; \
+    done \
+  && fc-cache -fs || true
 ARG TARGETARCH
 ARG UV_VERSION=0.12.19
 RUN set -eux; \
@@ -128,9 +162,10 @@ RUN /tmp/install-agent-browser.sh /usr/local/bin && rm /tmp/install-agent-browse
 ENV DISPLAY=:1
 ENV HOME=/home/rakazo
 # Keep UTF-8 explicit (an empty LANG broke non-ASCII file handling in the
-# file chooser for CJK-market users) and generate zh_CN.UTF-8 so deployments
-# that override the computer environment can opt in to a Chinese locale.
-RUN sed -i 's/^# zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
+# file chooser for CJK-market users) and generate zh_CN.UTF-8 / th_TH.UTF-8 so
+# deployments that override the computer environment can opt in to a Chinese
+# or Thai locale. Thai display rendering itself relies on the fonts above.
+RUN sed -i -e 's/^# zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/' -e 's/^# th_TH.UTF-8 UTF-8/th_TH.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 ENV LANG=C.UTF-8
 ENV UV_TOOL_DIR=/home/rakazo/.local/share/uv/tools \
     UV_TOOL_BIN_DIR=/home/rakazo/.local/bin \
@@ -163,6 +198,22 @@ COPY --chmod=644 mobile-keyboard.js /usr/share/novnc/mobile-keyboard.js
 # Login shells source this after Debian's /etc/profile resets PATH. The home
 # volume hides /etc/skel, so ~/.local/bin has to be restored from the image.
 COPY --chmod=644 rakazo-local-bin.sh /etc/profile.d/rakazo-local-bin.sh
+# Desktop launchers: pcmanfm --desktop (started in start.sh) draws the wallpaper
+# and the ~/Desktop Chrome/Terminal/Files launchers over the fluxbox root window.
+# The Chromium fallback build (arm64 local dev) gets its browser icon from
+# chromium's hicolor file instead (copied in the chrome install step above).
+COPY --chmod=644 brand/wallpaper.png /usr/local/share/rakazo-brand/wallpaper.png
+COPY --chmod=644 brand/icon-terminal.png /usr/local/share/rakazo-brand/icons/terminal.png
+COPY --chmod=644 brand/icon-file-manager.png /usr/local/share/rakazo-brand/icons/file-manager.png
+COPY --chmod=644 brand/desktop/chrome.desktop /usr/share/rakazo-brand/desktop/chrome.desktop
+COPY --chmod=644 brand/desktop/terminal.desktop /usr/share/rakazo-brand/desktop/terminal.desktop
+COPY --chmod=644 brand/desktop/files.desktop /usr/share/rakazo-brand/desktop/files.desktop
+COPY --chmod=644 brand/pcmanfm.conf /etc/xdg/pcmanfm/rakazo/pcmanfm.conf
+# Extra screens (rakazo-screen-N profiles) copy this same config at ensure time.
+COPY --chmod=644 brand/pcmanfm.conf /usr/local/share/rakazo-brand/pcmanfm.conf
+# COPY --chmod only normalizes the files; the intermediate directories it
+# creates end up root-only, which uid 1000 could not read at boot.
+RUN chmod 755 /usr/share/rakazo-brand /usr/share/rakazo-brand/desktop /etc/xdg/pcmanfm/rakazo /usr/local/share/rakazo-brand /usr/local/share/rakazo-brand/icons
 # Strip CR so shebangs work even if the build context came from a CRLF checkout.
 RUN ldconfig \
   && sed -i 's/\r$//' /usr/local/bin/rakazo-computer /usr/local/lib/rakazo-user-env.sh /usr/local/bin/rakazo-computer-control /usr/local/bin/rakazo-browser /usr/local/bin/rakazo-focus-or-launch /usr/local/bin/rakazo-page-browser \
