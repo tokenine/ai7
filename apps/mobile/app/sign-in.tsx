@@ -140,13 +140,14 @@ export default function SignIn() {
   }
   if (hasSession) return <Redirect href={hasIncomingShare() ? "/share" : "/"} />;
 
-  const codeFlow = Boolean(reset?.passwordAuth && reset.emailCode && mode !== "forgot");
+  // Email-code deployments (OTP-only) offer the code flow without password auth.
+  const codeFlow = Boolean(reset?.emailCode && mode !== "forgot");
   // A blank password asks for an emailed code, so code-only accounts need no toggle.
   const usingCode = codeFlow && (codeSent || !password);
   const codeStep = codeFlow && codeSent;
 
   async function submit(enteredCode = code) {
-    if (pending || !reset?.passwordAuth) return;
+    if (pending || (!reset?.passwordAuth && !codeFlow)) return;
     const issue = credentialIssue({
       email,
       password: mode === "forgot" || usingCode ? undefined : password,
@@ -323,7 +324,7 @@ export default function SignIn() {
                       {error}
                     </Text>
                   ) : null}
-                  {reset?.passwordAuth && codeStep ? (
+                  {codeStep ? (
                     <>
                       <TextInput
                         accessibilityLabel={t("Code")}
@@ -371,7 +372,7 @@ export default function SignIn() {
                         style={{ alignSelf: "center", marginTop: 16 }}
                       />
                     </>
-                  ) : reset?.passwordAuth ? (
+                  ) : reset?.passwordAuth || codeFlow ? (
                     <>
                       {mode === "up" ? (
                         <TextInput
@@ -421,7 +422,7 @@ export default function SignIn() {
                           </Text>
                         </Pressable>
                       ) : null}
-                      {mode !== "forgot" ? (
+                      {reset?.passwordAuth && mode !== "forgot" ? (
                         <View
                           style={{
                             marginTop: 12,
@@ -501,9 +502,9 @@ export default function SignIn() {
                           style={{ marginTop: 12 }}
                         />
                       ) : null}
-                      {reset.sso && mode !== "forgot" ? (
+                      {reset?.sso && mode !== "forgot" ? (
                         <NativeActionButton
-                          label={t("Continue with {name}", { name: reset.sso.name })}
+                          label={t("Continue with {name}", { name: reset?.sso.name })}
                           prominence="quiet"
                           disabled={pending}
                           onPress={() => void externalSignIn(continueWithSso)}
