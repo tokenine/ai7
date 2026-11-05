@@ -97,6 +97,8 @@ export interface ConnectorRuntimeOverrides {
   network?: RemoteConnectorDependencies;
   composio?: ComposioProvider;
   pipedream?: ManagedConnectorProvider;
+  /** First-party Google connector, registered as the google fallback provider. */
+  google?: ManagedConnectorProvider;
   /** Registered beside the configured providers. */
   connectors?: ConnectorProvider[];
 }
@@ -140,6 +142,7 @@ export function createConnectorRuntime(
         ? new ComposioConnector({ apiKey: env.composioApiKey })
         : undefined),
     pipedream,
+    google: overrides.google,
   });
   const stack = createConnectorStack(composio, [
     installed,

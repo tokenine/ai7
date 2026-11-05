@@ -119,6 +119,8 @@ export interface AppEnv {
   pipedreamClientSecret: string | undefined;
   pipedreamProjectId: string | undefined;
   pipedreamEnvironment: "development" | "production";
+  googleClientId: string | undefined;
+  googleClientSecret: string | undefined;
   sendblueApiKeyId: string | undefined;
   sendblueApiSecret: string | undefined;
   sendblueSigningSecret: string | undefined;
@@ -312,6 +314,8 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
     pipedreamProjectId: optional(source.PIPEDREAM_PROJECT_ID),
     pipedreamEnvironment:
       source.PIPEDREAM_ENVIRONMENT === "production" ? "production" : "development",
+    googleClientId: optional(source.GOOGLE_CLIENT_ID),
+    googleClientSecret: optional(source.GOOGLE_CLIENT_SECRET),
     sendblueApiKeyId: optional(source.SENDBLUE_API_KEY_ID),
     sendblueApiSecret: optional(source.SENDBLUE_API_SECRET),
     sendblueSigningSecret: optional(source.SENDBLUE_SIGNING_SECRET),
