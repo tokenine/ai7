@@ -143,7 +143,7 @@ export async function message(
                 letterSpacing: "-0.5px",
               }}
             >
-              rakazo
+              Ai7
             </Text>
             {content}
             {unsubscribeUrl ? (
