@@ -86,6 +86,17 @@ mkdir -p "${CONF%/*}"
 if [ -f "$CONF" ] && ! grep -q "^dont_ask=" "$CONF"; then
   printf '\n[system]\ndont_ask=true\n' >>"$CONF"
 fi
+# libfm asks "This text file seems to be an executable script" when a desktop
+# entry is activated, because x-desktop counts as an executable type while
+# metadata::trusted (the usual suppression) is unsupported in this image.
+# quick_exec in libfm's own config launches such entries without asking. New
+# homes copy the distro seed; existing homes keep theirs and get the key added.
+LCONF="$AGENT_HOME/.config/libfm/libfm.conf"
+mkdir -p "${LCONF%/*}"
+cp -n /etc/xdg/libfm/libfm.conf "$LCONF" 2>/dev/null || true
+if ! grep -q "^quick_exec=" "$LCONF"; then
+  sed -i '/^\[config\]$/a quick_exec=true' "$LCONF" 2>/dev/null || true
+fi
 for launcher in "$AGENT_HOME"/Desktop/*.desktop; do
   [ -e "$launcher" ] || continue
   chmod +x "$launcher" 2>/dev/null || true
