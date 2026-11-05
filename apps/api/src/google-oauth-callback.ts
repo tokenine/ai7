@@ -1,5 +1,6 @@
 import type { IntegrationProviderSettings } from "@rakazo/adapters";
 import { GOOGLE_CALLBACK_PATH, GoogleConnector } from "@rakazo/adapters";
+import { runAsSystem } from "@rakazo/db";
 import { getLogger } from "@rakazo/logging";
 import type { Hono } from "hono";
 import type { AppEnv } from "./env.js";
@@ -21,7 +22,11 @@ export function mountGoogleOAuthCallback(
     const url = new URL(c.req.url);
     const state = url.searchParams.get("state") ?? "";
     const code = url.searchParams.get("code") ?? "";
-    const provider = await deps.integrationSettings?.resolve("google").catch(() => undefined);
+    // The OAuth popup redirect carries no session, so resolving persisted
+    // provider credentials reads outside any tenant context.
+    const provider = await runAsSystem("resolve the google connector for the oauth callback", () =>
+      deps.integrationSettings?.resolve("google").catch(() => undefined),
+    );
     if (!(provider instanceof GoogleConnector)) {
       return callbackPage("Google connector is not configured on this server.");
     }
