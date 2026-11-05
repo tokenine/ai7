@@ -7,8 +7,9 @@ export const explicitSignInRoute = {
   params: { mode: "in" },
 } as const;
 
-export function initialAuthMode(requestedMode?: string | string[]): AuthMode {
-  return requestedMode === "in" ? "in" : "up";
+/** Sign-up is closed on Ai7 deployments; the whitelist governs new accounts server-side. */
+export function initialAuthMode(_requestedMode?: string | string[]): AuthMode {
+  return "in";
 }
 
 /** Leaves every screen, including the settings sheet at any depth, for sign-in alone.
