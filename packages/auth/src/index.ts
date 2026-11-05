@@ -74,6 +74,8 @@ export { welcomeEmail } from "./welcome-email.js";
 export interface AuthEnv {
   analytics?: ProductAnalytics;
   passwordAuth?: boolean;
+  /** Emailed codes are the only sign-in credential (requires a mailer). */
+  otpOnly?: boolean;
   /** Opt-in: rejects new passwords found in Have I Been Pwned. Calls an outside service. */
   breachedPasswordCheck?: boolean;
   oidc?: OidcConfig;
@@ -164,7 +166,10 @@ export function authRateLimitOptions(nodeEnv = process.env.NODE_ENV) {
 }
 
 export function createAuth(prisma: PrismaClient, env: AuthEnv) {
-  if (env.passwordAuth === false && !env.oidc)
+  // OTP-only deployments run passwordless emailed-code sign-in as the only
+  // credential (upstream only supports password or SSO-only deployments).
+  const otpOnly = env.otpOnly === true && Boolean(env.email);
+  if (env.passwordAuth === false && !env.oidc && !otpOnly)
     throw new Error("Password auth requires OIDC when disabled");
   // A failed lookup still sends the email, in the asking browser's language.
   const emailLocaleOf: EmailLocaleOf = async (account, headers) => {
@@ -234,11 +239,12 @@ export function createAuth(prisma: PrismaClient, env: AuthEnv) {
     // A deactivated account takes no new login, so nothing is linked while it is off.
     return Boolean(subject?.profileSourceId) && !membership && !user?.deactivatedAt;
   };
-  // SSO-only deployments keep every email credential closed, codes included.
-  const emailCodeSignIn = Boolean(env.email) && env.passwordAuth !== false;
-  // SSO-only deployments keep the identity provider as the only way in.
+  // OTP-only deployments keep codes as the only way in.
+  const emailCodeSignIn = Boolean(env.email) && (env.passwordAuth !== false || otpOnly);
+  // SSO-only deployments keep the identity provider as the only way in;
+  // OTP-only deployments keep codes as the only way in, so no passkeys either.
   const relyingParty =
-    env.passwordAuth === false
+    env.passwordAuth === false || otpOnly
       ? null
       : passkeyRelyingParty(env.webOrigin, env.androidAppCertFingerprints);
   // Better Auth's own token key, so every stored token shares one cipher and key.
@@ -276,7 +282,7 @@ export function createAuth(prisma: PrismaClient, env: AuthEnv) {
     advanced: { ipAddress: { ipAddressHeaders: [CLIENT_IP_HEADER] } },
     database: prismaAdapter(prisma, { provider: "postgresql" }),
     emailAndPassword: {
-      enabled: env.passwordAuth !== false,
+      enabled: env.passwordAuth !== false && !otpOnly,
       // Signup policy is mutable deployment state, so the request hook below
       // enforces it instead of freezing an environment value at process start.
       disableSignUp: false,
@@ -412,7 +418,7 @@ export function createAuth(prisma: PrismaClient, env: AuthEnv) {
         emailLocaleOf,
         env.oidc?.name,
         env.oidc?.issuer,
-        env.passwordAuth !== false,
+        env.passwordAuth !== false && !otpOnly,
       ),
       identityConfirmation(env.email, emailLocaleOf),
       ...(discovery ? [discovery.plugin] : []),
@@ -490,16 +496,22 @@ export function createAuth(prisma: PrismaClient, env: AuthEnv) {
             throw new APIError("BAD_REQUEST", { message: "Email is not available" });
           }
         }
-        if (
-          env.passwordAuth === false &&
-          [...CREDENTIAL_PATHS, "/reset-password", "/change-password", "/set-password"].includes(
-            ctx.path,
-          )
-        ) {
-          throw new APIError("FORBIDDEN", {
-            code: "PASSWORD_AUTH_DISABLED",
-            message: "Password authentication is disabled",
-          });
+        if (env.passwordAuth === false) {
+          // OTP-only deployments keep the emailed-code paths open and block
+          // every password path instead; SSO-only blocks all credentials.
+          const blocked = [
+            ...CREDENTIAL_PATHS,
+            "/reset-password",
+            "/change-password",
+            "/set-password",
+          ].filter(
+            (path) => !otpOnly || (path !== SEND_SIGN_IN_CODE_PATH && path !== CODE_SIGN_IN_PATH),
+          );
+          if (blocked.includes(ctx.path))
+            throw new APIError("FORBIDDEN", {
+              code: "PASSWORD_AUTH_DISABLED",
+              message: "Password authentication is disabled",
+            });
         }
         if (ctx.path === "/reset-password") {
           // A reset proves the mailbox, not the logins someone added before it. Clean up
@@ -811,6 +823,8 @@ export function createAuth(prisma: PrismaClient, env: AuthEnv) {
   authContext = auth.$context;
   return Object.assign(auth, {
     emailCodeSignIn,
+    /** OTP-only deployments: emailed codes are the only sign-in credential. */
+    otpOnly,
     /** Encrypts OAuth tokens stored before encryption was enabled. Safe to rerun. */
     encryptStoredOAuthTokens: async () => encryptStoredOAuthTokens(prisma, await tokenKey()),
     ssoAvailability: () => discovery?.availability(),

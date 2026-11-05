@@ -502,6 +502,7 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
     directoryProvisioning: Boolean(directory),
     analytics,
     passwordAuth: env.passwordAuth,
+    otpOnly: env.otpOnly,
     breachedPasswordCheck: env.breachedPasswordCheck,
     oidc: env.oidc,
     secret: env.authSecret,
@@ -814,10 +815,12 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
       sso: env.oidc
         ? { name: env.oidc.name, availability: auth.ssoAvailability() ?? "checking" }
         : null,
-      passwordAuth: env.passwordAuth !== false,
-      passwordReset: env.passwordAuth !== false && Boolean(email),
+      passwordAuth: env.passwordAuth !== false && !auth.otpOnly,
+      passwordReset: env.passwordAuth !== false && !auth.otpOnly && Boolean(email),
       resetUrl:
-        env.passwordAuth !== false && email ? new URL("/reset-password", env.webOrigin).href : null,
+        env.passwordAuth !== false && !auth.otpOnly && email
+          ? new URL("/reset-password", env.webOrigin).href
+          : null,
       emailCode: auth.emailCodeSignIn,
       billing: Boolean(billing),
       passkeyRpId: auth.passkeyRpId,
