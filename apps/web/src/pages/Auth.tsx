@@ -434,14 +434,7 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
               ) : null}
               {codeStep ? null : (
                 <p className="mt-8 text-muted-foreground">
-                  {mode === "in" ? (
-                    <>
-                      <Trans>Don’t have an account?</Trans>{" "}
-                      <Link to="/sign-up" className="font-medium text-foreground">
-                        <Trans>Sign up</Trans>
-                      </Link>
-                    </>
-                  ) : mode === "up" ? (
+                  {mode === "in" ? null : mode === "up" ? (
                     <>
                       <Trans>Already have an account?</Trans>{" "}
                       <Link to="/sign-in" className="font-medium text-foreground">

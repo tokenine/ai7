@@ -186,15 +186,7 @@ function SessionApp() {
         <div className="h-full" data-rakazo-app-state="ready">
           <Suspense fallback={<PageLoading />}>
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <Navigate
-                    to={user ? "/app" : hasSignedInBefore() ? "/sign-in" : "/sign-up"}
-                    replace
-                  />
-                }
-              />
+              <Route path="/" element={<Navigate to={user ? "/app" : "/sign-in"} replace />} />
               <Route
                 path="/sign-in"
                 element={
@@ -208,7 +200,7 @@ function SessionApp() {
               <Route
                 path="/sign-up"
                 element={
-                  user ? <Navigate to="/onboarding" replace /> : <AuthPage key="up" mode="up" />
+                  user ? <Navigate to="/onboarding" replace /> : <Navigate to="/sign-in" replace />
                 }
               />
               <Route
