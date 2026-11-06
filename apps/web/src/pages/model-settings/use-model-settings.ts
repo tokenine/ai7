@@ -415,6 +415,7 @@ export function useModelSettings(onClose: () => void, scope: SettingsScope) {
       provider: nextProvider,
       credential: nextCredential,
       defaults: me,
+      presetBaseUrl,
     });
     setProvider(nextProvider);
     setModelId(nextModelId);

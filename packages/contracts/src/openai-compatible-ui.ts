@@ -3,6 +3,12 @@ import { BRAND_NAME } from "./brand.js";
 
 export const OLLAMA_CLOUD_BASE_URL = "https://ollama.com/v1";
 
+/** The Ai7 model service: one endpoint, one model, keyed by the account's API key. */
+export const AI7_BASE_URL = "https://api.ai7.work/v1";
+export const AI7_MODEL_ID = "ocg/glm-5.3";
+export const AI7_MAX_TOKENS = 20000;
+export const AI7_CONTEXT_WINDOW = 1_000_000;
+
 export function isOllamaCloudBaseUrl(baseUrl: string | undefined): boolean {
   try {
     return normalizeOpenAiCompatibleBaseUrl(baseUrl ?? "") === OLLAMA_CLOUD_BASE_URL;
@@ -11,7 +17,16 @@ export function isOllamaCloudBaseUrl(baseUrl: string | undefined): boolean {
   }
 }
 
+export function isAi7BaseUrl(baseUrl: string | undefined): boolean {
+  try {
+    return normalizeOpenAiCompatibleBaseUrl(baseUrl ?? "") === AI7_BASE_URL;
+  } catch {
+    return false;
+  }
+}
+
 export function compatibleConnectionName(baseUrl: string | undefined, fallback: string): string {
+  if (isAi7BaseUrl(baseUrl)) return "Ai7";
   return isOllamaCloudBaseUrl(baseUrl) ? "Ollama Cloud" : fallback;
 }
 

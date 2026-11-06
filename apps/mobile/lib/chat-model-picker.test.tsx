@@ -1076,9 +1076,11 @@ describe("model role lists", () => {
     await renderModels();
     act(() => rowButton("Main model", "Add fallback").click());
     expect(mocks.setOptions).toHaveBeenCalledWith({ title: "Add fallback" });
-    expect(pickerRows()).toHaveLength(10);
+    // Ai7 leads the provider rows, ahead of the catalog providers, and pushes the
+    // shared picker past its search threshold.
+    expect(pickerRows()).toHaveLength(11);
     expect(mocks.setOptions.mock.calls.some(([options]) => options.headerSearchBarOptions)).toBe(
-      false,
+      true,
     );
     await act(async () =>
       pickerRows()

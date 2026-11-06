@@ -1,4 +1,5 @@
 import type { ModelCredential } from "@rakazo/contracts";
+import { AI7_BASE_URL, AI7_MODEL_ID } from "@rakazo/contracts";
 import { describe, expect, it } from "vitest";
 import type { ConnectionFormDraft } from "./model-connection-form.js";
 import {
@@ -96,6 +97,19 @@ describe("connectionFormModelId", () => {
       }),
     ).toBe("saved-model");
   });
+  it("prefills the Ai7 preset's model for a new connection, not a saved one", () => {
+    expect(
+      connectionFormModelId({ catalog, provider: COMPATIBLE, presetBaseUrl: AI7_BASE_URL }),
+    ).toBe(AI7_MODEL_ID);
+    expect(
+      connectionFormModelId({
+        catalog,
+        provider: COMPATIBLE,
+        credential: credential({ provider: COMPATIBLE, modelId: "kept" }),
+        presetBaseUrl: AI7_BASE_URL,
+      }),
+    ).toBe("kept");
+  });
 });
 
 describe("connectionFormFields", () => {
@@ -119,6 +133,44 @@ describe("connectionFormFields", () => {
       maxImagesPerPrompt: "",
       accountId: "",
       gatewayId: "",
+    });
+  });
+
+  it("prefills an Ai7 connection with thinking, its output limit and context", () => {
+    expect(
+      connectionFormFields({
+        catalog,
+        provider: COMPATIBLE,
+        modelId: AI7_MODEL_ID,
+        presetBaseUrl: AI7_BASE_URL,
+      }),
+    ).toMatchObject({
+      baseUrl: AI7_BASE_URL,
+      reasoning: true,
+      thinkingLevel: "medium",
+      maxTokens: "20000",
+      contextWindow: "1000000",
+    });
+    // A saved connection keeps its own values even at the Ai7 endpoint.
+    expect(
+      connectionFormFields({
+        catalog,
+        provider: COMPATIBLE,
+        modelId: AI7_MODEL_ID,
+        credential: credential({
+          provider: COMPATIBLE,
+          baseUrl: AI7_BASE_URL,
+          reasoning: false,
+          maxTokens: 1234,
+          contextWindow: 4567,
+        }),
+        presetBaseUrl: AI7_BASE_URL,
+      }),
+    ).toMatchObject({
+      reasoning: false,
+      thinkingLevel: null,
+      maxTokens: "1234",
+      contextWindow: "4567",
     });
   });
 

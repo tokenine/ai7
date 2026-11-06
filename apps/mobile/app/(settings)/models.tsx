@@ -1,5 +1,7 @@
 import {
+  AI7_BASE_URL,
   canonicalPiProviderId,
+  isAi7BaseUrl,
   isOllamaCloudBaseUrl,
   OLLAMA_CLOUD_BASE_URL,
   OPENAI_COMPATIBLE_PROVIDER_ID,
@@ -159,7 +161,7 @@ export default function Models() {
       }),
     );
 
-  /** Every provider, popular first, plus the Ollama Cloud preset of the compatible one. */
+  /** Ai7 first, then every provider popular-first, plus the Ollama Cloud preset. */
   const allProviders = useMemo(() => {
     const grouped = new Map<string, ConnectableProvider>();
     for (const entry of catalog) {
@@ -176,23 +178,29 @@ export default function Models() {
         name: t("Ollama Cloud"),
         baseUrl: OLLAMA_CLOUD_BASE_URL,
       });
-    return popularModelProvidersFirst(
-      all,
-      (provider) => provider.id,
-      (provider) => provider.name,
-    );
+    return [
+      { id: OPENAI_COMPATIBLE_PROVIDER_ID, name: t("Ai7"), baseUrl: AI7_BASE_URL },
+      ...popularModelProvidersFirst(
+        all,
+        (provider) => provider.id,
+        (provider) => provider.name,
+      ),
+    ];
   }, [catalog, t]);
 
   // Deployment-funded providers stay listed so people can still add their own key.
   const providers = useMemo(() => {
     const connected = new Set(credentials.map((entry) => canonicalPiProviderId(entry.provider)));
-    const ollama = credentials.some(
-      (entry) =>
-        entry.provider === OPENAI_COMPATIBLE_PROVIDER_ID && isOllamaCloudBaseUrl(entry.baseUrl),
-    );
-    return allProviders.filter((provider) =>
-      provider.baseUrl ? !ollama : !connected.has(canonicalPiProviderId(provider.id)),
-    );
+    const compatibleBaseUrl = credentials.find(
+      (entry) => entry.provider === OPENAI_COMPATIBLE_PROVIDER_ID,
+    )?.baseUrl;
+    return allProviders.filter((provider) => {
+      if (!provider.baseUrl) return !connected.has(canonicalPiProviderId(provider.id));
+      // Each preset hides only while a connection already points at that service.
+      return isAi7BaseUrl(provider.baseUrl)
+        ? !isAi7BaseUrl(compatibleBaseUrl)
+        : !isOllamaCloudBaseUrl(compatibleBaseUrl);
+    });
   }, [allProviders, credentials]);
 
   const providerKey = (provider: ConnectableProvider) =>

@@ -1,8 +1,10 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import type { SettingsScope } from "@rakazo/contracts";
 import {
+  AI7_BASE_URL,
   compatibleConnectionName,
   connectionDisplayName,
+  isAi7BaseUrl,
   isOllamaCloudBaseUrl,
   OLLAMA_CLOUD_BASE_URL,
   OPENAI_COMPATIBLE_PROVIDER_ID,
@@ -97,27 +99,34 @@ export function ModelSettingsOverlay({
   }, [connectionAt]);
 
   // Adding another account is open to every provider, connected or not.
-  const allProviders = popularModelProvidersFirst<ConnectableProvider>(
-    [
-      ...groups.map((group) => ({ id: group.id, name: group.name })),
-      ...(groups.some((group) => group.id === OPENAI_COMPATIBLE_PROVIDER_ID)
-        ? [
-            {
-              id: OPENAI_COMPATIBLE_PROVIDER_ID,
-              name: t`Ollama Cloud`,
-              baseUrl: OLLAMA_CLOUD_BASE_URL,
-            },
-          ]
-        : []),
-    ],
-    (entry) => entry.id,
-    (entry) => entry.name,
-  );
-  const providers = allProviders.filter((entry) =>
-    entry.baseUrl
-      ? !isOllamaCloudBaseUrl(credentialByProvider.get(OPENAI_COMPATIBLE_PROVIDER_ID)?.baseUrl)
-      : !credentialByProvider.has(entry.id),
-  );
+  // Ai7 stays the first option, ahead of the popular subscriptions.
+  const allProviders = [
+    { id: OPENAI_COMPATIBLE_PROVIDER_ID, name: t`Ai7`, baseUrl: AI7_BASE_URL },
+    ...popularModelProvidersFirst<ConnectableProvider>(
+      [
+        ...groups.map((group) => ({ id: group.id, name: group.name })),
+        ...(groups.some((group) => group.id === OPENAI_COMPATIBLE_PROVIDER_ID)
+          ? [
+              {
+                id: OPENAI_COMPATIBLE_PROVIDER_ID,
+                name: t`Ollama Cloud`,
+                baseUrl: OLLAMA_CLOUD_BASE_URL,
+              },
+            ]
+          : []),
+      ],
+      (entry) => entry.id,
+      (entry) => entry.name,
+    ),
+  ];
+  const providers = allProviders.filter((entry) => {
+    if (!entry.baseUrl) return !credentialByProvider.has(entry.id);
+    const savedBaseUrl = credentialByProvider.get(OPENAI_COMPATIBLE_PROVIDER_ID)?.baseUrl;
+    // Each preset hides only while a connection already points at that service.
+    return isAi7BaseUrl(entry.baseUrl)
+      ? !isAi7BaseUrl(savedBaseUrl)
+      : !isOllamaCloudBaseUrl(savedBaseUrl);
+  });
   const connectionName = (entry: ModelCredential) => {
     const group = groups.find((item) => item.id === entry.provider);
     return connectionDisplayName(

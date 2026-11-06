@@ -369,18 +369,33 @@ async function notConnectedChoices() {
   return modelPickerRequest(route.params.requestId)!.connectChoices ?? [];
 }
 
-it("offers deployment-funded providers and Ollama Cloud once among providers to connect", async () => {
+it("offers Ai7 first, then deployment-funded providers and Ollama Cloud once", async () => {
   expect((await notConnectedChoices()).map((choice) => choice.label)).toEqual([
+    "Ai7",
     "Anthropic",
     "OpenRouter",
     "Ollama Cloud",
   ]);
 });
 
+it("does not offer Ai7 again once it is the saved connection", async () => {
+  saved.baseUrl = "https://api.ai7.work/v1";
+  try {
+    expect((await notConnectedChoices()).map((choice) => choice.label)).toEqual([
+      "Anthropic",
+      "OpenRouter",
+      "Ollama Cloud",
+    ]);
+  } finally {
+    saved.baseUrl = savedEndpoint;
+  }
+});
+
 it("does not offer Ollama Cloud again once it is the saved connection", async () => {
   saved.baseUrl = "https://ollama.com/";
   try {
     expect((await notConnectedChoices()).map((choice) => choice.label)).toEqual([
+      "Ai7",
       "Anthropic",
       "OpenRouter",
     ]);

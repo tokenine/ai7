@@ -960,7 +960,7 @@ it("lists not-connected providers by name alone", async () => {
   const view = await renderSettings();
   try {
     await openPicker("Change Main model");
-    expect(pickerOptions()).toEqual(["DeepSeek", "Ollama Cloud", "OpenAI-compatible"]);
+    expect(pickerOptions()).toEqual(["Ai7", "DeepSeek", "Ollama Cloud", "OpenAI-compatible"]);
     expect(document.querySelectorAll("[cmdk-group-heading]")).toHaveLength(0);
   } finally {
     await view.unmount();
@@ -1281,7 +1281,8 @@ it("offers a saved Ollama connection's models without the Ollama preset", async 
   const view = await renderSettings(false);
   try {
     await openPicker("Change Main model");
-    expect(pickerOptions()).toEqual(["fixture-model"]);
+    // The Ollama preset hides behind the saved Ollama connection; Ai7 stays offered.
+    expect(pickerOptions()).toEqual(["fixture-model", "Ai7"]);
   } finally {
     await view.unmount();
   }
@@ -1302,7 +1303,30 @@ it("keeps the Ollama preset to connect beside a saved local connection", async (
   const view = await renderSettings(false);
   try {
     await openPicker("Add fallback");
-    expect(pickerOptions()).toEqual(["fixture-model", "Ollama Cloud"]);
+    expect(pickerOptions()).toEqual(["fixture-model", "Ai7", "Ollama Cloud"]);
+    await choose("Ollama Cloud");
+    expect(baseUrlField(view.container).value).toBe("https://ollama.com/v1");
+  } finally {
+    await view.unmount();
+  }
+});
+
+it("hides the Ai7 preset once a connection points at the Ai7 endpoint", async () => {
+  models.list.mockResolvedValue([compatibleEntry]);
+  models.credentials.mockResolvedValue([
+    {
+      id: "fixture",
+      label: "Ai7",
+      provider: "openai-compatible",
+      modelId: "ocg/glm-5.3",
+      baseUrl: "https://api.ai7.work/v1",
+      hasKey: true,
+    },
+  ]);
+  const view = await renderSettings(false);
+  try {
+    await openPicker("Add fallback");
+    expect(pickerOptions()).toEqual(["ocg/glm-5.3", "Ollama Cloud"]);
     await choose("Ollama Cloud");
     expect(baseUrlField(view.container).value).toBe("https://ollama.com/v1");
   } finally {
