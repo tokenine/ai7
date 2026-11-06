@@ -222,6 +222,33 @@ export function cancelComputerRunWorkArgv(computerId: string, runId: string): st
   return ["bash", "-c", CANCEL_COMPUTER_RUN_WORK, "rakazo-cancel-run-work", computerId, runId];
 }
 
+/**
+ * Kill the primary browser right before a computer sleeps. The bot opens the browser again
+ * on its next page-browser use, so a computer coming out of sleep starts without one and
+ * carries no browser RAM through the idle window.
+ */
+export async function stopBrowserBeforeSleep(
+  sandbox: Pick<SandboxProvider, "execute">,
+  computer: ComputerRef,
+  context: AdapterContext,
+): Promise<void> {
+  if (computer.kind === "desktop") return;
+  try {
+    for await (const _event of sandbox.execute(
+      computer,
+      {
+        argv: ["bash", "-c", CANCEL_PRIMARY_BROWSER_WORK, "rakazo-stop-browser"],
+        timeoutMs: 15_000,
+      },
+      context,
+    )) {
+      // Drain so providers can finish the exec session.
+    }
+  } catch {
+    // Best effort: the stop right after ends whatever survived.
+  }
+}
+
 export async function cancelComputerRunWork(
   sandbox: Pick<SandboxProvider, "execute" | "cancelRunWork">,
   computer: ComputerRef,
@@ -675,6 +702,7 @@ export async function sleepComputerIfIdle(
   try {
     // Nothing on a damaged computer can be read, so a provider that cannot save it either stops
     // it anyway, keeping its last good copy, rather than leave it running.
+    if (!damaged) await stopBrowserBeforeSleep(deps.sandbox, ref, ctx);
     await deps.sandbox.stop(ref, ctx, damaged ? { discardUnsaved: true } : undefined);
   } catch (error) {
     await deps.prisma.computer.updateMany({

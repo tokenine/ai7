@@ -551,6 +551,42 @@ describe("sandbox idle", () => {
     );
   });
 
+  it("stops the primary browser right before the sandbox stops", async () => {
+    const harness = idleHarness();
+
+    await sleepComputerIfIdle(harness.deps, harness.computer.id);
+
+    const browserStopIndex = harness.sandbox.execute.mock.calls.findIndex(
+      ([, request]) => request.argv[3] === "rakazo-stop-browser",
+    );
+    expect(browserStopIndex).toBeGreaterThanOrEqual(0);
+    expect(harness.sandbox.execute.mock.calls[browserStopIndex]![1].argv).toEqual([
+      "bash",
+      "-c",
+      CANCEL_PRIMARY_BROWSER_WORK,
+      "rakazo-stop-browser",
+    ]);
+    // The browser goes down after every hold recheck and right before the container stops.
+    expect(browserStopIndex).toBe(harness.sandbox.execute.mock.calls.length - 1);
+    expect(harness.sandbox.stop).toHaveBeenCalledOnce();
+  });
+
+  it("skips the browser stop for a damaged computer and still stops it", async () => {
+    const harness = idleHarness();
+    vi.spyOn(harness.home, "commit").mockRejectedValue(
+      Object.assign(new Error("destroyed"), { name: "SandboxDamagedError" }),
+    );
+
+    await sleepComputerIfIdle(harness.deps, harness.computer.id);
+
+    expect(
+      harness.sandbox.execute.mock.calls.some(
+        ([, request]) => request.argv[3] === "rakazo-stop-browser",
+      ),
+    ).toBe(false);
+    expect(harness.sandbox.stop).toHaveBeenCalledOnce();
+  });
+
   describe("a computer its provider already stopped", () => {
     const savedAt = new Date("2026-01-01T00:00:00.000Z");
 
