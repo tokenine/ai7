@@ -27,6 +27,8 @@ function setup(approvedRows: (typeof approved)[] = [], pluginRepoFetcher?: Plugi
       return JSON.stringify({ tree: [{ path: "notes/skills/plan/SKILL.md", type: "blob" }] });
     if (url.endsWith("plugin-index.json"))
       return JSON.stringify({ plugins: { notes: { components: { skills: [{}] } } } });
+    if (url.endsWith("ai7-marketplace/HEAD/.ai7-plugin/marketplace.json"))
+      return JSON.stringify({ plugins: [] });
     if (url.endsWith("marketplace.json"))
       return JSON.stringify({ plugins: [{ name: "notes", source: "notes" }] });
     throw new Error("Not found");

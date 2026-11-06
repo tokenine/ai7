@@ -1,11 +1,24 @@
 import type { PluginMarketplaceCatalog, PluginMarketplaceEntry } from "@rakazo/contracts";
-import { comparePlugins, matchesPluginQuery, pluginCategory } from "@rakazo/core";
+import {
+  comparePlugins,
+  FIRST_PARTY_REGISTRY,
+  matchesPluginQuery,
+  pluginCategory,
+} from "@rakazo/core";
 import { z } from "zod";
 import type { PluginCompleteness, PluginTextReader } from "./plugin-connectors.js";
 import { classifyPluginFiles, parsePluginSource } from "./plugin-connectors.js";
 import { fetchSafeWebText } from "./web-ssrf.js";
 
 const REGISTRIES = [
+  {
+    name: FIRST_PARTY_REGISTRY,
+    repository: "https://github.com/tokenine/ai7-marketplace",
+    path: ".ai7-plugin/marketplace.json",
+    manifest: ".ai7-plugin/plugin.json",
+    // Every listed pack is vendored in the registry repo, so its file list tells its parts.
+    componentIndex: null,
+  },
   {
     name: "Cursor",
     repository: "https://github.com/cursor/plugins",
