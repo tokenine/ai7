@@ -55,6 +55,15 @@ describe("comparePlugins", () => {
     ].sort(comparePlugins);
     expect(sorted.map((row) => row.name)).toEqual(["github", "sentry", "zebra", "aardvark"]);
   });
+  it("lists first-party registry entries ahead of every external one", () => {
+    const sorted = [
+      entry({ name: "github" }),
+      entry({ name: "thaifi-wallet", registry: "Ai7", id: "Ai7:thaifi-wallet" }),
+      entry({ name: "zebra", logo: "https://example.test/zebra.svg", registry: "xAI" }),
+      entry({ name: "aardvark", registry: "Ai7", id: "Ai7:aardvark" }),
+    ].sort(comparePlugins);
+    expect(sorted.map((row) => row.name)).toEqual(["aardvark", "thaifi-wallet", "github", "zebra"]);
+  });
 });
 
 describe("matchesPluginQuery", () => {

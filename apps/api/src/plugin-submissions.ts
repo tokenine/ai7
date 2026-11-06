@@ -24,7 +24,7 @@ import {
   PLUGIN_SUBMISSIONS_PATH,
   PluginSubmissionInputSchema,
 } from "@rakazo/contracts";
-import { pluginCategory } from "@rakazo/core";
+import { FIRST_PARTY_REGISTRY, pluginCategory } from "@rakazo/core";
 import type { PluginSubmission as PluginSubmissionRow, PrismaClient } from "@rakazo/db";
 import type { Context } from "hono";
 import { Hono } from "hono";
@@ -33,7 +33,7 @@ import { assertMcpRemoteEndpoint } from "./mcp-servers.js";
 import type { RouterDeps } from "./router.js";
 import { throttleKey, windowCounter } from "./window-counter.js";
 
-const PLUGIN_REGISTRY = "Ai7";
+const PLUGIN_REGISTRY = FIRST_PARTY_REGISTRY;
 const MAX_BODY_BYTES = 32 * 1024;
 const HOUR_MS = 60 * 60_000;
 const SUBMISSIONS_PER_IP_PER_HOUR = 10;
