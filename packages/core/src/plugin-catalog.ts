@@ -189,11 +189,19 @@ function qualityRank(entry: PluginMarketplaceEntry): number {
   return (entry.logo ? 0 : 2) + (entry.description ? 0 : 1);
 }
 
+/** The registry this deployment curates itself (the Ai7 marketplace repo and approved
+ * submissions). Its entries are listed ahead of everything external, in their own
+ * quality order. */
+export const FIRST_PARTY_REGISTRY = "Ai7";
+
 export function comparePlugins(a: PluginMarketplaceEntry, b: PluginMarketplaceEntry): number {
+  const firstParty =
+    (a.registry === FIRST_PARTY_REGISTRY ? 0 : 1) - (b.registry === FIRST_PARTY_REGISTRY ? 0 : 1);
   const recommended =
     (RECOMMENDED_RANK.get(a.name) ?? RECOMMENDED.length) -
     (RECOMMENDED_RANK.get(b.name) ?? RECOMMENDED.length);
   return (
+    firstParty ||
     recommended ||
     qualityRank(a) - qualityRank(b) ||
     a.displayName.localeCompare(b.displayName) ||
