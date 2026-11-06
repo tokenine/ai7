@@ -150,6 +150,7 @@ export default function ModelConnection() {
         credential: nextCredential,
         defaults: nextMe,
         current: preferred.modelId,
+        presetBaseUrl: request.baseUrl,
       });
       const fields = connectionFormFields({
         catalog: nextCatalog,

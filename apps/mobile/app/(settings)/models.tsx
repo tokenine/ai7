@@ -1,6 +1,10 @@
 import {
+  AI7_BASE_URL,
   canonicalPiProviderId,
   compatibleEndpointPresets,
+  isAi7BaseUrl,
+  isOllamaCloudBaseUrl,
+  OLLAMA_CLOUD_BASE_URL,
   OPENAI_COMPATIBLE_PROVIDER_ID,
   savedCompatibleEndpointMatches,
 } from "@rakazo/contracts";
@@ -159,7 +163,7 @@ export default function Models() {
       }),
     );
 
-  /** Every provider, popular first, plus the hosted presets of the compatible one. */
+  /** Ai7 first, then every provider popular-first, plus the hosted presets of the compatible one. */
   const allProviders = useMemo(() => {
     const grouped = new Map<string, ConnectableProvider>();
     for (const entry of catalog) {
@@ -172,12 +176,15 @@ export default function Models() {
     const all = [...grouped.values()];
     for (const preset of compatibleEndpointPresets(catalog))
       all.push({ id: OPENAI_COMPATIBLE_PROVIDER_ID, name: preset.name, baseUrl: preset.baseUrl });
-    return popularModelProvidersFirst(
-      all,
-      (provider) => provider.id,
-      (provider) => provider.name,
-    );
-  }, [catalog]);
+    return [
+      { id: OPENAI_COMPATIBLE_PROVIDER_ID, name: t("Ai7"), baseUrl: AI7_BASE_URL },
+      ...popularModelProvidersFirst(
+        all,
+        (provider) => provider.id,
+        (provider) => provider.name,
+      ),
+    ];
+  }, [catalog, t]);
 
   // Deployment-funded providers stay listed so people can still add their own key.
   const providers = useMemo(() => {

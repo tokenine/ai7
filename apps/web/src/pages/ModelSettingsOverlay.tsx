@@ -1,8 +1,13 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import type { SettingsScope } from "@rakazo/contracts";
 import {
+  AI7_BASE_URL,
+  compatibleConnectionName,
   connectionDisplayName,
+  isAi7BaseUrl,
+  isOllamaCloudBaseUrl,
   modelRoleChoiceKey,
+  OLLAMA_CLOUD_BASE_URL,
   OPENAI_COMPATIBLE_PROVIDER_ID,
   savedCompatibleEndpointMatches,
 } from "@rakazo/contracts";
@@ -92,20 +97,24 @@ export function ModelSettingsOverlay({
   }, [connectionAt]);
 
   // Adding another account is open to every provider, connected or not.
-  const allProviders = popularModelProvidersFirst<ConnectableProvider>(
-    [
-      ...groups.map((group) => ({ id: group.id, name: group.name })),
-      ...(groups.some((group) => group.id === OPENAI_COMPATIBLE_PROVIDER_ID)
-        ? endpointPresets.map((preset) => ({
-            id: OPENAI_COMPATIBLE_PROVIDER_ID,
-            name: preset.name,
-            baseUrl: preset.baseUrl,
-          }))
-        : []),
-    ],
-    (entry) => entry.id,
-    (entry) => entry.name,
-  );
+  // Ai7 stays the first option, ahead of the popular subscriptions and the catalog presets.
+  const allProviders = [
+    { id: OPENAI_COMPATIBLE_PROVIDER_ID, name: t`Ai7`, baseUrl: AI7_BASE_URL },
+    ...popularModelProvidersFirst<ConnectableProvider>(
+      [
+        ...groups.map((group) => ({ id: group.id, name: group.name })),
+        ...(groups.some((group) => group.id === OPENAI_COMPATIBLE_PROVIDER_ID)
+          ? endpointPresets.map((preset) => ({
+              id: OPENAI_COMPATIBLE_PROVIDER_ID,
+              name: preset.name,
+              baseUrl: preset.baseUrl,
+            }))
+          : []),
+      ],
+      (entry) => entry.id,
+      (entry) => entry.name,
+    ),
+  ];
   const providers = allProviders.filter((entry) =>
     entry.baseUrl
       ? !savedCompatibleEndpointMatches(

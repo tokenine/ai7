@@ -8,7 +8,12 @@ import type {
   ThinkingLevel,
 } from "@rakazo/contracts";
 import {
+  AI7_CONTEXT_WINDOW,
+  AI7_MAX_TOKENS,
+  AI7_MODEL_ID,
   DEFAULT_MODEL_CONTEXT_WINDOW,
+  isAi7BaseUrl,
+  isCloudflareModelProvider,
   ModelHeaderRowsSchema,
   modelHeadersInput,
   OPENAI_COMPATIBLE_PROVIDER_ID,
@@ -54,9 +59,13 @@ export function connectionFormModelId(input: {
   credential?: Pick<ModelCredential, "modelId">;
   defaults?: DefaultModel | null;
   current?: string;
+  /** Prefills a new OpenAI-compatible connection, such as the Ai7 preset. */
+  presetBaseUrl?: string;
 }): string {
-  const { catalog, provider, credential, defaults, current } = input;
-  if (provider === OPENAI_COMPATIBLE_PROVIDER_ID) return credential?.modelId ?? "";
+  const { catalog, provider, credential, defaults, current, presetBaseUrl } = input;
+  if (provider === OPENAI_COMPATIBLE_PROVIDER_ID) {
+    return credential?.modelId ?? (isAi7BaseUrl(presetBaseUrl) ? AI7_MODEL_ID : "");
+  }
   return (
     catalog.find((entry) => entry.provider === provider && entry.id === current)?.id ??
     pickCatalogModelId(
@@ -96,6 +105,9 @@ export function connectionFormFields(input: {
 }): ConnectionFormFields {
   const { catalog, provider, modelId, credential, presetBaseUrl } = input;
   const compatible = provider === OPENAI_COMPATIBLE_PROVIDER_ID;
+  // A new Ai7 connection ships with the service's known model shape: thinking on, the
+  // service's output limit and its full context. Every field stays user-editable.
+  const ai7Preset = compatible && !credential && isAi7BaseUrl(presetBaseUrl);
   const supportedThinking = compatible
     ? credential?.reasoning
       ? compatibleThinkingLevels(credential?.apiProtocol)
@@ -105,13 +117,20 @@ export function connectionFormFields(input: {
     enabledModelIds: credential?.enabledModelIds ?? [],
     baseUrl: compatible ? (credential?.baseUrl ?? presetBaseUrl ?? "") : "",
     apiProtocol: credential?.apiProtocol ?? "chat-completions",
-    reasoning: credential?.reasoning ?? false,
-    thinkingLevel: clampCatalogThinkingLevel(
-      credential?.modelId === modelId ? credential.thinkingLevel : null,
-      supportedThinking,
-    ) as ThinkingLevel | null,
-    maxTokens: connectionMaxTokensField(provider, credential?.maxTokens),
-    contextWindow: String(credential?.contextWindow ?? DEFAULT_MODEL_CONTEXT_WINDOW),
+    reasoning: credential?.reasoning ?? ai7Preset,
+    thinkingLevel: ai7Preset
+      ? "medium"
+      : (clampCatalogThinkingLevel(
+          credential?.modelId === modelId ? credential.thinkingLevel : null,
+          supportedThinking,
+        ) as ThinkingLevel | null),
+    maxTokens: connectionMaxTokensField(
+      provider,
+      credential?.maxTokens ?? (ai7Preset ? AI7_MAX_TOKENS : undefined),
+    ),
+    contextWindow: String(
+      credential?.contextWindow ?? (ai7Preset ? AI7_CONTEXT_WINDOW : DEFAULT_MODEL_CONTEXT_WINDOW),
+    ),
     supportsImages: credential?.supportsImages ?? false,
     maxImagesPerPrompt: String(credential?.maxImagesPerPrompt ?? ""),
     accountId: credential?.accountId ?? "",

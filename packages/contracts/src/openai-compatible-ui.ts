@@ -27,6 +27,32 @@ export function matchCompatibleEndpointPreset(
     return undefined;
   }
   return presets.find((preset) => preset.baseUrl === normalized);
+
+/** The Ai7 model service: one endpoint, one model, keyed by the account's API key. */
+export const AI7_BASE_URL = "https://api.ai7.work/v1";
+export const AI7_MODEL_ID = "ocg/glm-5.3";
+export const AI7_MAX_TOKENS = 20000;
+export const AI7_CONTEXT_WINDOW = 1_000_000;
+
+export function isOllamaCloudBaseUrl(baseUrl: string | undefined): boolean {
+  try {
+    return normalizeOpenAiCompatibleBaseUrl(baseUrl ?? "") === OLLAMA_CLOUD_BASE_URL;
+  } catch {
+    return false;
+  }
+}
+
+export function isAi7BaseUrl(baseUrl: string | undefined): boolean {
+  try {
+    return normalizeOpenAiCompatibleBaseUrl(baseUrl ?? "") === AI7_BASE_URL;
+  } catch {
+    return false;
+  }
+}
+
+export function compatibleConnectionName(baseUrl: string | undefined, fallback: string): string {
+  if (isAi7BaseUrl(baseUrl)) return "Ai7";
+  return isOllamaCloudBaseUrl(baseUrl) ? "Ollama Cloud" : fallback;
 }
 
 export const OPENAI_COMPATIBLE_BASE_URL_HINT = `Paste the OpenAI-compatible address from your server. ${BRAND_NAME} adds /v1 if needed.`;
