@@ -17,9 +17,13 @@ export function isOllamaCloudBaseUrl(baseUrl: string | undefined): boolean {
   }
 }
 
+/** Any HTTPS `ai7.work` host runs the service, including gateway subdomains such as
+ * `api-87.ai7.work`; a different scheme means a lookalike, not the service. */
 export function isAi7BaseUrl(baseUrl: string | undefined): boolean {
   try {
-    return normalizeOpenAiCompatibleBaseUrl(baseUrl ?? "") === AI7_BASE_URL;
+    const url = new URL(normalizeOpenAiCompatibleBaseUrl(baseUrl ?? ""));
+    if (url.protocol !== "https:") return false;
+    return url.hostname === "ai7.work" || url.hostname.endsWith(".ai7.work");
   } catch {
     return false;
   }

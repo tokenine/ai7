@@ -11,6 +11,7 @@ import {
   AI7_CONTEXT_WINDOW,
   AI7_MAX_TOKENS,
   AI7_MODEL_ID,
+  compatibleConnectionName,
   DEFAULT_MODEL_CONTEXT_WINDOW,
   isAi7BaseUrl,
   isCloudflareModelProvider,
@@ -260,7 +261,9 @@ export function modelConnectRequest(input: {
           form.supportsImages && !form.maxImagesPerPrompt.trim() ? null : maxImagesPerPrompt,
         ...makeDefault,
         apiKey: form.apiKey.trim() || undefined,
-        label,
+        // A service URL names the connection, so the Ai7 preset saves as "Ai7" rather
+        // than the catalog's "OpenAI-compatible".
+        label: compatibleConnectionName(baseUrl, label),
         credentialId,
       },
     };
