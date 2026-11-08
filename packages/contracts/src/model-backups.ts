@@ -50,6 +50,14 @@ export function connectionDisplayName(
     defaultNames.includes(label)
   )
     return provider;
+  // The server dedupes default labels ("OpenAI-compatible 2"); once the endpoint names the
+  // connection (Ai7), that machine suffix gives way instead of hiding the service name.
+  const unsuffixed = label.replace(/\s+\d+$/, "").toLowerCase();
+  if (
+    provider !== providerName &&
+    (unsuffixed === providerName.toLowerCase() || unsuffixed === provider.toLowerCase())
+  )
+    return provider;
   if (label.toLowerCase().startsWith(providerName.toLowerCase())) return label;
   return `${provider} (${label})`;
 }

@@ -299,6 +299,14 @@ describe("connected backup model choices", () => {
     expect(
       connectionDisplayName({ ...base, label: "OpenAI-compatible" }, "OpenAI-compatible"),
     ).toBe("Ai7");
+    // The model picker passes the bare provider id when the model is not in the catalog.
+    expect(
+      connectionDisplayName({ ...base, label: "OpenAI-compatible" }, "openai-compatible"),
+    ).toBe("Ai7");
+    // A dedupe suffix the server added to a default label cannot hide the service name.
+    expect(
+      connectionDisplayName({ ...base, label: "OpenAI-compatible 2" }, "openai-compatible"),
+    ).toBe("Ai7");
     expect(connectionDisplayName({ ...base, label: "Ai7" }, "OpenAI-compatible")).toBe("Ai7");
     // A rename the user typed stays on screen.
     expect(connectionDisplayName({ ...base, label: "Router 87" }, "OpenAI-compatible")).toBe(
@@ -310,6 +318,12 @@ describe("connected backup model choices", () => {
         "OpenAI-compatible",
       ),
     ).toBe("OpenAI-compatible");
+    expect(
+      connectionDisplayName(
+        { ...base, baseUrl: "http://127.0.0.1:8000/v1", label: "OpenAI-compatible 2" },
+        "OpenAI-compatible",
+      ),
+    ).toBe("OpenAI-compatible 2");
   });
 
   it("moves a backup one place without changing the source list", () => {
