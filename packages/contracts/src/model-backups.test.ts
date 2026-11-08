@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import type { ModelBackupChoice, ModelCatalogEntry, ModelCredential } from "./domain.js";
+import { OPENAI_COMPATIBLE_PROVIDER_ID } from "./domain.js";
 import {
   connectedBackupOptions,
   connectionDisplayName,
@@ -290,6 +292,24 @@ describe("connected backup model choices", () => {
       "ChatGPT (me@example.com)",
     );
     expect(connectionDisplayName({ ...base, label: "openai-codex" }, "ChatGPT")).toBe("ChatGPT");
+  });
+
+  it("names an ai7.work connection Ai7 whether or not the saved label says it", () => {
+    const base = { provider: OPENAI_COMPATIBLE_PROVIDER_ID, baseUrl: "https://api-87.ai7.work/v1" };
+    expect(
+      connectionDisplayName({ ...base, label: "OpenAI-compatible" }, "OpenAI-compatible"),
+    ).toBe("Ai7");
+    expect(connectionDisplayName({ ...base, label: "Ai7" }, "OpenAI-compatible")).toBe("Ai7");
+    // A rename the user typed stays on screen.
+    expect(connectionDisplayName({ ...base, label: "Router 87" }, "OpenAI-compatible")).toBe(
+      "Ai7 (Router 87)",
+    );
+    expect(
+      connectionDisplayName(
+        { ...base, baseUrl: "http://127.0.0.1:8000/v1", label: "OpenAI-compatible" },
+        "OpenAI-compatible",
+      ),
+    ).toBe("OpenAI-compatible");
   });
 
   it("moves a backup one place without changing the source list", () => {

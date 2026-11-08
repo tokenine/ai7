@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  AI7_BASE_URL,
+  compatibleConnectionName,
   compatibleEndpointPresets,
+  isAi7BaseUrl,
+  isOllamaCloudBaseUrl,
   matchCompatibleEndpointPreset,
   normalizeOpenAiCompatibleBaseUrl,
   openAiCompatibleConnectReady,
@@ -113,4 +117,30 @@ it.each(["", "https://", "https://other.test", "https://hosted.example.test/v2"]
 );
 it("does not match a missing saved endpoint", () => {
   expect(savedCompatibleEndpointMatches(PRESET_BASE_URL, undefined)).toBe(false);
+});
+
+it.each([
+  AI7_BASE_URL,
+  "https://api.ai7.work",
+  "https://api-87.ai7.work/v1",
+  "https://ai7.work/v1",
+])("recognizes the Ai7 service at %s", (url) => {
+  expect(isAi7BaseUrl(url)).toBe(true);
+});
+it.each([
+  undefined,
+  "invalid",
+  "https://ai7.work.evil.test",
+  "https://notai7.work",
+  "http://api.ai7.work",
+])("rejects non-Ai7 URL %s", (url) => {
+  expect(isAi7BaseUrl(url)).toBe(false);
+});
+
+it("names an Ai7 endpoint's connection Ai7 and other servers after the provider", () => {
+  expect(compatibleConnectionName(AI7_BASE_URL, "OpenAI-compatible")).toBe("Ai7");
+  expect(compatibleConnectionName("https://api-87.ai7.work/v1", "OpenAI-compatible")).toBe("Ai7");
+  expect(compatibleConnectionName("https://other.test/v1", "OpenAI-compatible")).toBe(
+    "OpenAI-compatible",
+  );
 });

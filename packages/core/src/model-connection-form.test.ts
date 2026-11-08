@@ -445,4 +445,28 @@ describe("modelConnectRequest", () => {
       },
     });
   });
+
+  it("saves a connection pointed at the Ai7 service under the Ai7 name", () => {
+    const request = modelConnectRequest({
+      form: draft({
+        apiKey: "cf-long-enough",
+        baseUrl: "https://api-87.ai7.work/v1",
+        modelId: AI7_MODEL_ID,
+        maxTokens: "4096",
+      }),
+      selected: {
+        provider: COMPATIBLE,
+        id: "openai-compatible",
+        providerName: "OpenAI-compatible",
+      },
+      credentialId: null,
+    });
+    expect(request.status === "ready" && request.input).toMatchObject({
+      provider: COMPATIBLE,
+      baseUrl: "https://api-87.ai7.work/v1",
+      modelId: AI7_MODEL_ID,
+      label: "Ai7",
+      maxTokens: 4096,
+    });
+  });
 });

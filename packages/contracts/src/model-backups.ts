@@ -46,6 +46,7 @@ export function connectionDisplayName(
     !label ||
     label === credential.provider ||
     label === providerName ||
+    label === provider ||
     defaultNames.includes(label)
   )
     return provider;
