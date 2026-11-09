@@ -702,7 +702,6 @@ msgstr "請填寫伺服器名稱。"
 msgid "Add a stdio command."
 msgstr "請填寫 stdio 命令。"
 
-#: src/pages/RoutineEditor.tsx
 #: src/pages/shell/use-routine-editor.ts
 msgid "Add a trigger to run this routine."
 msgstr "新增觸發器以執行此例行任務。"
@@ -814,12 +813,12 @@ msgstr "地址第 2 行"
 msgid "Adds"
 msgstr "將新增"
 
+#: src/lib/cron.ts
 #: src/pages/McpServerForm.tsx
 #: src/pages/model-settings/compatible-model-fields.tsx
 #: src/pages/ModelSettingsOverlay.tsx
 #: src/pages/onboarding/model-step.tsx
 #: src/pages/routine-editor/model-settings.tsx
-#: src/pages/RoutineSchedule.tsx
 #: src/pages/shell/bot-panel.tsx
 msgid "Advanced"
 msgstr "進階"
@@ -831,6 +830,12 @@ msgstr "進階..."
 #: src/components/AccountDataSettings.tsx
 msgid "Agent from another app"
 msgstr "其他應用程式中的代理"
+
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/ModelSettingsOverlay.tsx
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Ai7"
+msgstr "Ai7"
 
 #: src/components/VaultSettings.tsx
 #: src/pages/PluginsOverlay.tsx
@@ -867,6 +872,10 @@ msgstr "不限時間"
 msgid "Allow"
 msgstr "允許"
 
+#: src/lib/dictation.ts
+msgid "Allow Ai7 to use Speech Recognition and the microphone in System Settings."
+msgstr ""
+
 #: src/pages/shell/bot-settings-sections.tsx
 msgid "Allow cross-space bot communication"
 msgstr "允許跨空間機器人通訊"
@@ -878,10 +887,6 @@ msgstr "在此空間允許"
 #: src/components/AskCard.tsx
 msgid "Allow once"
 msgstr "允許一次"
-
-#: src/lib/dictation.ts
-msgid "Allow Ai7 to use Speech Recognition and the microphone in System Settings."
-msgstr ""
 
 #: src/pages/memory-providers/SerenitySettingsForm.tsx
 msgid "Allow writing"
@@ -1180,8 +1185,8 @@ msgid "Automated senders"
 msgstr "自動化傳送者"
 
 #: src/pages/routine-editor/trigger-cards.tsx
-msgid "Available after the routine is saved"
-msgstr "儲存例行任務後可用"
+msgid "Available after saving"
+msgstr ""
 
 #: src/components/ModelCredits.tsx
 msgid "Available credits"
@@ -2077,6 +2082,7 @@ msgstr "對話"
 #: src/components/vault/VaultItemDetail.tsx
 #: src/pages/model-settings/connection-controls.tsx
 #: src/pages/onboarding/model-step.tsx
+#: src/pages/routine-editor/trigger-cards.tsx
 #: src/pages/shell/agent-import.tsx
 #: src/pages/shell/message-hover-actions.tsx
 msgid "Copied"
@@ -2093,6 +2099,10 @@ msgstr "複製"
 #: src/components/vault/BotEmailAddresses.tsx
 msgid "Copy {address}"
 msgstr "複製 {address}"
+
+#: src/pages/routine-editor/trigger-cards.tsx
+msgid "Copy {label}"
+msgstr ""
 
 #: src/components/markdown-copy.tsx
 msgid "Copy code"
@@ -2637,6 +2647,10 @@ msgstr "無法傳送"
 msgid "Could not show the credential"
 msgstr "無法顯示憑證"
 
+#: src/pages/shell/use-routine-editor.ts
+msgid "Could not show the webhook key"
+msgstr ""
+
 #: src/components/integrations/plugin-marketplace.tsx
 msgid "Could not sign in"
 msgstr "無法登入"
@@ -2786,8 +2800,8 @@ msgid "Create organization"
 msgstr "建立組織"
 
 #: src/pages/RoutineList.tsx
-msgid "Create Routine"
-msgstr "建立例行任務"
+msgid "Create routine"
+msgstr ""
 
 #: src/components/AskCard.tsx
 #: src/pages/shell/dialogs.tsx
@@ -3159,10 +3173,6 @@ msgstr "說明文件"
 msgid "Document changed. Reopen to edit the latest version."
 msgstr "文件已變更，請重新開啟以編輯最新版本。"
 
-#: src/pages/Auth.tsx
-msgid "Don’t have an account?"
-msgstr "還沒有帳號？"
-
 #: src/components/AccountDataSettings.tsx
 #: src/components/ToolActivityDisclosure.tsx
 #: src/lib/ticket-status.ts
@@ -3358,14 +3368,10 @@ msgid "Every bot in this space reads these notes and keeps them up to date."
 msgstr "此空間中的每個機器人都會讀取並更新這些筆記。"
 
 #: src/lib/cron.ts
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
 msgid "Every day"
 msgstr "每天"
 
 #: src/lib/cron.ts
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
 msgid "Every hour"
 msgstr "每小時"
 
@@ -3381,16 +3387,6 @@ msgstr "所有訊息"
 #: src/lib/cron.ts
 msgid "Every Monday"
 msgstr "每週一"
-
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
-msgid "Every month"
-msgstr "每月"
-
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
-msgid "Every week"
-msgstr "每週"
 
 #: src/components/SharedSpaceRules.tsx
 msgid "Everyone here sees its chats, bots and memory"
@@ -3709,8 +3705,8 @@ msgid "Hang up, then enter the code on screen."
 msgstr "請結束通話，再輸入螢幕上的驗證碼。"
 
 #: src/pages/routine-editor/trigger-cards.tsx
-msgid "header"
-msgstr "標頭"
+msgid "Header"
+msgstr ""
 
 #: src/components/vault/VaultItemDetail.tsx
 msgid "Header \"{header}\""
@@ -3747,6 +3743,10 @@ msgstr "隱藏"
 #: src/components/vault/VaultItemDetail.tsx
 msgid "Hide"
 msgstr "隱藏"
+
+#: src/pages/routine-editor/trigger-cards.tsx
+msgid "Hide key"
+msgstr ""
 
 #: src/components/I18nBootstrap.tsx
 msgid "Hide password"
@@ -3950,8 +3950,7 @@ msgstr "整合服務網域"
 msgid "Integrations"
 msgstr "整合"
 
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
+#: src/lib/cron.ts
 msgid "Interval"
 msgstr "間隔"
 
@@ -4042,8 +4041,8 @@ msgid "Keep tool results whole"
 msgstr "保留完整工具結果"
 
 #: src/pages/routine-editor/trigger-cards.tsx
-msgid "key"
-msgstr "金鑰"
+msgid "Key options"
+msgstr ""
 
 #: src/pages/shell/keyboard-shortcuts-dialog.tsx
 #: src/pages/shell/use-palette-actions.ts
@@ -4553,6 +4552,10 @@ msgstr "每月額度"
 msgid "Monthly credits expire at renewal. Top-ups do not expire."
 msgstr "每月額度在續訂時到期。單次加值額度不會過期。"
 
+#: src/lib/cron.ts
+msgid "Monthly on the 1st"
+msgstr ""
+
 #: src/components/SpaceMembersSettings.tsx
 #: src/pages/plugins/plugin-browse.tsx
 #: src/pages/PluginsOverlay.tsx
@@ -4870,6 +4873,10 @@ msgstr "不重設"
 msgid "No results"
 msgstr "無結果"
 
+#: src/pages/RoutineList.tsx
+msgid "No routines yet"
+msgstr ""
+
 #: src/components/markdown-copy.tsx
 msgid "No rows"
 msgstr "沒有資料列"
@@ -4878,7 +4885,7 @@ msgstr "沒有資料列"
 msgid "No runs match these filters."
 msgstr "沒有符合篩選條件的執行紀錄。"
 
-#: src/pages/RoutineRunHistory.tsx
+#: src/pages/ActivityList.tsx
 msgid "No runs yet"
 msgstr "還沒有執行紀錄"
 
@@ -4941,14 +4948,17 @@ msgstr "不在外掛程式目錄中"
 msgid "Not now"
 msgstr "暫不"
 
-#: src/pages/shell/agent-import-plan.tsx
 #: src/pages/shell/import-status.ts
 msgid "Not supported in Ai7"
 msgstr "Ai7 不支援"
 
-#: src/pages/shell/agent-import.tsx
-msgid "Not used by Ai7"
-msgstr "Ai7 不使用"
+#: src/pages/shell/agent-import-plan.tsx
+msgid "Not supported in Rakazo"
+msgstr ""
+
+#: src/pages/shell/agent-import-plan.tsx
+msgid "Not used by Rakazo"
+msgstr ""
 
 #: src/components/McpServerHealthLine.tsx
 #: src/pages/plugins/parts.tsx
@@ -4988,6 +4998,7 @@ msgid "Offline"
 msgstr "離線"
 
 #: src/pages/routine-editor/add-trigger-menu.tsx
+#: src/pages/RoutineSchedule.tsx
 msgid "On a schedule"
 msgstr "依排程"
 
@@ -5019,6 +5030,10 @@ msgstr "僅輸入 {codeHost} 傳給你的驗證碼。"
 #: src/pages/routine-editor/trigger-cards.tsx
 msgid "Only me"
 msgstr "僅限我"
+
+#: src/pages/shell/use-routine-editor.ts
+msgid "Only the bot's creator can see its webhook key."
+msgstr ""
 
 #: src/pages/shell/use-routine-editor.ts
 msgid "Only the bot's creator can set its webhook key."
@@ -5057,6 +5072,11 @@ msgstr "開啟 {title}"
 msgid "Open <0>{0}</0> and enter this code:"
 msgstr "開啟 <0>{0}</0> 並輸入以下代碼："
 
+#: src/components/pages/PublicPageShell.tsx
+#: src/pages/SharedPage.tsx
+msgid "Open Ai7"
+msgstr "開啟 Ai7"
+
 #: src/pages/shell/chat-header.tsx
 msgid "Open call"
 msgstr "開啟通話"
@@ -5086,11 +5106,9 @@ msgstr "開啟連結"
 msgid "Open navigation"
 msgstr "開啟導覽"
 
-#: src/components/pages/PublicPageShell.tsx
 #: src/pages/Invite.tsx
-#: src/pages/SharedPage.tsx
-msgid "Open Ai7"
-msgstr "開啟 Ai7"
+msgid "Open Rakazo"
+msgstr ""
 
 #: src/pages/ScratchpadSection.tsx
 msgid "Open work"
@@ -5379,10 +5397,6 @@ msgstr "外掛"
 msgid "Post \"No changes\" in chat"
 msgstr "在聊天室中傳送「沒有變更」"
 
-#: src/pages/routine-editor/trigger-cards.tsx
-msgid "POST to"
-msgstr "POST 到"
-
 #: src/components/bot-templates/bot-template-copy.ts
 msgid "PR reviewer"
 msgstr "PR 審查員"
@@ -5463,14 +5477,9 @@ msgstr "Pull request"
 msgid "Queued"
 msgstr "排隊中"
 
-#: src/pages/AccountSettingsOverlay.tsx
-#: src/pages/shell/avatar-studio-popover.tsx
-msgid "Ai7"
-msgstr "Ai7"
-
-#: src/pages/Onboarding.tsx
-msgid "Ai7 credits"
-msgstr "Ai7 額度"
+#: src/pages/onboarding/use-onboarding-model.ts
+msgid "Rakazo credits"
+msgstr ""
 
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
 msgid "rakazo-shared and IDs starting with bot- are reserved for Ai7."
@@ -5508,10 +5517,6 @@ msgstr "推理強度"
 #: src/pages/memory-providers/SerenitySettingsForm.tsx
 msgid "Recall and write"
 msgstr "回想與寫入"
-
-#: src/pages/memory-providers/HonchoSettingsForm.tsx
-msgid "Recall from this peer; save to Rakazo’s own peers."
-msgstr "從此 peer 讀取；儲存至 Rakazo 自己的 peer。"
 
 #: src/pages/memory-providers/SerenitySettingsForm.tsx
 msgid "Recall only"
@@ -5732,7 +5737,7 @@ msgstr "移除標頭"
 msgid "Remove message trigger"
 msgstr "移除訊息觸發條件"
 
-#: src/pages/RoutineEditor.tsx
+#: src/pages/RoutineSchedule.tsx
 msgid "Remove schedule"
 msgstr "移除排程"
 
@@ -5935,15 +5940,15 @@ msgstr "立即重試"
 msgid "Retry screen"
 msgstr "重新連線螢幕"
 
-#. placeholder {0}: call.botName
-#: src/components/call/CallCard.tsx
-msgid "Return to call with {0}"
-msgstr "返回與 {0} 的通話"
-
 #: src/pages/McpOAuthCallback.tsx
 #: src/pages/SlackInstallCallback.tsx
 msgid "Return to Ai7"
 msgstr "返回 Ai7"
+
+#. placeholder {0}: call.botName
+#: src/components/call/CallCard.tsx
+msgid "Return to call with {0}"
+msgstr "返回與 {0} 的通話"
 
 #: src/lib/model-connection-preflight.ts
 msgid "Review provider settings and test again."
@@ -5997,6 +6002,10 @@ msgstr "執行時間"
 #: src/pages/RoutineRunHistory.tsx
 msgid "Run history"
 msgstr "執行紀錄"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Run now"
+msgstr ""
 
 #: src/pages/shell/use-routine-editor.ts
 msgid "Run time must be in the future."
@@ -6087,10 +6096,6 @@ msgstr "已儲存，但清單重新整理失敗"
 #: src/pages/model-settings/use-model-settings.ts
 msgid "Saved."
 msgstr "已儲存。"
-
-#: src/pages/routine-editor/trigger-cards.tsx
-msgid "Saved. Rotate to reveal."
-msgstr "已儲存。輪換後可檢視。"
 
 #: src/components/ComputerUpdateProgress.tsx
 msgid "Saving your workspace"
@@ -6215,6 +6220,10 @@ msgstr "搜尋：{0}"
 #: src/pages/SpaceSearch.tsx
 msgid "Searching…"
 msgstr "正在搜尋…"
+
+#: src/pages/routine-editor/trigger-cards.tsx
+msgid "Secret"
+msgstr ""
 
 #: src/pages/AccountSettingsOverlay.tsx
 msgid "Security"
@@ -6389,6 +6398,10 @@ msgstr "顯示全部"
 msgid "Show bots"
 msgstr "顯示機器人"
 
+#: src/pages/routine-editor/trigger-cards.tsx
+msgid "Show key"
+msgstr ""
+
 #: src/pages/Artifacts.tsx
 msgid "Show list"
 msgstr "顯示清單"
@@ -6459,10 +6472,6 @@ msgstr "使用通行金鑰登入"
 #: src/lib/model-connection-preflight.ts
 msgid "Sign in with the subscription, or test the API key instead."
 msgstr "請使用訂閱登入，或改為測試 API 金鑰。"
-
-#: src/pages/Auth.tsx
-msgid "Sign up"
-msgstr "註冊"
 
 #: src/components/integrations/plugin-marketplace.tsx
 msgid "Sign-in cancelled. Try again."
@@ -6862,10 +6871,6 @@ msgstr "測試 API 金鑰"
 #: src/pages/McpServersOverlay.tsx
 msgid "Test connection"
 msgstr "測試連線"
-
-#: src/pages/RoutineEditor.tsx
-msgid "Test run"
-msgstr "測試執行"
 
 #: src/pages/PluginSubmissionsPanel.tsx
 msgid "Testing"
@@ -7430,6 +7435,10 @@ msgstr "上傳"
 msgid "Urgent"
 msgstr "緊急"
 
+#: src/pages/routine-editor/trigger-cards.tsx
+msgid "URL"
+msgstr ""
+
 #: src/pages/settings-nav.ts
 msgid "Usage"
 msgstr "用量"
@@ -7456,6 +7465,10 @@ msgstr "請使用 2 到 64 個字元"
 #: src/pages/onboarding/model-step.tsx
 msgid "Use a found model"
 msgstr "使用找到的模型"
+
+#: src/components/ModelCredits.tsx
+msgid "Use Ai7 credits"
+msgstr "使用 Ai7 額度"
 
 #: src/lib/model-connection-preflight.ts
 msgid "Use Connect to verify the key."
@@ -7488,10 +7501,6 @@ msgstr "使用我的訂閱或 API 金鑰"
 #: src/components/teach/TeachRecordingChrome.tsx
 msgid "Use Protected input for passwords."
 msgstr "輸入密碼時，請使用受保護的輸入。"
-
-#: src/components/ModelCredits.tsx
-msgid "Use Ai7 credits"
-msgstr "使用 Ai7 額度"
 
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
 msgid "Use up to 512 letters, digits, _ or -."
@@ -7624,8 +7633,6 @@ msgid "week"
 msgstr "週"
 
 #: src/lib/cron.ts
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
 msgid "Weekdays"
 msgstr "工作日"
 
