@@ -308,6 +308,11 @@ export function botsRoutes(ctx: RouterContext) {
         return found;
       }),
       create: authed.bots.create.handler(async ({ context, input }) => {
+        if (input.computerMode === "dedicated") {
+          throw new ORPCError("BAD_REQUEST", {
+            message: "Private computers are disabled on this deployment",
+          });
+        }
         let bot: Bot;
         try {
           // Older apps always send Original, which would pin every new bot to it.
@@ -366,7 +371,7 @@ export function botsRoutes(ctx: RouterContext) {
             color: source.color,
             avatarSet: resolveBotAvatarSet(source.avatarSet),
             avatarSetPinned: source.avatarSetPinned,
-            computerMode: source.computer?.scope === "dedicated" ? "dedicated" : "team",
+            computerMode: "team",
             modelProvider: source.modelProvider,
             modelId: source.modelId,
             thinkingLevel: source.thinkingLevel,
@@ -519,6 +524,11 @@ export function botsRoutes(ctx: RouterContext) {
         return (await repos.listBots(context.actor)).find((bot) => bot.id === input.botId)!;
       }),
       setComputer: authed.bots.setComputer.handler(async ({ context, input }) => {
+        if (input.mode === "dedicated") {
+          throw new ORPCError("BAD_REQUEST", {
+            message: "Private computers are disabled on this deployment",
+          });
+        }
         const bot = await repos.getBot(context.actor, input.botId);
         if (!bot.computer) throw new IsolationError();
         const currentMode = bot.computer.scope === "dedicated" ? "dedicated" : "team";

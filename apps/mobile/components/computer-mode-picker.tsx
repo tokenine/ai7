@@ -37,14 +37,18 @@ export function ComputerModePicker({
           {t("Computer")}
         </Text>
       ) : null}
+      {/* Private (dedicated) computers are disabled on this deployment: show only
+          Team, except on a bot that is already dedicated so it can switch away. */}
       <NativeSegmentedControl
         accessibilityLabel={t("Computer")}
         disabled={disabled}
         onChange={onChange}
-        options={BOT_COMPUTER_MODES.map((value) => ({
-          value,
-          label: value === "team" ? t("Team") : t("Private"),
-        }))}
+        options={(value === "dedicated" ? [...BOT_COMPUTER_MODES] : (["team"] as const)).map(
+          (mode) => ({
+            value: mode,
+            label: mode === "team" ? t("Team") : t("Private"),
+          }),
+        )}
         value={value}
       />
     </View>

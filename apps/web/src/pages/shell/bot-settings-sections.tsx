@@ -31,9 +31,12 @@ export function ComputerModePicker({
   value: ComputerMode;
   onChange: (value: ComputerMode) => void;
 }) {
+  // Private (dedicated) computers are disabled on this deployment: the picker shows
+  // only Team, except on a bot that is already dedicated so it can still switch away.
+  const modes: ComputerMode[] = value === "dedicated" ? [...BOT_COMPUTER_MODES] : ["team"];
   return (
-    <div className="grid grid-cols-2 gap-2">
-      {BOT_COMPUTER_MODES.map((mode) => (
+    <div className={value === "dedicated" ? "grid grid-cols-2 gap-2" : "grid grid-cols-1 gap-2"}>
+      {modes.map((mode) => (
         <Toggle
           key={mode}
           variant="outline"
