@@ -1,6 +1,4 @@
 import { describe, expect, it } from "vitest";
-import type { ModelBackupChoice, ModelCatalogEntry, ModelCredential } from "./domain.js";
-import { OPENAI_COMPATIBLE_PROVIDER_ID } from "./domain.js";
 import {
   connectedBackupOptions,
   connectionDisplayName,
@@ -10,6 +8,7 @@ import {
   withConnectionName,
 } from "./model-backups.js";
 import type { ModelBackupChoice, ModelCatalogEntry, ModelCredential } from "./model-connections.js";
+import { OPENAI_COMPATIBLE_PROVIDER_ID } from "./model-connections.js";
 
 const catalog: ModelCatalogEntry[] = [
   {
@@ -294,8 +293,8 @@ describe("connected backup model choices", () => {
     expect(connectionDisplayName({ ...base, label: "openai-codex" }, "ChatGPT")).toBe("ChatGPT");
   });
 
-  it("names an ai7.work connection Ai7 whether or not the saved label says it", () => {
-    const base = { provider: OPENAI_COMPATIBLE_PROVIDER_ID, baseUrl: "https://api-87.ai7.work/v1" };
+  it("names an endpoint-named connection Ai7 whether or not the saved label says it", () => {
+    const base = { provider: OPENAI_COMPATIBLE_PROVIDER_ID, endpointName: "Ai7" };
     expect(
       connectionDisplayName({ ...base, label: "OpenAI-compatible" }, "OpenAI-compatible"),
     ).toBe("Ai7");
@@ -312,17 +311,13 @@ describe("connected backup model choices", () => {
     expect(connectionDisplayName({ ...base, label: "Router 87" }, "OpenAI-compatible")).toBe(
       "Ai7 (Router 87)",
     );
+    // A local server has no endpoint name: the saved label stays as is.
+    const local = { provider: OPENAI_COMPATIBLE_PROVIDER_ID, endpointName: undefined };
     expect(
-      connectionDisplayName(
-        { ...base, baseUrl: "http://127.0.0.1:8000/v1", label: "OpenAI-compatible" },
-        "OpenAI-compatible",
-      ),
+      connectionDisplayName({ ...local, label: "OpenAI-compatible" }, "OpenAI-compatible"),
     ).toBe("OpenAI-compatible");
     expect(
-      connectionDisplayName(
-        { ...base, baseUrl: "http://127.0.0.1:8000/v1", label: "OpenAI-compatible 2" },
-        "OpenAI-compatible",
-      ),
+      connectionDisplayName({ ...local, label: "OpenAI-compatible 2" }, "OpenAI-compatible"),
     ).toBe("OpenAI-compatible 2");
   });
 

@@ -1,6 +1,7 @@
 /** UI preset only; saved connections use the OpenAI-compatible provider. */
-import type { CompatibleEndpointPreset, ModelCatalogEntry } from "./model-connections.js";
+
 import { BRAND_NAME } from "./brand.js";
+import type { CompatibleEndpointPreset, ModelCatalogEntry } from "./model-connections.js";
 
 export const OLLAMA_CLOUD_BASE_URL = "https://ollama.com/v1";
 
@@ -27,6 +28,7 @@ export function matchCompatibleEndpointPreset(
     return undefined;
   }
   return presets.find((preset) => preset.baseUrl === normalized);
+}
 
 /** The Ai7 model service: one endpoint, one model, keyed by the account's API key. */
 export const AI7_BASE_URL = "https://api.ai7.work/v1";

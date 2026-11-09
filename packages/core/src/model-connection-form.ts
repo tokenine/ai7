@@ -14,7 +14,6 @@ import {
   compatibleConnectionName,
   DEFAULT_MODEL_CONTEXT_WINDOW,
   isAi7BaseUrl,
-  isCloudflareModelProvider,
   ModelHeaderRowsSchema,
   modelHeadersInput,
   OPENAI_COMPATIBLE_PROVIDER_ID,

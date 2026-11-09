@@ -53,6 +53,7 @@ import {
   InMemoryJobQueue,
   InMemoryRealtimeFanout,
   installedMessaging,
+  isGitHubEnabled,
   isGoogleEnabled,
   isMessagingSurfaceEnabled,
   messagingPlatformsFromEnv,

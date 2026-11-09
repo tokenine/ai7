@@ -145,7 +145,6 @@ export function createConnectorRuntime(
         : undefined),
     pipedream,
     google: overrides.google,
-    github: overrides.github,
   });
   const stack = createConnectorStack(composio, [
     installed,
@@ -153,6 +152,7 @@ export function createConnectorRuntime(
       .providers()
       .filter((provider) => !composio || provider.describe().id !== "composio"),
     mcp,
+    ...(overrides.github ? [overrides.github] : []),
     ...(overrides.connectors ?? []),
   ]);
   integrationSettings.warmDirectories();
