@@ -701,7 +701,6 @@ msgstr "सर्वर का नाम दर्ज करें।"
 msgid "Add a stdio command."
 msgstr "एक stdio कमांड दर्ज करें।"
 
-#: src/pages/RoutineEditor.tsx
 #: src/pages/shell/use-routine-editor.ts
 msgid "Add a trigger to run this routine."
 msgstr "इस रूटीन को चलाने के लिए ट्रिगर जोड़ें।"
@@ -813,12 +812,12 @@ msgstr "पता पंक्ति 2"
 msgid "Adds"
 msgstr "क्या जोड़ा जाएगा"
 
+#: src/lib/cron.ts
 #: src/pages/McpServerForm.tsx
 #: src/pages/model-settings/compatible-model-fields.tsx
 #: src/pages/ModelSettingsOverlay.tsx
 #: src/pages/onboarding/model-step.tsx
 #: src/pages/routine-editor/model-settings.tsx
-#: src/pages/RoutineSchedule.tsx
 #: src/pages/shell/bot-panel.tsx
 msgid "Advanced"
 msgstr "उन्नत"
@@ -830,6 +829,12 @@ msgstr "उन्नत..."
 #: src/components/AccountDataSettings.tsx
 msgid "Agent from another app"
 msgstr "दूसरे ऐप का एजेंट"
+
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/ModelSettingsOverlay.tsx
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Ai7"
+msgstr "Ai7"
 
 #: src/components/VaultSettings.tsx
 #: src/pages/PluginsOverlay.tsx
@@ -866,6 +871,10 @@ msgstr "अब तक"
 msgid "Allow"
 msgstr "अनुमति दें"
 
+#: src/lib/dictation.ts
+msgid "Allow Ai7 to use Speech Recognition and the microphone in System Settings."
+msgstr ""
+
 #: src/pages/shell/bot-settings-sections.tsx
 msgid "Allow cross-space bot communication"
 msgstr "अलग-अलग स्पेस के बॉट्स के बीच बातचीत की अनुमति दें"
@@ -877,10 +886,6 @@ msgstr "इस स्पेस में अनुमति दें"
 #: src/components/AskCard.tsx
 msgid "Allow once"
 msgstr "एक बार अनुमति दें"
-
-#: src/lib/dictation.ts
-msgid "Allow Ai7 to use Speech Recognition and the microphone in System Settings."
-msgstr ""
 
 #: src/pages/memory-providers/SerenitySettingsForm.tsx
 msgid "Allow writing"
@@ -1179,8 +1184,8 @@ msgid "Automated senders"
 msgstr "स्वचालित प्रेषक"
 
 #: src/pages/routine-editor/trigger-cards.tsx
-msgid "Available after the routine is saved"
-msgstr "रूटीन सहेजे जाने के बाद उपलब्ध"
+msgid "Available after saving"
+msgstr ""
 
 #: src/components/ModelCredits.tsx
 msgid "Available credits"
@@ -2076,6 +2081,7 @@ msgstr "बातचीत"
 #: src/components/vault/VaultItemDetail.tsx
 #: src/pages/model-settings/connection-controls.tsx
 #: src/pages/onboarding/model-step.tsx
+#: src/pages/routine-editor/trigger-cards.tsx
 #: src/pages/shell/agent-import.tsx
 #: src/pages/shell/message-hover-actions.tsx
 msgid "Copied"
@@ -2092,6 +2098,10 @@ msgstr "कॉपी करें"
 #: src/components/vault/BotEmailAddresses.tsx
 msgid "Copy {address}"
 msgstr "{address} कॉपी करें"
+
+#: src/pages/routine-editor/trigger-cards.tsx
+msgid "Copy {label}"
+msgstr ""
 
 #: src/components/markdown-copy.tsx
 msgid "Copy code"
@@ -2636,6 +2646,10 @@ msgstr "वह भेजा नहीं जा सका"
 msgid "Could not show the credential"
 msgstr "क्रेडेंशियल नहीं दिखाया जा सका"
 
+#: src/pages/shell/use-routine-editor.ts
+msgid "Could not show the webhook key"
+msgstr ""
+
 #: src/components/integrations/plugin-marketplace.tsx
 msgid "Could not sign in"
 msgstr "साइन इन नहीं हो सका"
@@ -2785,8 +2799,8 @@ msgid "Create organization"
 msgstr "संगठन बनाएँ"
 
 #: src/pages/RoutineList.tsx
-msgid "Create Routine"
-msgstr "रूटीन बनाएं"
+msgid "Create routine"
+msgstr ""
 
 #: src/components/AskCard.tsx
 #: src/pages/shell/dialogs.tsx
@@ -3158,10 +3172,6 @@ msgstr "दस्तावेज़"
 msgid "Document changed. Reopen to edit the latest version."
 msgstr "दस्तावेज़ बदल गया है। नवीनतम संस्करण संपादित करने के लिए फिर से खोलें।"
 
-#: src/pages/Auth.tsx
-msgid "Don’t have an account?"
-msgstr "खाता नहीं है?"
-
 #: src/components/AccountDataSettings.tsx
 #: src/components/ToolActivityDisclosure.tsx
 #: src/lib/ticket-status.ts
@@ -3357,14 +3367,10 @@ msgid "Every bot in this space reads these notes and keeps them up to date."
 msgstr "इस स्पेस के सभी बॉट ये नोट्स पढ़ते हैं और इन्हें अपडेट रखते हैं।"
 
 #: src/lib/cron.ts
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
 msgid "Every day"
 msgstr "हर दिन"
 
 #: src/lib/cron.ts
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
 msgid "Every hour"
 msgstr "हर घंटे"
 
@@ -3380,16 +3386,6 @@ msgstr "हर संदेश"
 #: src/lib/cron.ts
 msgid "Every Monday"
 msgstr "हर सोमवार"
-
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
-msgid "Every month"
-msgstr "हर महीने"
-
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
-msgid "Every week"
-msgstr "हर सप्ताह"
 
 #: src/components/SharedSpaceRules.tsx
 msgid "Everyone here sees its chats, bots and memory"
@@ -3708,8 +3704,8 @@ msgid "Hang up, then enter the code on screen."
 msgstr "कॉल समाप्त करें, फिर स्क्रीन पर कोड डालें।"
 
 #: src/pages/routine-editor/trigger-cards.tsx
-msgid "header"
-msgstr "हेडर"
+msgid "Header"
+msgstr ""
 
 #: src/components/vault/VaultItemDetail.tsx
 msgid "Header \"{header}\""
@@ -3746,6 +3742,10 @@ msgstr "छिपा हुआ"
 #: src/components/vault/VaultItemDetail.tsx
 msgid "Hide"
 msgstr "छिपाएँ"
+
+#: src/pages/routine-editor/trigger-cards.tsx
+msgid "Hide key"
+msgstr ""
 
 #: src/components/I18nBootstrap.tsx
 msgid "Hide password"
@@ -3949,8 +3949,7 @@ msgstr "इंटीग्रेशन डोमेन"
 msgid "Integrations"
 msgstr "इंटीग्रेशन"
 
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
+#: src/lib/cron.ts
 msgid "Interval"
 msgstr "अंतराल"
 
@@ -4041,8 +4040,8 @@ msgid "Keep tool results whole"
 msgstr "टूल परिणाम पूरे रखें"
 
 #: src/pages/routine-editor/trigger-cards.tsx
-msgid "key"
-msgstr "कुंजी"
+msgid "Key options"
+msgstr ""
 
 #: src/pages/shell/keyboard-shortcuts-dialog.tsx
 #: src/pages/shell/use-palette-actions.ts
@@ -4552,6 +4551,10 @@ msgstr "मासिक क्रेडिट"
 msgid "Monthly credits expire at renewal. Top-ups do not expire."
 msgstr "मासिक क्रेडिट नवीनीकरण पर समाप्त हो जाते हैं। टॉप-अप समाप्त नहीं होते।"
 
+#: src/lib/cron.ts
+msgid "Monthly on the 1st"
+msgstr ""
+
 #: src/components/SpaceMembersSettings.tsx
 #: src/pages/plugins/plugin-browse.tsx
 #: src/pages/PluginsOverlay.tsx
@@ -4869,6 +4872,10 @@ msgstr "रीसेट नहीं"
 msgid "No results"
 msgstr "कोई परिणाम नहीं"
 
+#: src/pages/RoutineList.tsx
+msgid "No routines yet"
+msgstr ""
+
 #: src/components/markdown-copy.tsx
 msgid "No rows"
 msgstr "कोई पंक्ति नहीं"
@@ -4877,7 +4884,7 @@ msgstr "कोई पंक्ति नहीं"
 msgid "No runs match these filters."
 msgstr "इन फ़िल्टर से कोई रन मेल नहीं खाता।"
 
-#: src/pages/RoutineRunHistory.tsx
+#: src/pages/ActivityList.tsx
 msgid "No runs yet"
 msgstr "अभी तक कोई रन नहीं"
 
@@ -4940,14 +4947,17 @@ msgstr "प्लगइन कैटलॉग में नहीं"
 msgid "Not now"
 msgstr "अभी नहीं"
 
-#: src/pages/shell/agent-import-plan.tsx
 #: src/pages/shell/import-status.ts
 msgid "Not supported in Ai7"
 msgstr "Ai7 में समर्थित नहीं"
 
-#: src/pages/shell/agent-import.tsx
-msgid "Not used by Ai7"
-msgstr "Ai7 इसका उपयोग नहीं करता"
+#: src/pages/shell/agent-import-plan.tsx
+msgid "Not supported in Rakazo"
+msgstr ""
+
+#: src/pages/shell/agent-import-plan.tsx
+msgid "Not used by Rakazo"
+msgstr ""
 
 #: src/components/McpServerHealthLine.tsx
 #: src/pages/plugins/parts.tsx
@@ -4987,6 +4997,7 @@ msgid "Offline"
 msgstr "ऑफ़लाइन"
 
 #: src/pages/routine-editor/add-trigger-menu.tsx
+#: src/pages/RoutineSchedule.tsx
 msgid "On a schedule"
 msgstr "शेड्यूल पर"
 
@@ -5018,6 +5029,10 @@ msgstr "केवल वही कोड दर्ज करें जो {codeH
 #: src/pages/routine-editor/trigger-cards.tsx
 msgid "Only me"
 msgstr "सिर्फ़ मैं"
+
+#: src/pages/shell/use-routine-editor.ts
+msgid "Only the bot's creator can see its webhook key."
+msgstr ""
 
 #: src/pages/shell/use-routine-editor.ts
 msgid "Only the bot's creator can set its webhook key."
@@ -5056,6 +5071,11 @@ msgstr "{title} खोलें"
 msgid "Open <0>{0}</0> and enter this code:"
 msgstr "<0>{0}</0> खोलें और यह कोड दर्ज करें:"
 
+#: src/components/pages/PublicPageShell.tsx
+#: src/pages/SharedPage.tsx
+msgid "Open Ai7"
+msgstr "Ai7 खोलें"
+
 #: src/pages/shell/chat-header.tsx
 msgid "Open call"
 msgstr "कॉल खोलें"
@@ -5085,11 +5105,9 @@ msgstr "लिंक खोलें"
 msgid "Open navigation"
 msgstr "नेविगेशन खोलें"
 
-#: src/components/pages/PublicPageShell.tsx
 #: src/pages/Invite.tsx
-#: src/pages/SharedPage.tsx
-msgid "Open Ai7"
-msgstr "Ai7 खोलें"
+msgid "Open Rakazo"
+msgstr ""
 
 #: src/pages/ScratchpadSection.tsx
 msgid "Open work"
@@ -5378,10 +5396,6 @@ msgstr "प्लगइन"
 msgid "Post \"No changes\" in chat"
 msgstr "चैट में “कोई बदलाव नहीं” पोस्ट करें"
 
-#: src/pages/routine-editor/trigger-cards.tsx
-msgid "POST to"
-msgstr "POST करें"
-
 #: src/components/bot-templates/bot-template-copy.ts
 msgid "PR reviewer"
 msgstr "PR रिव्यूअर"
@@ -5462,13 +5476,8 @@ msgstr "पुल अनुरोध"
 msgid "Queued"
 msgstr "कतार में"
 
-#: src/pages/AccountSettingsOverlay.tsx
-#: src/pages/shell/avatar-studio-popover.tsx
-msgid "Ai7"
-msgstr "Ai7"
-
-#: src/pages/Onboarding.tsx
-msgid "Ai7 credits"
+#: src/pages/onboarding/use-onboarding-model.ts
+msgid "Rakazo credits"
 msgstr ""
 
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
@@ -5507,10 +5516,6 @@ msgstr "रीज़निंग प्रयास"
 #: src/pages/memory-providers/SerenitySettingsForm.tsx
 msgid "Recall and write"
 msgstr "याद करें और लिखें"
-
-#: src/pages/memory-providers/HonchoSettingsForm.tsx
-msgid "Recall from this peer; save to Rakazo’s own peers."
-msgstr "इस पीयर से याद करें; Rakazo के अपने पीयर में सहेजें।"
 
 #: src/pages/memory-providers/SerenitySettingsForm.tsx
 msgid "Recall only"
@@ -5731,7 +5736,7 @@ msgstr "हेडर हटाएँ"
 msgid "Remove message trigger"
 msgstr "संदेश ट्रिगर हटाएँ"
 
-#: src/pages/RoutineEditor.tsx
+#: src/pages/RoutineSchedule.tsx
 msgid "Remove schedule"
 msgstr "शेड्यूल हटाएँ"
 
@@ -5934,15 +5939,15 @@ msgstr "अभी पुनः प्रयास करें"
 msgid "Retry screen"
 msgstr "स्क्रीन फिर से लोड करें"
 
-#. placeholder {0}: call.botName
-#: src/components/call/CallCard.tsx
-msgid "Return to call with {0}"
-msgstr "{0} के साथ कॉल पर लौटें"
-
 #: src/pages/McpOAuthCallback.tsx
 #: src/pages/SlackInstallCallback.tsx
 msgid "Return to Ai7"
 msgstr "Ai7 पर लौटें"
+
+#. placeholder {0}: call.botName
+#: src/components/call/CallCard.tsx
+msgid "Return to call with {0}"
+msgstr "{0} के साथ कॉल पर लौटें"
 
 #: src/lib/model-connection-preflight.ts
 msgid "Review provider settings and test again."
@@ -5996,6 +6001,10 @@ msgstr "चलाने का समय"
 #: src/pages/RoutineRunHistory.tsx
 msgid "Run history"
 msgstr "रन इतिहास"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Run now"
+msgstr ""
 
 #: src/pages/shell/use-routine-editor.ts
 msgid "Run time must be in the future."
@@ -6086,10 +6095,6 @@ msgstr "सहेजा गया, लेकिन सूची रिफ़्�
 #: src/pages/model-settings/use-model-settings.ts
 msgid "Saved."
 msgstr "सहेजा गया।"
-
-#: src/pages/routine-editor/trigger-cards.tsx
-msgid "Saved. Rotate to reveal."
-msgstr "सहेजा गया। दिखाने के लिए बदलें।"
 
 #: src/components/ComputerUpdateProgress.tsx
 msgid "Saving your workspace"
@@ -6214,6 +6219,10 @@ msgstr "खोज: {0}"
 #: src/pages/SpaceSearch.tsx
 msgid "Searching…"
 msgstr "खोजा जा रहा है…"
+
+#: src/pages/routine-editor/trigger-cards.tsx
+msgid "Secret"
+msgstr ""
 
 #: src/pages/AccountSettingsOverlay.tsx
 msgid "Security"
@@ -6388,6 +6397,10 @@ msgstr "सभी दिखाएँ"
 msgid "Show bots"
 msgstr "बॉट दिखाएँ"
 
+#: src/pages/routine-editor/trigger-cards.tsx
+msgid "Show key"
+msgstr ""
+
 #: src/pages/Artifacts.tsx
 msgid "Show list"
 msgstr "सूची दिखाएँ"
@@ -6458,10 +6471,6 @@ msgstr "पासकी से साइन इन करें"
 #: src/lib/model-connection-preflight.ts
 msgid "Sign in with the subscription, or test the API key instead."
 msgstr "सब्सक्रिप्शन से साइन इन करें, या इसके बजाय API कुंजी का परीक्षण करें।"
-
-#: src/pages/Auth.tsx
-msgid "Sign up"
-msgstr "साइन अप करें"
 
 #: src/components/integrations/plugin-marketplace.tsx
 msgid "Sign-in cancelled. Try again."
@@ -6861,10 +6870,6 @@ msgstr "API कुंजी का परीक्षण करें"
 #: src/pages/McpServersOverlay.tsx
 msgid "Test connection"
 msgstr "कनेक्शन का परीक्षण करें"
-
-#: src/pages/RoutineEditor.tsx
-msgid "Test run"
-msgstr "टेस्ट रन"
 
 #: src/pages/PluginSubmissionsPanel.tsx
 msgid "Testing"
@@ -7429,6 +7434,10 @@ msgstr "अपलोड"
 msgid "Urgent"
 msgstr "अत्यावश्यक"
 
+#: src/pages/routine-editor/trigger-cards.tsx
+msgid "URL"
+msgstr ""
+
 #: src/pages/settings-nav.ts
 msgid "Usage"
 msgstr "उपयोग"
@@ -7455,6 +7464,10 @@ msgstr "2 से 64 अक्षर इस्तेमाल करें"
 #: src/pages/onboarding/model-step.tsx
 msgid "Use a found model"
 msgstr "मिला हुआ मॉडल उपयोग करें"
+
+#: src/components/ModelCredits.tsx
+msgid "Use Ai7 credits"
+msgstr ""
 
 #: src/lib/model-connection-preflight.ts
 msgid "Use Connect to verify the key."
@@ -7487,14 +7500,6 @@ msgstr "मेरा सब्सक्रिप्शन या API कुं�
 #: src/components/teach/TeachRecordingChrome.tsx
 msgid "Use Protected input for passwords."
 msgstr "पासवर्ड के लिए सुरक्षित इनपुट का उपयोग करें।"
-
-#: src/components/ModelCredits.tsx
-msgid "Use Ai7 credits"
-msgstr ""
-
-#: src/pages/model-settings/space-bots-model.tsx
-msgid "Use space default"
-msgstr ""
 
 #: src/pages/memory-providers/HonchoSettingsForm.tsx
 msgid "Use up to 512 letters, digits, _ or -."
@@ -7627,8 +7632,6 @@ msgid "week"
 msgstr "सप्ताह"
 
 #: src/lib/cron.ts
-#: src/pages/routine-editor/add-trigger-menu.tsx
-#: src/pages/RoutineSchedule.tsx
 msgid "Weekdays"
 msgstr "कार्यदिवस"
 
