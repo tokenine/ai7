@@ -59,7 +59,7 @@ async function flush(ticks = 30): Promise<void> {
   for (let i = 0; i < ticks; i += 1) await Promise.resolve();
 }
 
-function selectMode(mode: "cloud" | "new" | "existing"): void {
+function selectMode(mode: "cloud" | "existing"): void {
   const input = document.querySelector<HTMLInputElement>(`input[name="mode"][value="${mode}"]`);
   if (input === null) throw new Error(`setup.html is missing the ${mode} mode input`);
   input.checked = true;
@@ -233,60 +233,6 @@ describe("setup", () => {
     expect(element<HTMLButtonElement>("continue").disabled).toBe(false);
   });
 
-  it("ignores a start that finishes after leaving This computer", async () => {
-    const ui = await boot(null);
-    selectMode("new");
-    submitForm();
-    await flush();
-    expect(element<HTMLButtonElement>("continue").disabled).toBe(true);
-
-    selectMode("cloud");
-    await flush();
-    expect(element<HTMLButtonElement>("continue").disabled).toBe(false);
-
-    ui.startResult.resolve(stackState("starting"));
-    await flush();
-    expect(element<HTMLButtonElement>("continue").disabled).toBe(false);
-    expect(element("stack").hidden).toBe(true);
-    expect(element("stack-phase").textContent).toBe("");
-  });
-
-  it("stays silent when a start fails after leaving This computer", async () => {
-    const ui = await boot(null);
-    selectMode("new");
-    submitForm();
-    await flush();
-    selectMode("cloud");
-    await flush();
-
-    ui.startResult.reject(new Error("renderer closed"));
-    await flush();
-
-    expect(element("status").textContent).toBe("");
-    expect(element<HTMLButtonElement>("continue").disabled).toBe(false);
-  });
-
-  it("re-attaches to the running stack after returning to This computer", async () => {
-    const ui = await boot(null);
-    selectMode("new");
-    submitForm();
-    await flush();
-    selectMode("cloud");
-    await flush();
-    ui.startResult.resolve(stackState("starting"));
-    await flush();
-
-    selectMode("new");
-    await flush();
-    ui.pushStackState(stackState("pulling"));
-    await flush();
-    ui.resolveStackState(stackState("pulling"));
-    await flush();
-
-    expect(element("stack").hidden).toBe(false);
-    expect(element("stack-phase").textContent).toBe("Downloading Ai7…");
-  });
-
   it("locks the address while it is being saved and unlocks it when the save fails", async () => {
     const ui = await boot(null);
     selectMode("existing");
@@ -383,29 +329,6 @@ describe("setup", () => {
     expect(element("status").textContent).toBe("Invalid custom headers");
   });
 
-  it("renders a current start and follows it until it saves the ready stack", async () => {
-    const ui = await boot(null);
-    selectMode("new");
-    submitForm();
-    ui.startResult.resolve(stackState("pulling"));
-    await flush();
-    expect(element("stack").hidden).toBe(false);
-    expect(element("stack-phase").textContent).toBe("Downloading Ai7…");
-    expect(element<HTMLButtonElement>("continue").disabled).toBe(true);
-
-    ui.resolveStackState(stackState("ready"));
-    await flush();
-    ui.resolveAppState(null);
-    await flush();
-    ui.resolveSave({ ok: true });
-    await flush();
-
-    expect(element("stack-phase").textContent).toBe("Ai7 is ready.");
-    expect(element("stack-phase").getAttribute("data-tone")).toBe("ok");
-    expect(ui.saves).toEqual([{ mode: "new", serverUrl: DEFAULT_LOCAL_URL }]);
-    expect(element<HTMLButtonElement>("continue").disabled).toBe(false);
-  });
-
   it("lays a right-to-left language out right to left", async () => {
     await boot(null, { lang: "he", dir: "rtl", messages: HE_MESSAGES });
     expect(document.documentElement.lang).toBe("he");
@@ -418,9 +341,6 @@ describe("setup", () => {
     expect(document.documentElement.lang).toBe("es");
     expect(document.documentElement.dir).toBe("ltr");
     expect(document.querySelector("h1")?.textContent).toBe("Te damos la bienvenida a Ai7");
-    expect(document.querySelector('label[for="mode-new"]')?.textContent?.trim()).toBe(
-      "Esta computadora",
-    );
     expect(document.querySelector('label[for="mode-cloud"]')?.textContent?.trim()).toBe(
       "Ai7 Cloud",
     );
@@ -439,13 +359,6 @@ describe("setup", () => {
     ui.resolveCheck({ ok: true, url: "https://one.example" });
     await flush();
     expect(element("status").textContent).toBe("Ai7 respondió en https://one.example.");
-
-    selectMode("new");
-    submitForm();
-    ui.startResult.resolve({ ...stackState("pulling"), layerBytes: { layer: 2.5e6 } });
-    await flush();
-    expect(element("stack-phase").textContent).toBe("Descargando Ai7…");
-    expect(element("stack-detail").textContent).toBe("3 MB descargados");
   });
 
   it("renders Polish setup controls and interpolates connection and download status", async () => {
@@ -472,12 +385,5 @@ describe("setup", () => {
     expect(element("status").textContent).toBe(
       "Ai7 odpowiedziało pod adresem https://one.example.",
     );
-
-    selectMode("new");
-    submitForm();
-    ui.startResult.resolve({ ...stackState("pulling"), layerBytes: { layer: 2.5e6 } });
-    await flush();
-    expect(element("stack-phase").textContent).toBe(PL_MESSAGES["Downloading Ai7…"]);
-    expect(element("stack-detail").textContent).toBe("Pobrano 3 MB");
   });
 });

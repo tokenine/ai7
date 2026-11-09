@@ -73,7 +73,6 @@ export const ZH_TW_MESSAGES: Record<string, string> = {
   "Welcome to Ai7": "歡迎使用 Ai7",
   "Choose which server this app should use.": "選擇此 App 要使用的伺服器。",
   Instance: "執行個體",
-  "This computer": "這台電腦",
   "Existing instance": "現有執行個體",
   "Technical details": "技術詳細資訊",
   "Setup progress": "設定進度",

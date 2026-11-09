@@ -79,7 +79,6 @@ export const NL_MESSAGES: Record<string, string> = {
   "Welcome to Ai7": "Welkom bij Ai7",
   "Choose which server this app should use.": "Kies welke server deze app moet gebruiken.",
   Instance: "Instantie",
-  "This computer": "Deze computer",
   "Existing instance": "Bestaande instantie",
   "Technical details": "Technische details",
   "Setup progress": "Voortgang van de installatie",

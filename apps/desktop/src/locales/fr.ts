@@ -80,7 +80,6 @@ export const FR_MESSAGES: Record<string, string> = {
   "Welcome to Ai7": "Bienvenue dans Ai7",
   "Choose which server this app should use.": "Choisissez le serveur que cette app doit utiliser.",
   Instance: "Instance",
-  "This computer": "Cet ordinateur",
   "Existing instance": "Instance existante",
   "Technical details": "Détails techniques",
   "Setup progress": "Progression de la configuration",

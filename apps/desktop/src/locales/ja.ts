@@ -80,7 +80,6 @@ export const JA_MESSAGES: Record<string, string> = {
   "Welcome to Ai7": "Rakazoへようこそ",
   "Choose which server this app should use.": "このアプリで使うサーバを選んでください。",
   Instance: "インスタンス",
-  "This computer": "このコンピュータ",
   "Existing instance": "既存のインスタンス",
   "Technical details": "技術的な詳細",
   "Setup progress": "設定の進行状況",

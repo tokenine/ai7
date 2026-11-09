@@ -79,7 +79,6 @@ export const KO_MESSAGES: Record<string, string> = {
   "Welcome to Ai7": "Rakazo에 오신 것을 환영합니다",
   "Choose which server this app should use.": "이 앱에서 사용할 서버를 선택하세요.",
   Instance: "인스턴스",
-  "This computer": "이 컴퓨터",
   "Existing instance": "기존 인스턴스",
   "Technical details": "기술 세부 정보",
   "Setup progress": "설정 진행 상황",

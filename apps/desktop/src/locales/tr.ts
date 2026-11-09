@@ -79,7 +79,6 @@ export const TR_MESSAGES: Record<string, string> = {
   "Welcome to Ai7": "Ai7’ya hoş geldiniz",
   "Choose which server this app should use.": "Bu uygulamanın hangi sunucuyu kullanacağını seçin.",
   Instance: "Örnek",
-  "This computer": "Bu bilgisayar",
   "Existing instance": "Mevcut örnek",
   "Technical details": "Teknik ayrıntılar",
   "Setup progress": "Kurulum ilerlemesi",

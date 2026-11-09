@@ -28,7 +28,7 @@ async function runMenuUpdateCheck() {
       : dialog.showMessageBox(options);
   if (state.phase === "ready") {
     const { response } = await alert({
-      message: t("Rakazo {version} is ready to install.", {
+      message: t("Ai7 {version} is ready to install.", {
         version: state.availableVersion ?? "",
       }),
       buttons: [t("Restart"), t("Later")],
@@ -54,7 +54,7 @@ async function runMenuUpdateCheck() {
     });
   } else if (state.phase === "idle") {
     await alert({
-      message: t("Rakazo is up to date."),
+      message: t("Ai7 is up to date."),
       detail: t("Version {version}", { version: state.currentVersion }),
     });
   }
@@ -103,7 +103,7 @@ export function applicationMenuInstaller({
     };
     const changeServer: Electron.MenuItemConstructorOptions = {
       id: "change-rakazo-server",
-      label: t("Change Rakazo Server…"),
+      label: t("Change Ai7 Server…"),
       accelerator: "CmdOrCtrl+Shift+K",
       click: () => showSetupWindow(),
     };

@@ -81,7 +81,6 @@ export const RU_MESSAGES: Record<string, string> = {
   "Choose which server this app should use.":
     "Выберите, какой сервер будет использовать это приложение.",
   Instance: "Экземпляр",
-  "This computer": "Этот компьютер",
   "Existing instance": "Существующий экземпляр",
   "Technical details": "Технические подробности",
   "Setup progress": "Ход настройки",

@@ -77,7 +77,6 @@ export const HE_MESSAGES: Record<string, string> = {
   "Welcome to Ai7": "ברוכים הבאים ל-Ai7",
   "Choose which server this app should use.": "יש לבחור באיזה שרת האפליקציה תשתמש.",
   Instance: "מופע",
-  "This computer": "המחשב הזה",
   "Existing instance": "מופע קיים",
   "Technical details": "פרטים טכניים",
   "Setup progress": "התקדמות ההגדרה",

@@ -78,7 +78,6 @@ export const HI_MESSAGES: Record<string, string> = {
   "Welcome to Ai7": "Ai7 में आपका स्वागत है",
   "Choose which server this app should use.": "चुनें कि यह ऐप कौन-सा सर्वर इस्तेमाल करे।",
   Instance: "इंस्टेंस",
-  "This computer": "यह कंप्यूटर",
   "Existing instance": "मौजूदा इंस्टेंस",
   "Technical details": "तकनीकी जानकारी",
   "Setup progress": "सेटअप की प्रगति",

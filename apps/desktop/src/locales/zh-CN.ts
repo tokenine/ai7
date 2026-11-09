@@ -72,7 +72,6 @@ export const ZH_CN_MESSAGES: Record<string, string> = {
   "Welcome to Ai7": "欢迎使用 Ai7",
   "Choose which server this app should use.": "选择此应用要使用的服务器。",
   Instance: "实例",
-  "This computer": "这台电脑",
   "Existing instance": "现有实例",
   "Technical details": "技术详情",
   "Setup progress": "设置进度",

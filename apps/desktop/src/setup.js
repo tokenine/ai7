@@ -462,7 +462,7 @@
       // attempt instead of the saved mode, and follow it while it is still running.
       const stack = await bridge.stack.state();
       const attached = stack !== null && stack.phase !== "idle";
-      if (attached) document.getElementById("mode-new").checked = true;
+
       syncPanels();
       setBusy(false);
       if (state.error) setStatus(state.error, "error");
