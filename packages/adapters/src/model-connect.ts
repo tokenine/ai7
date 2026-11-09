@@ -4,6 +4,7 @@ import {
   assertHeaderSafeApiKey,
   OPENAI_COMPATIBLE_PROVIDER_ID as CONTRACT_OPENAI_COMPAT,
   canonicalPiProviderId,
+  isAi7BaseUrl,
   MAX_ENABLED_MODEL_IDS,
   modelOutputLeavesInputRoom,
 } from "@rakazo/contracts";
@@ -278,6 +279,8 @@ function connectMaxTokens(
 }
 
 function endpointName(baseUrl: string): { endpointName?: string } {
+  // Any ai7.work host (e.g. the api-87 gateway) names the connection Ai7.
+  if (isAi7BaseUrl(baseUrl)) return { endpointName: "Ai7" };
   const preset = compatibleEndpointPreset(baseUrl);
   return preset ? { endpointName: preset.name } : {};
 }
