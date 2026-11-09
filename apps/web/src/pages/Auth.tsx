@@ -54,7 +54,7 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
   const [capabilityAttempt, setCapabilityAttempt] = useState(0);
   const [codeSent, setCodeSent] = useState(false);
   const [code, setCode] = useState("");
-  const useCode = Boolean(reset?.passwordAuth && reset.emailCode) && mode !== "forgot";
+  const useCode = Boolean(reset?.emailCode) && mode !== "forgot";
   // A blank password asks for an emailed code, so code-only accounts need no toggle.
   const codeMode = useCode && !password;
   const codeStep = useCode && codeSent;
@@ -92,7 +92,7 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!reset?.passwordAuth) return;
+    if (!reset?.passwordAuth && !reset?.emailCode) return;
     if (codeStep) {
       // An unfinished code would spend one of the code's three attempts.
       if (code.length === CODE_LENGTH) await verifyCode(code);
@@ -265,12 +265,12 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
               <Trans>Continue with {reset.sso.name}</Trans>
             </Button>
           ) : null}
-          {error && !reset?.passwordAuth ? (
+          {error && !(reset?.passwordAuth || reset?.emailCode) ? (
             <p role="alert" className="mt-3 text-body text-destructive">
               {error}
             </p>
           ) : null}
-          {reset?.passwordAuth ? (
+          {reset?.passwordAuth || reset?.emailCode ? (
             <>
               {mode === "up" && !codeStep ? (
                 <div className="mb-4 w-full">
@@ -349,7 +349,7 @@ export function AuthPage({ mode }: { mode: AuthMode }) {
                   ) : null}
                 </div>
               )}
-              {mode !== "forgot" && !codeStep ? (
+              {reset?.passwordAuth && mode !== "forgot" && !codeStep ? (
                 <div className="mt-4 w-full">
                   <Label htmlFor={passwordFieldId} className="text-muted-foreground">
                     <Trans>Password</Trans>
