@@ -10,6 +10,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Connecting an MCP server whose OAuth asks for many permissions, such as PostHog's, no longer fails with "MCP URL exceeds 2048 characters". The browser sign-in link now has its own, larger limit, while MCP server addresses keep the 2,048-character one.
 
+## [0.8.1] - 2026-11-09
+
+### Changed
+
+- The setup screen offers Ai7 Cloud (our deployment) and Existing instance; the local-stack option is gone, and the app menu and update messages say Ai7.
+
+### Added
+
+- The upstream sync brings 340 upstream commits, including security fixes, ripgrep/fd/sqlite3 in the computer image, and steadier computer retries. Private (dedicated per-bot) computers are disabled on this deployment: the Computer picker shows Team only, and the API refuses new dedicated computers. Bots already on a Private computer keep working until switched.
+- Sign-in keeps using the emailed code on OTP-only deployments after the upstream auth refresh.
+
+
+
+### Fixed
+
+- Connecting an MCP server whose OAuth asks for many permissions, such as PostHog's, no longer fails with "MCP URL exceeds 2048 characters". The browser sign-in link now has its own, larger limit, while MCP server addresses keep the 2,048-character one.
+
 ## [0.8.0] - 2026-11-04
 
 ### Added
