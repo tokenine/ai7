@@ -15,10 +15,15 @@ verifyDepsBeforeRun: false
 supportedArchitectures:
   os:
     - current
+    - win32
+    - linux
   cpu:
     - current
     - x64
     - arm64
+  libc:
+    - glibc
+    - musl
 
 overrides:
   react: 19.2.3
