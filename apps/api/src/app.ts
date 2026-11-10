@@ -53,6 +53,7 @@ import {
   InMemoryJobQueue,
   InMemoryRealtimeFanout,
   installedMessaging,
+  isGitHubEnabled,
   isGoogleEnabled,
   isMessagingSurfaceEnabled,
   messagingPlatformsFromEnv,
@@ -481,11 +482,9 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
       network: remoteConnectors,
       composio: composioOverride,
       pipedream: pipedreamOverride,
-      connectors: [
-        ...(googleConnector ? [googleConnector] : []),
-        ...(_github ? [_github] : []),
-        ...connectorOverrides,
-      ],
+      google: googleConnector,
+      googleArtifacts: artifacts,
+      connectors: [...(_github ? [_github] : []), ...connectorOverrides],
     },
   );
   const { mcpOAuth, mcp, pipedream, installed, integrationSettings, stack } = connectors;

@@ -100,6 +100,8 @@ export interface ConnectorRuntimeOverrides {
   pipedream?: ManagedConnectorProvider;
   /** First-party Google connector, registered as the google fallback provider. */
   google?: ManagedConnectorProvider;
+  /** Artifact store backing google attachment uploads in the fallback provider. */
+  googleArtifacts?: Pick<ArtifactStore, "get">;
   /** First-party GitHub connector, registered as the github fallback provider. */
   github?: ManagedConnectorProvider;
   /** Registered beside the configured providers. */
@@ -138,22 +140,29 @@ export function createConnectorRuntime(
     network,
     env.mcpAllowPrivateEndpoint,
   );
-  const integrationSettings = new IntegrationProviderSettings(prisma, secrets, env.encryptionKey, {
-    composio:
-      composio ??
-      (isComposioEnabled(env.composioApiKey)
-        ? new ComposioConnector({ apiKey: env.composioApiKey })
-        : undefined),
-    pipedream,
-    google: overrides.google,
-    github: overrides.github,
-  });
+  const integrationSettings = new IntegrationProviderSettings(
+    prisma,
+    secrets,
+    env.encryptionKey,
+    {
+      composio:
+        composio ??
+        (isComposioEnabled(env.composioApiKey)
+          ? new ComposioConnector({ apiKey: env.composioApiKey })
+          : undefined),
+      pipedream,
+      google: overrides.google,
+    },
+    undefined,
+    overrides.googleArtifacts,
+  );
   const stack = createConnectorStack(composio, [
     installed,
     ...integrationSettings
       .providers()
       .filter((provider) => !composio || provider.describe().id !== "composio"),
     mcp,
+    ...(overrides.github ? [overrides.github] : []),
     ...(overrides.connectors ?? []),
   ]);
   integrationSettings.warmDirectories();

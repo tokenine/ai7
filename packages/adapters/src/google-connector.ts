@@ -11,7 +11,7 @@ import type {
 } from "@rakazo/adapter-kit";
 import type { PrismaClient } from "@rakazo/db";
 import { runAsSystem } from "@rakazo/db";
-import { filterCatalog } from "./composio-connector.js";
+import { filterCatalog } from "./connector-catalog.js";
 import {
   combineSignals,
   redactConnectorPayload,
