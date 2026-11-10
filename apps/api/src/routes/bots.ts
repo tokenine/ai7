@@ -519,12 +519,14 @@ export function botsRoutes(ctx: RouterContext) {
         return (await repos.listBots(context.actor)).find((bot) => bot.id === input.botId)!;
       }),
       setComputer: authed.bots.setComputer.handler(async ({ context, input }) => {
+        // Team-only deployment: a Private (dedicated) request resolves to the team computer.
+        const mode = input.mode === "dedicated" ? "team" : input.mode;
         const bot = await repos.getBot(context.actor, input.botId);
         if (!bot.computer) throw new IsolationError();
         const currentMode = bot.computer.scope === "dedicated" ? "dedicated" : "team";
-        if (currentMode === input.mode) {
+        if (currentMode === mode) {
           try {
-            return await repos.setBotComputer(context.actor, bot.id, input.mode);
+            return await repos.setBotComputer(context.actor, bot.id, mode);
           } catch (error) {
             throw mapSpaceLifecycleError(error);
           }
@@ -579,7 +581,7 @@ export function botsRoutes(ctx: RouterContext) {
             });
             await recordComputerRunEnd(deps.prisma, bot.computer, "stopped");
           }
-          const updated = await repos.setBotComputer(context.actor, bot.id, input.mode);
+          const updated = await repos.setBotComputer(context.actor, bot.id, mode);
           deps.analytics?.capture(context.actor.userId, {
             name: "bot_setting_changed",
             setting: "computer",

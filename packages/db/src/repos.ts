@@ -534,6 +534,11 @@ export function createRepos(
         isolationLevel?: Prisma.TransactionIsolationLevel;
       },
     ): Promise<Bot> {
+      // Team-only deployment: a dedicated-computer request is coerced to the bot's
+      // team computer so every creation path (create, import, duplicate) stays shared.
+      if (input.computerMode === "dedicated") {
+        input = { ...input, computerMode: "team" };
+      }
       // A reserved preview identity is also an idempotency key if the response is lost.
       const spawnKey = input.spawnKey ?? input.id;
       let modelProvider = input.modelProvider ?? null;
