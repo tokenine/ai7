@@ -14,19 +14,21 @@ import subprocess
 import sys
 
 
-# Launchers whose process WM_CLASS differs from the launcher name. The browser
-# is Google Chrome when the image baked it (amd64), else Chromium unless the
-# image was built with BROWSER=brave.
-def _browser_wm_class():
-    if shutil.which("google-chrome-stable") or shutil.which("google-chrome"):
+# Launchers whose process WM_CLASS differs from the launcher name. The image
+# bakes Google Chrome on amd64 (else Chromium), so Chrome wins whenever it is
+# installed; Brave only applies when there is no Chromium either.
+def browser_wm_class(which=shutil.which):
+    """WM_CLASS of the browser rakazo-browser starts, checked in its search order."""
+    if which("google-chrome") or which("google-chrome-stable"):
         return "google-chrome"
-    if shutil.which("brave-browser") and not shutil.which("chromium"):
+    if which("chromium") or which("chromium-browser"):
+        return "chromium"
+    if which("brave-browser"):
         return "brave-browser"
     return "chromium"
 
 
-BROWSER_WM_CLASS = _browser_wm_class()
-WM_CLASS = {"rakazo-browser": BROWSER_WM_CLASS}
+WM_CLASS = {"rakazo-browser": browser_wm_class()}
 WMCTRL_TIMEOUT_SEC = 5
 # control.py uses the same bounds: a browser may still be forwarding a URL
 # after its profile scan, and other apps only need an immediate-failure window.

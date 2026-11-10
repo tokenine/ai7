@@ -51,7 +51,8 @@ const NOT_PASSED: Record<string, string> = {
   AWS_KMS_PROFILE: "for maintainer laptops; servers use AWS_KMS_ACCESS_KEY_ID and its secret",
   GIT_SHA: "baked into the image at build time; a pass-through entry would unset it",
   SHELL: "host shell for the desktop computer, which only the Electron app runs",
-  CLOUDFLARE_ACCOUNT_ID: "written into Pi's environment from stored gateway settings",
+  // CLOUDFLARE_ACCOUNT_ID reaches the api alongside CLOUDFLARE_EMAIL_API_TOKEN for
+  // transactional email; Pi's copy is written per-run from stored gateway settings.
   CLOUDFLARE_GATEWAY_ID: "written into Pi's environment from stored gateway settings",
   COMPOSE_PROJECT_NAME: "read by the updater sidecar, which has its own environment",
   RAKAZO_COMPOSE_PROJECT_NAME: "read by the updater sidecar, which has its own environment",
@@ -78,7 +79,9 @@ const NOT_PASSED: Record<string, string> = {
  */
 const DENIED = {
   api: ["DATABASE_MIGRATION_URL"],
-  worker: ["BETTER_AUTH_SECRET", "DATABASE_MIGRATION_URL"],
+  // Email sending is api-side; the worker writes Pi's Cloudflare routing from
+  // stored settings per run, so the account id never needs to be worker env.
+  worker: ["BETTER_AUTH_SECRET", "CLOUDFLARE_ACCOUNT_ID", "DATABASE_MIGRATION_URL"],
 } as const;
 
 /** Reads a source scan cannot see: names held in constants or read by third-party SDKs. */

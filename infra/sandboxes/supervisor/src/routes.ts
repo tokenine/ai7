@@ -95,6 +95,7 @@ import {
   currentComputerScreens,
   hasValidBearerToken,
   interactiveScreenCommand,
+  launchBrowserCommand,
   normalizeWorkspaceRelative,
   pageBrowserNotReady,
   preferComputerControl,
@@ -642,8 +643,22 @@ app.post("/computers/:id/browser", async (c) => {
         stdin: `${JSON.stringify(body)}\n`,
       },
     );
+  // The browser may be intentionally stopped (browserAutostart off): opening a
+  // screen must not pop a window, but a page-browser call starts it on demand.
+  // Re-running over a live browser is a cheap profile scan that exits 0.
+  const launchBrowser = ({ container, index, screenKey }: Awaited<ReturnType<typeof screen>>) =>
+    runContainerCommand(container, ["bash", "-c", launchBrowserCommand(index, screenKey)], {
+      timeoutMs: 30_000,
+      signal,
+    });
   try {
     const reusable = await screen(true);
+    const launched = await launchBrowser(reusable);
+    if (launched.code !== 0) {
+      throw new Error(
+        launched.stderr.trim() || `computer browser failed to start on ${reusable.layout.display}`,
+      );
+    }
     let result = await runHelper(reusable);
     // A reused screen skipped setup, so a browser that has since exited gets it before one retry. A
     // purchase check presses nothing and never starts the browser again: no browser has nothing to buy.

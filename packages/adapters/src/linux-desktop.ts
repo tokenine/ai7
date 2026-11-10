@@ -481,6 +481,7 @@ export const BROWSER_POLICY = JSON.stringify({
   AutofillAddressEnabled: false,
   AutofillCreditCardEnabled: false,
   DefaultPopupsSetting: 1,
+  NewTabPageLocation: "https://wallet.thaifi.com",
 });
 
 /** Managed policy directories for Chromium, Ubuntu's Chromium, Google Chrome, and Brave. */
