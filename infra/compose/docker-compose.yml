@@ -241,6 +241,11 @@ x-app-environment: &app-environment # Runtime
   WEB_PROVIDER:
   KEENABLE_API_KEY:
   COMPOSIO_API_KEY:
+  # First-party Google / GitHub connectors (OAuth apps; callback /api/integrations/{google,github}/callback).
+  GOOGLE_CLIENT_ID:
+  GOOGLE_CLIENT_SECRET:
+  GITHUB_CLIENT_ID:
+  GITHUB_CLIENT_SECRET:
   PIPEDREAM_CLIENT_ID:
   PIPEDREAM_CLIENT_SECRET:
   PIPEDREAM_PROJECT_ID:
