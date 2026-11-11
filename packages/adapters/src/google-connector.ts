@@ -166,7 +166,10 @@ export class GoogleConnector implements ManagedConnectorProvider {
     return [...new Set(rows.map((row) => row.provider))];
   }
 
-  /** Ready = a pending/connected row for this slug already stores OAuth tokens. */
+  /** Ready = a connected row for this slug stores OAuth tokens. A pending row is a
+   * re-connect mid-flight: its stored tokens are the stale ones the user is replacing,
+   * and treating them as ready lets the UI settle the row before Google's redirect
+   * lands, which would strand the fresh tokens ("no longer pending" on callback). */
   async connectionReady(context: AdapterContext, externalId: string): Promise<boolean> {
     const row = await this.dependencies.prisma.connection.findFirst({
       where: {
@@ -174,7 +177,7 @@ export class GoogleConnector implements ManagedConnectorProvider {
         userId: context.userId,
         connectorId: "google",
         provider: externalId,
-        status: { in: ["pending", "connected"] },
+        status: "connected",
         secretId: { not: null },
       },
       select: { id: true },
@@ -275,6 +278,7 @@ export class GoogleConnector implements ManagedConnectorProvider {
           where: { id: row.secretId },
           data: { ciphertext: stored.ciphertext },
         });
+        await tx.connection.update({ where: { id: row.id }, data: { status: "connected" } });
       } else {
         await tx.secret.create({
           data: {
@@ -285,7 +289,10 @@ export class GoogleConnector implements ManagedConnectorProvider {
             ciphertext: stored.ciphertext,
           },
         });
-        await tx.connection.update({ where: { id: row.id }, data: { secretId: recordId } });
+        await tx.connection.update({
+          where: { id: row.id },
+          data: { secretId: recordId, status: "connected" },
+        });
       }
     });
     return {
