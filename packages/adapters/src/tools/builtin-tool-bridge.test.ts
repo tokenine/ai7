@@ -54,6 +54,7 @@ describe("built-in tool bridge", () => {
       "search_history",
       "shell",
       "skill_read",
+      "spawn_bot",
       "update_bot",
       "update_preferences",
       "use_tool",
@@ -68,10 +69,10 @@ describe("built-in tool bridge", () => {
     // most used deferred tool, and a lookup before each message cost a step; schedule_create says
     // whether a routine runs in its chat, and takes the events (webhook, Git, chat, email) a
     // routine can start on. render_plot and save_page are pinned so weak local models can call
-    // them directly (the run instructions name them) instead of falling through find_tool.
-    expect(definitionBytes(listed)).toBeLessThanOrEqual(41_400);
+    // them directly (the run instructions name them) instead of falling; budget through find_tool.
+    expect(definitionBytes(listed)).toBeLessThanOrEqual(42_500);
     expect(deferred.map((tool) => tool.name)).toEqual(
-      expect.arrayContaining(["spawn_bot", "task_catalog", "list_secrets"]),
+      expect.arrayContaining(["handoff_to_bot", "task_catalog", "list_secrets"]),
     );
   });
 
