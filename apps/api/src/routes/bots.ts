@@ -51,6 +51,7 @@ import { ACTIVE_RUN_STATUSES, ClientError, computerUsingRuns, displayName } from
 import type { Prisma } from "@rakazo/db";
 import {
   botProfileLabelsChanged,
+  ComputerLimitError,
   commitBotUpdate,
   expireComputerExecutionLeases,
   IsolationError,
@@ -59,9 +60,21 @@ import {
   recordSecurityEvent,
   restoreBotUnderComputerQuota,
   settingsTarget,
+  SpaceDeletionInProgressError,
   THREAD_LOCK_TRANSACTION_OPTIONS,
 } from "@rakazo/db";
 import { getLogger } from "@rakazo/logging";
+
+/** Surface a Space deletion race as a retryable conflict instead of a generic failure. */
+function mapSpaceLifecycleError(error: unknown): unknown {
+  if (error instanceof SpaceDeletionInProgressError) {
+    return new ORPCError("CONFLICT", { message: error.message });
+  }
+  if (error instanceof ComputerLimitError) {
+    return new ORPCError("BAD_REQUEST", { message: error.message });
+  }
+  return error;
+}
 import { managedAppCatalog } from "../account/onboarding.js";
 import { requireIdentityConfirmation } from "../auth/identity-confirmation.js";
 import type { AgentImportServices } from "../bots/agent-import.js";

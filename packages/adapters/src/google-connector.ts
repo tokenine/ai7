@@ -11,13 +11,13 @@ import type {
 } from "@rakazo/adapter-kit";
 import type { PrismaClient } from "@rakazo/db";
 import { runAsSystem } from "@rakazo/db";
-import { filterCatalog } from "./connector-catalog.js";
+import { filterCatalog } from "./integrations/connector-catalog.js";
 import {
   combineSignals,
   redactConnectorPayload,
   sanitizeConnectorError,
-} from "./connector-safety.js";
-import { readBodyCapped } from "./web-ssrf.js";
+} from "./integrations/connector-safety.js";
+import { readBodyCapped } from "./web/web-ssrf.js";
 
 const AUTH_BASE = "https://accounts.google.com/o/oauth2/v2/auth";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";

@@ -176,15 +176,9 @@ import {
   requestClientIp,
   withClientIp,
 } from "./http/client-ip.js";
-import { cspReportRoutes } from "./csp-report.js";
-import { configuredEmailProvider } from "./email.js";
-import { mountEmailInboundRoute } from "./email-inbound.js";
-import type { AppEnv } from "./env.js";
-import { loadEnv } from "./env.js";
 import { mountGitHubOAuthCallback } from "./github-oauth-callback.js";
 import { mountGoogleOAuthCallback } from "./google-oauth-callback.js";
 import { healthRoutes } from "./http/health.js";
-import { homeRetentionSweep } from "./home-retention.js";
 import { startHourlySweep } from "./http/hourly-sweep.js";
 import { trackInFlightRequests } from "./http/in-flight-requests.js";
 import { mountApiRequestBodyLimits, rpcBodyLimit } from "./http/request-body-limit.js";
@@ -195,10 +189,6 @@ import { pluginSubmissionRoutes } from "./integrations/plugin-submissions.js";
 import { startMessagingRuntime } from "./messaging/messaging-runtime.js";
 import { settleWithTimeout } from "./messaging/team-chat-startup.js";
 import { recordSignInEnded } from "./models/model-connect-analytics.js";
-import { mountLocalComputerHost } from "./local-settings.js";
-import { marketingEmailRoutes, sendWelcomeEmail } from "./marketing-email.js";
-import { monitoringRoutes } from "./monitoring.js";
-import { sendReferralEmails } from "./referral-email.js";
 import { createRouter } from "./router.js";
 import {
   DATABASE_RETRY_AFTER_SECONDS,

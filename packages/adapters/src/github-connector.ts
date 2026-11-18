@@ -14,8 +14,8 @@ import {
   combineSignals,
   redactConnectorPayload,
   sanitizeConnectorError,
-} from "./connector-safety.js";
-import { readBodyCapped } from "./web-ssrf.js";
+} from "./integrations/connector-safety.js";
+import { readBodyCapped } from "./web/web-ssrf.js";
 
 const AUTHORIZE_URL = "https://github.com/login/oauth/authorize";
 const TOKEN_URL = "https://github.com/login/oauth/access_token";
