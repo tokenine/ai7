@@ -39,9 +39,11 @@ describe("built-in tool bridge", () => {
       "read_file",
       "read_history",
       "remember",
+      "render_plot",
       "request_secret",
       "request_takeover",
       "run_subagent",
+      "save_page",
       "schedule_create",
       "schedule_list",
       "search_history",
@@ -60,10 +62,11 @@ describe("built-in tool bridge", () => {
     // search_history lists earlier tool work by kind without a keyword; message_bot is the
     // most used deferred tool, and a lookup before each message cost a step; schedule_create says
     // whether a routine runs in its chat, and takes the events (webhook, Git, chat, email) a
-    // routine can start on.
-    expect(definitionBytes(listed)).toBeLessThanOrEqual(35_482);
+    // routine can start on. render_plot and save_page are pinned so weak local models can call
+    // them directly (the run instructions name them) instead of falling through find_tool.
+    expect(definitionBytes(listed)).toBeLessThanOrEqual(38_100);
     expect(deferred.map((tool) => tool.name)).toEqual(
-      expect.arrayContaining(["render_plot", "create_space", "generate_secret", "scratchpad_add"]),
+      expect.arrayContaining(["create_space", "generate_secret", "scratchpad_add"]),
     );
   });
 
@@ -87,15 +90,15 @@ describe("built-in tool bridge", () => {
 
   it("finds exact names and ranks a query over names, descriptions and parameters", () => {
     const { deferred } = partitionTools(ownerChat);
-    const plot = findTools(deferred, { names: ["render_plot", "shell", "nope"] });
-    expect(plot.tools.map((tool) => tool.name)).toEqual(["render_plot"]);
-    expect(plot.tools[0]!.inputSchema).toEqual(
-      deferred.find((tool) => tool.name === "render_plot")!.inputSchema,
+    const pad = findTools(deferred, { names: ["scratchpad_add", "shell", "nope"] });
+    expect(pad.tools.map((tool) => tool.name)).toEqual(["scratchpad_add"]);
+    expect(pad.tools[0]!.inputSchema).toEqual(
+      deferred.find((tool) => tool.name === "scratchpad_add")!.inputSchema,
     );
-    expect(plot.unknown).toEqual(["shell", "nope"]);
+    expect(pad.unknown).toEqual(["shell", "nope"]);
 
     const names = (query: string) => findTools(deferred, { query }).tools.map((tool) => tool.name);
-    expect(names("chart")).toContain("render_plot");
+    expect(names("scratchpad")).toContain("scratchpad_add");
     expect(names("new space")[0]).toBe("create_space");
     expect(names("generate password")[0]).toBe("generate_secret");
     expect(names("scratchpad add")[0]).toBe("scratchpad_add");
@@ -136,12 +139,12 @@ describe("built-in tool bridge", () => {
 describe("bridge tool definitions", () => {
   it("renders find_tool with the deferred names by area, and use_tool", () => {
     const tool = (name: string) => ({ name, description: name, inputSchema: { type: "object" } });
-    const { listed } = partitionTools([tool("shell"), tool("list_secrets"), tool("render_plot")]);
+    const { listed } = partitionTools([tool("shell"), tool("list_secrets"), tool("generate_video")]);
     expect(listed.slice(1)).toEqual([
       {
         name: "find_tool",
         description:
-          "Get the parameters of built-in tools not in your tool list, including ones your instructions name. Call this before use_tool. Pass names for exact tools or query to search.\nmedia:\n  render_plot\nsecrets:\n  list_secrets",
+          "Get the parameters of built-in tools not in your tool list, including ones your instructions name. Call this before use_tool. Pass names for exact tools or query to search.\nmedia:\n  generate_video\nsecrets:\n  list_secrets",
         inputSchema: {
           type: "object",
           properties: {
