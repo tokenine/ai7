@@ -61,6 +61,7 @@ describe("built-in tool bridge", () => {
       "search_history",
       "shell",
       "skill_read",
+      "spawn_bot",
       "update_bot",
       "update_preferences",
       "use_tool",
@@ -82,12 +83,12 @@ describe("built-in tool bridge", () => {
     // the Space's shared memory too, and says what stays out of memory and how to make room
     // without abbreviating; shell says to open the bot's screen when a graphical program
     // finds no display; schedule_create takes an end date for a repeat or watch, so a limited
-    // stretch is one routine; find_tool also finds apps and paid services; render_plot and
-    // save_page are pinned so weak local models can call them directly (the run instructions
-    // name them) instead of falling through find_tool.
-    expect(definitionBytes(listed)).toBeLessThanOrEqual(45_008);
+    // stretch is one routine; find_tool also finds apps and paid services; render_plot,
+    // save_page and spawn_bot are pinned so weak local models can call them directly (the run
+    // instructions name them) instead of falling through find_tool.
+    expect(definitionBytes(listed)).toBeLessThanOrEqual(46_243);
     expect(deferred.map((tool) => tool.name)).toEqual(
-      expect.arrayContaining(["spawn_bot", "task_catalog", "list_secrets"]),
+      expect.arrayContaining(["handoff_to_bot", "task_catalog", "list_secrets"]),
     );
   });
 
@@ -135,15 +136,15 @@ describe("built-in tool bridge", () => {
         trigger: "user",
         semanticMemoryEnabled: false,
         messagingChannelRun: false,
-        disabledBuiltinTools: ["spawn_bot"],
+        disabledBuiltinTools: ["handoff_to_bot"],
       }),
     );
-    expect(await find(deferred, { names: ["spawn_bot"] })).toMatchObject({
+    expect(await find(deferred, { names: ["handoff_to_bot"] })).toMatchObject({
       tools: [],
-      unknown: ["spawn_bot"],
+      unknown: ["handoff_to_bot"],
     });
     expect(listed.find((tool) => tool.name === FIND_TOOL)!.description).not.toContain(
-      "spawn_bot",
+      "handoff_to_bot",
     );
   });
 
