@@ -54,6 +54,7 @@ describe("built-in tool bridge", () => {
       "search_history",
       "shell",
       "skill_read",
+      "spawn_bot",
       "update_bot",
       "update_preferences",
       "use_tool",
@@ -72,11 +73,16 @@ describe("built-in tool bridge", () => {
     expect(definitionBytes(listed)).toBeLessThanOrEqual(35_556);
 =======
     // routine can start on. render_plot and save_page are pinned so weak local models can call
+<<<<<<< HEAD
     // them directly (the run instructions name them) instead of falling through find_tool.
     expect(definitionBytes(listed)).toBeLessThanOrEqual(41_400);
 >>>>>>> 44c851ca9 (local: pin prompt-named tools (spawn_bot stays deferred))
+=======
+    // them directly (the run instructions name them) instead of falling; budget through find_tool.
+    expect(definitionBytes(listed)).toBeLessThanOrEqual(42_500);
+>>>>>>> e7bba5fd0 (local: pin spawn_bot in the core tool list)
     expect(deferred.map((tool) => tool.name)).toEqual(
-      expect.arrayContaining(["spawn_bot", "task_catalog", "list_secrets"]),
+      expect.arrayContaining(["handoff_to_bot", "task_catalog", "list_secrets"]),
     );
   });
 

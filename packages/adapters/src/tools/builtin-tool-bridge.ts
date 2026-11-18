@@ -43,6 +43,7 @@ export const CORE_BUILTIN_TOOL_NAMES: ReadonlySet<string> = new Set([
   "connect_app",
   "create_space",
   "run_subagent",
+  "spawn_bot",
   "message_bot",
   "skill_read",
   "update_bot",

@@ -1069,15 +1069,12 @@ describe("Pi connector tool dispatch", () => {
     const spawnBotTool = builtinAgentTools.find((tool) => tool.name === "spawn_bot");
     if (!spawnBotTool) throw new Error("missing spawn_bot");
     fakeAgentState.invoke = {
-      name: "use_tool",
+      name: "spawn_bot",
       args: {
-        name: "spawn_bot",
-        arguments: {
-          name: "Scout",
-          description: "Finds venues.",
-          instructions: "Ask before booking anything.",
-          computer_mode: "team",
-        },
+        name: "Scout",
+        description: "Finds venues.",
+        instructions: "Ask before booking anything.",
+        computer_mode: "team",
       },
     };
     const executeTool = vi.fn(async () => ({ ok: true }));
@@ -1123,8 +1120,8 @@ describe("Pi connector tool dispatch", () => {
     const spawnBotTool = builtinAgentTools.find((tool) => tool.name === "spawn_bot");
     if (!spawnBotTool) throw new Error("missing spawn_bot");
     fakeAgentState.invoke = {
-      name: "use_tool",
-      args: { name: "spawn_bot", arguments: { name: "Scout" } },
+      name: "spawn_bot",
+      args: { name: "Scout" },
     };
     const executeTool = vi.fn(async () => ({ ok: true }));
     const runtime = new PiAgentRuntime();
