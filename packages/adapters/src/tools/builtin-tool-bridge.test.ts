@@ -39,18 +39,25 @@ describe("built-in tool bridge", () => {
       "ask_user",
       "attach_file",
       "connect_app",
+      "create_space",
       "find_tool",
+      "generate_secret",
       "list_files",
       "message_bot",
       "message_user",
       "read_file",
       "read_history",
       "remember",
+      "render_plot",
       "request_secret",
       "request_takeover",
       "run_subagent",
+      "save_page",
       "schedule_create",
       "schedule_list",
+      "scratchpad_add",
+      "scratchpad_complete",
+      "scratchpad_update",
       "search_history",
       "shell",
       "skill_read",
@@ -75,10 +82,12 @@ describe("built-in tool bridge", () => {
     // the Space's shared memory too, and says what stays out of memory and how to make room
     // without abbreviating; shell says to open the bot's screen when a graphical program
     // finds no display; schedule_create takes an end date for a repeat or watch, so a limited
-    // stretch is one routine; find_tool also finds apps and paid services.
-    expect(definitionBytes(listed)).toBeLessThanOrEqual(38_343);
+    // stretch is one routine; find_tool also finds apps and paid services; render_plot and
+    // save_page are pinned so weak local models can call them directly (the run instructions
+    // name them) instead of falling through find_tool.
+    expect(definitionBytes(listed)).toBeLessThanOrEqual(45_008);
     expect(deferred.map((tool) => tool.name)).toEqual(
-      expect.arrayContaining(["render_plot", "create_space", "generate_secret", "scratchpad_add"]),
+      expect.arrayContaining(["spawn_bot", "task_catalog", "list_secrets"]),
     );
   });
 
@@ -102,20 +111,16 @@ describe("built-in tool bridge", () => {
 
   it("finds exact names and ranks a query over names, descriptions and parameters", async () => {
     const { deferred } = partitionTools(ownerChat);
-    const plot = await find(deferred, { names: ["render_plot", "shell", "nope"] });
-    expect(plot.tools.map((tool) => tool.name)).toEqual(["render_plot"]);
-    expect(plot.tools[0]!.inputSchema).toEqual(
-      deferred.find((tool) => tool.name === "render_plot")!.inputSchema,
+    const media = await find(deferred, { names: ["task_catalog", "shell", "nope"] });
+    expect(media.tools.map((tool) => tool.name)).toEqual(["task_catalog"]);
+    expect(media.tools[0]!.inputSchema).toEqual(
+      deferred.find((tool) => tool.name === "task_catalog")!.inputSchema,
     );
-    expect(plot.unknown).toEqual(["shell", "nope"]);
+    expect(media.unknown).toEqual(["shell", "nope"]);
 
     const names = async (query: string) =>
       (await find(deferred, { query })).tools.map((tool) => tool.name);
-    expect(await names("chart")).toContain("render_plot");
-    expect((await names("new space"))[0]).toBe("create_space");
-    expect((await names("generate password"))[0]).toBe("generate_secret");
-    expect((await names("scratchpad add"))[0]).toBe("scratchpad_add");
-    expect((await names("scratchpad")).length).toBe(3);
+    expect(await names("task catalog")).toContain("task_catalog");
     expect(await find(deferred, { query: "zzzz" })).toMatchObject({
       tools: [],
       hint: expect.any(String),
@@ -130,15 +135,15 @@ describe("built-in tool bridge", () => {
         trigger: "user",
         semanticMemoryEnabled: false,
         messagingChannelRun: false,
-        disabledBuiltinTools: ["render_plot"],
+        disabledBuiltinTools: ["spawn_bot"],
       }),
     );
-    expect(await find(deferred, { names: ["render_plot"] })).toMatchObject({
+    expect(await find(deferred, { names: ["spawn_bot"] })).toMatchObject({
       tools: [],
-      unknown: ["render_plot"],
+      unknown: ["spawn_bot"],
     });
     expect(listed.find((tool) => tool.name === FIND_TOOL)!.description).not.toContain(
-      "render_plot",
+      "spawn_bot",
     );
   });
 
@@ -153,7 +158,7 @@ describe("built-in tool bridge", () => {
       }),
     );
     const reason = "schedule_update is not available in routine runs.";
-    const reasons = { schedule_update: reason, render_plot: "stale reason" };
+    const reasons = { schedule_update: reason, task_catalog: "stale reason" };
 
     const onlyUnavailable = await find(deferred, { names: ["schedule_update"] }, reasons);
     expect(onlyUnavailable).toEqual({
@@ -163,10 +168,10 @@ describe("built-in tool bridge", () => {
 
     const mixed = await find(
       deferred,
-      { names: ["render_plot", "schedule_update", "nope", "toString"] },
+      { names: ["task_catalog", "schedule_update", "nope", "toString"] },
       reasons,
     );
-    expect(mixed.tools.map((tool) => tool.name)).toEqual(["render_plot"]);
+    expect(mixed.tools.map((tool) => tool.name)).toEqual(["task_catalog"]);
     expect(mixed.unavailable).toEqual({ schedule_update: reason });
     expect(mixed.unknown).toEqual(["nope", "toString"]);
     expect(mixed).not.toHaveProperty("hint");
@@ -185,12 +190,12 @@ describe("built-in tool bridge", () => {
 describe("bridge tool definitions", () => {
   it("renders find_tool with the deferred names by area, and use_tool", () => {
     const tool = (name: string) => ({ name, description: name, inputSchema: { type: "object" } });
-    const { listed } = partitionTools([tool("shell"), tool("list_secrets"), tool("render_plot")]);
+    const { listed } = partitionTools([tool("shell"), tool("list_secrets"), tool("generate_video")]);
     expect(listed.slice(1)).toEqual([
       {
         name: "find_tool",
         description:
-          "Find tools, apps and paid services by name or query. Each result's next is the tool to call.\nmedia:\n  render_plot\nsecrets:\n  list_secrets",
+          "Find tools, apps and paid services by name or query. Each result's next is the tool to call.\nmedia:\n  generate_video\nsecrets:\n  list_secrets",
         inputSchema: {
           type: "object",
           properties: {
