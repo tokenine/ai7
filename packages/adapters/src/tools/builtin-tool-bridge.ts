@@ -56,6 +56,8 @@ export const CORE_BUILTIN_TOOL_NAMES: ReadonlySet<string> = new Set([
   READ_MEETING_TRANSCRIPT,
   "read_email",
   "send_email",
+  "render_plot",
+  "save_page",
   "end_call",
 ]);
 
