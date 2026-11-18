@@ -18,6 +18,7 @@ export { normalizeOpenAiCompatibleBaseUrl, OPENAI_COMPATIBLE_PROVIDER_ID };
 
 /** Hosted compatible services the catalog offers by name. Each one needs a key. */
 export const COMPATIBLE_ENDPOINT_PRESETS: CompatibleEndpointPreset[] = [
+  { id: "ai7", name: "Ai7", baseUrl: "https://api.ai7.work/v1" },
   { id: "ollama-cloud", name: "Ollama Cloud", baseUrl: "https://ollama.com/v1" },
   {
     id: "concentrate",
