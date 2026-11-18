@@ -32,7 +32,9 @@ describe("built-in tool bridge", () => {
       "ask_user",
       "attach_file",
       "connect_app",
+      "create_space",
       "find_tool",
+      "generate_secret",
       "list_files",
       "message_bot",
       "message_user",
@@ -46,6 +48,9 @@ describe("built-in tool bridge", () => {
       "save_page",
       "schedule_create",
       "schedule_list",
+      "scratchpad_add",
+      "scratchpad_complete",
+      "scratchpad_update",
       "search_history",
       "shell",
       "skill_read",
@@ -64,9 +69,9 @@ describe("built-in tool bridge", () => {
     // whether a routine runs in its chat, and takes the events (webhook, Git, chat, email) a
     // routine can start on. render_plot and save_page are pinned so weak local models can call
     // them directly (the run instructions name them) instead of falling through find_tool.
-    expect(definitionBytes(listed)).toBeLessThanOrEqual(38_100);
+    expect(definitionBytes(listed)).toBeLessThanOrEqual(41_400);
     expect(deferred.map((tool) => tool.name)).toEqual(
-      expect.arrayContaining(["create_space", "generate_secret", "scratchpad_add"]),
+      expect.arrayContaining(["spawn_bot", "task_catalog", "list_secrets"]),
     );
   });
 
@@ -90,19 +95,19 @@ describe("built-in tool bridge", () => {
 
   it("finds exact names and ranks a query over names, descriptions and parameters", () => {
     const { deferred } = partitionTools(ownerChat);
-    const pad = findTools(deferred, { names: ["scratchpad_add", "shell", "nope"] });
-    expect(pad.tools.map((tool) => tool.name)).toEqual(["scratchpad_add"]);
-    expect(pad.tools[0]!.inputSchema).toEqual(
-      deferred.find((tool) => tool.name === "scratchpad_add")!.inputSchema,
+    const handoff = findTools(deferred, { names: ["handoff_to_bot", "shell", "nope"] });
+    expect(handoff.tools.map((tool) => tool.name)).toEqual(["handoff_to_bot"]);
+    expect(handoff.tools[0]!.inputSchema).toEqual(
+      deferred.find((tool) => tool.name === "handoff_to_bot")!.inputSchema,
     );
-    expect(pad.unknown).toEqual(["shell", "nope"]);
+    expect(handoff.unknown).toEqual(["shell", "nope"]);
 
     const names = (query: string) => findTools(deferred, { query }).tools.map((tool) => tool.name);
-    expect(names("scratchpad")).toContain("scratchpad_add");
-    expect(names("new space")[0]).toBe("create_space");
-    expect(names("generate password")[0]).toBe("generate_secret");
-    expect(names("scratchpad add")[0]).toBe("scratchpad_add");
-    expect(names("scratchpad").length).toBe(3);
+    expect(names("handoff")).toContain("handoff_to_bot");
+    expect(names("mcp server")[0]).toBe("add_mcp_server");
+    expect(names("shared memory")[0]).toBe("save_shared_memory");
+    expect(names("handoff to bot")[0]).toBe("handoff_to_bot");
+    expect(names("secret").length).toBe(3);
     expect(findTools(deferred, { query: "zzzz" })).toMatchObject({
       tools: [],
       hint: expect.any(String),
