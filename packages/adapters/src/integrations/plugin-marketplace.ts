@@ -10,6 +10,14 @@ import {
 
 const REGISTRIES = [
   {
+    name: "Ai7",
+    repository: "https://github.com/tokenine/ai7-marketplace",
+    path: ".ai7-plugin/marketplace.json",
+    manifest: ".ai7-plugin/plugin.json",
+    // Every listed pack is vendored in the registry repo, so its file list tells its parts.
+    componentIndex: null,
+  },
+  {
     name: "Cursor",
     repository: "https://github.com/cursor/plugins",
     path: ".cursor-plugin/marketplace.json",
