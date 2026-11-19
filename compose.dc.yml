@@ -1,0 +1,45 @@
+# dc.ai7.work: same code as hz (upstream main + local presets/pins), built from
+# source on this host. Postgres tuned for the shared 125G host (capped at 4G).
+# Computer VMs keep the ai7/computer:dc tag (rebuilt from this source).
+services:
+  api:
+    ports: !override
+      - "127.0.0.1:3101:3100"
+    mem_limit: 1g
+  worker:
+    mem_limit: 1g
+  web:
+    ports: !override
+      - "127.0.0.1:5175:5173"
+      - "172.17.0.1:5175:5173"
+    mem_limit: 512m
+  supervisor:
+    mem_limit: 512m
+    environment:
+      RAKAZO_COMPUTER_IMAGE: ai7/computer:dc
+  computer:
+    image: ai7/computer:dc
+  postgres:
+    command:
+      - postgres
+      - -c
+      - shared_buffers=2GB
+      - -c
+      - effective_cache_size=8GB
+      - -c
+      - work_mem=32MB
+      - -c
+      - maintenance_work_mem=1GB
+      - -c
+      - random_page_cost=1.1
+      - -c
+      - effective_io_concurrency=256
+      - -c
+      - wal_compression=on
+      - -c
+      - checkpoint_timeout=15min
+      - -c
+      - max_wal_size=4GB
+      - -c
+      - checkpoint_completion_target=0.9
+    mem_limit: 4g
