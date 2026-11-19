@@ -52,10 +52,8 @@ export const CATALOGS: Readonly<Record<string, Readonly<Record<string, string>>>
 };
 const LOCALES = Object.keys(CATALOGS);
 
-/**
- * The language to write an email in: the person's saved app language, else the language of the
- * browser that asked for it, else English.
- */
+/** The language to write an email in: the person's saved app language, else the language of the
+ * browser that asked for it, else English. */
 export function emailLocale(saved: string | null | undefined, headers?: Headers | null): string {
   if (saved) return matchUiLocale(saved, LOCALES);
   // Keep the first supported language at the highest acceptable quality.
@@ -99,6 +97,9 @@ export function greeting(say: ReturnType<typeof emailText>, name: string): strin
   return shown ? say("Hi {name},", { name: shown }) : say("Hi there,");
 }
 
+/** Ai7 brand header: the flame logo beside the wordmark, on every email. */
+const BRAND_LOGO_URL = "https://ai7.work/brand/ai7-logo.png";
+
 export async function message(
   to: string,
   locale: string,
@@ -118,6 +119,8 @@ export async function message(
           .email-card p, .email-card a { color: ${webDarkTokens.foreground} !important; }
           .email-card p.email-muted, .email-card p.email-muted a { color: ${webDarkTokens.mutedForeground} !important; }
           .email-card a.email-button { background-color: ${webDarkTokens.primary} !important; color: ${webDarkTokens.primaryForeground} !important; }
+          .email-brand-name { color: ${webDarkTokens.foreground} !important; }
+          .email-otp { background-color: ${webDarkTokens.muted} !important; color: ${webDarkTokens.foreground} !important; border-color: ${webDarkTokens.border} !important; }
         }`}</style>
       </Head>
       <Body
@@ -149,32 +152,53 @@ export async function message(
               style={{ width: "100%", height: "auto" }}
             />
           ) : null}
-          <Section style={{ padding: "24px 32px" }}>
+          <Section style={{ padding: "28px 32px 0" }}>
             {image ? null : (
-              // Text, not a hosted logo: self-hosted servers send these too, and must not call out.
-              <Text
-                style={{
-                  margin: "0 0 24px",
-                  fontSize: "22px",
-                  fontWeight: 600,
-                  letterSpacing: "-0.5px",
-                }}
-              >
-                rakazo
-              </Text>
+            <table role="presentation" width="100%" cellPadding={0} cellSpacing={0}>
+              <tr>
+                <td width="44" style={{ width: "44px", verticalAlign: "middle" }}>
+                  <Img
+                    src={BRAND_LOGO_URL}
+                    alt="Ai7"
+                    width="40"
+                    style={{ width: "40px", height: "40px", display: "block", borderRadius: "8px" }}
+                  />
+                </td>
+                <td style={{ verticalAlign: "middle", paddingLeft: "10px" }}>
+                  <Text
+                    className="email-brand-name"
+                    style={{
+                      margin: 0,
+                      fontSize: "20px",
+                      fontWeight: 700,
+                      letterSpacing: "0.5px",
+                      color: lightTokens.foreground,
+                    }}
+                  >
+                    Ai7
+                  </Text>
+                </td>
+              </tr>
+            </table>
             )}
-            {content}
-            {unsubscribeUrl ? (
-              <>
-                <Hr style={{ borderColor: lightTokens.border, marginTop: "28px" }} />
-                <FinePrint>
-                  <Link href={unsubscribeUrl} style={{ color: lightTokens.mutedForeground }}>
-                    {emailText(locale)("Unsubscribe")}
-                  </Link>
-                </FinePrint>
-              </>
-            ) : null}
           </Section>
+          <Section style={{ padding: "8px 32px 28px" }}>{content}</Section>
+          <Section style={{ padding: "0 32px 20px" }}>
+            <Hr style={{ borderColor: lightTokens.border, margin: "0 0 12px" }} />
+            <Text className="email-muted" style={{ color: lightTokens.mutedForeground, fontSize: "12px", margin: 0 }}>
+              Ai7 — AI-powered workforce — ai7.work
+            </Text>
+          </Section>
+          {unsubscribeUrl ? (
+            <Section style={{ padding: "0 32px 20px" }}>
+              <Hr style={{ borderColor: lightTokens.border, margin: "0 0 12px" }} />
+              <Text className="email-muted" style={{ color: lightTokens.mutedForeground, fontSize: "12px", margin: 0 }}>
+                <Link href={unsubscribeUrl} style={{ color: lightTokens.mutedForeground }}>
+                  {emailText(locale)("Unsubscribe")}
+                </Link>
+              </Text>
+            </Section>
+          ) : null}
         </Container>
       </Body>
     </Html>,
@@ -220,19 +244,39 @@ export function Button({ href, children }: { href: string; children: ReactNode }
   );
 }
 
+/** The OTP code, boxed and centered so weak eyes and autofill both find it. */
 export function Code({ children }: { children: string }) {
   return (
-    <Text
-      style={{
-        margin: "24px 0",
-        fontFamily: "ui-monospace, Menlo, Consolas, monospace",
-        fontSize: "28px",
-        fontWeight: 600,
-        letterSpacing: "6px",
-      }}
-    >
-      {children}
-    </Text>
+    <Section style={{ margin: "24px 0" }}>
+      <table
+        role="presentation"
+        width="100%"
+        cellPadding={0}
+        cellSpacing={0}
+        className="email-otp"
+        style={{
+          backgroundColor: lightTokens.muted,
+          borderRadius: "10px",
+          border: `1px solid ${lightTokens.border}`,
+        }}
+      >
+        <tr>
+          <td
+            align="center"
+            style={{
+              padding: "20px 16px",
+              fontFamily: "ui-monospace, Menlo, Consolas, monospace",
+              fontSize: "34px",
+              fontWeight: 700,
+              letterSpacing: "10px",
+              color: lightTokens.foreground,
+            }}
+          >
+            {children}
+          </td>
+        </tr>
+      </table>
+    </Section>
   );
 }
 
@@ -268,10 +312,10 @@ export function verificationEmail(
   return message(
     email,
     locale,
-    say("Verify your Rakazo email"),
+    say("Verify your Ai7 email"),
     <>
       <Button href={url}>{say("Verify email")}</Button>
-      <Text>{say("Then return to Rakazo to sign in.")}</Text>
+      <Text>{say("Then return to Ai7 to sign in.")}</Text>
       <FinePrint>
         {say("This link expires in one hour. If you did not register, ignore this email.")}
       </FinePrint>
@@ -288,9 +332,29 @@ export function signInCodeEmail(
   return message(
     email,
     locale,
-    say("Your Rakazo sign-in code"),
+    say("Your Ai7 sign-in code"),
     <>
-      <Text>{say("Enter this code to sign in to Rakazo:")}</Text>
+      <Text>{say("Enter this code to sign in to Ai7:")}</Text>
+      <Code>{code}</Code>
+      <FinePrint>
+        {say("This code expires in ten minutes. If you did not request it, ignore this email.")}
+      </FinePrint>
+    </>,
+  );
+}
+
+export function identityCodeEmail(
+  email: string,
+  code: string,
+  locale = "en",
+): Promise<TransactionalEmail> {
+  const say = emailText(locale);
+  return message(
+    email,
+    locale,
+    say("Your Ai7 confirmation code"),
+    <>
+      <Text>{say("Enter this code in Ai7 to confirm it's you:")}</Text>
       <Code>{code}</Code>
       <FinePrint>
         {say("This code expires in ten minutes. If you did not request it, ignore this email.")}
@@ -308,10 +372,10 @@ export function passwordResetEmail(
   return message(
     user.email,
     locale,
-    say("Reset your Rakazo password"),
+    say("Reset your Ai7 password"),
     <>
       <Text>{greeting(say, user.name)}</Text>
-      <Text>{say("Reset your Rakazo password:")}</Text>
+      <Text>{say("Reset your Ai7 password:")}</Text>
       <Button href={resetUrl}>{say("Reset password")}</Button>
       <FinePrint>
         {say(
@@ -331,34 +395,12 @@ export function accountDeletionEmail(
   return message(
     email,
     locale,
-    say("Confirm Rakazo account deletion"),
+    say("Confirm Ai7 account deletion"),
     <>
-      <Text>{say("Enter this code in Rakazo to delete your account:")}</Text>
+      <Text>{say("Enter this code in Ai7 to delete your account:")}</Text>
       <Code>{code}</Code>
       <FinePrint>
-        {say(
-          "This code expires in ten minutes. If you did not request deletion, ignore this email.",
-        )}
-      </FinePrint>
-    </>,
-  );
-}
-
-export function identityCodeEmail(
-  email: string,
-  code: string,
-  locale = "en",
-): Promise<TransactionalEmail> {
-  const say = emailText(locale);
-  return message(
-    email,
-    locale,
-    say("Your Rakazo confirmation code"),
-    <>
-      <Text>{say("Enter this code in Rakazo to confirm it's you:")}</Text>
-      <Code>{code}</Code>
-      <FinePrint>
-        {say("This code expires in ten minutes. If you did not request it, ignore this email.")}
+        {say("This code expires in ten minutes. If you did not request deletion, ignore this email.")}
       </FinePrint>
     </>,
   );
