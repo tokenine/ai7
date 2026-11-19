@@ -68,19 +68,10 @@ describe("built-in tool bridge", () => {
     // search_history lists earlier tool work by kind without a keyword; message_bot is the
     // most used deferred tool, and a lookup before each message cost a step; schedule_create says
     // whether a routine runs in its chat, and takes the events (webhook, Git, chat, email) a
-<<<<<<< HEAD
-    // routine can start on, saying a Git event needs no connected app.
-    expect(definitionBytes(listed)).toBeLessThanOrEqual(35_556);
-=======
-    // routine can start on. render_plot and save_page are pinned so weak local models can call
-<<<<<<< HEAD
-    // them directly (the run instructions name them) instead of falling through find_tool.
-    expect(definitionBytes(listed)).toBeLessThanOrEqual(41_400);
->>>>>>> 44c851ca9 (local: pin prompt-named tools (spawn_bot stays deferred))
-=======
-    // them directly (the run instructions name them) instead of falling; budget through find_tool.
+    // routine can start on, saying a Git event needs no connected app. render_plot and
+    // save_page are pinned so weak local models can call them directly (the run instructions
+    // name them) instead of falling through find_tool.
     expect(definitionBytes(listed)).toBeLessThanOrEqual(42_500);
->>>>>>> e7bba5fd0 (local: pin spawn_bot in the core tool list)
     expect(deferred.map((tool) => tool.name)).toEqual(
       expect.arrayContaining(["handoff_to_bot", "task_catalog", "list_secrets"]),
     );
