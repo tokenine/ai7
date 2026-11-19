@@ -237,9 +237,9 @@ describe("email languages", () => {
 
   it("writes a code email in Spanish", async () => {
     const message = await signInCodeEmail("user@example.test", "123456", "es");
-    expect(message.subject).toBe("Tu código para iniciar sesión en Rakazo");
+    expect(message.subject).toBe("Tu código para iniciar sesión en Ai7");
     expect(message.html).toContain('lang="es"');
-    expect(message.text).toContain("Introduce este código para iniciar sesión en Rakazo:");
+    expect(message.text).toContain("Introduce este código para iniciar sesión en Ai7:");
     expect(message.html).toContain('dir="ltr"');
   });
 
@@ -263,11 +263,11 @@ describe("email languages", () => {
   it("names a Space invitation's Space, never an organization, in every language", async () => {
     const invitation = { spaceName: "Clients", inviterName: "Ana", url: "https://example.test/i" };
     const english = await spaceInvitationEmail("guest@example.test", invitation);
-    expect(english.subject).toBe("Ana invited you to Clients on Rakazo");
+    expect(english.subject).toBe("Ana invited you to Clients on Ai7");
     expect(english.text).toContain("This invitation expires in 7 days.");
     expect(english.text).not.toContain("Sign in with this email address");
     const turkish = await spaceInvitationEmail("guest@example.test", invitation, "tr");
-    expect(turkish.subject).toBe("Ana sizi Rakazo'da Clients alanına davet etti");
+    expect(turkish.subject).toBe("Ana sizi Ai7'da Clients alanına davet etti");
     expect(turkish.text).not.toContain("kuruluş");
   });
 
