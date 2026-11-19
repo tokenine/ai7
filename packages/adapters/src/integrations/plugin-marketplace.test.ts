@@ -123,12 +123,22 @@ describe("public marketplace indexes", () => {
  * index, and per-plugin manifests and MCP configs. */
 function registryReader(files: {
   cursor: unknown[];
+  ai7?: unknown[] | Error;
+  ai7Tree?: string[];
   xai?: unknown[] | Error;
   tree?: string[];
   components?: Record<string, { sha?: string; components: Record<string, unknown[]> }>;
   text?: Record<string, string>;
 }) {
   return vi.fn(async (url: string) => {
+    if (url.includes("tokenine/ai7-marketplace/git/trees/"))
+      return JSON.stringify({
+        tree: (files.ai7Tree ?? []).map((path) => ({ path, type: "blob" })),
+      });
+    if (url.endsWith("tokenine/ai7-marketplace/HEAD/.ai7-plugin/marketplace.json")) {
+      if (files.ai7 instanceof Error) throw files.ai7;
+      return index(files.ai7 ?? []);
+    }
     if (url.endsWith("xai-org/plugin-marketplace/HEAD/.grok-plugin/marketplace.json")) {
       if (files.xai instanceof Error) throw files.xai;
       return index(files.xai ?? []);
@@ -153,6 +163,8 @@ describe("marketplace service", () => {
   it("filters metadata, caches success, and does not cache provider failures", async () => {
     const files: Parameters<typeof registryReader>[0] = {
       cursor: [{ name: "Notes", description: "Daily planning", source: "notes" }],
+      ai7: [],
+      ai7Tree: [],
       xai: new Error("Unavailable"),
       tree: ["notes/skills/plan/SKILL.md"],
       components: { Tasks: { components: { skills: [{}] } } },
@@ -168,9 +180,9 @@ describe("marketplace service", () => {
     const second = await service.catalog("planning");
     expect(second.entries.map((entry) => entry.name)).toEqual(["Notes", "Tasks"]);
     expect(second.unavailableRegistries).toEqual([]);
-    expect(indexReads(read)).toBe(3);
+    expect(indexReads(read)).toBe(4);
     await service.catalog("no match");
-    expect(indexReads(read)).toBe(3);
+    expect(indexReads(read)).toBe(4);
   });
   it("shares concurrent reads and refreshes an expired catalog in the background", async () => {
     const now = vi.spyOn(Date, "now").mockReturnValue(1000);
@@ -180,11 +192,11 @@ describe("marketplace service", () => {
     });
     const service = createPluginMarketplace(read);
     await Promise.all([service.catalog(""), service.catalog("Notes")]);
-    expect(indexReads(read)).toBe(2);
+    expect(indexReads(read)).toBe(3);
     now.mockReturnValue(1000 + 10 * 60_000 + 1);
     const stale = await service.catalog("");
     expect(stale.entries).toHaveLength(1);
-    await vi.waitFor(() => expect(indexReads(read)).toBe(4));
+    await vi.waitFor(() => expect(indexReads(read)).toBe(6));
   });
   it("reads the title, category and logo of vendored plugins from their manifests", async () => {
     const read = registryReader({
@@ -332,7 +344,7 @@ describe("marketplace service", () => {
     });
     expect(await service.catalog("")).toEqual({
       entries: [],
-      unavailableRegistries: ["Cursor", "xAI"],
+      unavailableRegistries: ["Ai7", "Cursor", "xAI"],
       skippedEntries: 0,
     });
   });

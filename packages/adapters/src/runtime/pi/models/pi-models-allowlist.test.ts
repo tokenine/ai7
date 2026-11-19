@@ -53,11 +53,12 @@ describe("model provider allowlist in the catalog", () => {
     );
     expect(withoutPreset?.endpointPresets).toEqual([]);
 
-    process.env.RAKAZO_MODEL_PROVIDER_ALLOWLIST = `${OPENAI_COMPATIBLE_PROVIDER_ID},concentrate`;
+    process.env.RAKAZO_MODEL_PROVIDER_ALLOWLIST = `${OPENAI_COMPATIBLE_PROVIDER_ID},ai7,concentrate`;
     const withPreset = listPiCatalog().find(
       (entry) => entry.provider === OPENAI_COMPATIBLE_PROVIDER_ID,
     );
     expect(withPreset?.endpointPresets).toEqual([
+      { id: "ai7", name: "Ai7", baseUrl: "https://api.ai7.work/v1" },
       {
         id: "concentrate",
         name: "Concentrate AI",
