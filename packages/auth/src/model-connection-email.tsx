@@ -24,11 +24,11 @@ export function modelConnectionEmail(
   return message(
     user.email,
     LOCALE,
-    "Connect a model to start using Rakazo",
+    "Connect a model to start using Ai7",
     <>
       <Text>{greeting(emailText(LOCALE), user.name)}</Text>
       <Text>
-        Your Rakazo plan has started, but your bots can't reply until a model is connected.
+        Your Ai7 plan has started, but your bots can't reply until a model is connected.
       </Text>
       <Text>Sign in with your {subscriptions} subscription, or paste an API key.</Text>
       <Button href={modelConnectionUrl(links.webOrigin)}>Connect a model</Button>

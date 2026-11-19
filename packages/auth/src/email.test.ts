@@ -224,9 +224,9 @@ describe("email languages", () => {
 
   it("writes a code email in Spanish", async () => {
     const message = await signInCodeEmail("user@example.test", "123456", "es");
-    expect(message.subject).toBe("Tu código para iniciar sesión en Rakazo");
+    expect(message.subject).toBe("Tu código para iniciar sesión en Ai7");
     expect(message.html).toContain('lang="es"');
-    expect(message.text).toContain("Introduce este código para iniciar sesión en Rakazo:");
+    expect(message.text).toContain("Introduce este código para iniciar sesión en Ai7:");
     expect(message.html).toContain('dir="ltr"');
   });
 
@@ -242,19 +242,19 @@ describe("email languages", () => {
       "Hola, Ana:",
     );
     const english = await welcomeEmail(user, "https://example.test/u");
-    expect(english.subject).toBe("Welcome to Rakazo");
+    expect(english.subject).toBe("Welcome to Ai7");
     expect(english.text).toContain("Hi Ana,");
-    expect(english.text).toContain("Rakazo runs on iPhone");
+    expect(english.text).toContain("Ai7 runs on iPhone");
   });
 
   it("names a Space invitation's Space, never an organization, in every language", async () => {
     const invitation = { spaceName: "Clients", inviterName: "Ana", url: "https://example.test/i" };
     const english = await spaceInvitationEmail("guest@example.test", invitation);
-    expect(english.subject).toBe("Ana invited you to Clients on Rakazo");
+    expect(english.subject).toBe("Ana invited you to Clients on Ai7");
     expect(english.text).toContain("This invitation expires in 7 days.");
     expect(english.text).not.toContain("Sign in with this email address");
     const turkish = await spaceInvitationEmail("guest@example.test", invitation, "tr");
-    expect(turkish.subject).toBe("Ana sizi Rakazo'da Clients alanına davet etti");
+    expect(turkish.subject).toBe("Ana sizi Ai7'da Clients alanına davet etti");
     expect(turkish.text).not.toContain("kuruluş");
   });
 
@@ -285,10 +285,10 @@ it("asks for one thing in the model connection email: the connect step", async (
     { name: "Ana", email: "user@example.test" },
     { webOrigin: "https://app.example.test", unsubscribeUrl },
   );
-  expect(message.subject).toBe("Connect a model to start using Rakazo");
+  expect(message.subject).toBe("Connect a model to start using Ai7");
   expect(message.text).toContain("Hi Ana,");
   expect(message.text).toContain(
-    "Your Rakazo plan has started, but your bots can't reply until a model is connected.",
+    "Your Ai7 plan has started, but your bots can't reply until a model is connected.",
   );
   expect(message.text).toContain(
     "Sign in with your ChatGPT or Claude subscription, or paste an API key.",
