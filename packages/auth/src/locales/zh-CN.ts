@@ -77,15 +77,19 @@ export const ZH_CN_MESSAGES: Record<string, string> = {
   "Join {space}": "加入 {space}",
   "This invitation expires in 7 days.": "此邀请将在 7 天后过期。",
   "Connect a model to start using Rakazo": "连接模型即可开始使用 Rakazo",
+  "Connect a model to start using Ai7": "连接模型即可开始使用 Ai7",
   "Your Rakazo plan has started, but your bots can't reply until a model is connected.":
     "你的 Rakazo 套餐已开始，但在连接模型之前，你的机器人无法回复。",
   "Sign in with your {subscriptions} subscription, or paste an API key.":
     "使用你的 {subscriptions} 订阅登录，或粘贴 API 密钥。",
   "Connect a model": "连接模型",
   "Bring your old assistant to Rakazo": "把你原来的助手带到 Rakazo",
+  "Bring your old assistant to Ai7": "把你原来的助手带到 Ai7",
   "Already set up an assistant in {assistants}? Rakazo can bring over its instructions, memory, skills and routines as a new bot, so you don't start again.":
     "已经在 {assistants} 里设置过助手？Rakazo 可以把它的指令、记忆、技能和例行任务带过来，成为一个新的机器人，你不必从头开始。",
+  "Already set up an assistant in {assistants}? Ai7 can bring over its instructions, memory, skills and routines as a new bot, so you don't start again.": "已经在 {assistants} 里设置过助手？Ai7 可以把它的指令、记忆、技能和例行任务带过来，成为一个新的机器人，你不必从头开始。",
   "It works for any other assistant too: send it one prompt and paste its reply.":
     "其他任何助手也可以：给它发送一条提示词，再粘贴它的回复。",
   "Import an agent": "导入智能体",
+  "Your Ai7 plan has started, but your bots can't reply until a model is connected.": "你的 Ai7 套餐已开始，但在连接模型之前，你的机器人无法回复。",
 };

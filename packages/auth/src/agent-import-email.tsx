@@ -23,12 +23,12 @@ export function agentImportEmail(
   return message(
     user.email,
     locale,
-    say("Bring your old assistant to Rakazo"),
+    say("Bring your old assistant to Ai7"),
     <>
       <Text>{greeting(say, user.name)}</Text>
       <Text>
         {say(
-          "Already set up an assistant in {assistants}? Rakazo can bring over its instructions, memory, skills and routines as a new bot, so you don't start again.",
+          "Already set up an assistant in {assistants}? Ai7 can bring over its instructions, memory, skills and routines as a new bot, so you don't start again.",
           { assistants },
         )}
       </Text>

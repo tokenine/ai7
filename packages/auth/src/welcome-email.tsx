@@ -23,18 +23,18 @@ export function welcomeEmail(
   return message(
     user.email,
     locale,
-    say("Welcome to Rakazo"),
+    say("Welcome to Ai7"),
     <>
       <Text>{greeting(say, user.name)}</Text>
       <Text>
-        {say("Welcome to Rakazo. The people who get the most out of it do three things:")}
+        {say("Welcome to Ai7. The people who get the most out of it do three things:")}
       </Text>
       <Text style={stepStyle}>
         <strong>1. {say("Get the apps")}</strong>
       </Text>
       <Text style={{ marginTop: 0 }}>
         {withNodes(
-          say("Rakazo runs on {platforms}, so your bots can reach you wherever you are."),
+          say("Ai7 runs on {platforms}, so your bots can reach you wherever you are."),
           {
             // The language's own list ("A, B, and C", "A, B y C"), with each app a link.
             platforms: new Intl.ListFormat(locale, { type: "conjunction" })
@@ -72,7 +72,7 @@ export function welcomeEmail(
         <strong>3. {say("Star us on GitHub")}</strong>
       </Text>
       <Text style={{ marginTop: 0 }}>
-        {withNodes(say("Rakazo is open source. {star} helps more people find it."), {
+        {withNodes(say("Ai7 is open source. {star} helps more people find it."), {
           star: (
             <Link href="https://github.com/elie222/rakazo" style={linkStyle}>
               {say("A star on GitHub")}
@@ -84,6 +84,6 @@ export function welcomeEmail(
       <Text>Elie</Text>
     </>,
     unsubscribeUrl,
-    { src: "https://rakazo.com/email/welcome.jpg", alt: "Rakazo" },
+    { src: "https://rakazo.com/email/welcome.jpg", alt: "Ai7" },
   );
 }

@@ -86,15 +86,19 @@ export const NL_MESSAGES: Record<string, string> = {
   "Join {space}": "Word lid van {space}",
   "This invitation expires in 7 days.": "Deze uitnodiging verloopt over 7 dagen.",
   "Connect a model to start using Rakazo": "Verbind een model om Rakazo te gaan gebruiken",
+  "Connect a model to start using Ai7": "Verbind een model om Ai7 te gaan gebruiken",
   "Your Rakazo plan has started, but your bots can't reply until a model is connected.":
     "Je Rakazo-abonnement is gestart, maar je bots kunnen pas antwoorden als er een model is verbonden.",
   "Sign in with your {subscriptions} subscription, or paste an API key.":
     "Log in met je abonnement op {subscriptions} of plak een API-sleutel.",
   "Connect a model": "Model verbinden",
   "Bring your old assistant to Rakazo": "Neem je oude assistent mee naar Rakazo",
+  "Bring your old assistant to Ai7": "Neem je oude assistent mee naar Ai7",
   "Already set up an assistant in {assistants}? Rakazo can bring over its instructions, memory, skills and routines as a new bot, so you don't start again.":
     "Heb je al een assistent ingesteld in {assistants}? Rakazo kan de instructies, het geheugen, de skills en de routines overnemen als een nieuwe bot, zodat je niet opnieuw begint.",
+  "Already set up an assistant in {assistants}? Ai7 can bring over its instructions, memory, skills and routines as a new bot, so you don't start again.": "Heb je al een assistent ingesteld in {assistants}? Ai7 kan de instructies, het geheugen, de skills en de routines overnemen als een nieuwe bot, zodat je niet opnieuw begint.",
   "It works for any other assistant too: send it one prompt and paste its reply.":
     "Het werkt ook met elke andere assistent: stuur één prompt en plak het antwoord.",
   "Import an agent": "Een agent importeren",
+  "Your Ai7 plan has started, but your bots can't reply until a model is connected.": "Je Ai7-abonnement is gestart, maar je bots kunnen niet reageren totdat er een model is verbonden.",
 };

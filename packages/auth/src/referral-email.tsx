@@ -19,11 +19,11 @@ export function referralEmail(
       <Text>{greeting(say, user.name)}</Text>
       <Text>
         {say(
-          "Invite a friend to Rakazo: they get {weeks} weeks free, and you earn a free month when they start a qualifying subscription with a new card.",
+          "Invite a friend to Ai7: they get {weeks} weeks free, and you earn a free month when they start a qualifying subscription with a new card.",
           { weeks: INVITED_TRIAL_WEEKS },
         )}{" "}
         <Link href={invitePageUrl} style={linkStyle}>
-          {say("Open Rakazo")}
+          {say("Open Ai7")}
         </Link>{" "}
         {say("and choose Invite friends for your link.")}
       </Text>

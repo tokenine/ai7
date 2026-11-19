@@ -77,15 +77,19 @@ export const ZH_TW_MESSAGES: Record<string, string> = {
   "Join {space}": "加入 {space}",
   "This invitation expires in 7 days.": "此邀請將在 7 天後過期。",
   "Connect a model to start using Rakazo": "連接模型即可開始使用 Rakazo",
+  "Connect a model to start using Ai7": "連接模型即可開始使用 Ai7",
   "Your Rakazo plan has started, but your bots can't reply until a model is connected.":
     "你的 Rakazo 方案已開始，但在連接模型之前，你的機器人無法回覆。",
   "Sign in with your {subscriptions} subscription, or paste an API key.":
     "使用你的 {subscriptions} 訂閱登入，或貼上 API 金鑰。",
   "Connect a model": "連接模型",
   "Bring your old assistant to Rakazo": "把你原本的助理帶到 Rakazo",
+  "Bring your old assistant to Ai7": "把你原本的助理帶到 Ai7",
   "Already set up an assistant in {assistants}? Rakazo can bring over its instructions, memory, skills and routines as a new bot, so you don't start again.":
     "已經在 {assistants} 裡設定過助理？Rakazo 可以把它的指示、記憶、技能和例行任務帶過來，成為一個新的機器人，你不必從頭開始。",
+  "Already set up an assistant in {assistants}? Ai7 can bring over its instructions, memory, skills and routines as a new bot, so you don't start again.": "已經在 {assistants} 裡設定過助理？Ai7 可以把它的指示、記憶、技能和例行任務帶過來，成為一個新的機器人，你不必從頭開始。",
   "It works for any other assistant too: send it one prompt and paste its reply.":
     "其他任何助理也可以：傳一則提示詞給它，再貼上它的回覆。",
   "Import an agent": "匯入智慧代理",
+  "Your Ai7 plan has started, but your bots can't reply until a model is connected.": "你的 Ai7 方案已開始，但在連接模型之前，你的機器人無法回覆。",
 };

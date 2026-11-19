@@ -23,11 +23,11 @@ export function modelConnectionEmail(
   return message(
     user.email,
     locale,
-    say("Connect a model to start using Rakazo"),
+    say("Connect a model to start using Ai7"),
     <>
       <Text>{greeting(say, user.name)}</Text>
       <Text>
-        {say("Your Rakazo plan has started, but your bots can't reply until a model is connected.")}
+        {say("Your Ai7 plan has started, but your bots can't reply until a model is connected.")}
       </Text>
       <Text>
         {say("Sign in with your {subscriptions} subscription, or paste an API key.", {

@@ -85,15 +85,19 @@ export const PL_MESSAGES: Record<string, string> = {
   "Join {space}": "Dołącz do {space}",
   "This invitation expires in 7 days.": "To zaproszenie wygaśnie za 7 dni.",
   "Connect a model to start using Rakazo": "Połącz model, aby zacząć korzystać z Rakazo",
+  "Connect a model to start using Ai7": "Połącz model, aby zacząć korzystać z Ai7",
   "Your Rakazo plan has started, but your bots can't reply until a model is connected.":
     "Twój plan Rakazo już działa, ale Twoje boty nie mogą odpowiadać, dopóki nie połączysz modelu.",
   "Sign in with your {subscriptions} subscription, or paste an API key.":
     "Zaloguj się, używając subskrypcji {subscriptions}, albo wklej klucz API.",
   "Connect a model": "Połącz model",
   "Bring your old assistant to Rakazo": "Przenieś swojego dotychczasowego asystenta do Rakazo",
+  "Bring your old assistant to Ai7": "Przenieś swojego dotychczasowego asystenta do Ai7",
   "Already set up an assistant in {assistants}? Rakazo can bring over its instructions, memory, skills and routines as a new bot, so you don't start again.":
     "Masz już asystenta skonfigurowanego w {assistants}? Rakazo może przenieść jego instrukcje, pamięć, umiejętności i rutyny do nowego bota, żebyś nie zaczynał od zera.",
+  "Already set up an assistant in {assistants}? Ai7 can bring over its instructions, memory, skills and routines as a new bot, so you don't start again.": "Masz już asystenta skonfigurowanego w {assistants}? Ai7 może przenieść jego instrukcje, pamięć, umiejętności i rutyny do nowego bota, żebyś nie zaczynał od zera.",
   "It works for any other assistant too: send it one prompt and paste its reply.":
     "Działa to też z każdym innym asystentem: wyślij mu jeden prompt i wklej jego odpowiedź.",
   "Import an agent": "Importuj agenta",
+  "Your Ai7 plan has started, but your bots can't reply until a model is connected.": "Twój plan Ai7 wystartował, ale Twoje boty nie mogą odpowiadać, dopóki model nie zostanie podłączony.",
 };
